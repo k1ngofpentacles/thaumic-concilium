@@ -139,7 +139,9 @@ P3 = {
  'tight_belt': ('TIGHTBELT', ['entry.tightbelt.first'], None,
     "While I carry temporary warp it squeezes me with Thaumarhia, and slowly wrings the warp out of me, leaking flux gas "
     "as it does."),
- 'burdening_amulet': ('BURDENINGAMULET', ['entry.burdeningamulet.first'], ['entry.burdeningamulet.second'], None),
+ 'burdening_amulet': ('BURDENINGAMULET', ['entry.burdeningamulet.first'], ['entry.burdeningamulet.second'],
+    "My gaze turns on everything I look at, my own creatures too. A carved pumpkin over my face blinds it: the amulet "
+    "still drinks my warp and my creatures still go where I look, but they do the killing."),
 }
 for key, (orig, first, second, how) in P3.items():
     L[f'research.{NS}.{key}.title'] = o(f'tc.research_name.{orig}')
@@ -158,7 +160,7 @@ for k, v in items3.items():
 L[f'item.{NS}.runic_windings.desc'] = 'Refills runic shielding by 5 a second. Vis discount 3%'
 L[f'item.{NS}.dump_jackboots.desc'] = 'Sneak with a block in hand to tower upwards'
 L[f'item.{NS}.elemental_surfer_shorts.desc'] = 'While sneaking, unleashes the elements, paid in vis from a wand on the hotbar'
-L[f'item.{NS}.burdening_amulet.desc'] = 'Your creatures attack what you look at. Feeds on temporary warp'
+L[f"item.{NS}.burdening_amulet.desc"] = "Your creatures attack what you look at. Feeds on temporary warp; a carved pumpkin blinds its gaze"
 L[f'item.{NS}.tight_belt.desc'] = 'Wrings temporary warp out of you, leaking flux gas'
 L[f'item.{NS}.shard_mill.selected'] = 'Shard: %s'
 L[f'item.{NS}.shard_mill.loaded'] = 'Loaded: %s (%s)'
@@ -169,6 +171,52 @@ L[f'message.{NS}.mill_selected'] = 'Shard Mill: %s'
 for e, n in {'bottle_of_thick_taint': o('item.BottleOfThickTaint.name'), 'bottle_of_clear_water': o('item.BottleOfClearWater.name'),
              'shard_powder': 'Shard Powder'}.items():
     L[f'entity.{NS}.{e}'] = n
+
+# ---------------------------------------------------------------- phase 3b
+BR = {
+ 'iron': 'Iron Casting Bracelet', 'thaumium': 'Thaumium Casting Bracelet', 'void': 'Void Casting Bracelet',
+ 'livingwood': o('item.CastingBracelet.livingwood'), 'dreamwood': o('item.CastingBracelet.dreamwood'),
+ 'terrasteel': o('item.CastingBracelet.terrasteel'), 'infernal': o('item.CastingBracelet.infernal'),
+ 'tainted': o('item.CastingBracelet.tainted'), 'eldritch': 'Void Attuned Eldritch Bracelet',
+}
+for k, v in BR.items():
+    L[f'item.{NS}.{k}_bracelet'] = v
+L[f'item.{NS}.casting_bracelet.desc'] = 'Worn or in the shield slot: cast key (V) casts. In hand: a wand'
+L[f'item.{NS}.casting_bracelet.volley'] = 'Casts instant spells ten at once, at triple cooldown'
+L[f'message.{NS}.bracelet_no_focus'] = 'Your bracelet holds no focus'
+L[f'message.{NS}.bracelet_shield_busy'] = 'Your shield arm is busy: only shield foci cast past a shield'
+L[f'key.{NS}.bracelet_cast'] = 'Cast from bracelet'
+L[f'key.categories.{NS}'] = 'Thaumic Concilium'
+HOW = ("Worn on the wrist, it leaves both hands free: press the cast key (V unless I change it) to cast, hold it to "
+       "channel or charge, and use the change-focus key with no wand in hand to choose its focus. Its casts cost two "
+       "thirds of a wand's and cool down in half the time, but it holds far less vis.")
+P3B = {
+ 'casting_bracelets': ('Casting Bracelets', 'A wand you wear',
+    "A wand need not be a rod in the hand. Bent into a band about the wrist, a capped core still holds and channels vis, "
+    "if rather less of it.", HOW + " The iron bracelet holds 10 vis; the thaumium one, 20."),
+ 'void_bracelet': ('Void Bracelet', 'Nothing, worn close',
+    "Void metal drinks vis less greedily than thaumium. A band of it holds 27 vis.", None),
+ 'livingwood_bracelet': (o('tc.research_name.LIVINGWOODBRACELET'), o('tc.research_text.LIVINGWOODBRACELET'),
+    o('entry.livingwoodbracelet.first'), "It holds 30 vis, and while I wear it, it refills from the mana tablets and rings "
+    "I carry, six mana for every hundredth of a vis."),
+ 'dreamwood_bracelet': (o('tc.research_name.DREAMWOODBRACELET'), o('tc.research_text.DREAMWOODBRACELET'),
+    o('entry.dreamwoodbracelet.first'), "It holds 50 vis and refills from my mana items as the livingwood one does."),
+ 'terrasteel_bracelet': (o('tc.research_name.TERRASTEELBRACELET'), o('tc.research_text.TERRASTEELBRACELET'),
+    o('entry.terrasteelbracelet.first'), "It holds 50 vis and refills from mana at twenty mana for every hundredth of a "
+    "vis. Every instant spell it casts fires ten times over, each at three times a plain wand's price, and the "
+    "cooldown triples."),
+ 'infernal_bracelet': (o('tc.research_name.INFERNALBRACELET'), o('tc.research_text.INFERNALBRACELET'),
+    o('entry.infernalbracelet.first'), "It holds 35 vis, and draws fire from the Nether as an infernal wand does."),
+ 'tainted_bracelet': (o('tc.research_name.TAINTEDBRACELET'), o('tc.research_text.TAINTEDBRACELET'),
+    o('entry.taintedbracelet.first'), "It holds 35 vis, and feeds on taint as a tainted wand does."),
+ 'eldritch_bracelet': ('Eldritch Bracelet', 'It knows what I have seen',
+    "The more permanently the Outer Lands have marked me, the faster this bracelet refills, a little of every primal at a "
+    "time, unless I am warded against warp. It holds 90 vis.", None),
+}
+for key, (title, sub, first, second) in P3B.items():
+    L[f'research.{NS}.{key}.title'] = title
+    L[f'research.{NS}.{key}.stage_0'] = join(sub, first)
+    L[f'research.{NS}.{key}.stage_1'] = second or HOW
 
 L[f'{NS}.focus.preset'] = 'Pre-inscribed: %s'
 out = f'src/main/resources/assets/{NS}/lang/en_us.json'

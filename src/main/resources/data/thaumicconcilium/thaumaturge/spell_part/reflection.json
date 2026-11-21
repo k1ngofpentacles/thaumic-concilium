@@ -9,7 +9,7 @@
   "research": {
     "entry": "thaumicconcilium:reflection_focus"
   },
-  "vis": 1.0,
+  "vis": 0.06,
   "max_per_spell": 1,
   "settings": [
     {
@@ -18,8 +18,7 @@
       "max": 3,
       "name": "spell.thaumicconcilium.setting.potency",
       "default": 0,
-      "complexity": 2.0,
-      "vis": 0.5
+      "complexity": 2.0
     },
     {
       "key": "mode",

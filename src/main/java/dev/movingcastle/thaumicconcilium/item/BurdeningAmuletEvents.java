@@ -1,52 +1,49 @@
 package dev.movingcastle.thaumicconcilium.item;
 
+import com.leclowndu93150.thaumaturge.registry.TTMobEffects;
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.OwnableEntity;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
-import top.theillusivec4.curios.api.CuriosApi;
+import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 /**
- * Port addition: the Burdening Amulet turns temporary warp into Thaumaturge's Death Gaze, which withers every creature
- * in sight and turns mobs on the wearer. Since the amulet's other power is commanding your pets, the creatures you own
- * are spared while you wear it: no Wither, and never made to target you.
+ * Gaze veils (port addition, agreed with the user 2026-11-21): something covering the face, a carved pumpkin or anything
+ * in {@code thaumicconcilium:gaze_veils}, blinds Death Gaze. As in the original, the Burdening Amulet turns temporary
+ * warp into Death Gaze (which withers every creature you look at and turns it on you, your own pets included) while
+ * your pets attack whatever you look at. Veiled, the gaze can't land, so the amulet still burns your warp and commands
+ * your pets, and they do the fighting.
  */
 @EventBusSubscriber(modid = ThaumicConcilium.MODID)
 public final class BurdeningAmuletEvents {
+    public static final TagKey<Item> GAZE_VEILS = ItemTags.create(ThaumicConcilium.id("gaze_veils"));
+
     private BurdeningAmuletEvents() {
     }
 
-    private static boolean ownerWearsAmulet(LivingEntity entity) {
-        return entity instanceof OwnableEntity owned && owned.getOwner() instanceof Player owner && wears(owner);
-    }
-
-    private static boolean wears(Player player) {
-        return CuriosApi.getCuriosInventory(player)
-                .map(inv -> inv.isEquipped(stack -> stack.getItem() instanceof BurdeningAmulet))
-                .orElse(false);
+    public static boolean veiled(Player player) {
+        return player.getItemBySlot(EquipmentSlot.HEAD).is(GAZE_VEILS);
     }
 
     @SubscribeEvent
     public static void onEffect(MobEffectEvent.Applicable event) {
-        // Death Gaze applies exactly Wither I for 80 ticks (WarpEvents.checkDeathGaze); other Wither sources still land.
-        var effect = event.getEffectInstance();
-        if (effect.is(MobEffects.WITHER) && effect.getDuration() == 80 && effect.getAmplifier() == 0
-                && ownerWearsAmulet(event.getEntity())) {
+        if (event.getEffectInstance().is(TTMobEffects.DEATH_GAZE) && event.getEntity() instanceof Player player && veiled(player)) {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
         }
     }
 
+    /** Putting a veil on ends a gaze already running. */
     @SubscribeEvent
-    public static void onTarget(LivingChangeTargetEvent event) {
-        LivingEntity target = event.getNewAboutToBeSetTarget();
-        if (target instanceof Player player && event.getEntity() instanceof OwnableEntity owned
-                && owned.getOwner() == player && wears(player)) {
-            event.setCanceled(true);
+    public static void onTick(PlayerTickEvent.Pre event) {
+        Player player = event.getEntity();
+        if (!player.level().isClientSide() && player.tickCount % 10 == 0 && player.hasEffect(TTMobEffects.DEATH_GAZE)
+                && veiled(player)) {
+            player.removeEffect(TTMobEffects.DEATH_GAZE);
         }
     }
 }

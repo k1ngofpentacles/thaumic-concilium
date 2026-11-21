@@ -1,0 +1,53 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    }
+  ],
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.livingwood_bracelet.title",
+  "parents": [
+    "thaumicconcilium:casting_bracelets",
+    "~forbiddenmagic:rod_livingwood",
+    "~forbiddenmagic:cap_manasteel"
+  ],
+  "column": 6,
+  "row": 0,
+  "icons": [
+    "thaumicconcilium:livingwood_bracelet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.livingwood_bracelet.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.livingwood_bracelet.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/livingwood_bracelet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 4
+    }
+  ],
+  "complexity": 2
+}

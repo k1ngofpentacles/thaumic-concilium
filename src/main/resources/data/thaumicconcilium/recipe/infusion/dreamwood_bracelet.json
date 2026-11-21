@@ -1,0 +1,59 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    }
+  ],
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:spiritus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 64
+    }
+  ],
+  "catalyst": {
+    "item": "forbiddenmagic:dreamwood_staff_rod"
+  },
+  "components": [
+    {
+      "item": "forbiddenmagic:elementium_cap"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "botania:dragonstone"
+    },
+    {
+      "item": "forbiddenmagic:elementium_cap"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "botania:dragonstone"
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:dreamwood_bracelet",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:dreamwood_bracelet"
+  }
+}

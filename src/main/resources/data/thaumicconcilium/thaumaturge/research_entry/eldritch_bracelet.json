@@ -1,0 +1,54 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.eldritch_bracelet.title",
+  "parents": [
+    "thaumicconcilium:void_bracelet"
+  ],
+  "column": 6,
+  "row": 4,
+  "icons": [
+    "thaumicconcilium:eldritch_bracelet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.eldritch_bracelet.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.eldritch_bracelet.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/eldritch_bracelet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:tenebrae",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 4
+    }
+  ],
+  "complexity": 2
+}

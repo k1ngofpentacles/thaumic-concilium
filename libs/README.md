@@ -8,5 +8,6 @@ Optional integrations (compiled against, soft-loaded at runtime):
 - Neo Vitae (1.21.1)
 - Enchanted: Witchcraft (1.21.1)
 - Thaumic Additions CE (only for its `infernum` aspect; we fall back to our own when it is absent)
+- Botania Revived 2.0.4 (`Botania-Revived-1.21.1-2.0.4-NeoForge.jar`: mana API for the Botania bracelets)
 
 All of them are already in the moving castle pack's `mods` folder: copy them across.

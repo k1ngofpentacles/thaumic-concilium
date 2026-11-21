@@ -14,6 +14,14 @@ import dev.movingcastle.thaumicconcilium.item.ShardMill;
 import dev.movingcastle.thaumicconcilium.item.ThrowableBottle;
 import dev.movingcastle.thaumicconcilium.item.TightBelt;
 import net.minecraft.world.item.ArmorItem;
+import com.leclowndu93150.thaumaturge.api.wands.WandCap;
+import com.leclowndu93150.thaumaturge.content.wands.WandParts;
+import com.leclowndu93150.thaumaturge.registry.TTWandParts;
+import dev.movingcastle.thaumicconcilium.item.BraceletKind;
+import dev.movingcastle.thaumicconcilium.item.CastingBracelet;
+import java.util.EnumMap;
+import java.util.Map;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import dev.movingcastle.thaumicconcilium.item.RingOfBlusteringLight;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -73,6 +81,32 @@ public final class TCItems {
     public static final DeferredItem<ShardMill> SILVERWOOD_SHARD_MILL = ITEMS.register("silverwood_shard_mill",
             () -> new ShardMill(new Item.Properties().rarity(Rarity.RARE).component(TTDataComponents.STACK_WARP.get(), 1),
                     ShardKind.SILVERWOOD));
+
+    // ---------------------------------------------------------------- phase 3b
+    /** The casting bracelets, worn in the Curios bracelet slot. */
+    public static final Map<BraceletKind, DeferredItem<CastingBracelet>> BRACELETS = new EnumMap<>(BraceletKind.class);
+
+    static {
+        for (BraceletKind kind : BraceletKind.values()) {
+            if (!kind.available()) {
+                continue;
+            }
+            BRACELETS.put(kind, ITEMS.register(kind.itemId(),
+                    () -> new CastingBracelet(new Item.Properties().stacksTo(1).rarity(kind.rarity()), kind)));
+        }
+    }
+
+    /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
+    public static void defaultComponents(ModifyDefaultComponentsEvent event) {
+        BRACELETS.forEach((kind, item) -> {
+            WandCap cap = TTWandParts.caps().get(kind.cap());
+            if (cap == null) {
+                throw new IllegalStateException("Missing wand cap " + kind.cap() + " for " + kind.itemId());
+            }
+            WandParts parts = new WandParts(cap, TCWandParts.BRACELET_RODS.get(kind).get(), false);
+            event.modify(item.get(), builder -> builder.set(TTDataComponents.WAND_PARTS.get(), parts));
+        });
+    }
 
     private static Item.Properties windings() {
         return new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)

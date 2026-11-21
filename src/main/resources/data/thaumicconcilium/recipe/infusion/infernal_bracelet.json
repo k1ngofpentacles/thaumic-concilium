@@ -1,0 +1,53 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumadditions:infernum",
+      "amount": 128
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 64
+    },
+    {
+      "aspect": "forbiddenmagic:ira",
+      "amount": 64
+    }
+  ],
+  "catalyst": {
+    "item": "forbiddenmagic:infernal_rod"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:wand_cap_thaumium"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "forbiddenmagic:pride_shard"
+    },
+    {
+      "item": "thaumaturge:wand_cap_thaumium"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "forbiddenmagic:pride_shard"
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:infernal_bracelet",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:infernal_bracelet"
+  }
+}

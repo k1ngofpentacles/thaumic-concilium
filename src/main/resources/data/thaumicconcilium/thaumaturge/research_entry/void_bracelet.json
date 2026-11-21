@@ -1,0 +1,46 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.void_bracelet.title",
+  "parents": [
+    "thaumicconcilium:casting_bracelets",
+    "~thaumaturge:cap_void"
+  ],
+  "column": 5,
+  "row": 3,
+  "icons": [
+    "thaumicconcilium:void_bracelet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.void_bracelet.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.void_bracelet.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/void_bracelet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 4
+    }
+  ],
+  "complexity": 2
+}

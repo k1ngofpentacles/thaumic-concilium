@@ -1,0 +1,53 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    }
+  ],
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.dreamwood_bracelet.title",
+  "parents": [
+    "thaumicconcilium:livingwood_bracelet",
+    "~forbiddenmagic:rod_dreamwood",
+    "~forbiddenmagic:cap_elementium"
+  ],
+  "column": 7,
+  "row": 0,
+  "icons": [
+    "thaumicconcilium:dreamwood_bracelet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.dreamwood_bracelet.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.dreamwood_bracelet.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/dreamwood_bracelet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 4
+    }
+  ],
+  "complexity": 2
+}

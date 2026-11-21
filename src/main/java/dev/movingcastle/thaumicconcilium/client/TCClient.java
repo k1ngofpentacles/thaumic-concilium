@@ -13,6 +13,10 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.resources.PlayerSkin;
 
 /** Client-only registration. */
 @EventBusSubscriber(modid = ThaumicConcilium.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -29,6 +33,27 @@ public final class TCClient {
     @SubscribeEvent
     public static void extraModels(ModelEvent.RegisterAdditional event) {
         MillRenderer.MODELS.forEach(event::register);
+    }
+
+    @SubscribeEvent
+    public static void keys(RegisterKeyMappingsEvent event) {
+        event.register(BraceletInput.CAST);
+    }
+
+    @SubscribeEvent
+    public static void guiLayers(RegisterGuiLayersEvent event) {
+        event.registerAboveAll(ThaumicConcilium.id("bracelet_hud"), new BraceletHud());
+        event.registerAboveAll(ThaumicConcilium.id("bracelet_radial"), new BraceletRadial());
+    }
+
+    /** Bracelets on the wrists, held or worn ({@link BraceletArmLayer}), for both player models. */
+    @SubscribeEvent
+    public static void playerLayers(EntityRenderersEvent.AddLayers event) {
+        for (PlayerSkin.Model skin : event.getSkins()) {
+            if (event.getSkin(skin) instanceof PlayerRenderer renderer) {
+                renderer.addLayer(new BraceletArmLayer(renderer));
+            }
+        }
     }
 
     @SubscribeEvent

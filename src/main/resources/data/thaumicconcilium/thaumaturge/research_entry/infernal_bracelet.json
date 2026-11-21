@@ -1,0 +1,46 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.infernal_bracelet.title",
+  "parents": [
+    "thaumicconcilium:casting_bracelets",
+    "~forbiddenmagic:rod_infernal"
+  ],
+  "column": 6,
+  "row": 2,
+  "icons": [
+    "thaumicconcilium:infernal_bracelet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.infernal_bracelet.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.infernal_bracelet.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/infernal_bracelet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumadditions:infernum",
+      "amount": 6
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 4
+    }
+  ],
+  "complexity": 2
+}

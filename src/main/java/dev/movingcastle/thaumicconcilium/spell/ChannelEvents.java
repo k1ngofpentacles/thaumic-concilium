@@ -45,7 +45,11 @@ public final class ChannelEvents {
         if (spell == null) {
             return;
         }
-        int used = event.getItem().getUseDuration(entity) - event.getDuration();
+        channelEnded(entity, spell, event.getItem().getUseDuration(entity) - event.getDuration());
+    }
+
+    /** A channelled spell let go, from a held caster or a worn bracelet ({@link BraceletCasting#release}). */
+    public static void channelEnded(LivingEntity entity, Spell spell, int used) {
         if (SpellTrees.contains(spell, SpellTrees.part("spotlight"))) {
             CasterManager.setCooldown(entity, Math.min(1200, 20 + 2 * Math.max(0, used)));
         }

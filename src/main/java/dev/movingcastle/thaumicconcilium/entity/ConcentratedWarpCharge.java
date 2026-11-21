@@ -173,14 +173,14 @@ public class ConcentratedWarpCharge extends Entity {
         if (player.hasEffect(TTMobEffects.WARP_WARD)) {
             return;
         }
-        float damage = (warp.get(WarpType.PERMANENT) + warp.get(WarpType.NORMAL)) / 10.0F * this.power;
-        if (damage <= 0.0F) {
-            return;
-        }
+        // The original, every tick: everything inside the charge (not the owner) is struck for permanent warp / 10
+        // times power, and each one touched burns a point of temporary warp, whether the blow lands or not.
+        float damage = warp.get(WarpType.PERMANENT) / 10.0F * this.power;
         for (LivingEntity touched : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox(), e -> e != player && e.isAlive())) {
-            if (touched.hurt(this.damageSources().indirectMagic(this, player), damage)) {
-                WarpHelper.addWarp(player, -1, WarpType.TEMPORARY);
+            if (damage > 0.0F) {
+                touched.hurt(this.damageSources().indirectMagic(this, player), damage);
             }
+            WarpHelper.addWarp(player, -1, WarpType.TEMPORARY);
         }
     }
 
@@ -200,10 +200,11 @@ public class ConcentratedWarpCharge extends Entity {
     }
 
     private void flagellate(Player owner, int d) {
+        // The original code, 1:1 (agreed with the user 2026-11-21; its research line is flavour): for each other player
+        // in range, the first harmful effect the owner carries is stripped from that player; nothing moves to the owner.
         for (Player other : this.level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(d), p -> p != owner && p.isAlive())) {
-            for (MobEffectInstance effect : new ArrayList<>(other.getActiveEffects())) {
+            for (MobEffectInstance effect : new ArrayList<>(owner.getActiveEffects())) {
                 if (effect.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
-                    owner.addEffect(new MobEffectInstance(effect));
                     other.removeEffect(effect.getEffect());
                     break;
                 }

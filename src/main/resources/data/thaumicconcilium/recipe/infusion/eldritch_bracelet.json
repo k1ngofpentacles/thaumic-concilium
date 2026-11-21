@@ -1,0 +1,53 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 64
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:void_seed"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:wand_cap_void"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "thaumaturge:ingot_void"
+    },
+    {
+      "item": "thaumaturge:wand_cap_void"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:eldritch_bracelet",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:eldritch_bracelet"
+  }
+}

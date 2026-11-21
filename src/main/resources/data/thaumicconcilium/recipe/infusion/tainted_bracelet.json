@@ -1,0 +1,53 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 64
+    }
+  ],
+  "catalyst": {
+    "item": "forbiddenmagic:tainted_rod"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:wand_cap_thaumium"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "thaumaturge:wand_cap_thaumium"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:tainted_bracelet",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:tainted_bracelet"
+  }
+}

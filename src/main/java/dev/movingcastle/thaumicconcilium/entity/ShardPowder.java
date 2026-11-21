@@ -10,8 +10,6 @@ import dev.movingcastle.thaumicconcilium.registry.TCEntities;
 import java.util.List;
 import java.util.UUID;
 import net.minecraft.core.BlockPos;
-import java.util.EnumSet;
-import java.util.Set;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import org.joml.Vector3f;
@@ -47,24 +45,23 @@ import org.jetbrains.annotations.Nullable;
  * spot where it settles, as in the original:
  * <ul>
  *   <li>air: 1 in 10 calls lightning; fire: 1 in 10 a small fiery blast that breaks no blocks; water: bone meal on and
- *       under the spot; earth: dirt in a free space; order: strikes the creature there with the caster's attack damage;
+ *       under the spot; earth: dirt in a free space; order: strikes the creature there with its own attack damage;
  *       entropy: Wither 51 for 4.5 seconds;</li>
  *   <li>wrath: sets the creature alight, with Weakness 6 and Infectious Vis Exhaustion; envy: destroys projectiles within
  *       10 blocks, each spawning another envy mote, up to five generations; taint: homes on the nearest other player
- *       within 8 blocks, giving players 20 temporary warp and anything else Flux Taint; pride: flings the creature away;
+ *       within 8 blocks, giving players 20 temporary warp and anything else Flux Taint; pride: flings the creature towards
+ *       the world origin ("the centre of the world", kept on purpose);
  *       lust: 1 in 10 raises a small taintacle that goes for the nearest untainted creature; sloth: Slowness 16 and
  *       Infectious Vis Exhaustion; greed: drags the creature onto the spot.</li>
  * </ul>
- * Port changes: powders that act on a creature also act the moment they touch one (the original waited until the mote
- * settled), and a mote never acts on the player who sprayed it. Each mote trails dust in its shard's colour.
+ * As in the original, every powder acts only when the mote settles (after two seconds), on the first creature within
+ * 1.5 blocks. Port changes: never on the player who sprayed it (the research only ever describes the dust acting on
+ * what it hits), and each mote trails dust in its shard's colour.
  */
 public class ShardPowder extends Entity {
     private static final EntityDataAccessor<Integer> KIND = SynchedEntityData.defineId(ShardPowder.class, EntityDataSerializers.INT);
     private static final int LIFETIME = 40;
     private static final int ENVY_GENERATIONS = 5;
-    /** Kinds that act on a creature, and so act on touching one. */
-    private static final Set<ShardKind> ON_CONTACT = EnumSet.of(ShardKind.ORDO, ShardKind.PERDITIO, ShardKind.WRATH,
-            ShardKind.TAINT, ShardKind.PRIDE, ShardKind.SLOTH, ShardKind.GREED);
     @Nullable
     private Vector3f dust;
 
@@ -136,8 +133,7 @@ public class ShardPowder extends Entity {
             return;
         }
         ServerLevel server = (ServerLevel) this.level();
-        boolean touching = ON_CONTACT.contains(this.kind()) && this.creatureHere(server, 0.3) != null;
-        if (++this.age >= LIFETIME || touching) {
+        if (++this.age >= LIFETIME) {
             this.act(server);
             this.discard();
         }
@@ -164,15 +160,14 @@ public class ShardPowder extends Entity {
         return v;
     }
 
+    /**
+     * The first living creature within 1.5 blocks (the original's {@code list.get(0)}), never the player who sprayed
+     * the powder: the research describes the dusts acting on whatever they hit, never on their user (agreed with the
+     * user 2026-11-21).
+     */
     @Nullable
     private LivingEntity creatureHere(ServerLevel level) {
-        return this.creatureHere(level, 1.5);
-    }
-
-    /** The first living creature within {@code reach}, never the player who sprayed the powder. */
-    @Nullable
-    private LivingEntity creatureHere(ServerLevel level, double reach) {
-        List<LivingEntity> near = level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(reach),
+        List<LivingEntity> near = level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(1.5),
                 e -> e.isAlive() && !e.getUUID().equals(this.casterId));
         return near.isEmpty() ? null : near.get(0);
     }
@@ -216,10 +211,12 @@ public class ShardPowder extends Entity {
                 }
             }
             case ORDO -> {
+                // The original: the creature is struck with its own attack damage, credited to the caster.
                 LivingEntity e = this.creatureHere(level);
-                if (e != null && caster != null && caster.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
-                    DamageSource source = caster instanceof Player p ? level.damageSources().playerAttack(p) : level.damageSources().mobAttack(caster);
-                    e.hurt(source, (float) caster.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                if (e != null && e.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
+                    DamageSource source = caster instanceof Player p ? level.damageSources().playerAttack(p)
+                            : caster != null ? level.damageSources().mobAttack(caster) : level.damageSources().magic();
+                    e.hurt(source, (float) e.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 }
             }
             case PERDITIO -> {
@@ -255,10 +252,10 @@ public class ShardPowder extends Entity {
             case PRIDE -> {
                 LivingEntity e = this.creatureHere(level);
                 if (e != null) {
-                    // The original aimed at a point built from the offset alone (a bug that sent creatures towards
-                    // the world origin); this keeps its intent, flinging them away from the mote.
-                    Vec3 away = new Vec3(e.getX() - this.getX(), 0.0, e.getZ() - this.getZ()).scale(2.0);
-                    pushTowards(e, e.getBoundingBox().getCenter().add(away).add(0.0, 0.5, 0.0), 3.0);
+                    // The original's formula, kept on purpose: the point it aims at is built from the offset alone,
+                    // so creatures are flung towards the world origin, "the centre of the world".
+                    Vec3 target = new Vec3((e.getX() - this.getX()) * 2.0, e.getY(), (e.getZ() - this.getZ()) * 2.0);
+                    pushTowards(e, target, 3.0);
                 }
             }
             case LUST -> {

@@ -1,0 +1,46 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.casting_bracelets.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "~thaumaturge:cap_thaumium"
+  ],
+  "column": 5,
+  "row": 1,
+  "icons": [
+    "thaumicconcilium:iron_bracelet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.casting_bracelets.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.casting_bracelets.stage_1",
+      "recipes": [
+        "thaumicconcilium:arcane_workbench/iron_bracelet",
+        "thaumicconcilium:arcane_workbench/thaumium_bracelet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "round"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "thaumicconcilium:iron_bracelet",
+    "thaumicconcilium:thaumium_bracelet",
+    "thaumicconcilium:void_bracelet",
+    {
+      "id": "thaumicconcilium:livingwood_bracelet",
+      "required": false
+    },
+    {
+      "id": "thaumicconcilium:dreamwood_bracelet",
+      "required": false
+    },
+    {
+      "id": "thaumicconcilium:terrasteel_bracelet",
+      "required": false
+    },
+    "thaumicconcilium:infernal_bracelet",
+    "thaumicconcilium:tainted_bracelet",
+    "thaumicconcilium:eldritch_bracelet"
+  ]
+}

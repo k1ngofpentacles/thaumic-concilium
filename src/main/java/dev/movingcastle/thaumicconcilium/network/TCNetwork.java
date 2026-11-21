@@ -15,5 +15,8 @@ public final class TCNetwork {
         registrar.playToClient(FireworkBurstPayload.TYPE, FireworkBurstPayload.STREAM_CODEC, FireworkBurstPayload::handle);
         registrar.playToServer(EtherealRangePayload.TYPE, EtherealRangePayload.STREAM_CODEC, EtherealRangePayload::handle);
         registrar.playToServer(MillSelectPayload.TYPE, MillSelectPayload.STREAM_CODEC, MillSelectPayload::handle);
+        registrar.playToServer(BraceletCastPayload.TYPE, BraceletCastPayload.STREAM_CODEC, BraceletCastPayload::handle);
+        registrar.playToClient(BraceletFxPayload.TYPE, BraceletFxPayload.STREAM_CODEC, BraceletFxPayload::handle);
+        registrar.playToServer(BraceletFocusPayload.TYPE, BraceletFocusPayload.STREAM_CODEC, BraceletFocusPayload::handle);
     }
 }

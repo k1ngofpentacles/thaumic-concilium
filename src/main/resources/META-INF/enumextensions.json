@@ -8,6 +8,15 @@
         "class": "dev/movingcastle/thaumicconcilium/client/MillArmPose",
         "field": "CRANK"
       }
+    },
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "THAUMICCONCILIUM_BRACELET_CAST",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "dev/movingcastle/thaumicconcilium/client/BraceletArmPose",
+        "field": "CAST"
+      }
     }
   ]
 }

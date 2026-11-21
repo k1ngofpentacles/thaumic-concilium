@@ -92,7 +92,7 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
 | Bottle of Clear Water | ✅ | Crucible (phial + aqua). Thrown: puts out fire and burning creatures, scalds blazes and magma cubes |
 | Bottle of Thick Taint | ✅ | Crucible (bottle of taint + vitium, aqua, vitreus). Thrown: Flux Taint around, fibres, flux gas, ecological pressure |
 | Shard Mill, Silverwood Shard Mill | 🟡 | Arcane / infusion recipes; all thirteen powders. Static OBJ model: the first-person cranking animation isn't ported yet |
-| Casting bracelets | ⬜ | Phase 3b |
+| Casting bracelets | ✅ 0.4.1 | Worn (Curios bracelet slot) or in the shield slot, V to cast, F radial. Livingwood, dreamwood and terrasteel need Botania (Revived). Band model on the wrist in first and third person; the casting arm rises (synced) with particles. Checked in the render harness and by `BraceletTests`; feel untested in game |
 | Polishment (and the Polishment Device) | ⬜ | Phase 6, with the machines |
 | Coagulating Eye Drops, Astral Monitor | ⬜ | Phase 6, with the Hex of Predictability |
 | Thaumaturge and Warped Drums | ⬜ | Phase 4, with the Thaumaturges |
@@ -151,6 +151,8 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
   cranking hand and spinning crank in first person, in third person (F5) and as seen by another player; positions
   are first guesses, so describe or screenshot what's off.
 - Dump Jackboots: climb speed, and that releasing sneak mid-climb never leaves a gap; also on a LAN client; Burdening Amulet with a pet under Death Gaze; bottle splash particles.
+
+See `../../../docs/design/concilium-fidelity-review.md` for every deviation from the original awaiting a decision.
 
 ## Remaining phases (planned)
 

@@ -23,8 +23,9 @@ def setting(part, key, lo, hi, default=None, complexity=0.0, vis=0.0, labels=Non
 # ---------------------------------------------------------------- spell parts
 # vis: the originals were priced per tick in TC4 centivis; these are per Thaumaturge pulse (about 5 ticks).
 parts = {
-  'reflection': dict(aspect=f'{T}:cognitio', color=0x7E4BA8, complexity=6, vis=1.0, research='reflection_focus', max_per_spell=1,
-      settings=[setting('reflection','potency',0,3,0,complexity=2.0,vis=0.5),
+  'reflection': dict(aspect=f'{T}:cognitio', color=0x7E4BA8, complexity=6, vis=0.06, research='reflection_focus', max_per_spell=1,
+      # The original cost no vis (only experience); Thaumaturge refuses free casts, so the minimum.
+      settings=[setting('reflection','potency',0,3,0,complexity=2.0,vis=0.0),
                 setting('reflection','mode',0,1,0,complexity=4.0,labels=['experience','oblivion'])]),
   'scribing': dict(aspect=f'{T}:praemunio', color=0x8AA8FF, complexity=4, vis=2.0, research='scribing_focus',
       settings=[setting('scribing','potency',0,3,0,complexity=2.0,vis=0.5)]),

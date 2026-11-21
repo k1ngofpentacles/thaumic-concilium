@@ -8,6 +8,7 @@ import dev.movingcastle.thaumicconcilium.registry.TCEntities;
 import dev.movingcastle.thaumicconcilium.registry.TCItems;
 import dev.movingcastle.thaumicconcilium.registry.TCSounds;
 import dev.movingcastle.thaumicconcilium.registry.TCSpellBehaviors;
+import dev.movingcastle.thaumicconcilium.registry.TCWandParts;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -30,7 +31,9 @@ public final class ThaumicConcilium {
     public ThaumicConcilium(IEventBus modBus, ModContainer container) {
         TCArmorMaterials.MATERIALS.register(modBus);
         TCDataComponents.COMPONENTS.register(modBus);
+        TCWandParts.RODS.register(modBus);
         TCItems.ITEMS.register(modBus);
+        modBus.addListener(TCItems::defaultComponents);
         TCEntities.ENTITY_TYPES.register(modBus);
         TCSounds.SOUNDS.register(modBus);
         TCCreativeTabs.TABS.register(modBus);

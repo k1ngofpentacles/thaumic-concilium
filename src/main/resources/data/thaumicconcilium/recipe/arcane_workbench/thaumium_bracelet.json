@@ -1,0 +1,54 @@
+{
+  "type": "thaumaturge:arcane_workbench_shaped",
+  "pattern": [
+    "CIC",
+    "INI",
+    "N N"
+  ],
+  "key": {
+    "C": {
+      "item": "thaumaturge:wand_cap_thaumium"
+    },
+    "I": {
+      "item": "thaumaturge:ingot_thaumium"
+    },
+    "N": {
+      "item": "thaumaturge:salis_mundus"
+    }
+  },
+  "vis": 150,
+  "crystals": [
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 3
+    }
+  ],
+  "research": {
+    "entry": "thaumicconcilium:casting_bracelets",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:thaumium_bracelet"
+  }
+}

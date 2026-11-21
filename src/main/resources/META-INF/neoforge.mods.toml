@@ -69,3 +69,10 @@ type = "required"
 versionRange = "[2.0,)"
 ordering = "AFTER"
 side = "BOTH"
+
+[[dependencies.thaumicconcilium]]
+    modId="botania"
+    type="optional"
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"

@@ -10,6 +10,7 @@ import com.leclowndu93150.thaumaturge.content.entity.EntityMindSpider;
 import com.leclowndu93150.thaumaturge.content.entity.EntityTaintSwarm;
 import com.leclowndu93150.thaumaturge.content.entity.EntityTaintacle;
 import com.leclowndu93150.thaumaturge.registry.TTBlocks;
+import com.leclowndu93150.thaumaturge.content.taint.block.BlockTaintFibre;
 import com.leclowndu93150.thaumaturge.registry.TTEntities;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
@@ -50,13 +51,15 @@ import org.joml.Vector3f;
 public final class TaintAnimationEffect extends AbstractEffectBehavior {
     public static final MapCodec<TaintAnimationEffect> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
             Codec.floatRange(1.0F, 64.0F).optionalFieldOf("command_range", 16.0F).forGetter(TaintAnimationEffect::commandRange),
-            Codec.intRange(0, 255).optionalFieldOf("max_strength", 9).forGetter(TaintAnimationEffect::maxStrength)
+            Codec.intRange(0, 255).optionalFieldOf("max_strength", 200).forGetter(TaintAnimationEffect::maxStrength)
     ).apply(i, TaintAnimationEffect::new));
 
     private static final DustParticleOptions SPARKLE = new DustParticleOptions(new Vector3f(0.86F, 0.5F, 1.0F), 1.0F);
 
     private final float commandRange;
     private final int maxStrength;
+    private static final int PERIOD = 10;
+    private static final java.util.Map<java.util.UUID, Long> LAST = new java.util.HashMap<>();
 
     public TaintAnimationEffect(float commandRange, int maxStrength) {
         this.commandRange = commandRange;
@@ -84,9 +87,16 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
     @Override
     protected void apply(CastContext ctx, SpellTarget target, float power, int index) {
         LivingEntity caster = ctx.caster();
-        if (caster == null) {
+        if (caster == null || index > 0) {
             return;
         }
+        // The original acted every 10 ticks of channelling, whatever the pulse rate.
+        long now = ctx.level().getGameTime();
+        Long last = LAST.get(caster.getUUID());
+        if (last != null && now - last < PERIOD && now >= last) {
+            return;
+        }
+        LAST.put(caster.getUUID(), now);
         int mode = ctx.setting("mode");
         if (mode == 2 || (mode == 0 && caster.isShiftKeyDown())) {
             this.command(ctx, caster, target);
@@ -105,7 +115,7 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
         int strength = -1;
         if (potency > 0 && caster instanceof Player player) {
             int warp = WarpHelper.getWarp(player).get(WarpType.PERMANENT);
-            // Original: clamp(warp / 10 * potency, 1, 200); capped lower here because amplifier 200 one-shots anything.
+            // The original: clamp(permanent warp / 10 * potency, 1, 200).
             strength = Mth.clamp(warp / 10 * potency, 1, this.maxStrength);
         }
         for (Mob mob : ctx.level().getEntitiesOfClass(Mob.class, caster.getBoundingBox().inflate(this.commandRange),
@@ -126,7 +136,14 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
                 Vec3 at = chosen.position();
                 float yaw = chosen.getYRot();
                 chosen.discard();
-                Taint.spawnTaintSpider(level, at, yaw);
+                // The upgrade's research: mind spiders "turned into fearsome tainted crawlers" (Concilium's smart
+                // taint spider in code; Thaumaturge's taint crawler here until the phase-4 mobs).
+                Mob crawler = TTEntities.TAINT_CRAWLER.get().create(level);
+                if (crawler != null) {
+                    crawler.moveTo(at.x, at.y, at.z, yaw, 0.0F);
+                    level.addFreshEntity(crawler);
+                    Taint.taintsplosion(level, at);
+                }
             }
         }
 
@@ -146,7 +163,14 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
         BlockPos pos = found.get(ctx.random().nextInt(found.size()));
         BlockState state = level.getBlockState(pos);
         if (state.is(TTBlocks.TAINT_FIBRE.get())) {
-            level.removeBlock(pos, false);
+            // The original wore the fibre down a growth stage, removing it only when none was left.
+            if (state.getValue(BlockTaintFibre.GROWTH2)) {
+                level.setBlock(pos, state.setValue(BlockTaintFibre.GROWTH2, false), 3);
+            } else if (state.getValue(BlockTaintFibre.GROWTH1)) {
+                level.setBlock(pos, state.setValue(BlockTaintFibre.GROWTH1, false), 3);
+            } else {
+                level.removeBlock(pos, false);
+            }
             EntityTaintacle taintacle = TTEntities.TAINTACLE.get().create(level);
             if (taintacle != null) {
                 taintacle.moveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ctx.random().nextFloat() * 360.0F, 0.0F);

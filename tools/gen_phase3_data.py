@@ -132,6 +132,8 @@ entry('burdening_amulet', 7, -5, f'{NS}:burdening_amulet', [f'{NS}:tight_belt', 
 # ---------------------------------------------------------------- curios, item models
 w('data/curios/tags/item/necklace.json', {'replace': False, 'values': [f'{NS}:burdening_amulet']})
 w('data/curios/tags/item/belt.json', {'replace': False, 'values': [f'{NS}:tight_belt']})
+# Gaze veils: worn on the head, they blind Death Gaze (BurdeningAmuletEvents). Other mods' masks can join the tag.
+w(f'data/{NS}/tags/item/gaze_veils.json', {'replace': False, 'values': ['minecraft:carved_pumpkin']})
 for item in ('runic_body_windings', 'runic_legs_windings', 'dump_jackboots', 'elemental_surfer_shorts', 'burdening_amulet',
              'tight_belt', 'bottle_of_thick_taint', 'bottle_of_clear_water'):
     w(f'assets/{NS}/models/item/{item}.json', {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'{NS}:item/{item}'}})

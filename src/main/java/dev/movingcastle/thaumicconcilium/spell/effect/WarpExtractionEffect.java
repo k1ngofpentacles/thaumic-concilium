@@ -20,10 +20,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 /**
- * Warp Extraction: "share the pain". Channel to pull a {@link ConcentratedWarpCharge} out of your head (it needs
- * temporary warp, which Reflection provides); keep channelling to hold it in front of you, and release to hurl it
- * (see {@link dev.movingcastle.thaumicconcilium.spell.ChannelEvents}). Start the channel while sneaking to dismiss
- * your charge instead. Needs a Ring of Blustering Light.
+ * Warp Extraction: "share the pain", ported 1:1. Sneak + cast pulls a {@link ConcentratedWarpCharge} out of your head
+ * (it lives on temporary warp, which Reflection provides), or dismisses yours if it is within 10 blocks. Cast and hold
+ * to draw in the charge you are looking at; let go to hurl it (see
+ * {@link dev.movingcastle.thaumicconcilium.spell.ChannelEvents}). Needs a Ring of Blustering Light.
  * <p>
  * Settings: {@code potency} (damage multiplier {@code 1 + potency}), {@code reach} (how far the charge's effect
  * transfers spread) and {@code mode}: none, mass hysteria or self-flagellation.
@@ -55,29 +55,49 @@ public final class WarpExtractionEffect extends AbstractEffectBehavior {
             return;
         }
         ServerLevel level = ctx.level();
-        List<ConcentratedWarpCharge> mine = chargesOf(player, 32.0);
         if (player.isShiftKeyDown()) {
-            if (!mine.isEmpty()) {
-                mine.forEach(ConcentratedWarpCharge::discard);
-                player.stopUsingItem();
+            // The original's Shift + right-click, a one-off: dismiss your charge if one is within 10 blocks, else pull
+            // a new one out of your head ("Press Shift+RMB to extract the warp from your brain").
+            List<ConcentratedWarpCharge> near = chargesOf(player, 10.0);
+            if (!near.isEmpty()) {
+                near.get(0).discard();
+            } else {
+                level.playSound(null, player.getX(), player.getY(), player.getZ(), TCSounds.BREATH.get(), SoundSource.PLAYERS,
+                        0.9F, 0.4F / (ctx.random().nextFloat() * 0.4F + 0.8F));
+                ConcentratedWarpCharge.summon(level, player, 1 + ctx.setting("potency"), ctx.setting("reach"), ctx.setting("mode"));
             }
+            player.swing(net.minecraft.world.InteractionHand.MAIN_HAND);
+            player.stopUsingItem();
+            dev.movingcastle.thaumicconcilium.spell.BraceletCasting.cancel(player);
             return;
         }
-        if (mine.isEmpty()) {
-            if (WarpHelper.getWarp(player).get(WarpType.TEMPORARY) <= 0) {
-                player.sendSystemMessage(Component.translatable("message.thaumicconcilium.no_warp").withStyle(ChatFormatting.DARK_PURPLE));
-                player.stopUsingItem();
-                return;
-            }
-            level.playSound(null, player.getX(), player.getY(), player.getZ(), TCSounds.BREATH.get(), SoundSource.PLAYERS,
-                    0.9F, 0.4F / (ctx.random().nextFloat() * 0.4F + 0.8F));
-            ConcentratedWarpCharge.summon(level, player, 1 + ctx.setting("potency"), ctx.setting("reach"), ctx.setting("mode"));
-            return;
+        // Held (the original's using tick): draw in the charge you're looking at, within 32 blocks; release throws it
+        // ("Hold down RMB to throw it away", ChannelEvents).
+        ConcentratedWarpCharge pointed = pointedCharge(player, 32.0, 2.0);
+        if (pointed != null) {
+            Vec3 look = player.getLookAngle();
+            pointed.steer(new Vec3(player.getX() + look.x * 1.5, player.getY() + look.y * 1.5 + 2.0, player.getZ() + look.z * 1.5));
         }
+    }
+
+    /** The own charge nearest the line of sight (within {@code width} blocks of it), like TC4's getPointedEntity. */
+    private static ConcentratedWarpCharge pointedCharge(ServerPlayer player, double range, double width) {
+        Vec3 eye = player.getEyePosition();
         Vec3 look = player.getLookAngle();
-        Vec3 point = new Vec3(player.getX() + look.x * 1.5, player.getY() + look.y * 1.5 + 2.0, player.getZ() + look.z * 1.5);
-        for (ConcentratedWarpCharge charge : mine) {
-            charge.steer(point);
+        ConcentratedWarpCharge best = null;
+        double bestAlong = Double.MAX_VALUE;
+        for (ConcentratedWarpCharge charge : chargesOf(player, range)) {
+            Vec3 to = charge.getBoundingBox().getCenter().subtract(eye);
+            double along = to.dot(look);
+            if (along <= 0.0 || along > range) {
+                continue;
+            }
+            double off = to.subtract(look.scale(along)).length();
+            if (off <= width + charge.getBbWidth() / 2.0 && along < bestAlong) {
+                best = charge;
+                bestAlong = along;
+            }
         }
+        return best;
     }
 }

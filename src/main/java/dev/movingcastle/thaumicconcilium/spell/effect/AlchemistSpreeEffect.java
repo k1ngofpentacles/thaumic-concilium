@@ -10,6 +10,8 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.movingcastle.thaumicconcilium.entity.FlurryShot;
 import dev.movingcastle.thaumicconcilium.registry.TCSounds;
+import dev.movingcastle.thaumicconcilium.entity.ClearWaterBottle;
+import dev.movingcastle.thaumicconcilium.entity.ThickTaintBottle;
 import dev.movingcastle.thaumicconcilium.registry.TCSpellBehaviors;
 import dev.movingcastle.thaumicconcilium.spell.Taint;
 import net.minecraft.core.particles.ParticleTypes;
@@ -36,11 +38,13 @@ import net.minecraft.world.phys.Vec3;
  * <ul>
  *   <li>snowball: frost shard dealing {@code 1 + potency}; with <b>primal essence</b> it also chills;</li>
  *   <li>egg: a tainted spider hatches on the spot;</li>
- *   <li>small fireball (blaze shot, fire charge, the original's ember): an explosive fireball of strength
- *   {@code 1 + potency};</li>
- *   <li>eldritch orb: a piercing eldritch ray dealing {@code 3 * (1 + potency)}.</li>
+ *   <li>small fireball (blaze shot, fire charge, the original's ember): an explosive orb of strength
+ *   {@code 1 + potency} that sets fires only with <b>primal essence</b>, as the original's;</li>
+ *   <li>eldritch orb: a piercing eldritch ray dealing {@code 3 * (1 + potency)};</li>
+ *   <li>bottle of clear water: a bottle of thick taint, thrown by the caster.</li>
  * </ul>
- * Needs a Ring of Blustering Light. Bottles of clear water (to thick taint) join once those bottles are ported.
+ * Needs a Ring of Blustering Light. The original's primal orb → pech blast has no Thaumaturge counterpart and is left
+ * out.
  */
 public final class AlchemistSpreeEffect extends AbstractEffectBehavior {
     public static final MapCodec<AlchemistSpreeEffect> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
@@ -101,13 +105,42 @@ public final class AlchemistSpreeEffect extends AbstractEffectBehavior {
             } else if (p instanceof SmallFireball) {
                 p.discard();
                 Vec3 look = caster.getLookAngle();
-                LargeFireball orb = new LargeFireball(level, caster,
-                        new Vec3(look.x + ctx.random().nextGaussian() * 0.1, look.y, look.z + ctx.random().nextGaussian() * 0.1), 1 + potency + (primal ? 1 : 0));
+                LargeFireball orb = new ExplosiveOrb(level, caster,
+                        new Vec3(look.x + ctx.random().nextGaussian() * 0.1, look.y, look.z + ctx.random().nextGaussian() * 0.1), 1 + potency, primal);
                 orb.setPos(caster.getX() + look.x, caster.getEyeY() - 0.1 + look.y, caster.getZ() + look.z);
                 level.addFreshEntity(orb);
             } else if (p instanceof EntityEldritchOrb) {
                 p.discard();
                 eldritchRay(level, caster, 3.0F * (1 + potency));
+            } else if (p instanceof ClearWaterBottle) {
+                p.discard();
+                ThickTaintBottle bottle = new ThickTaintBottle(level, caster);
+                bottle.shootFromRotation(caster, caster.getXRot(), caster.getYRot(), -20.0F, 0.5F, 1.0F);
+                level.addFreshEntity(bottle);
+            }
+        }
+    }
+
+    /**
+     * The original's explosive orb: a fireball whose blast sets fires only when asked (primal essence). It travels and
+     * renders as a vanilla fireball; only its impact differs.
+     */
+    private static final class ExplosiveOrb extends LargeFireball {
+        private final int strength;
+        private final boolean fire;
+
+        ExplosiveOrb(ServerLevel level, LivingEntity owner, Vec3 motion, int strength, boolean fire) {
+            super(level, owner, motion, strength);
+            this.strength = strength;
+            this.fire = fire;
+        }
+
+        @Override
+        protected void onHit(net.minecraft.world.phys.HitResult result) {
+            if (!this.level().isClientSide()) {
+                this.level().explode(this, this.getX(), this.getY(), this.getZ(), this.strength, this.fire,
+                        net.minecraft.world.level.Level.ExplosionInteraction.MOB);
+                this.discard();
             }
         }
     }
