@@ -1,0 +1,50 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.astral_monitor.title",
+  "parents": [
+    "thaumicconcilium:hex_of_predictability"
+  ],
+  "column": -12,
+  "row": 3,
+  "icons": [
+    "thaumicconcilium:astral_monitor"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.astral_monitor.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.astral_monitor.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 12
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:spiritus",
+      "amount": 12
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 4
+    }
+  ],
+  "complexity": 3
+}

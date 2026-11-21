@@ -1,0 +1,37 @@
+{
+  "type": "thaumaturge:crucible",
+  "catalyst": {
+    "type": "neoforge:components",
+    "items": "thaumaturge:phial",
+    "components": {
+      "thaumaturge:aspects": [
+        {
+          "aspect": "thaumaturge:sensus",
+          "amount": 10
+        }
+      ]
+    }
+  },
+  "aspects": [
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 2
+    }
+  ],
+  "research": {
+    "entry": "thaumicconcilium:lithographer",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:coagulating_eye_drops"
+  }
+}

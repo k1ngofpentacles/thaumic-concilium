@@ -1,0 +1,54 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.quicksilver_crucible.title",
+  "parents": [
+    "thaumaturge:scanned/entity/thaumicconcilium/quicksilver_elemental"
+  ],
+  "column": -14,
+  "row": 3,
+  "icons": [
+    "thaumicconcilium:quicksilver_reactor"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.quicksilver_crucible.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.quicksilver_crucible.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:metallum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 4
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden"
+  ]
+}

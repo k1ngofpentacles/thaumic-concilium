@@ -301,6 +301,79 @@ for key, (title, sub, first, second) in P6A.items():
     L[f'research.{NS}.{key}.stage_0'] = join(sub, first)
     L[f'research.{NS}.{key}.stage_1'] = second
 
+# ---------------------------------------------------------------- phase 6b (first cycle)
+L[f'block.{NS}.quicksilver_reactor'] = o('tile.QuicksilverCrucible.name')
+L[f'item.{NS}.thaumaturge_drum'] = o('item.ThaumaturgeDrum.name')
+L[f'item.{NS}.warped_drum'] = o('item.WarpedDrum.name')
+L[f'item.{NS}.polishment_device'] = o('item.PolishmentDevice.name')
+L[f'item.{NS}.coagulating_eye_drops'] = o('item.CoagulatingEyeDrops.name')
+L[f'entity.{NS}.quicksilver_elemental'] = o('entity.ThaumicConcilium.QuicksilverElemental.name')
+L[f'item.{NS}.quicksilver_elemental_spawn_egg'] = o('entity.ThaumicConcilium.QuicksilverElemental.name') + ' Spawn Egg'
+L[f'{NS}.tooltip.xylography'] = o('tc.tooltip.xylography').replace('§6§n', '')
+L[f'{NS}.tooltip.polishment'] = o('tc.tooltip.polishment')
+L[f'{NS}.tooltip.creative'] = o('tc.tooltip.creative').replace('§6', '')
+P6B = {
+ 'thaumdrum': (o('tc.research_name.THAUMDRUM'), o('tc.research_text.THAUMDRUM'), o('entry.thaumdrum.first'),
+    "Hold the use key to play it: a bass beat every second of a second and a half, and every one and a half seconds a wisp "
+    "of a random primal aspect answers the call, until sixteen roam within sixty-four blocks. They are not grateful."),
+ 'warpdrum': (o('tc.research_name.WARPDRUM'), o('tc.research_text.WARPDRUM'), o('entry.warpdrum.first'),
+    "Throw a Thaumaturge's Drum onto a Hex of Predictability whose rift holds 128 sensus, 128 perditio, 64 cognitio, 64 bestia "
+    "and 64 vitium. Played, the Warped Drum calls a harmless mind spider every half second, up to sixteen within thirty-two blocks."),
+ 'xylography': (o('tc.research_name.XYLOGRAPHY'), o('tc.research_text.XYLOGRAPHY'), o('entry.xylography.first'), None),
+ 'quicksilver_crucible': (o('tc.research_name.QUICKSILVERCRUCIBLE'), o('tc.research_text.QUICKSILVERCRUCIBLE'),
+    o('entry.quicksilvercrucible.first'),
+    join(o('entry.quicksilvercrucible.second').replace('no more than two blocks away', 'within eight blocks'),
+         "Throw quicksilver into the reactor to feed it (each fraction is two points of permutatio, up to sixty-four); a redstone "
+         "signal pauses it, and a comparator reads how full it is. Creatures standing in the mercury are burned.")),
+}
+for key, (title, sub, first, second) in P6B.items():
+    L[f'research.{NS}.{key}.title'] = title
+    L[f'research.{NS}.{key}.stage_0'] = join(sub, first)
+    if second:
+        L[f'research.{NS}.{key}.stage_1'] = second
+
+# ---------------------------------------------------------------- phase 6b (second cycle)
+L[f'item.{NS}.astral_monitor'] = o('item.AstralMonitor.name')
+L[f'block.{NS}.lithographer'] = o('tile.Lithographer.name')
+L[f'container.{NS}.astral_monitor'] = o('item.AstralMonitor.name')
+L[f'container.{NS}.lithographer'] = o('tile.Lithographer.name')
+L[f'{NS}.tooltip.monitor'] = o('tc.tooltip.monitor').replace('§9', '')
+L[f'message.{NS}.lithographer_no_vis'] = 'The Lithographer needs 100 ignis, 100 ordo, 50 aqua and 100 aer vis in your wand'
+P6B2 = {
+ 'astral_monitor': (o('tc.research_name.ASTRALMONITOR'), o('tc.research_text.ASTRALMONITOR'), o('entry.astralmonitor.first'),
+    join(o('entry.astralmonitor.second'), o('entry.astralmonitor.third'),
+         "Throw a Thaumometer onto a Hex of Predictability whose rift holds 128 sensus, 128 vacuos and 64 cognitio. Sneak and "
+         "use the monitor to open its slot, which takes a xylographed wand; held in the main hand it reads that player's "
+         "health, mana (with Botania) and runic shielding every half second and shows them as constellation glyphs over its screen.")),
+ 'lithographer': (o('tc.research_name.LITHOGRAPHER'), o('tc.research_text.LITHOGRAPHER'), o('entry.lithographer.first'),
+    join(o('entry.lithographer.second'),
+         "Build it with a wand (100 ignis, 100 ordo, 50 aqua, 100 aer): over the head of a bed set a thaumium block, with a block "
+         "of gold either side of it and either side of the bed, in a line along one axis; stand an Alchemical Construct on the "
+         "thaumium block and strike it with the wand. The Lithographer takes the thaumium block's place. Four Astral Monitors "
+         "that are watching someone go in its slots. A redstone signal starts it: it needs a Vis Condenser directly above it, "
+         "a destabilized crystal of sensus holding at least 32 above that, and someone asleep in the bed.",
+         "Coagulating Eye Drops (a phial of sensus, 4 perditio, 2 sensus, 2 victus in a crucible) switch the sight off and on again.")),
+}
+for key, (title, sub, first, second) in P6B2.items():
+    L[f'research.{NS}.{key}.title'] = title
+    L[f'research.{NS}.{key}.stage_0'] = join(sub, first)
+    L[f'research.{NS}.{key}.stage_1'] = second
+
+# ---------------------------------------------------------------- phase 6b (third cycle): polished infusions
+# Thaumaturge's book has no page type for the original's "Polished Infusion" page, so the recipe stage says it in words.
+# Polishment files are named after their research entry (gen_phase6b_data.py).
+import glob
+def aspect_name(a):
+    return a.split(':')[1].capitalize()
+L['message.%s.polishment_failed' % NS] = 'The infusion unravels: it needed a polished draw from a crystal'
+L['tooltip.%s.polished_infusion' % NS] = 'Polished Infusion: %s %s'
+for f in sorted(glob.glob(f'src/main/resources/data/{NS}/{NS}/polishment/*.json')):
+    pol = json.load(open(f, encoding='utf-8'))
+    key = os.path.basename(f)[:-5]
+    L[f'research.{NS}.{key}.stage_1'] = join(L[f'research.{NS}.{key}.stage_1'],
+        f"Polished Infusion: needs {pol['amount']} {aspect_name(pol['aspect'])} drawn from a Destabilized Crystal with a Vis Conductor, "
+        "held as the infusion completes; without it the result is lost.")
+
 out = f'src/main/resources/assets/{NS}/lang/en_us.json'
 os.makedirs(os.path.dirname(out), exist_ok=True)
 json.dump(dict(sorted(L.items())), open(out, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)

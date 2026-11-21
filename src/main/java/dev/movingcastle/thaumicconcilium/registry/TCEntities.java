@@ -61,6 +61,13 @@ public final class TCEntities {
                     dev.movingcastle.thaumicconcilium.entity.PrimalOrb::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1).build("primal_orb"));
 
+    // ---------------------------------------------------------------- phase 6b
+    /** Original: 0.6 x 1.8 at full health (the scale attribute shrinks it with health). */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.mob.QuicksilverElemental>> QUICKSILVER_ELEMENTAL =
+            ENTITY_TYPES.register("quicksilver_elemental", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.mob.QuicksilverElemental>of(
+                    dev.movingcastle.thaumicconcilium.entity.mob.QuicksilverElemental::new, MobCategory.MONSTER)
+                    .sized(0.6F, 1.8F).clientTrackingRange(8).build("quicksilver_elemental"));
+
     // ---------------------------------------------------------------- phase 4 mobs
     public static final DeferredHolder<EntityType<?>, EntityType<ThaumaturgeEntity>> THAUMATURGE = ENTITY_TYPES.register("thaumaturge",
             () -> EntityType.Builder.<ThaumaturgeEntity>of(ThaumaturgeEntity::new, MobCategory.CREATURE)

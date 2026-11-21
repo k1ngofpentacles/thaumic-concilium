@@ -15,6 +15,12 @@ public final class TCMenus {
     public static final DeferredHolder<MenuType<?>, MenuType<ThaumaturgeMenu>> THAUMATURGE =
             MENUS.register("thaumaturge", () -> IMenuTypeExtension.create(ThaumaturgeMenu::new));
 
+    public static final DeferredHolder<MenuType<?>, MenuType<dev.movingcastle.thaumicconcilium.menu.AstralMonitorMenu>> ASTRAL_MONITOR =
+            MENUS.register("astral_monitor", () -> IMenuTypeExtension.create((id, inv, buf) -> new dev.movingcastle.thaumicconcilium.menu.AstralMonitorMenu(id, inv)));
+
+    public static final DeferredHolder<MenuType<?>, MenuType<dev.movingcastle.thaumicconcilium.menu.LithographerMenu>> LITHOGRAPHER =
+            MENUS.register("lithographer", () -> IMenuTypeExtension.create(dev.movingcastle.thaumicconcilium.menu.LithographerMenu::new));
+
     private TCMenus() {
     }
 }

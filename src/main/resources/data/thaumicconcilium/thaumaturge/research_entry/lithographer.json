@@ -1,0 +1,51 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.lithographer.title",
+  "parents": [
+    "thaumicconcilium:astral_monitor",
+    "~thaumaturge:advanced_alchemical_furnace"
+  ],
+  "column": -13,
+  "row": 5,
+  "icons": [
+    "thaumicconcilium:textures/research/lithographer.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.lithographer.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 2
+    },
+    {
+      "text": "research.thaumicconcilium.lithographer.stage_1",
+      "recipes": [
+        "thaumicconcilium:crucible/coagulating_eye_drops"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 4
+    }
+  ],
+  "complexity": 3
+}

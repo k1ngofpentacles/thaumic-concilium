@@ -53,6 +53,8 @@ public final class TCSpawns {
     public static void attributes(EntityAttributeCreationEvent event) {
         event.put(TCEntities.THAUMATURGE.get(), ThaumaturgeEntity.createAttributes().build());
         event.put(TCEntities.MAD_THAUMATURGE.get(), MadThaumaturge.createAttributes().build());
+        event.put(TCEntities.QUICKSILVER_ELEMENTAL.get(),
+                dev.movingcastle.thaumicconcilium.entity.mob.QuicksilverElemental.createAttributes().build());
         event.put(TCEntities.NETHER_EXPLORER.get(), Corpse.createAttributes().build());
         if (TCEntities.hasBotanist()) {
             event.put(TCEntities.WITHERED_BOTANIST.get(), Corpse.createAttributes().build());
@@ -66,6 +68,12 @@ public final class TCSpawns {
                 TCSpawns::thaumaturgeRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(TCEntities.MAD_THAUMATURGE.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        // Original: EntityMob's rule (dark enough, not peaceful), here also behind the config's chance.
+        event.register(TCEntities.QUICKSILVER_ELEMENTAL.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (type, level, reason, pos, random) -> (reason != MobSpawnType.NATURAL
+                        || random.nextInt(100) < dev.movingcastle.thaumicconcilium.TCConfig.QUICKSILVER_ELEMENTAL_SPAWN.get())
+                        && Monster.checkMonsterSpawnRules(type, level, reason, pos, random),
+                RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(TCEntities.NETHER_EXPLORER.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
                 (type, level, reason, pos, random) -> true, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         if (TCEntities.hasBotanist()) {

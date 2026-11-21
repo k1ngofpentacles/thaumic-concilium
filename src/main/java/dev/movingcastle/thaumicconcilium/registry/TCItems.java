@@ -112,6 +112,27 @@ public final class TCItems {
     public static final DeferredItem<net.minecraft.world.item.BlockItem> VIS_CONDENSER = ITEMS.registerSimpleBlockItem(
             "vis_condenser", TCBlocks.VIS_CONDENSER, new Item.Properties());
 
+    // ---------------------------------------------------------------- phase 6b
+    /** Original: rare; 3 warp (on the plain drum). */
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.ThaumaturgeDrum> THAUMATURGE_DRUM = ITEMS.register("thaumaturge_drum",
+            () -> new dev.movingcastle.thaumicconcilium.item.ThaumaturgeDrum(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
+                    .component(TTDataComponents.STACK_WARP.get(), 3), false));
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.ThaumaturgeDrum> WARPED_DRUM = ITEMS.register("warped_drum",
+            () -> new dev.movingcastle.thaumicconcilium.item.ThaumaturgeDrum(new Item.Properties().stacksTo(1).rarity(Rarity.RARE), true));
+    /** Creative-only, no recipe. */
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.PolishmentDevice> POLISHMENT_DEVICE = ITEMS.register("polishment_device",
+            () -> new dev.movingcastle.thaumicconcilium.item.PolishmentDevice(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.CoagulatingEyeDrops> COAGULATING_EYE_DROPS = ITEMS.register("coagulating_eye_drops",
+            () -> new dev.movingcastle.thaumicconcilium.item.CoagulatingEyeDrops(new Item.Properties().durability(100).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.AstralMonitor> ASTRAL_MONITOR = ITEMS.register("astral_monitor",
+            () -> new dev.movingcastle.thaumicconcilium.item.AstralMonitor(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> LITHOGRAPHER = ITEMS.registerSimpleBlockItem(
+            "lithographer", TCBlocks.LITHOGRAPHER, new Item.Properties());
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> QUICKSILVER_REACTOR = ITEMS.registerSimpleBlockItem(
+            "quicksilver_reactor", TCBlocks.QUICKSILVER_REACTOR, new Item.Properties());
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> QUICKSILVER_ELEMENTAL_SPAWN_EGG =
+            egg("quicksilver_elemental", TCEntities.QUICKSILVER_ELEMENTAL);
+
     // Original egg colours: 65535 / 139.
     public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> THAUMATURGE_SPAWN_EGG = egg("thaumaturge", TCEntities.THAUMATURGE);
     public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> MAD_THAUMATURGE_SPAWN_EGG = egg("mad_thaumaturge", TCEntities.MAD_THAUMATURGE);

@@ -30,12 +30,14 @@ public final class TCClient {
     @SubscribeEvent
     public static void itemExtensions(RegisterClientExtensionsEvent event) {
         event.registerItem(new MillClientExtensions(), TCItems.SHARD_MILL.get(), TCItems.SILVERWOOD_SHARD_MILL.get());
+        event.registerItem(new AstralMonitorRenderer.Extensions(), TCItems.ASTRAL_MONITOR.get());
     }
 
     /** The Shard Mill's body and crank models, drawn by {@link MillRenderer}. */
     @SubscribeEvent
     public static void extraModels(ModelEvent.RegisterAdditional event) {
         MillRenderer.MODELS.forEach(event::register);
+        event.register(AstralMonitorRenderer.FRAME);
     }
 
     @SubscribeEvent
@@ -47,6 +49,7 @@ public final class TCClient {
     public static void guiLayers(RegisterGuiLayersEvent event) {
         event.registerAboveAll(ThaumicConcilium.id("bracelet_hud"), new BraceletHud());
         event.registerAboveAll(ThaumicConcilium.id("bracelet_radial"), new BraceletRadial());
+        event.registerAboveAll(ThaumicConcilium.id("lithograph_hud"), new LithographHud());
     }
 
     /** Bracelets on the wrists, held or worn ({@link BraceletArmLayer}), for both player models. */
@@ -90,6 +93,12 @@ public final class TCClient {
         event.registerEntityRenderer(TCEntities.PRIMAL_ORB.get(), ctx -> new SparkleBillboardRenderer<dev.movingcastle.thaumicconcilium.entity.PrimalOrb>(ctx,
                 e -> primals[(e.tickCount / 4) % primals.length], (e, pt) -> 0.8, true));
         event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.HEX_BLOCK_ENTITY.get(), HexRenderer::new);
+        // Phase 6b: the Quicksilver Elemental (a biped, original texture) and the reactor's mercury surface.
+        event.registerEntityRenderer(TCEntities.QUICKSILVER_ELEMENTAL.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "quicksilver_elemental"));
+        event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.QUICKSILVER_REACTOR_BLOCK_ENTITY.get(),
+                QuicksilverReactorRenderer::new);
+        event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.LITHOGRAPHER_BLOCK_ENTITY.get(),
+                LithographerRenderer::new);
         // Phase 4 mobs.
         event.registerEntityRenderer(TCEntities.THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "thaumaturge"));
         event.registerEntityRenderer(TCEntities.MAD_THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "mad_thaumaturge"));
@@ -120,5 +129,7 @@ public final class TCClient {
     @SubscribeEvent
     public static void screens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
         event.register(dev.movingcastle.thaumicconcilium.registry.TCMenus.THAUMATURGE.get(), ThaumaturgeScreen::new);
+        event.register(dev.movingcastle.thaumicconcilium.registry.TCMenus.ASTRAL_MONITOR.get(), SlotScreens.Monitor::new);
+        event.register(dev.movingcastle.thaumicconcilium.registry.TCMenus.LITHOGRAPHER.get(), SlotScreens.Lithographer::new);
     }
 }

@@ -29,6 +29,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
  *   <li>{@code /thaumicconcilium qa focus <preset>}: a ready-inscribed focus ({@link FocusPresets});</li>
  *   <li>{@code /thaumicconcilium qa caster <item> <preset|none>}: a wand or bracelet with that focus socketed and its
  *   vis full.</li>
+ *   <li>{@code /thaumicconcilium qa lithograph}: lithographed, watching yourself (the HUD without the bed).</li>
  * </ul>
  */
 @EventBusSubscriber(modid = ThaumicConcilium.MODID)
@@ -62,7 +63,9 @@ public final class TCCommands {
                                 .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
                                         .then(Commands.argument("aspect", ResourceLocationArgument.id())
                                                 .then(Commands.argument("amount", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 1000))
-                                                        .executes(TCCommands::crystal)))))));
+                                                        .executes(TCCommands::crystal)))))
+                        // Phase 6b: lithograph the player, watching themselves (the HUD without the bed operation).
+                        .then(Commands.literal("lithograph").executes(TCCommands::lithograph))));
     }
 
     private static java.util.concurrent.CompletableFuture<com.mojang.brigadier.suggestion.Suggestions> presets(
@@ -73,6 +76,14 @@ public final class TCCommands {
 
     private static ItemStack preset(String id) {
         return FocusPresets.ALL.stream().filter(p -> p.id().equals(id)).findFirst().map(FocusPresets.Preset::stack).orElse(ItemStack.EMPTY);
+    }
+
+    private static int lithograph(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        dev.movingcastle.thaumicconcilium.lithograph.Lithograph.set(player, new dev.movingcastle.thaumicconcilium.lithograph.Lithograph.State(
+                true, false, java.util.List.of(dev.movingcastle.thaumicconcilium.lithograph.Lithograph.playerTarget(player.getUUID()), "", "", "")));
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: lithographed, watching yourself"), false);
+        return 1;
     }
 
     private static int research(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {

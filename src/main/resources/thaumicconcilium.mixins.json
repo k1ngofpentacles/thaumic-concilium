@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.movingcastle.thaumicconcilium.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": ["CrucibleAccessor"],
+  "injectors": { "defaultRequire": 1 }
+}

@@ -27,6 +27,21 @@ public final class TCDataComponents {
             COMPONENTS.registerComponentType("nether_membrane", b -> b.persistent(net.minecraft.util.Unit.CODEC)
                     .networkSynchronized(net.minecraft.network.codec.StreamCodec.unit(net.minecraft.util.Unit.INSTANCE)));
 
+    /** Who signed a wand (original: the wand's {@code Xylography} NBT string); see {@link dev.movingcastle.thaumicconcilium.item.Xylography}. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<dev.movingcastle.thaumicconcilium.item.Xylography.Signer>> XYLOGRAPHY =
+            COMPONENTS.registerComponentType("xylography", b -> b.persistent(dev.movingcastle.thaumicconcilium.item.Xylography.Signer.CODEC)
+                    .networkSynchronized(dev.movingcastle.thaumicconcilium.item.Xylography.Signer.STREAM_CODEC));
+
+    /** The xylographed wand held in an Astral Monitor (original: the monitor's {@code wand} NBT). */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.minecraft.world.item.ItemStack>> MONITOR_WAND =
+            COMPONENTS.registerComponentType("monitor_wand", b -> b.persistent(net.minecraft.world.item.ItemStack.CODEC)
+                    .networkSynchronized(net.minecraft.world.item.ItemStack.STREAM_CODEC));
+
+    /** What the monitor last read from the watched player (original: the monitor's {@code vals} int array). */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<dev.movingcastle.thaumicconcilium.lithograph.PartyStats>> MONITOR_STATS =
+            COMPONENTS.registerComponentType("monitor_stats", b -> b.persistent(dev.movingcastle.thaumicconcilium.lithograph.PartyStats.CODEC)
+                    .networkSynchronized(dev.movingcastle.thaumicconcilium.lithograph.PartyStats.STREAM_CODEC));
+
     private TCDataComponents() {
     }
 }

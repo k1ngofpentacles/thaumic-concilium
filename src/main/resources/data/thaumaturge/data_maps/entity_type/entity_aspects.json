@@ -71,6 +71,24 @@
         "aspect": "thaumaturge:permutatio",
         "amount": 10
       }
+    ],
+    "thaumicconcilium:quicksilver_elemental": [
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:permutatio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 10
+      }
     ]
   }
 }

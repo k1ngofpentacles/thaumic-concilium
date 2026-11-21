@@ -70,6 +70,32 @@ public final class VisConductorEffect extends AbstractEffectBehavior {
     private VisConductorEffect() {
     }
 
+    /** What a channelling player has drawn so far: the cluster, its aspect and how much of its charge has left it. */
+    public record Draw(BlockPos pos, ResourceLocation aspect, int drawn) {
+    }
+
+    /** The player's current draw, or null when they aren't bound to a cluster that still stands. */
+    @Nullable
+    public static Draw drawOf(Level level, UUID player) {
+        Bound bound = BOUND.get(player);
+        if (bound == null || !(level.getBlockEntity(bound.pos()) instanceof DestabilizedCrystalBlockEntity crystal)
+                || !bound.aspect().equals(crystal.aspect())) {
+            return null;
+        }
+        return new Draw(bound.pos(), bound.aspect(), bound.amount() - crystal.capacity());
+    }
+
+    /** Drops the player's draw without releasing it (the polishment gate spends the cluster itself). */
+    public static void clearDraw(UUID player) {
+        BOUND.remove(player);
+        LAST.remove(player);
+    }
+
+    /** Binds a player to a cluster holding {@code amount} of {@code aspect} (what a channel does on its first tick). */
+    public static void bind(UUID player, BlockPos pos, ResourceLocation aspect, int amount, int potency, int upgrade) {
+        BOUND.put(player, new Bound(pos, aspect, amount, potency, upgrade));
+    }
+
     @Override
     public SpellBehaviorType<?> type() {
         return TCSpellBehaviors.VIS_CONDUCTOR.get();
@@ -107,7 +133,7 @@ public final class VisConductorEffect extends AbstractEffectBehavior {
                     ClipContext.Block.OUTLINE, ClipContext.Fluid.NONE, player));
             if (hit.getType() == HitResult.Type.BLOCK && level.getBlockEntity(hit.getBlockPos()) instanceof DestabilizedCrystalBlockEntity crystal
                     && crystal.aspect() != null && crystal.capacity() > 0) {
-                BOUND.put(id, new Bound(hit.getBlockPos(), crystal.aspect(), crystal.capacity(), potency, upgrade));
+                bind(id, hit.getBlockPos(), crystal.aspect(), crystal.capacity(), potency, upgrade);
             }
             return;
         }
@@ -196,7 +222,8 @@ public final class VisConductorEffect extends AbstractEffectBehavior {
         return hit == null ? null : hit.getEntity();
     }
 
-    private static void arc(ServerLevel level, Vec3 from, Vec3 to, int rgb) {
+    /** A line of dust in an aspect's colour between two points. */
+    public static void arc(ServerLevel level, Vec3 from, Vec3 to, int rgb) {
         DustParticleOptions dust = new DustParticleOptions(new Vector3f((rgb >> 16 & 255) / 255F, (rgb >> 8 & 255) / 255F, (rgb & 255) / 255F), 0.8F);
         int steps = Math.max(4, (int) (from.distanceTo(to) * 4));
         for (int i = 0; i <= steps; i++) {

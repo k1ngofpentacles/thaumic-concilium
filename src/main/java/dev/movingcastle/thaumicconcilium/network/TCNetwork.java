@@ -17,6 +17,10 @@ public final class TCNetwork {
         registrar.playToServer(MillSelectPayload.TYPE, MillSelectPayload.STREAM_CODEC, MillSelectPayload::handle);
         registrar.playToServer(BraceletCastPayload.TYPE, BraceletCastPayload.STREAM_CODEC, BraceletCastPayload::handle);
         registrar.playToClient(BraceletFxPayload.TYPE, BraceletFxPayload.STREAM_CODEC, BraceletFxPayload::handle);
+        registrar.playToClient(LithographSyncPayload.TYPE, LithographSyncPayload.STREAM_CODEC, LithographSyncPayload::handle);
+        registrar.playToClient(QuicksilverFlowPayload.TYPE, QuicksilverFlowPayload.STREAM_CODEC, QuicksilverFlowPayload::handle);
+        registrar.playToClient(PartyStatusPayload.TYPE, PartyStatusPayload.STREAM_CODEC, PartyStatusPayload::handle);
+        registrar.playToClient(LithographerZapPayload.TYPE, LithographerZapPayload.STREAM_CODEC, LithographerZapPayload::handle);
         registrar.playToServer(BraceletFocusPayload.TYPE, BraceletFocusPayload.STREAM_CODEC, BraceletFocusPayload::handle);
     }
 }

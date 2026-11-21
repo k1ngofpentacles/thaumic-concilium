@@ -1,0 +1,49 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.thaumdrum.title",
+  "parents": [
+    "thaumicconcilium:vis_conductor_focus",
+    "thaumicconcilium:scanned/drum"
+  ],
+  "column": -6,
+  "row": 7,
+  "icons": [
+    "thaumicconcilium:thaumaturge_drum"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.thaumdrum.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.thaumdrum.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/thaumaturge_drum"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 8
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 4
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden"
+  ]
+}

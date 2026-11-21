@@ -31,6 +31,7 @@ public final class ThaumicConcilium {
     public ThaumicConcilium(IEventBus modBus, ModContainer container) {
         TCArmorMaterials.MATERIALS.register(modBus);
         TCDataComponents.COMPONENTS.register(modBus);
+        dev.movingcastle.thaumicconcilium.lithograph.Lithograph.ATTACHMENTS.register(modBus);
         TCWandParts.RODS.register(modBus);
         TCItems.ITEMS.register(modBus);
         modBus.addListener(TCItems::defaultComponents);

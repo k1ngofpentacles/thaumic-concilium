@@ -38,6 +38,11 @@ public final class TCConfig {
                     "by scanning one; Thaumaturge's own flux rifts also count).")
             .defineInRange("balance.chanceOfRiftOpening", 100, 0, 100);
 
+    public static final ModConfigSpec.IntValue QUICKSILVER_ELEMENTAL_SPAWN = B
+            .comment("Percent chance that a natural Quicksilver Elemental spawn attempt (the biome modifier: weight 5, groups of 1-2, every",
+                    "overworld biome, as the original) goes ahead. 0 disables them; they are the Quicksilver Reactor's only source.")
+            .defineInRange("mobs.quicksilverElementalSpawnChance", 100, 0, 100);
+
     public static final ModConfigSpec SPEC = B.build();
 
     private TCConfig() {

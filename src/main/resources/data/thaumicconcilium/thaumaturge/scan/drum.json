@@ -1,0 +1,12 @@
+{
+  "key": "thaumicconcilium:scanned/drum",
+  "blocks": [
+    "minecraft:note_block"
+  ],
+  "items": [
+    "minecraft:note_block"
+  ],
+  "entities": [
+    "thaumaturge:wisp"
+  ]
+}

@@ -28,6 +28,18 @@ Requires Java 21. The Gradle setup matches Aspect Interpreter's (ModDevGradle 2.
   Infernum comes from Thaumic Additions CE when installed; otherwise Forbidden Magic supplies a fallback.
 - Baubles become Curios, golem cores become seals, and MineTweaker support becomes datapacks plus KubeJS.
 
+## Content
+
+Foci (signal, impulse, positive burst, cooling, reflection, scribing, wrath attraction, taint animation, ethereal
+manipulator, spotlight, alchemist's spree, warp extraction, Vis Conductor), the Ring of Blustering Light, gear and
+baubles, casting bracelets, the Thaumaturges and other mobs, the rift workshop (spatial rifts, Hex of Predictability,
+Destabilized Crystal, Vis Condenser) and, new in 0.7.0: the Astral Monitor and Lithographer (with Xylography and Coagulating
+Eye Drops), the Quicksilver Elemental and Reactor, Thaumaturge's and the Warped Drum, and the **polished infusions**: twelve
+items (Cooling, Reflection, Scribing, Wrath Attraction, Taint Animation, Ethereal Manipulator, Spotlight and Warp Extraction
+foci, the Ring of Blustering Light, Dump Jackboots, Tight Belt, Burdening Amulet) only come out of an infusion if you draw
+the listed aspect from a Destabilized Crystal with the Vis Conductor as it completes. The list is a datapack registry
+(`data/<namespace>/thaumicconcilium/polishment/*.json`).
+
 ## Licence
 
 Port code: MIT. Original Concilium and Forbidden Magic material: WTFPL. Credits are in `CREDITS.md`.

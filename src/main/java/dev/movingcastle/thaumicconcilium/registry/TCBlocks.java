@@ -33,12 +33,30 @@ public final class TCBlocks {
             () -> new VisCondenserBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.0F, 10.0F)
                     .sound(SoundType.STONE).noOcclusion()));
 
+    /** Original: 3.0 hardness, 17 resistance, metal sounds. Made by a Quicksilver Elemental, not crafted. */
+    public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.QuicksilverReactorBlock> QUICKSILVER_REACTOR = BLOCKS.register(
+            "quicksilver_reactor", () -> new dev.movingcastle.thaumicconcilium.block.QuicksilverReactorBlock(
+                    BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(3.0F, 17.0F).sound(SoundType.METAL).noOcclusion()));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<dev.movingcastle.thaumicconcilium.block.QuicksilverReactorBlockEntity>> QUICKSILVER_REACTOR_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("quicksilver_reactor", () -> BlockEntityType.Builder.of(
+                    dev.movingcastle.thaumicconcilium.block.QuicksilverReactorBlockEntity::new, QUICKSILVER_REACTOR.get()).build(null));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HexBlockEntity>> HEX_BLOCK_ENTITY = BLOCK_ENTITIES.register(
             "hex_of_predictability", () -> BlockEntityType.Builder.of(HexBlockEntity::new, HEX.get()).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DestabilizedCrystalBlockEntity>> DESTABILIZED_CRYSTAL_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("destabilized_crystal",
                     () -> BlockEntityType.Builder.of(DestabilizedCrystalBlockEntity::new, DESTABILIZED_CRYSTAL.get()).build(null));
+
+    /** Original: 3.0 hardness, 17 resistance, metal sounds. Built over a bed with a wand, also craftable as an item. */
+    public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.LithographerBlock> LITHOGRAPHER = BLOCKS.register("lithographer",
+            () -> new dev.movingcastle.thaumicconcilium.block.LithographerBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                    .strength(3.0F, 17.0F).sound(SoundType.METAL).noOcclusion()));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<dev.movingcastle.thaumicconcilium.block.LithographerBlockEntity>> LITHOGRAPHER_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("lithographer", () -> BlockEntityType.Builder.of(
+                    dev.movingcastle.thaumicconcilium.block.LithographerBlockEntity::new, LITHOGRAPHER.get()).build(null));
 
     private TCBlocks() {
     }

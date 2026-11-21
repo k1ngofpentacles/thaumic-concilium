@@ -93,9 +93,9 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
 | Bottle of Thick Taint | ✅ | Crucible (bottle of taint + vitium, aqua, vitreus). Thrown: Flux Taint around, fibres, flux gas, ecological pressure |
 | Shard Mill, Silverwood Shard Mill | 🟡 | Arcane / infusion recipes; all thirteen powders. Static OBJ model: the first-person cranking animation isn't ported yet |
 | Casting bracelets | ✅ 0.4.1 | Worn (Curios bracelet slot) or in the shield slot, V to cast, F radial. Livingwood, dreamwood and terrasteel need Botania (Revived). Band model on the wrist in first and third person; the casting arm rises (synced) with particles. Checked in the render harness and by `BraceletTests`; feel untested in game |
-| Polishment (and the Polishment Device) | ⬜ | Phase 6, with the machines |
-| Coagulating Eye Drops, Astral Monitor | ⬜ | Phase 6, with the Hex of Predictability |
-| Thaumaturge and Warped Drums | ⬜ | Phase 4, with the Thaumaturges |
+| Polishment (and the Polishment Device) | ✅ 0.7.0 | The gate on the infusion and the creative-only device: see "Phase 6b". Protobody waits for phase 8 |
+| Coagulating Eye Drops, Astral Monitor | ✅ 0.7.0 | See "Phase 6b" |
+| Thaumaturge and Warped Drums | ✅ 0.7.0 | See "Phase 6b" |
 
 ### Fixed in 0.3.1 (after the first in-game test)
 
@@ -198,7 +198,7 @@ floating, flowers blooming, natural spawns near structures, wanderers, and the b
 | Spatial rifts | ✅ | `rift/ConciliumRifts`: Thaumaturge flux rifts tagged by Concilium. Breaking an aura node opens one (config `chanceOfRiftOpening`, 100); the original's growth, event table and collapse taint, on top of Thaumaturge's sweep |
 | Taming native rifts | ✅ | Port addition (to be revisited, see the scope doc): a lesser hex (ancient stone around a Barrier Stone) pins a native flux rift very stable (no events, growth or taint), reins it to size 25, transmutes at double essentia |
 | Hex of Predictability | ✅ | `rift/Hexes`, `block/Hex*`: bedrock + 8 ancient stone, wand trigger; jarred node -> chained rift; heat, void slag, transmutation; OBJ rings with a tinted ink layer (`client/HexRenderer`) |
-| Rift recipes | ✅ | `recipe/RiftRecipe` (`thaumicconcilium:rift`). None yet: the first (Astral Monitor) arrives in 6b; the pack test uses a test recipe |
+| Rift recipes | ✅ | `recipe/RiftRecipe` (`thaumicconcilium:rift`). Astral Monitor and Warped Drum use it (6b); the pack test also has a test recipe |
 | Vis Conductor | ✅ | `spell/effect/VisConductorEffect`: drain a crystal, burst it, Dematerialization (creatures, auram into rifts), Wisp Launcher -> `entity/ChargedWisp` |
 | Destabilized Crystal, Vis Condenser | ✅ | `block/DestabilizedCrystal*`, `block/VisCondenserBlock` (original OBJ) |
 | Primal orb | ✅ | The port's own (`entity/PrimalOrb`) for the rift's orb event |
@@ -206,6 +206,38 @@ floating, flowers blooming, natural spawns near structures, wanderers, and the b
 
 QA commands: `/thaumicconcilium qa hex <pos> full|chained|lesser`, `qa rift <pos> <size>`, `qa crystal <pos> <aspect> <amount>`.
 QA chapter: **The rift workshop** (`qa_rift_workshop`). Deviations: the fidelity review, "Phase 6a".
+
+## Phase 6b: monitors and machines (0.7.0)
+
+| Area | Status | Notes |
+|---|---|---|
+| Polished infusions | ✅ | `polishment/Polishment` (synced datapack registry, twelve JSON files from `gen_phase6b_data.py`) and `PolishmentGate` on `InfusionCraftedEvent`: the crafter must be channelling the Vis Conductor at a crystal of the entry's aspect with the listed draw drawn, else the result is lost. Book line and item tooltip state the requirement |
+| Polishment Device | ✅ | Creative-only; right-click a rift to remove it |
+| Xylography | ✅ | A lone wand in the grid is signed with the crafter's name |
+| Astral Monitor | ✅ | Rift recipe from a thaumometer; sneak-use opens the wand slot; constellation glyphs of the signed player's health, mana (Botania) and runes |
+| Lithographer | ✅ | Built with a wand from the 3x3 pattern; four monitors, redstone pulse, Vis Condenser and a sensus crystal above, a sleeper in the bed; lithograph HUD |
+| Coagulating Eye Drops | ✅ | Toggle the HUD; 1 damage |
+| Quicksilver Elemental and Reactor | ✅ | Spawns in the overworld; burnt in a crucible it makes the reactor; the reactor merges a crucible's last two aspects |
+| Thaumaturge's Drum, Warped Drum | ✅ | Wisps of random primals / harmless mind spiders while played |
+| Research | ✅ | Thaumdrum, Warpdrum, Xylography, Quicksilver Crucible, Astral Monitor, Lithographer |
+
+Deviations: the fidelity review, "Phase 6b". QA chapter: **Monitors and machines (6b)** (`qa_phase_6b`). Pack test:
+`Phase6bTests` (lookup, gate, reactor merge, xylography, Lithographer build); the build, the research audit (0 errors)
+and all 30 GameTests pass.
+
+### Needs in-game testing
+
+- Polished infusion: do a Cooling Focus infusion with no draw (result lost, pedestal empty, message), then channel the
+  Vis Conductor at a 64+ aversio crystal while it completes (crystal gone, shock, arc, focus on the pedestal). Check
+  another polished item (Tight Belt, volatus 128), the book line and the tooltip.
+- Xylography; Astral Monitor (sneak-use, slot, first-person glyphs, item icon in the GUI and the book).
+- Lithographer: build on both axes, the screen, the redstone pulse with a condenser, a sensus crystal of 32+ and a
+  sleeper, the HUD, eye drops toggling it.
+- Quicksilver Elemental (spawn, immunities, shrinking hitbox, turning a crucible into a reactor) and the Reactor
+  (feeding quicksilver, the flow of mercury, redstone pause, burning creatures, comparator).
+- Both drums: the continuous play, wisps and mind spiders and their caps.
+- Not testable headlessly: the Vis Conductor channel feeding the gate (the pack test binds the draw directly),
+  rendering, sounds, particles.
 
 ## Remaining phases (planned)
 
@@ -220,7 +252,7 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 | 3 | ✅ (0.3.0) Gear, warp baubles, bottles, shard mills. 3b: casting bracelets |
 | 4 | ✅ (0.5.0) Thaumaturges, Mad Thaumaturges, Nether Explorer, Withered Botanist, hint notes, Nether Membrane |
 | 5 | Crimson forces: paladin, archer, ranger, lesser portal, Pontifex boss |
-| 6 | Rifts, Hex of Predictability, machines (Destabilized Crystal), Vis Conductor focus, Thaumaturge's and Warped Drums, Brightest One, Gem of Rifts, Causal Bouillon dimension |
+| 6 | 6a and 6b done (0.6.0, 0.7.0); 6c: Brightest One, Gem of Rifts, Causal Bouillon dimension |
 | 7 | Golem cores → seals, Golem Bydlo, Vengeful Golem |
 | 8 | Horizons flesh alchemy, Gadomancy gadgets, Thaumic Bases picks |
 | 10 | Neo Vitae and Enchanted integrations |

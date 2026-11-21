@@ -1,0 +1,33 @@
+{
+  "type": "thaumicconcilium:rift",
+  "catalyst": {
+    "item": "thaumicconcilium:thaumaturge_drum"
+  },
+  "aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:bestia",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 64
+    }
+  ],
+  "research": "thaumicconcilium:warpdrum",
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:warped_drum"
+  }
+}

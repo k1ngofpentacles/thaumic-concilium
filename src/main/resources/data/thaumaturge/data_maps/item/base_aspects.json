@@ -27,6 +27,72 @@
         "aspect": "thaumaturge:humanus",
         "amount": 3
       }
+    ],
+    "thaumicconcilium:thaumaturge_drum": [
+      {
+        "aspect": "thaumaturge:sensus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:instrumentum",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:auram",
+        "amount": 10
+      }
+    ],
+    "thaumicconcilium:warped_drum": [
+      {
+        "aspect": "thaumaturge:sensus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:cognitio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:bestia",
+        "amount": 10
+      }
+    ],
+    "thaumicconcilium:coagulating_eye_drops": [
+      {
+        "aspect": "thaumaturge:sensus",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 5
+      }
+    ],
+    "thaumicconcilium:astral_monitor": [
+      {
+        "aspect": "thaumaturge:sensus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:instrumentum",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:spiritus",
+        "amount": 10
+      }
+    ],
+    "thaumicconcilium:lithographer": [
+      {
+        "aspect": "thaumaturge:sensus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:machina",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 20
+      }
     ]
   }
 }

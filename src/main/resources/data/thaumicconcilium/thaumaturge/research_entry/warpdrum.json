@@ -1,0 +1,52 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.warpdrum.title",
+  "parents": [
+    "thaumicconcilium:thaumdrum",
+    "~thaumicconcilium:hex_of_predictability"
+  ],
+  "column": -5,
+  "row": 7,
+  "icons": [
+    "thaumicconcilium:warped_drum"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.warpdrum.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.warpdrum.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 8
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:bestia",
+      "amount": 4
+    }
+  ],
+  "complexity": 2
+}

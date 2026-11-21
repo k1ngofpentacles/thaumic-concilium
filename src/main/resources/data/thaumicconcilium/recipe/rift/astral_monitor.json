@@ -1,0 +1,25 @@
+{
+  "type": "thaumicconcilium:rift",
+  "catalyst": {
+    "item": "thaumaturge:thaumometer"
+  },
+  "aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 64
+    }
+  ],
+  "research": "thaumicconcilium:astral_monitor",
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:astral_monitor"
+  }
+}

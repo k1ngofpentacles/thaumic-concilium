@@ -76,3 +76,7 @@ side = "BOTH"
     versionRange="*"
     ordering="AFTER"
     side="BOTH"
+
+# Accessor for the private aspect list of Thaumaturge crucibles (Quicksilver Reactor).
+[[mixins]]
+config = "thaumicconcilium.mixins.json"

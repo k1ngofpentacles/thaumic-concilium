@@ -15,6 +15,9 @@ public final class TCRecipes {
     public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<MembraneRecipe>> NETHER_MEMBRANE =
             SERIALIZERS.register("nether_membrane", () -> new SimpleCraftingRecipeSerializer<>(MembraneRecipe::new));
 
+    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<dev.movingcastle.thaumicconcilium.item.XylographyRecipe>> XYLOGRAPHY =
+            SERIALIZERS.register("xylography", () -> new SimpleCraftingRecipeSerializer<>(dev.movingcastle.thaumicconcilium.item.XylographyRecipe::new));
+
     public static final DeferredHolder<RecipeSerializer<?>, dev.movingcastle.thaumicconcilium.recipe.RiftRecipe.Serializer> RIFT =
             SERIALIZERS.register("rift", dev.movingcastle.thaumicconcilium.recipe.RiftRecipe.Serializer::new);
 

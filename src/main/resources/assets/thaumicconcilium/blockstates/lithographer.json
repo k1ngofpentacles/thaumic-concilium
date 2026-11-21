@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "thaumicconcilium:block/lithographer"
+    },
+    "axis=z": {
+      "model": "thaumicconcilium:block/lithographer"
+    }
+  }
+}

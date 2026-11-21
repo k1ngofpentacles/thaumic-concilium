@@ -1,0 +1,36 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.xylography.title",
+  "parents": [
+    "thaumicconcilium:concilium"
+  ],
+  "column": -2,
+  "row": -3,
+  "icons": [
+    "thaumaturge:wand"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.xylography.stage_0"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 1
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "round",
+    "autounlock"
+  ]
+}
