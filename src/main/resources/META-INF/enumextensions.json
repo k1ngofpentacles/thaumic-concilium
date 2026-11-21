@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "THAUMICCONCILIUM_MILL_CRANK",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "dev/movingcastle/thaumicconcilium/client/MillArmPose",
+        "field": "CRANK"
+      }
+    }
+  ]
+}

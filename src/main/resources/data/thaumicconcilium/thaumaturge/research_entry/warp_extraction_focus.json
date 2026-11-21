@@ -1,0 +1,55 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.warp_extraction_focus.title",
+  "parents": [
+    "thaumicconcilium:ring_of_blustering_light",
+    "thaumicconcilium:reflection_focus"
+  ],
+  "column": -4,
+  "row": 8,
+  "icons": [
+    "focus:thaumicconcilium:warp_extraction"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.warp_extraction_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 5
+    },
+    {
+      "text": "research.thaumicconcilium.warp_extraction_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/warp_extraction_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 2
+    }
+  ],
+  "complexity": 3
+}

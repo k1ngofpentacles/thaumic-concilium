@@ -1,0 +1,46 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.positive_burst_focus.title",
+  "parents": [
+    "thaumicconcilium:signal_focus",
+    "thaumaturge:focus_heal"
+  ],
+  "column": 0,
+  "row": 4,
+  "icons": [
+    "focus:thaumicconcilium:positive_burst"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.positive_burst_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.positive_burst_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/positive_burst_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 2
+    }
+  ],
+  "complexity": 3
+}

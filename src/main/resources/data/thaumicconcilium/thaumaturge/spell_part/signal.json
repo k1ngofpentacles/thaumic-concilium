@@ -1,0 +1,68 @@
+{
+  "aspect": "thaumaturge:ignis",
+  "behavior": {
+    "type": "thaumicconcilium:signal"
+  },
+  "color": 16765775,
+  "complexity": 2,
+  "icon": "thaumicconcilium:textures/foci/signal.png",
+  "research": {
+    "entry": "thaumicconcilium:signal_focus"
+  },
+  "settings": [
+    {
+      "key": "color",
+      "min": 0,
+      "max": 16,
+      "name": "spell.thaumicconcilium.setting.color",
+      "default": 1,
+      "labels": [
+        "spell.thaumicconcilium.value.signal.color.black",
+        "spell.thaumicconcilium.value.signal.color.red",
+        "spell.thaumicconcilium.value.signal.color.green",
+        "spell.thaumicconcilium.value.signal.color.brown",
+        "spell.thaumicconcilium.value.signal.color.blue",
+        "spell.thaumicconcilium.value.signal.color.purple",
+        "spell.thaumicconcilium.value.signal.color.cyan",
+        "spell.thaumicconcilium.value.signal.color.light_gray",
+        "spell.thaumicconcilium.value.signal.color.gray",
+        "spell.thaumicconcilium.value.signal.color.pink",
+        "spell.thaumicconcilium.value.signal.color.lime",
+        "spell.thaumicconcilium.value.signal.color.yellow",
+        "spell.thaumicconcilium.value.signal.color.light_blue",
+        "spell.thaumicconcilium.value.signal.color.magenta",
+        "spell.thaumicconcilium.value.signal.color.orange",
+        "spell.thaumicconcilium.value.signal.color.white",
+        "spell.thaumicconcilium.value.signal.color.chaos"
+      ]
+    },
+    {
+      "key": "shape",
+      "min": 0,
+      "max": 5,
+      "name": "spell.thaumicconcilium.setting.shape",
+      "default": 0,
+      "complexity": 1.0,
+      "labels": [
+        "spell.thaumicconcilium.value.signal.shape.small_ball",
+        "spell.thaumicconcilium.value.signal.shape.large_ball",
+        "spell.thaumicconcilium.value.signal.shape.star",
+        "spell.thaumicconcilium.value.signal.shape.creeper",
+        "spell.thaumicconcilium.value.signal.shape.burst",
+        "spell.thaumicconcilium.value.signal.shape.random"
+      ]
+    },
+    {
+      "key": "flashbang",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.flashbang",
+      "default": 0,
+      "complexity": 3.0,
+      "labels": [
+        "spell.thaumicconcilium.value.signal.flashbang.off",
+        "spell.thaumicconcilium.value.signal.flashbang.on"
+      ]
+    }
+  ]
+}

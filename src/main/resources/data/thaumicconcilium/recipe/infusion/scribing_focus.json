@@ -1,0 +1,95 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 192
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 128
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:focus_1"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "forbiddenmagic:crystalwell"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ordo"
+        }
+      }
+    },
+    {
+      "item": "minecraft:glowstone"
+    },
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "item": "thaumaturge:curio_knowledge"
+    },
+    {
+      "item": "thaumaturgetinker:dark_quartz"
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:scribing_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "channeled",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumaturge:beam",
+              "settings": {
+                "range": 8
+              },
+              "children": [
+                {
+                  "part": "thaumicconcilium:scribing"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.scribing_focus.title\"}]}"
+    }
+  }
+}

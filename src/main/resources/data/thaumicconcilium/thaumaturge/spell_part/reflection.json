@@ -1,0 +1,37 @@
+{
+  "aspect": "thaumaturge:cognitio",
+  "behavior": {
+    "type": "thaumicconcilium:reflection"
+  },
+  "color": 8276904,
+  "complexity": 6,
+  "icon": "thaumicconcilium:textures/foci/reflection.png",
+  "research": {
+    "entry": "thaumicconcilium:reflection_focus"
+  },
+  "vis": 1.0,
+  "max_per_spell": 1,
+  "settings": [
+    {
+      "key": "potency",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.potency",
+      "default": 0,
+      "complexity": 2.0,
+      "vis": 0.5
+    },
+    {
+      "key": "mode",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.mode",
+      "default": 0,
+      "complexity": 4.0,
+      "labels": [
+        "spell.thaumicconcilium.value.reflection.mode.experience",
+        "spell.thaumicconcilium.value.reflection.mode.oblivion"
+      ]
+    }
+  ]
+}

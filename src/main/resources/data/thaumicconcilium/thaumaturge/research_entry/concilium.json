@@ -1,0 +1,38 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.concilium.title",
+  "parents": [
+    "thaumaturge:base_auromancy"
+  ],
+  "column": 0,
+  "row": 0,
+  "icons": [
+    "thaumicconcilium:textures/category.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.concilium.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.concilium.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 2
+    }
+  ],
+  "complexity": 1
+}

@@ -1,0 +1,71 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 32
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:log_silverwood"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:wand_rod_silverwood"
+    },
+    {
+      "item": "thaumaturge:filter"
+    },
+    {
+      "item": "thaumaturge:ingot_thaumium"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:wand_cap_thaumium"
+    },
+    {
+      "item": "thaumaturge:filter"
+    },
+    {
+      "item": "thaumaturge:ingot_thaumium"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:silverwood_shard_mill",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:silverwood_shard_mill"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.scribing_focus.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "thaumaturge:runic_shielding",
+    "thaumaturge:focus_ward",
+    "~thaumaturgetinker:bright_nitor"
+  ],
+  "column": 3,
+  "row": 2,
+  "icons": [
+    "focus:thaumicconcilium:scribing"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.scribing_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.scribing_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/scribing_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 2
+    }
+  ],
+  "complexity": 3
+}

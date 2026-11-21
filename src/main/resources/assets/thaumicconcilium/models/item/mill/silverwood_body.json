@@ -1,0 +1,10 @@
+{
+  "loader": "neoforge:obj",
+  "model": "thaumicconcilium:models/item/shard_mill_body.obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "textures": {
+    "mill": "thaumicconcilium:item/silverwood_shard_mill",
+    "particle": "thaumicconcilium:item/silverwood_shard_mill"
+  }
+}

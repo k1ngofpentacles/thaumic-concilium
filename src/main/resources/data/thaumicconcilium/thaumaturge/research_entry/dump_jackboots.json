@@ -1,0 +1,50 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.dump_jackboots.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "~thaumaturge:boots_traveller"
+  ],
+  "column": -2,
+  "row": 9,
+  "icons": [
+    "thaumicconcilium:dump_jackboots"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.dump_jackboots.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.dump_jackboots.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/dump_jackboots"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:fabrico",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 1
+    }
+  ],
+  "complexity": 2
+}

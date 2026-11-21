@@ -1,0 +1,57 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.ring_of_blustering_light.title",
+  "parents": [
+    "thaumicconcilium:primordial_life",
+    "~thaumaturge:runic_shielding",
+    "~thaumaturge:primordial_pearl",
+    "~thaumaturgetinker:ichor"
+  ],
+  "column": -6,
+  "row": 6,
+  "icons": [
+    "thaumicconcilium:ring_of_blustering_light"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.ring_of_blustering_light.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.ring_of_blustering_light.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/ring_of_blustering_light"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:lux",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 2
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 2
+    }
+  ],
+  "complexity": 3
+}

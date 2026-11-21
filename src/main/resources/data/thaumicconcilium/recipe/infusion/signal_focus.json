@@ -1,0 +1,108 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 16
+    },
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:lux",
+      "amount": 16
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:focus_1"
+  },
+  "components": [
+    {
+      "tag": "c:dyes/white"
+    },
+    {
+      "tag": "c:dyes/orange"
+    },
+    {
+      "tag": "c:dyes/magenta"
+    },
+    {
+      "tag": "c:dyes/light_blue"
+    },
+    {
+      "tag": "c:dyes/yellow"
+    },
+    {
+      "tag": "c:dyes/lime"
+    },
+    {
+      "tag": "c:dyes/pink"
+    },
+    {
+      "tag": "c:dyes/gray"
+    },
+    {
+      "tag": "c:dyes/light_gray"
+    },
+    {
+      "tag": "c:dyes/cyan"
+    },
+    {
+      "tag": "c:dyes/purple"
+    },
+    {
+      "tag": "c:dyes/blue"
+    },
+    {
+      "tag": "c:dyes/brown"
+    },
+    {
+      "tag": "c:dyes/green"
+    },
+    {
+      "tag": "c:dyes/red"
+    },
+    {
+      "tag": "c:dyes/black"
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:signal_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "instant",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:compressed_blast",
+              "settings": {
+                "fuse": 1
+              },
+              "children": [
+                {
+                  "part": "thaumicconcilium:signal",
+                  "settings": {
+                    "color": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.signal_focus.title\"}]}"
+    }
+  }
+}

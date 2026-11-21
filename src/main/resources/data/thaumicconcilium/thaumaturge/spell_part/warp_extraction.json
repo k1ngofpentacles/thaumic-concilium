@@ -1,0 +1,46 @@
+{
+  "aspect": "thaumaturge:alienis",
+  "behavior": {
+    "type": "thaumicconcilium:warp_extraction"
+  },
+  "color": 6095211,
+  "complexity": 7,
+  "icon": "thaumicconcilium:textures/foci/warp_extraction.png",
+  "research": {
+    "entry": "thaumicconcilium:warp_extraction_focus"
+  },
+  "vis": 1.6,
+  "max_per_spell": 1,
+  "settings": [
+    {
+      "key": "potency",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.potency",
+      "default": 0,
+      "complexity": 3.0,
+      "vis": 0.5
+    },
+    {
+      "key": "reach",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.reach",
+      "default": 0,
+      "complexity": 1.0
+    },
+    {
+      "key": "mode",
+      "min": 0,
+      "max": 2,
+      "name": "spell.thaumicconcilium.setting.mode",
+      "default": 0,
+      "complexity": 4.0,
+      "labels": [
+        "spell.thaumicconcilium.value.warp_extraction.mode.none",
+        "spell.thaumicconcilium.value.warp_extraction.mode.mass_hysteria",
+        "spell.thaumicconcilium.value.warp_extraction.mode.self_flagellation"
+      ]
+    }
+  ]
+}

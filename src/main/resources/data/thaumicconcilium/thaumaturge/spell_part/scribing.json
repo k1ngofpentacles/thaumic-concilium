@@ -1,0 +1,24 @@
+{
+  "aspect": "thaumaturge:praemunio",
+  "behavior": {
+    "type": "thaumicconcilium:scribing"
+  },
+  "color": 9087231,
+  "complexity": 4,
+  "icon": "thaumicconcilium:textures/foci/scribing.png",
+  "research": {
+    "entry": "thaumicconcilium:scribing_focus"
+  },
+  "vis": 2.0,
+  "settings": [
+    {
+      "key": "potency",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.potency",
+      "default": 0,
+      "complexity": 2.0,
+      "vis": 0.5
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev' version '2.0.136'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = "${mod_id}-${mod_version}-neoforge-${minecraft_version}"
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    maven {
+        url = 'https://cursemaven.com'
+        content { includeGroup 'curse.maven' }
+    }
+}
+
+neoForge {
+    version = project.neo_version
+
+    runs {
+        client { client() }
+        server { server() }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    // Thaumaturge (and the other pack jars) are All Rights Reserved or third-party:
+    // compile against them, never shade or commit them. Drop the jars into libs/.
+    compileOnly fileTree(dir: 'libs', include: '*.jar')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+    options.compilerArgs << '-proc:none'
+}
+
+jar {
+    from('LICENSE') { rename { "LICENSE_${mod_id}" } }
+    from('CREDITS.md') { rename { "CREDITS_${mod_id}.md" } }
+    manifest {
+        attributes([
+                'Implementation-Title'  : 'Thaumic Concilium',
+                'Implementation-Version': mod_version,
+                'Implementation-Vendor' : 'k1ngofpentacles',
+        ])
+    }
+}

@@ -1,0 +1,46 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.cooling_focus.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "thaumaturge:focus_elemental"
+  ],
+  "column": -3,
+  "row": 4,
+  "icons": [
+    "focus:thaumicconcilium:flurry"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.cooling_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.cooling_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/cooling_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:gelum",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

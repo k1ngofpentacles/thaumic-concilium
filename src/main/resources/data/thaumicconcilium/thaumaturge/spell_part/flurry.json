@@ -1,0 +1,26 @@
+{
+  "aspect": "thaumaturge:gelum",
+  "behavior": {
+    "type": "thaumicconcilium:flurry"
+  },
+  "color": 12578815,
+  "complexity": 3,
+  "icon": "thaumicconcilium:textures/foci/flurry.png",
+  "research": {
+    "entry": "thaumicconcilium:cooling_focus"
+  },
+  "settings": [
+    {
+      "key": "shot",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.shot",
+      "default": 0,
+      "complexity": 3.0,
+      "labels": [
+        "spell.thaumicconcilium.value.flurry.shot.snowball",
+        "spell.thaumicconcilium.value.flurry.shot.frost_shard"
+      ]
+    }
+  ]
+}

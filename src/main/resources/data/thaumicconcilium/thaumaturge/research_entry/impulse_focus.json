@@ -1,0 +1,45 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.impulse_focus.title",
+  "parents": [
+    "thaumicconcilium:signal_focus"
+  ],
+  "column": 2,
+  "row": 4,
+  "icons": [
+    "focus:thaumicconcilium:impulse"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.impulse_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.impulse_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/impulse_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 3
+    },
+    {
+      "aspect": "forbiddenmagic:ira",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 3
+    }
+  ],
+  "complexity": 2
+}

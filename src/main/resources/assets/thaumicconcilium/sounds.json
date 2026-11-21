@@ -1,0 +1,251 @@
+{
+  "thump": {
+    "subtitle": "subtitles.thaumicconcilium.thump",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:thump",
+        "stream": false
+      }
+    ]
+  },
+  "stab": {
+    "subtitle": "subtitles.thaumicconcilium.stab",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:stab",
+        "stream": false
+      }
+    ]
+  },
+  "pull": {
+    "subtitle": "subtitles.thaumicconcilium.pull",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:pull",
+        "stream": false
+      }
+    ]
+  },
+  "ira": {
+    "subtitle": "subtitles.thaumicconcilium.ira",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:ira",
+        "stream": false
+      }
+    ]
+  },
+  "whispers": {
+    "subtitle": "subtitles.thaumicconcilium.whispers",
+    "sounds": [
+      "thaumicconcilium:whispers"
+    ]
+  },
+  "hum": {
+    "subtitle": "subtitles.thaumicconcilium.hum",
+    "sounds": [
+      "thaumicconcilium:hum"
+    ]
+  },
+  "bubbles": {
+    "subtitle": "subtitles.thaumicconcilium.bubbles",
+    "sounds": [
+      "thaumicconcilium:bubbles"
+    ]
+  },
+  "mill": {
+    "subtitle": "subtitles.thaumicconcilium.mill",
+    "sounds": [
+      "thaumicconcilium:mill"
+    ]
+  },
+  "shard_drop": {
+    "subtitle": "subtitles.thaumicconcilium.shard_drop",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:shard_drop1",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:shard_drop2",
+        "stream": false
+      }
+    ]
+  },
+  "gnaw": {
+    "subtitle": "subtitles.thaumicconcilium.gnaw",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:gnaw1",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:gnaw2",
+        "stream": false
+      }
+    ]
+  },
+  "melted": {
+    "subtitle": "subtitles.thaumicconcilium.melted",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:melted1",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:melted2",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:melted3",
+        "stream": false
+      }
+    ]
+  },
+  "sad": {
+    "subtitle": "subtitles.thaumicconcilium.sad",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:sad1",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:sad2",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:sad3",
+        "stream": false
+      }
+    ]
+  },
+  "clack": {
+    "subtitle": "subtitles.thaumicconcilium.clack",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:clack",
+        "stream": false
+      }
+    ]
+  },
+  "uagh": {
+    "subtitle": "subtitles.thaumicconcilium.uagh",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:uagh",
+        "stream": false
+      }
+    ]
+  },
+  "spell": {
+    "subtitle": "subtitles.thaumicconcilium.spell",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:spell1",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:spell2",
+        "stream": false
+      }
+    ]
+  },
+  "speech": {
+    "subtitle": "subtitles.thaumicconcilium.speech",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:speech1",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:speech2",
+        "stream": false
+      }
+    ]
+  },
+  "think": {
+    "subtitle": "subtitles.thaumicconcilium.think",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:think1",
+        "stream": false
+      },
+      {
+        "name": "thaumicconcilium:think2",
+        "stream": false
+      }
+    ]
+  },
+  "growl": {
+    "subtitle": "subtitles.thaumicconcilium.growl",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:growl",
+        "stream": false
+      }
+    ]
+  },
+  "chant": {
+    "subtitle": "subtitles.thaumicconcilium.chant",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:chant",
+        "stream": false
+      }
+    ]
+  },
+  "gargle_many": {
+    "subtitle": "subtitles.thaumicconcilium.gargle_many",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:gargle_many",
+        "stream": false
+      }
+    ]
+  },
+  "gargle_one": {
+    "subtitle": "subtitles.thaumicconcilium.gargle_one",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:gargle_one",
+        "stream": false
+      }
+    ]
+  },
+  "gargle_pain": {
+    "subtitle": "subtitles.thaumicconcilium.gargle_pain",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:gargle_pain",
+        "stream": false
+      }
+    ]
+  },
+  "shackles": {
+    "subtitle": "subtitles.thaumicconcilium.shackles",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:shackles",
+        "stream": false
+      }
+    ]
+  },
+  "shackles_throw": {
+    "subtitle": "subtitles.thaumicconcilium.shackles_throw",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:shackles_throw",
+        "stream": false
+      }
+    ]
+  },
+  "breath": {
+    "subtitle": "subtitles.thaumicconcilium.breath",
+    "sounds": [
+      {
+        "name": "thaumicconcilium:breath",
+        "stream": false
+      }
+    ]
+  }
+}

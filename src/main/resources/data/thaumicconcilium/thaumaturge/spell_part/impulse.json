@@ -1,0 +1,36 @@
+{
+  "aspect": "thaumaturge:perditio",
+  "behavior": {
+    "type": "thaumicconcilium:impulse"
+  },
+  "color": 16742940,
+  "complexity": 8,
+  "icon": "thaumicconcilium:textures/foci/impulse.png",
+  "research": {
+    "entry": "thaumicconcilium:impulse_focus"
+  },
+  "vis": 4.0,
+  "settings": [
+    {
+      "key": "potency",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.potency",
+      "default": 0,
+      "complexity": 3.0,
+      "vis": 1.0
+    },
+    {
+      "key": "mode",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.mode",
+      "default": 0,
+      "complexity": 2.0,
+      "labels": [
+        "spell.thaumicconcilium.value.impulse.mode.blast",
+        "spell.thaumicconcilium.value.impulse.mode.pneumatic"
+      ]
+    }
+  ]
+}

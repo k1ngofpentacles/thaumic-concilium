@@ -1,0 +1,71 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "MIT (port code); WTFPL (original Thaumic Concilium and Forbidden Magic material) - see CREDITS"
+issueTrackerURL = "https://github.com/k1ngofpentacles/thaumic-concilium/issues"
+
+[[mods]]
+modId = "thaumicconcilium"
+version = "${file.jarVersion}"
+displayName = "Thaumic Concilium (Thaumaturge port)"
+displayURL = "https://github.com/k1ngofpentacles/thaumic-concilium"
+logoFile = "conc_logo.png"
+# Adds the THAUMICCONCILIUM_MILL_CRANK arm pose (Shard Mill grinding, client only).
+enumExtensions = "META-INF/enumextensions.json"
+authors = "k1ngofpentacles; original by Ilya3000 and BreadX22"
+credits = "Port of Ilya3000's Thaumic Concilium (WTFPL). Sin aspects from SpitefulFox's Forbidden Magic (WTFPL). Built for Thaumaturge by Leclowndu93150 and contributors; not affiliated with or endorsed by any of them."
+description = '''
+How thaumaturgy shapes a society: rival and maddened thaumaturges, the Crimson Cult's lost Pontifex,
+flux rifts and subspace, flesh alchemy, and thirteen foci rebuilt as Thaumaturge spell parts.
+'''
+
+[[dependencies.thaumicconcilium]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.thaumicconcilium]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.22)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.thaumicconcilium]]
+modId = "thaumaturge"
+type = "required"
+versionRange = "[1.1,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.thaumicconcilium]]
+modId = "curios"
+type = "required"
+versionRange = "[9.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.thaumicconcilium]]
+modId = "thaumadditions"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+# The original Concilium required Thaumic Tinkerer; its 1.21.1 counterpart is Thaumaturge Tinker (kajitsy, MIT).
+[[dependencies.thaumicconcilium]]
+modId = "thaumaturgetinker"
+type = "required"
+versionRange = "[1.1.3,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# The original Concilium required Forbidden Magic; here that is Forbidden Magic (Thaumaturge), which provides the sin
+# aspects, the deadly shards and the crystalwell.
+[[dependencies.thaumicconcilium]]
+modId = "forbiddenmagic"
+type = "required"
+versionRange = "[2.0,)"
+ordering = "AFTER"
+side = "BOTH"

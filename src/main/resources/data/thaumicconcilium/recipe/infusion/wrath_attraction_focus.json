@@ -1,0 +1,90 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "forbiddenmagic:ira",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:bestia",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumadditions:infernum",
+      "amount": 128
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:focus_1"
+  },
+  "components": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "forbiddenmagic:wrath_shard"
+    },
+    {
+      "item": "forbiddenmagic:wrath_shard"
+    },
+    {
+      "item": "forbiddenmagic:wrath_shard"
+    },
+    {
+      "item": "thaumaturgetinker:dark_quartz"
+    },
+    {
+      "item": "thaumaturgetinker:dark_quartz"
+    },
+    {
+      "item": "thaumaturgetinker:dark_quartz"
+    },
+    {
+      "item": "forbiddenmagic:wrath_shard"
+    },
+    {
+      "item": "forbiddenmagic:wrath_shard"
+    },
+    {
+      "item": "forbiddenmagic:wrath_shard"
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:wrath_attraction_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "instant",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:wrath_attraction"
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.wrath_attraction_focus.title\"}]}",
+      "thaumaturge:warp": 3
+    }
+  }
+}

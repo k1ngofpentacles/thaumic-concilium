@@ -1,0 +1,50 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.alchemist_spree_focus.title",
+  "parents": [
+    "thaumicconcilium:ring_of_blustering_light",
+    "thaumaturge:thaumatorium"
+  ],
+  "column": -6,
+  "row": 8,
+  "icons": [
+    "focus:thaumicconcilium:alchemist_spree"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.alchemist_spree_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.alchemist_spree_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/alchemist_spree_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:fabrico",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 1
+    }
+  ],
+  "complexity": 3
+}

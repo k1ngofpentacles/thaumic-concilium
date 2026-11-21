@@ -1,0 +1,145 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "thaumaturgetinker:ichor"
+    }
+  ],
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:lux",
+      "amount": 512
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 512
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 96
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturgetinker:focus_shadowbeam"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:primordial_pearl"
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "item": "thaumicconcilium:primordial_life"
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ignis"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ignis"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ignis"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ignis"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ignis"
+        }
+      }
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:spotlight_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "channeled",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumaturge:beam",
+              "settings": {
+                "range": 24
+              },
+              "children": [
+                {
+                  "part": "thaumicconcilium:spotlight"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.spotlight_focus.title\"}]}"
+    }
+  }
+}

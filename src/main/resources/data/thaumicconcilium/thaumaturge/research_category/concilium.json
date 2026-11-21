@@ -1,0 +1,33 @@
+{
+  "background": "thaumicconcilium:textures/researchback.png",
+  "overlay_background": "thaumaturge:textures/gui/gui_research_back_over.png",
+  "icon": "thaumicconcilium:textures/category.png",
+  "index": 20,
+  "required_research": "thaumaturge:base_auromancy",
+  "formula": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 20
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 10
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 10
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 5
+    },
+    {
+      "aspect": "forbiddenmagic:ira",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 5
+    }
+  ]
+}

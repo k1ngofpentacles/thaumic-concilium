@@ -1,0 +1,51 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.wrath_attraction_focus.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "thaumaturge:focus_curse"
+  ],
+  "column": 2,
+  "row": 6,
+  "icons": [
+    "focus:thaumicconcilium:wrath_attraction"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.wrath_attraction_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.wrath_attraction_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/wrath_attraction_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "forbiddenmagic:ira",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:bestia",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 3
+    }
+  ],
+  "complexity": 3
+}

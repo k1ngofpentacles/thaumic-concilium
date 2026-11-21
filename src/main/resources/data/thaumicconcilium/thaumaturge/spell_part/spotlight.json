@@ -1,0 +1,37 @@
+{
+  "aspect": "thaumaturge:lux",
+  "behavior": {
+    "type": "thaumicconcilium:spotlight"
+  },
+  "color": 16776960,
+  "complexity": 8,
+  "icon": "thaumicconcilium:textures/foci/spotlight.png",
+  "research": {
+    "entry": "thaumicconcilium:spotlight_focus"
+  },
+  "vis": 6.0,
+  "settings": [
+    {
+      "key": "potency",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.potency",
+      "default": 0,
+      "complexity": 3.0,
+      "vis": 1.0
+    },
+    {
+      "key": "mode",
+      "min": 0,
+      "max": 2,
+      "name": "spell.thaumicconcilium.setting.mode",
+      "default": 0,
+      "complexity": 3.0,
+      "labels": [
+        "spell.thaumicconcilium.value.spotlight.mode.searing",
+        "spell.thaumicconcilium.value.spotlight.mode.warming",
+        "spell.thaumicconcilium.value.spotlight.mode.purification"
+      ]
+    }
+  ]
+}

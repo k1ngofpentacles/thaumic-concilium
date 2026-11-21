@@ -1,0 +1,101 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumaturge:mortuus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 16
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:thaumostatic_harness"
+  },
+  "components": [
+    {
+      "item": "thaumicconcilium:bottle_of_thick_taint"
+    },
+    {
+      "item": "thaumicconcilium:bottle_of_thick_taint"
+    },
+    {
+      "item": "thaumaturge:tainted_goo"
+    },
+    {
+      "item": "thaumaturge:tainted_goo"
+    },
+    {
+      "item": "thaumaturge:tainted_goo"
+    },
+    {
+      "item": "thaumaturge:tainted_goo"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "thaumicconcilium:bottle_of_thick_taint"
+    },
+    {
+      "item": "thaumicconcilium:bottle_of_thick_taint"
+    },
+    {
+      "item": "thaumicconcilium:bottle_of_thick_taint"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "thaumaturge:taint_tendril"
+    },
+    {
+      "item": "thaumaturge:taint_tendril"
+    },
+    {
+      "item": "thaumaturge:taint_tendril"
+    },
+    {
+      "item": "thaumaturge:taint_tendril"
+    },
+    {
+      "item": "thaumicconcilium:bottle_of_thick_taint"
+    }
+  ],
+  "instability": 3,
+  "research": {
+    "entry": "thaumicconcilium:tight_belt",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:tight_belt"
+  }
+}

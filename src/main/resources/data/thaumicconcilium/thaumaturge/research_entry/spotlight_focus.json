@@ -1,0 +1,50 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.spotlight_focus.title",
+  "parents": [
+    "thaumicconcilium:ring_of_blustering_light",
+    "thaumaturge:focus_beam"
+  ],
+  "column": -8,
+  "row": 8,
+  "icons": [
+    "focus:thaumicconcilium:spotlight"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.spotlight_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.spotlight_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/spotlight_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:lux",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

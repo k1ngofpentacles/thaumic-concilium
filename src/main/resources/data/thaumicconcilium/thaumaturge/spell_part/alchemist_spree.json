@@ -1,0 +1,38 @@
+{
+  "aspect": "thaumaturge:permutatio",
+  "behavior": {
+    "type": "thaumicconcilium:alchemist_spree"
+  },
+  "color": 6737066,
+  "complexity": 6,
+  "icon": "thaumicconcilium:textures/foci/alchemist_spree.png",
+  "research": {
+    "entry": "thaumicconcilium:alchemist_spree_focus"
+  },
+  "vis": 3.0,
+  "max_per_spell": 1,
+  "settings": [
+    {
+      "key": "potency",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.potency",
+      "default": 0,
+      "complexity": 2.0,
+      "vis": 0.5
+    },
+    {
+      "key": "primal",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.primal",
+      "default": 0,
+      "complexity": 4.0,
+      "vis": 1.0,
+      "labels": [
+        "spell.thaumicconcilium.value.alchemist_spree.primal.off",
+        "spell.thaumicconcilium.value.alchemist_spree.primal.on"
+      ]
+    }
+  ]
+}

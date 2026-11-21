@@ -1,0 +1,112 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 128
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 64
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturgetinker:focus_xp_drain"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:thaumonomicon"
+    },
+    {
+      "item": "thaumaturge:thaumonomicon"
+    },
+    {
+      "item": "thaumaturge:scribing_tools"
+    },
+    {
+      "item": "thaumaturge:scribing_tools"
+    },
+    {
+      "item": "thaumaturge:scribing_tools"
+    },
+    {
+      "item": "thaumaturge:sanity_soap"
+    },
+    {
+      "item": "thaumaturge:sanity_soap"
+    },
+    {
+      "item": "thaumaturge:sanity_soap"
+    },
+    {
+      "item": "thaumaturge:mirrored_glass"
+    },
+    {
+      "item": "thaumaturge:mirrored_glass"
+    },
+    {
+      "item": "thaumaturge:mirrored_glass"
+    },
+    {
+      "item": "forbiddenmagic:crystalwell"
+    },
+    {
+      "item": "forbiddenmagic:crystalwell"
+    },
+    {
+      "item": "forbiddenmagic:crystalwell"
+    },
+    {
+      "item": "thaumaturge:purifying_bucket"
+    },
+    {
+      "item": "thaumaturge:purifying_bucket"
+    },
+    {
+      "item": "thaumaturge:purifying_bucket"
+    },
+    {
+      "item": "thaumaturge:thaumonomicon"
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:reflection_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "channeled",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:reflection"
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.reflection_focus.title\"}]}",
+      "thaumaturge:warp": 4
+    }
+  }
+}

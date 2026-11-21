@@ -1,0 +1,19 @@
+{
+  "type": "thaumaturge:crucible",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 1
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:phial"
+  },
+  "research": {
+    "entry": "thaumicconcilium:bottle_of_clear_water"
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:bottle_of_clear_water"
+  }
+}

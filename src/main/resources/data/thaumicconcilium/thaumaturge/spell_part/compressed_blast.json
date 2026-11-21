@@ -1,0 +1,36 @@
+{
+  "aspect": "thaumaturge:potentia",
+  "behavior": {
+    "type": "thaumicconcilium:compressed_blast"
+  },
+  "color": 16773824,
+  "complexity": 4,
+  "icon": "thaumicconcilium:textures/foci/compressed_blast.png",
+  "research": {
+    "entry": "thaumicconcilium:signal_focus"
+  },
+  "sound": "thaumicconcilium:thump",
+  "settings": [
+    {
+      "key": "fuse",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.fuse",
+      "default": 0,
+      "complexity": 1.0
+    },
+    {
+      "key": "draw",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.draw",
+      "default": 0,
+      "complexity": 6.0,
+      "vis": 1.0,
+      "labels": [
+        "spell.thaumicconcilium.value.compressed_blast.draw.none",
+        "spell.thaumicconcilium.value.compressed_blast.draw.vacuum"
+      ]
+    }
+  ]
+}

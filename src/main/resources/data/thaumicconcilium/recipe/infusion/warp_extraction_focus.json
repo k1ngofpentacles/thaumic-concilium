@@ -1,0 +1,122 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "thaumaturgetinker:ichor"
+    }
+  ],
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:spiritus",
+      "amount": 32
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:primordial_pearl"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:eldritch_eye"
+    },
+    {
+      "item": "thaumaturge:curio_knowledge"
+    },
+    {
+      "item": "thaumaturgetinker:focus_telekinesis"
+    },
+    {
+      "item": "thaumaturgetinker:focus_telekinesis"
+    },
+    {
+      "item": "thaumaturgetinker:focus_telekinesis"
+    },
+    {
+      "item": "forbiddenmagic:crystalwell"
+    },
+    {
+      "item": "forbiddenmagic:crystalwell"
+    },
+    {
+      "item": "forbiddenmagic:crystalwell"
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "item": "thaumicconcilium:primordial_life"
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "item": "minecraft:experience_bottle"
+    },
+    {
+      "item": "minecraft:experience_bottle"
+    },
+    {
+      "item": "minecraft:experience_bottle"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:curio_knowledge"
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:warp_extraction_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "channeled",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:warp_extraction"
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.warp_extraction_focus.title\"}]}",
+      "thaumaturge:warp": 5
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "aspect": "thaumaturge:vitium",
+  "behavior": {
+    "type": "thaumicconcilium:taint_animation"
+  },
+  "color": 10243286,
+  "complexity": 7,
+  "icon": "thaumicconcilium:textures/foci/taint_animation.png",
+  "research": {
+    "entry": "thaumicconcilium:taint_animation_focus"
+  },
+  "vis": 2.5,
+  "settings": [
+    {
+      "key": "mode",
+      "min": 0,
+      "max": 2,
+      "name": "spell.thaumicconcilium.setting.mode",
+      "default": 0,
+      "labels": [
+        "spell.thaumicconcilium.value.taint_animation.mode.original",
+        "spell.thaumicconcilium.value.taint_animation.mode.animate",
+        "spell.thaumicconcilium.value.taint_animation.mode.command"
+      ]
+    },
+    {
+      "key": "reach",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.reach",
+      "default": 0,
+      "complexity": 1.0
+    },
+    {
+      "key": "potency",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.potency",
+      "default": 0,
+      "complexity": 2.0,
+      "vis": 0.5
+    },
+    {
+      "key": "vaporization",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.vaporization",
+      "default": 0,
+      "complexity": 3.0,
+      "vis": 0.5,
+      "labels": [
+        "spell.thaumicconcilium.value.taint_animation.vaporization.off",
+        "spell.thaumicconcilium.value.taint_animation.vaporization.on"
+      ]
+    },
+    {
+      "key": "manifestation",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.manifestation",
+      "default": 0,
+      "complexity": 3.0,
+      "vis": 0.3,
+      "labels": [
+        "spell.thaumicconcilium.value.taint_animation.manifestation.off",
+        "spell.thaumicconcilium.value.taint_animation.manifestation.on"
+      ]
+    }
+  ]
+}

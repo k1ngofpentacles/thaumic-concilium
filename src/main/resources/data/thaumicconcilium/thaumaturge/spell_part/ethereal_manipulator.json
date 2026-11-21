@@ -1,0 +1,23 @@
+{
+  "aspect": "thaumaturge:motus",
+  "behavior": {
+    "type": "thaumicconcilium:ethereal_manipulator"
+  },
+  "color": 16711935,
+  "complexity": 3,
+  "icon": "thaumicconcilium:textures/foci/ethereal_manipulator.png",
+  "research": {
+    "entry": "thaumicconcilium:ethereal_manipulator_focus"
+  },
+  "vis": 0.4,
+  "max_per_spell": 1,
+  "settings": [
+    {
+      "key": "distance",
+      "min": 1,
+      "max": 16,
+      "name": "spell.thaumicconcilium.setting.distance",
+      "default": 5
+    }
+  ]
+}

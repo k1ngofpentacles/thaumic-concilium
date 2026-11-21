@@ -1,0 +1,31 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.bottle_of_clear_water.title",
+  "parents": [
+    "thaumicconcilium:concilium"
+  ],
+  "column": 0,
+  "row": -6,
+  "icons": [
+    "thaumicconcilium:bottle_of_clear_water"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.bottle_of_clear_water.stage_0",
+      "recipes": [
+        "thaumicconcilium:crucible/bottle_of_clear_water"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 1
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "round",
+    "autounlock"
+  ]
+}

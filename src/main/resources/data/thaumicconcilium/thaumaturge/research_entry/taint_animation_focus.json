@@ -1,0 +1,48 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.taint_animation_focus.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "thaumaturge:flux",
+    "thaumaturge:focus_hellbat"
+  ],
+  "column": 4,
+  "row": 6,
+  "icons": [
+    "focus:thaumicconcilium:taint_animation"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.taint_animation_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 4
+    },
+    {
+      "text": "research.thaumicconcilium.taint_animation_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/taint_animation_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 2
+    }
+  ],
+  "complexity": 3
+}

@@ -1,0 +1,143 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "thaumaturgetinker:ichor"
+    }
+  ],
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 512
+    },
+    {
+      "aspect": "thaumaturge:lux",
+      "amount": 512
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 96
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 96
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:ring_fancy"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:primordial_pearl"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "forbiddenmagic:superbia"
+        }
+      }
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "forbiddenmagic:superbia"
+        }
+      }
+    },
+    {
+      "item": "thaumicconcilium:primordial_life"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "forbiddenmagic:superbia"
+        }
+      }
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "item": "thaumaturgetinker:gaseous_light_bottle"
+    },
+    {
+      "item": "thaumaturgetinker:gaseous_light_bottle"
+    },
+    {
+      "item": "thaumaturgetinker:gaseous_light_bottle"
+    },
+    {
+      "item": "forbiddenmagic:wrath_shard"
+    },
+    {
+      "item": "forbiddenmagic:pride_shard"
+    },
+    {
+      "item": "forbiddenmagic:greed_shard"
+    },
+    {
+      "item": "thaumaturgetinker:ichor"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "forbiddenmagic:superbia"
+        }
+      }
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:ring_of_blustering_light",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:ring_of_blustering_light"
+  }
+}

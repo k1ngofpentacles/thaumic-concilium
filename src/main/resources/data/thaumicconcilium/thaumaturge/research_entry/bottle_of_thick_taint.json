@@ -1,0 +1,47 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.bottle_of_thick_taint.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "thaumaturge:bottle_taint"
+  ],
+  "column": 3,
+  "row": -5,
+  "icons": [
+    "thaumicconcilium:bottle_of_thick_taint"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.bottle_of_thick_taint.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 2
+    },
+    {
+      "text": "research.thaumicconcilium.bottle_of_thick_taint.stage_1",
+      "recipes": [
+        "thaumicconcilium:crucible/bottle_of_thick_taint"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

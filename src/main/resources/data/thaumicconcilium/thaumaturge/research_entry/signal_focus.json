@@ -1,0 +1,46 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.signal_focus.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "thaumaturge:focus_projectile"
+  ],
+  "column": 0,
+  "row": 2,
+  "icons": [
+    "focus:thaumicconcilium:signal"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.signal_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.signal_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/signal_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 3
+    }
+  ],
+  "complexity": 1
+}

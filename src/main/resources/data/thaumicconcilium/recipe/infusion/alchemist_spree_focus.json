@@ -1,0 +1,121 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 512
+    },
+    {
+      "aspect": "thaumaturge:fabrico",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 512
+    },
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 128
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturgetinker:focus_deflect"
+  },
+  "components": [
+    {
+      "item": "thaumicconcilium:primordial_life"
+    },
+    {
+      "item": "thaumaturge:quicksilver"
+    },
+    {
+      "item": "thaumaturge:crucible"
+    },
+    {
+      "item": "thaumaturge:alembic"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ordo"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:alembic"
+    },
+    {
+      "item": "thaumaturge:crucible"
+    },
+    {
+      "item": "thaumaturge:advanced_alchemical_construct"
+    },
+    {
+      "item": "thaumaturge:primordial_pearl"
+    },
+    {
+      "item": "thaumaturge:quicksilver"
+    },
+    {
+      "item": "thaumaturge:crucible"
+    },
+    {
+      "item": "thaumaturge:alembic"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ordo"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:alembic"
+    },
+    {
+      "item": "thaumaturge:crucible"
+    },
+    {
+      "item": "thaumaturge:advanced_alchemical_construct"
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:alchemist_spree_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "channeled",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:alchemist_spree"
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.alchemist_spree_focus.title\"}]}"
+    }
+  }
+}

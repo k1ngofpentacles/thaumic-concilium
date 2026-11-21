@@ -1,0 +1,110 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumaturge:mortuus",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 128
+    },
+    {
+      "aspect": "forbiddenmagic:invidia",
+      "amount": 128
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:amulet_vis"
+  },
+  "components": [
+    {
+      "item": "minecraft:lodestone"
+    },
+    {
+      "item": "forbiddenmagic:envy_shard"
+    },
+    {
+      "item": "forbiddenmagic:envy_shard"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "forbiddenmagic:envy_shard"
+    },
+    {
+      "item": "forbiddenmagic:envy_shard"
+    },
+    {
+      "item": "minecraft:ender_eye"
+    },
+    {
+      "item": "forbiddenmagic:envy_shard"
+    },
+    {
+      "item": "forbiddenmagic:envy_shard"
+    },
+    {
+      "item": "thaumaturge:obsidian_totem"
+    },
+    {
+      "item": "forbiddenmagic:envy_shard"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:motus"
+        }
+      }
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:motus"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:volatus"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:crystal_aer"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:volatus"
+        }
+      }
+    }
+  ],
+  "instability": 3,
+  "research": {
+    "entry": "thaumicconcilium:burdening_amulet",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:burdening_amulet"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.runic_windings.title",
+  "parents": [
+    "thaumicconcilium:concilium",
+    "~thaumaturge:runic_shielding",
+    "~forbiddenmagic:crystalwell"
+  ],
+  "column": 3,
+  "row": -3,
+  "icons": [
+    "thaumicconcilium:runic_body_windings"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.runic_windings.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.runic_windings.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/runic_body_windings",
+        "thaumicconcilium:infusion/runic_legs_windings"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden"
+  ]
+}

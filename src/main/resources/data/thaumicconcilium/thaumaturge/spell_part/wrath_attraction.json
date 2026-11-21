@@ -1,0 +1,38 @@
+{
+  "aspect": "forbiddenmagic:ira",
+  "behavior": {
+    "type": "thaumicconcilium:wrath_attraction"
+  },
+  "color": 16729088,
+  "complexity": 6,
+  "icon": "thaumicconcilium:textures/foci/wrath_attraction.png",
+  "research": {
+    "entry": "thaumicconcilium:wrath_attraction_focus"
+  },
+  "vis": 6.0,
+  "sound": "thaumicconcilium:ira",
+  "cooldown_multiplier": 2.5,
+  "settings": [
+    {
+      "key": "reach",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.reach",
+      "default": 0,
+      "complexity": 1.5
+    },
+    {
+      "key": "burnout",
+      "min": 0,
+      "max": 1,
+      "name": "spell.thaumicconcilium.setting.burnout",
+      "default": 0,
+      "complexity": 4.0,
+      "vis": 2.0,
+      "labels": [
+        "spell.thaumicconcilium.value.wrath_attraction.burnout.off",
+        "spell.thaumicconcilium.value.wrath_attraction.burnout.on"
+      ]
+    }
+  ]
+}

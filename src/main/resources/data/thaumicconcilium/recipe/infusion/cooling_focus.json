@@ -1,0 +1,51 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 16
+    },
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 16
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 16
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturge:focus_1"
+  },
+  "components": [
+    {
+      "item": "minecraft:torch"
+    },
+    {
+      "item": "minecraft:torch"
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:cooling_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "channeled",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:flurry"
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.cooling_focus.title\"}]}"
+    }
+  }
+}

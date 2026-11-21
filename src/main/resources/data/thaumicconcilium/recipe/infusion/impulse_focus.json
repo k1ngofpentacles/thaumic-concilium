@@ -1,0 +1,115 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 128
+    },
+    {
+      "aspect": "forbiddenmagic:ira",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumaturge:vinculum",
+      "amount": 32
+    }
+  ],
+  "catalyst": {
+    "type": "neoforge:components",
+    "items": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "instant",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:compressed_blast",
+              "settings": {
+                "fuse": 1
+              },
+              "children": [
+                {
+                  "part": "thaumicconcilium:signal",
+                  "settings": {
+                    "color": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "components": [
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ignis"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:obsidian_totem"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:obsidian_totem"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:ignis"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:obsidian_totem"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:obsidian_totem"
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:impulse_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "instant",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:compressed_blast",
+              "children": [
+                {
+                  "part": "thaumicconcilium:impulse"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.impulse_focus.title\"}]}"
+    }
+  }
+}

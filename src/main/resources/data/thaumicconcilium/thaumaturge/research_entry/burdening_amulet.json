@@ -1,0 +1,55 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.burdening_amulet.title",
+  "parents": [
+    "thaumicconcilium:tight_belt",
+    "~thaumaturge:vis_amulet"
+  ],
+  "column": 7,
+  "row": -5,
+  "icons": [
+    "thaumicconcilium:burdening_amulet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.burdening_amulet.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.burdening_amulet.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/burdening_amulet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:mortuus",
+      "amount": 6
+    },
+    {
+      "aspect": "forbiddenmagic:invidia",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}
