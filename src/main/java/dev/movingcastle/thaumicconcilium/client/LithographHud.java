@@ -18,7 +18,7 @@ import net.minecraft.resources.ResourceLocation;
  * relieved, a hole into the astral drawn in the top left corner, a slowly turning star in it, and for each of the four
  * watched players their health, blood, mana and runic shielding as constellation glyphs. The original blinked the star
  * and the glyphs with a shader; here the blink is an alpha pulse. The original's dialBottom option (Thaumcraft's) is
- * ignored: it always draws at the top. The art is scaled down when the screen is small.
+ * ignored: it always draws at the top. The art is always drawn at the original's full size.
  */
 public final class LithographHud implements LayeredDraw.Layer {
     private static final ResourceLocation HOLE = ThaumicConcilium.id("textures/gui/astral_hole.png");
@@ -51,9 +51,7 @@ public final class LithographHud implements LayeredDraw.Layer {
         int blink = step <= 60 ? step : 120 - step;
         float pulse = 0.45F + 0.55F * (blink / 60.0F);
 
-        float scale = Math.min(1.0F, graphics.guiHeight() * 0.45F / HOLE_H);
         graphics.pose().pushPose();
-        graphics.pose().scale(scale, scale, 1.0F);
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);

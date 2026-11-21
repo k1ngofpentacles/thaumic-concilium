@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "thaumicconcilium:alchemist_spree",
+    "thaumicconcilium:ethereal_manipulator",
+    "thaumicconcilium:vis_conductor",
+    "thaumicconcilium:warp_extraction"
+  ]
+}

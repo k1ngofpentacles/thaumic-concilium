@@ -4,10 +4,7 @@
   "flip_v": true,
   "textures": {
     "body": "thaumicconcilium:item/astral_frame",
-    "pane": "thaumaturge:item/scanscreen",
+    "pane": "thaumicconcilium:item/astral_screen",
     "particle": "thaumicconcilium:item/astral_frame"
-  },
-  "translucent_slots": [
-    "pane"
-  ]
+  }
 }

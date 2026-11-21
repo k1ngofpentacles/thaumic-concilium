@@ -43,6 +43,16 @@ public final class TCConfig {
                     "overworld biome, as the original) goes ahead. 0 disables them; they are the Quicksilver Reactor's only source.")
             .defineInRange("mobs.quicksilverElementalSpawnChance", 100, 0, 100);
 
+    public static final ModConfigSpec.DoubleValue DRUM_RADIUS_MULTIPLIER = B
+            .comment("Drum stance (casting bracelet in the main hand, a drum in the off hand): while the drum is being played (the use key",
+                    "held) the area radius of the stance's cast is multiplied by this. Server-side. 1 turns the bonus off.")
+            .defineInRange("drum.drumRadiusMultiplier", 1.5, 1.0, 4.0);
+
+    public static final ModConfigSpec.DoubleValue DRUM_VIS_COST_MULTIPLIER = B
+            .comment("Drum stance: while the drum is being played, the vis cost of the stance's cast is multiplied by this. Server-side.",
+                    "A drum held silent casts at the plain wand cost.")
+            .defineInRange("drum.drumVisCostMultiplier", 1.5, 0.0, 10.0);
+
     public static final ModConfigSpec SPEC = B.build();
 
     private TCConfig() {

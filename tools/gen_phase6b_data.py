@@ -189,8 +189,7 @@ w(f'assets/{NS}/models/item/astral_monitor.json', {'parent': 'minecraft:builtin/
 # The body is Thaumaturge's scanner mesh (referenced, not copied) with the original's frame texture.
 w(f'assets/{NS}/models/item/astral_monitor_frame.json', {
     'loader': f'{T}:mesh', 'model': f'{T}:models/mesh/scanner.ttmesh', 'flip_v': True,
-    'textures': {'body': f'{NS}:item/astral_frame', 'pane': f'{T}:item/scanscreen', 'particle': f'{NS}:item/astral_frame'},
-    'translucent_slots': ['pane']})
+    'textures': {'body': f'{NS}:item/astral_frame', 'pane': f'{NS}:item/astral_screen', 'particle': f'{NS}:item/astral_frame'}})
 
 # Lithographer: a BlockEntityRenderer draws the block; the item is the idle machine as one static OBJ.
 w(f'assets/{NS}/blockstates/lithographer.json', {'variants': {
@@ -238,6 +237,41 @@ def write_png(path, wid, hei, px):
     open(path, 'wb').write(b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('>IIBBBBB', wid, hei, 8, 6, 0, 0, 0))
                            + chunk(b'IDAT', zlib.compress(raw, 9)) + chunk(b'IEND', b''))
 
+# Minimal PNG reader (8-bit, non-interlaced), for recolouring the original's art.
+def read_png(data):
+    assert data[:8]==b'\x89PNG\r\n\x1a\n'
+    pos=8; idat=b''; 
+    while pos<len(data):
+        n,=struct.unpack('>I',data[pos:pos+4]); t=data[pos+4:pos+8]; d=data[pos+8:pos+8+n]; pos+=12+n
+        if t==b'IHDR': w,h,bd,ct,_,_,il=struct.unpack('>IIBBBBB',d)
+        elif t==b'PLTE': pal=d
+        elif t==b'tRNS': trns=d
+        elif t==b'IDAT': idat+=d
+    ch={6:4,2:3,0:1,4:2,3:1}[ct]; assert bd==8 and il==0
+    raw=zlib.decompress(idat); stride=w*ch; rows=[]; prev=bytearray(stride); p=0
+    for y in range(h):
+        f=raw[p]; line=bytearray(raw[p+1:p+1+stride]); p+=1+stride
+        for i in range(stride):
+            a=line[i-ch] if i>=ch else 0; b=prev[i]; c=prev[i-ch] if i>=ch else 0
+            if f==1: line[i]=(line[i]+a)&255
+            elif f==2: line[i]=(line[i]+b)&255
+            elif f==3: line[i]=(line[i]+(a+b)//2)&255
+            elif f==4:
+                pa=abs(b-c); pb=abs(a-c); pc=abs(a+b-2*c)
+                pr=a if pa<=pb and pa<=pc else (b if pb<=pc else c)
+                line[i]=(line[i]+pr)&255
+        rows.append(line); prev=line
+    px=[]
+    for line in rows:
+        for x in range(w):
+            if ct==6: px.append(tuple(line[x*4:x*4+4]))
+            elif ct==2: px.append(tuple(line[x*3:x*3+3])+(255,))
+            elif ct==3:
+                i=line[x]; px.append(tuple(pal[i*3:i*3+3])+((trns[i] if i<len(trns) else 255),))
+            elif ct==0: px.append((line[x],)*3+(255,))
+            else: px.append((line[x*2],)*3+(line[x*2+1],))
+    return w,h,px
+
 A = os.path.join(ROOT, f'assets/{NS}')
 if os.path.exists(JAR):
     z = zipfile.ZipFile(JAR)
@@ -272,7 +306,8 @@ if os.path.exists(JAR):
     }
     for src, dst in COPY.items():
         out = f'{A}/textures/{dst}'; os.makedirs(os.path.dirname(out), exist_ok=True)
-        open(out, 'wb').write(z.read(f'assets/{NS}/{src}'))
+        data = z.read(f'assets/{NS}/{src}')
+        open(out, 'wb').write(data)
 
     # Cycle 2 art (original, WTFPL): lithographer OBJs, their texture, the GUIs and the astral monitor frame.
     def obj_text(name): return z.read(f'assets/{NS}/models/{name}.obj').decode('utf-8')
@@ -316,7 +351,43 @@ if os.path.exists(JAR):
         'textures/gui/constellations.png': 'gui/constellations.png',
     }.items():
         out = f'{A}/textures/{dst}'; os.makedirs(os.path.dirname(out), exist_ok=True)
-        open(out, 'wb').write(z.read(f'assets/{NS}/{src}'))
+        data = z.read(f'assets/{NS}/{src}')
+        if dst == 'item/astral_frame.png':
+            # The original's frame shader swapped the pure-blue gem texels (blue 255..250 for gems 0..5, a 7x7 box each)
+            # for one flat colour per gem; the outline and highlight around/inside them are plain texture. Here the frame
+            # keeps a dark socket under each gem, and every gem is cut out as a 9x9 sprite (box plus one texel): body
+            # texels white (astral_gems_body.png, tinted by the renderer), the rest in its original colours
+            # (astral_gems_trim.png). astral_gems.json gives the renderer each gem's box centre in the frame texture.
+            fw, fh, fpx = read_png(data)
+            is_gem = lambda q: q[0] == 0 and q[1] == 0 and q[2] >= 250 and q[3] > 0
+            CELL = 9
+            body = [(0, 0, 0, 0)] * (CELL * 6 * CELL)
+            trim = [(0, 0, 0, 0)] * (CELL * 6 * CELL)
+            centres = []
+            for g in range(6):
+                pts = [(i % fw, i // fw) for i, q in enumerate(fpx) if is_gem(q) and q[2] == 255 - g]
+                x0, x1 = min(p[0] for p in pts), max(p[0] for p in pts)
+                y0, y1 = min(p[1] for p in pts), max(p[1] for p in pts)
+                assert x1 - x0 == 6 and y1 - y0 == 6
+                centres.append([x0 + 3.5, y0 + 3.5])
+                for cy in range(CELL):
+                    for cx in range(CELL):
+                        q = fpx[(y0 - 1 + cy) * fw + (x0 - 1 + cx)]
+                        i = cy * CELL * 6 + g * CELL + cx
+                        if is_gem(q):
+                            body[i] = (255, 255, 255, 255)
+                        else:
+                            trim[i] = q
+            fpx = [(33, 18, 52, q[3]) if is_gem(q) else q for q in fpx]
+            write_png(out, fw, fh, fpx)
+            if os.path.exists(f'{A}/textures/item/astral_gems.png'): os.remove(f'{A}/textures/item/astral_gems.png')
+            write_png(f'{A}/textures/item/astral_gems_body.png', CELL * 6, CELL, body)
+            write_png(f'{A}/textures/item/astral_gems_trim.png', CELL * 6, CELL, trim)
+            import json as _json
+            open(f'{A}/astral_gems.json', 'w', newline='\n').write(_json.dumps(
+                {'texture_size': fw, 'cell': CELL, 'centres': centres}) + '\n')
+        else:
+            open(out, 'wb').write(data)
 else:
     print('original jar not found, art not refreshed:', JAR)
 
@@ -334,4 +405,41 @@ for y in range(16):
 put(8, 5, shine); put(9, 4, shine); put(8, 4, shine)
 write_png(f'{A}/textures/item/polishment_device.png', 16, 16, px)
 
+# Astral Monitor screen: a dark field with sparse blue stars (the original's end-sky shader, as a flat texture).
+import random
+rnd = random.Random(1721)
+sky = [(11, 9, 16, 255)] * (128 * 128)
+for _ in range(900):
+    x, y = rnd.randrange(128), rnd.randrange(128)
+    k = rnd.random()
+    c = (round(25 + 50 * k), round(60 + 110 * k), round(110 + 130 * k))
+    sky[y * 128 + x] = c + (255,)
+    if k > 0.8:
+        for dx, dy in ((1, 0), (0, 1)):
+            sky[((y + dy) % 128) * 128 + (x + dx) % 128] = tuple(v // 2 for v in c) + (255,)
+write_png(f'{A}/textures/item/astral_screen.png', 128, 128, sky)
+
 print('phase 6b generated')
+
+
+# ---------------------------------------------------------------- drum stance: no aiming while drumming
+# A casting bracelet in the main hand with a drum in the off hand casts only spells whose first-order delivery (the one
+# at the root of the tree, which leaves the caster) acts on an area centred on the caster in all directions, or on the
+# caster (DrumCastable). The area chooses the targets, so any effects beneath it are fine. Decided by each delivery's
+# behaviour class in Thaumaturge, not its name; effects with no delivery act on the caster's origin target.
+w(f'data/{NS}/tags/thaumaturge/spell_part/drum_castable.json', {'replace': False, 'values': [
+    'thaumaturge:aura',    # AuraDelivery: everything within a radius of the caster, every direction
+    'thaumaturge:self',    # SelfDelivery: the caster
+    'thaumaturge:cloud',   # CloudDelivery: a lingering area at the caster's position (SpellCloud.spawn at the origin)
+]})
+# Left out (aim, or a target the caster picks): ray (beam, bolt, touch), projectile (projectile, lob), spray, chain,
+# wall, architect (plan), hierophant (eldritch_*), and ours compressed_blast and flurry. Also left out although they
+# don't read the look: mine and spellbat (placed at the caster, but triggered by contact, not an area around them) and
+# sprite (an autonomous summon).
+# Effects that read the caster's look direction themselves, whatever delivers them, so cannot be unaimed: refused.
+w(f'data/{NS}/tags/thaumaturge/spell_part/drum_aimed_effects.json', {'replace': False, 'values': [
+    f'{NS}:alchemist_spree',       # throws bottles from the caster's rotation and clips a ray along the look
+    f'{NS}:ethereal_manipulator',  # holds what the caster looks at, and a point along the look
+    f'{NS}:vis_conductor',         # clips and sweeps along the look
+    f'{NS}:warp_extraction',       # hurls along the look
+]})

@@ -10,6 +10,7 @@ import com.leclowndu93150.thaumaturge.content.wands.WandVisHelper;
 import com.leclowndu93150.thaumaturge.registry.TTAttachments;
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.item.CastingBracelet;
+import dev.movingcastle.thaumicconcilium.item.ThaumaturgeDrum;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -73,6 +74,32 @@ public final class BraceletCasting {
         }
         ItemStack off = entity.getOffhandItem();
         return off.getItem() instanceof CastingBracelet ? off : ItemStack.EMPTY;
+    }
+
+    /**
+     * The drum stance: a bracelet in the main hand and a drum in the off hand. The drum is no caster, so the main-hand
+     * bracelet casts from the cast key, on plain main-hand terms (no bracelet discount, no volley), whatever else is worn.
+     */
+    public static boolean mainHandStance(@Nullable LivingEntity entity) {
+        return entity != null && entity.getMainHandItem().getItem() instanceof CastingBracelet
+                && entity.getOffhandItem().getItem() instanceof ThaumaturgeDrum;
+    }
+
+    /** The bracelet the cast key uses: the main-hand one in the drum stance, else {@link #worn}. */
+    public static ItemStack caster(@Nullable LivingEntity entity) {
+        return mainHandStance(entity) ? entity.getMainHandItem() : worn(entity);
+    }
+
+    /**
+     * Runs a cast at bracelet prices, or plainly (as a wand in the main hand) in the drum stance, where the cast is
+     * flagged ({@link DrumStance}): unaimed, and with the played drum's bonus if the drum is being played.
+     */
+    private static void runAs(ServerPlayer player, ItemStack bracelet, boolean plain, Runnable cast) {
+        if (plain) {
+            DrumStance.run(player, cast);
+        } else {
+            run(bracelet, cast);
+        }
     }
 
     /** The first bracelet in the entity's Curios slots, or empty. */
@@ -142,7 +169,8 @@ public final class BraceletCasting {
     }
 
     public static void press(ServerPlayer player) {
-        ItemStack bracelet = worn(player);
+        boolean plain = mainHandStance(player);
+        ItemStack bracelet = caster(player);
         if (!(bracelet.getItem() instanceof CastingBracelet item)) {
             return;
         }
@@ -150,6 +178,14 @@ public final class BraceletCasting {
         if (!FocusItems.isFocus(focus)) {
             player.displayClientMessage(Component.translatable("message.thaumicconcilium.bracelet_no_focus")
                     .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC), true);
+            return;
+        }
+        // The drum stance casts only spells that need no aim (DrumCastable); refused with nothing spent, the drumming goes on.
+        if (plain && !DrumCastable.isCastable(focus, player.registryAccess())) {
+            player.displayClientMessage(Component.translatable("message.thaumicconcilium.bracelet_drum_undirected")
+                    .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC), true);
+            player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
+                    com.leclowndu93150.thaumaturge.registry.TTSounds.WANDFAIL.get(), net.minecraft.sounds.SoundSource.PLAYERS, 0.8F, 1.0F);
             return;
         }
         // A worn bracelet behind a shield only casts shield foci (ShieldFoci).
@@ -164,10 +200,16 @@ public final class BraceletCasting {
         }
         if (SpellCasting.channels(focus)) {
             HELD.put(player.getUUID(), player.level().getGameTime());
-            fx(player, BraceletFxPayload.HOLD, focus);
+            fx(player, BraceletFxPayload.HOLD, focus, plain);
             return;
         }
-        if (item.kind().volley()) {
+        if (plain) {
+            long before = cooldownEnd(player);
+            DrumStance.run(player, () -> SpellCasting.use(player.level(), player, InteractionHand.MAIN_HAND, bracelet, focus));
+            if (remaining(player, before) > 0) {
+                fx(player, BraceletFxPayload.BURST, focus, true);
+            }
+        } else if (item.kind().volley()) {
             if (volley(player, bracelet, item, focus)) {
                 fx(player, BraceletFxPayload.BURST, focus);
             }
@@ -182,7 +224,8 @@ public final class BraceletCasting {
 
     public static void release(ServerPlayer player) {
         Long start = HELD.remove(player.getUUID());
-        ItemStack bracelet = worn(player);
+        boolean plain = mainHandStance(player);
+        ItemStack bracelet = caster(player);
         if (start == null || !(bracelet.getItem() instanceof CastingBracelet item)) {
             if (start != null) {
                 fx(player, BraceletFxPayload.RELEASE, ItemStack.EMPTY);
@@ -190,16 +233,16 @@ public final class BraceletCasting {
             return;
         }
         ItemStack focus = item.socketedFocus(bracelet);
-        fx(player, BraceletFxPayload.RELEASE, focus);
+        fx(player, BraceletFxPayload.RELEASE, focus, plain);
         int used = (int) (player.level().getGameTime() - start);
         long before = cooldownEnd(player);
-        run(bracelet, () -> SpellCasting.release(player.serverLevel(), player, bracelet, focus, used));
+        runAs(player, bracelet, plain, () -> SpellCasting.release(player.serverLevel(), player, bracelet, focus, used));
         Spell spell = Spells.spellOf(focus);
         if (spell != null) {
             ChannelEvents.channelEnded(player, spell, used);   // Warp Extraction's throw, Spotlight's overheat...
         }
         int cooldown = remaining(player, before);
-        if (cooldown > 0) {
+        if (cooldown > 0 && !plain) {
             setCooldown(player, bracelet, Math.max(1, cooldown / 2));
         }
     }
@@ -252,7 +295,8 @@ public final class BraceletCasting {
         if (start == null) {
             return;
         }
-        ItemStack bracelet = worn(player);
+        boolean plain = mainHandStance(player);
+        ItemStack bracelet = caster(player);
         if (!player.isAlive() || !(bracelet.getItem() instanceof CastingBracelet item)) {
             cancel(player);
             return;
@@ -264,7 +308,7 @@ public final class BraceletCasting {
         }
         ServerLevel level = player.serverLevel();
         int used = (int) (level.getGameTime() - start);
-        run(bracelet, () -> SpellCasting.tick(level, player, bracelet, focus, used));
+        runAs(player, bracelet, plain, () -> SpellCasting.tick(level, player, bracelet, focus, used));
     }
 
     @SubscribeEvent

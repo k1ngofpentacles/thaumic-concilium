@@ -184,6 +184,7 @@ for k, v in BR.items():
 L[f'item.{NS}.casting_bracelet.desc'] = 'Worn or in the shield slot: cast key (V) casts. In hand: a wand'
 L[f'item.{NS}.casting_bracelet.volley'] = 'Casts instant spells ten at once, at triple cooldown'
 L[f'message.{NS}.bracelet_no_focus'] = 'Your bracelet holds no focus'
+L[f'message.{NS}.bracelet_drum_undirected'] = "You cannot aim while drumming"
 L[f'message.{NS}.bracelet_shield_busy'] = 'Your shield arm is busy: only shield foci cast past a shield'
 L[f'key.{NS}.bracelet_cast'] = 'Cast from bracelet'
 L[f'key.categories.{NS}'] = 'Thaumic Concilium'

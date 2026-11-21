@@ -9,6 +9,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.movingcastle.thaumicconcilium.entity.PositiveBurstOrb;
 import dev.movingcastle.thaumicconcilium.registry.TCSpellBehaviors;
+import dev.movingcastle.thaumicconcilium.spell.DrumStance;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -23,6 +24,7 @@ import net.minecraft.world.phys.Vec3;
  *   (capped at 10 hearts); or a random Speed, Resistance or Strength. Replaces the two old upgrades.</li>
  *   <li>{@code potency} 0-3: old Potency upgrade.</li>
  * </ul>
+ * In the drum stance ({@link DrumStance#unaimed()}) the orbs are released straight up instead of along the look.
  */
 public final class PositiveBurstEffect extends AbstractEffectBehavior {
     public static final MapCodec<PositiveBurstEffect> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
@@ -64,7 +66,9 @@ public final class PositiveBurstEffect extends AbstractEffectBehavior {
         int mode = ctx.setting("mode");
         int amount = this.baseOrbs + random.nextInt(5 + Math.max(0, potency));
         Vec3 at = target.position();
-        Vec3 dir = target.direction();
+        // The drum stance (you cannot aim while drumming): the orbs rise straight up from the target point (the caster's
+        // eyes, or each creature an area chose) instead of flying along the look; they then seek the nearest other player.
+        Vec3 dir = DrumStance.unaimed() ? new Vec3(0.0, 1.0, 0.0) : target.direction();
         for (int n = 0; n < amount; n++) {
             Vec3 velocity = dir.scale(this.speed).add(
                     random.nextGaussian() * 0.09, random.nextGaussian() * 0.09, random.nextGaussian() * 0.09);

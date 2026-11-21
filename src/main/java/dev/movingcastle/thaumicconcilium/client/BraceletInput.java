@@ -49,7 +49,7 @@ public final class BraceletInput {
             BraceletRadial.close(mc, false);
             return;
         }
-        boolean worn = !BraceletCasting.worn(player).isEmpty();
+        boolean worn = !BraceletCasting.caster(player).isEmpty();
 
         // Cast key: tell the server about each edge. Opening a screen counts as a release.
         boolean cast = worn && mc.screen == null && CAST.isDown();

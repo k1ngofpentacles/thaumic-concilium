@@ -29,9 +29,7 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
 
 ### Needs in-game testing
 
-- Each preset casts and draws vis sensibly. Tune `complexity`/`vis` in the spell-part JSON if costs feel off.
-- The flurry's fire rate (Thaumaturge's pulse interval: `4 + complexity/8` ticks).
-- Research entries appear in the new tab and gate the parts.
+Every manual check is a QA quest in the FTB Quests book: the checks in **Foci ported 1:1** (`qa_foci_restored`, check "Foundation foci"). Nothing is listed here.
 
 ## Phase 2: remaining foci, the Ring of Blustering Light (0.2.0)
 
@@ -76,9 +74,7 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
 
 ### Needs in-game testing
 
-- The ring shows in a Curios ring slot, shields, and fills a wand; the three ring parts refuse without it.
-- Ethereal Manipulator's wheel capture while channelling, and Warp Extraction's release-to-throw.
-- Taint Animation in a taint biome; Scribing on a second player with runic gear.
+Every manual check is a QA quest in the FTB Quests book: **Foci ported 1:1** (`qa_foci_restored`: ring, Ethereal Manipulator, Scribing, Taint Animation, Warp Extraction). Nothing is listed here.
 
 ## Phase 3: gear, warp baubles, bottles, shard mills (0.3.0)
 
@@ -95,7 +91,7 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
 | Casting bracelets | ✅ 0.4.1 | Worn (Curios bracelet slot) or in the shield slot, V to cast, F radial. Livingwood, dreamwood and terrasteel need Botania (Revived). Band model on the wrist in first and third person; the casting arm rises (synced) with particles. Checked in the render harness and by `BraceletTests`; feel untested in game |
 | Polishment (and the Polishment Device) | ✅ 0.7.0 | The gate on the infusion and the creative-only device: see "Phase 6b". Protobody waits for phase 8 |
 | Coagulating Eye Drops, Astral Monitor | ✅ 0.7.0 | See "Phase 6b" |
-| Thaumaturge and Warped Drums | ✅ 0.7.0 | See "Phase 6b" |
+| Thaumaturge and Warped Drums | ✅ 0.7.0, off hand 0.7.3 | See "Phase 6b". 0.7.3: the drum plays from either hand (main hand empty or a casting bracelet); the drum stance (main-hand bracelet + off-hand drum) casts with V on plain wand terms; you cannot aim while drumming, so only spells whose root delivery is an area around the caster or the caster are cast (`drum_castable`: aura, self, cloud; effect-only spells too), refused if an effect reads the look (`drum_aimed_effects`: alchemist_spree, ethereal_manipulator, vis_conductor, warp_extraction). While the drum is played the cast's area radius and vis cost are x1.5 (config `drum.drumRadiusMultiplier`, `drum.drumVisCostMultiplier`; `spell/DrumStance`, no mixin). Taint Animation is castable and unaimed in the stance; Positive Burst (0.7.4) releases its orbs straight up there. Ready-made foci: Reflection, Wrath Attraction, Taint Animation, Positive Burst. Left-handed mirroring untested |
 
 ### Fixed in 0.3.1 (after the first in-game test)
 
@@ -142,15 +138,7 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
 
 ### Needs in-game testing
 
-- **Art:** the Shard Mills' OBJ model in hand, in the GUI and on the ground (display transforms are a first guess);
-  armour layers for the windings, jackboots and shorts; item icons.
-- Runic Windings: shield size with both pieces, the faster refill, the vis discount in the arcane workbench.
-- Burdening Amulet with a tamed wolf; Death Gaze and the warp drain. Tight Belt: Thaumarhia, warp drain, flux gas.
-- Both bottles thrown: fire put out; taint splash, fibres and flux gas.
-- Shard Mill (0.3.2): loading essentia crystals into the Greatwood mill; the dust trails; contact effects; the
-  cranking hand and spinning crank in first person, in third person (F5) and as seen by another player; positions
-  are first guesses, so describe or screenshot what's off.
-- Dump Jackboots: climb speed, and that releasing sneak mid-climb never leaves a gap; also on a LAN client; Burdening Amulet with a pet under Death Gaze; bottle splash particles.
+Every manual check is a QA quest in the FTB Quests book: **Powders and the Burdening Amulet** (`qa_phase3_restorations`: art, mill cranking, windings and the strong numbers, belt, bottles, jackboots, amulet, powders) and **Casting Bracelets** (`qa_bracelets`). Nothing is listed here.
 
 See `../../../docs/design/concilium-fidelity-review.md` for every deviation from the original awaiting a decision.
 
@@ -218,7 +206,7 @@ QA chapter: **The rift workshop** (`qa_rift_workshop`). Deviations: the fidelity
 | Lithographer | ✅ | Built with a wand from the 3x3 pattern; four monitors, redstone pulse, Vis Condenser and a sensus crystal above, a sleeper in the bed; lithograph HUD |
 | Coagulating Eye Drops | ✅ | Toggle the HUD; 1 damage |
 | Quicksilver Elemental and Reactor | ✅ | Spawns in the overworld; burnt in a crucible it makes the reactor; the reactor merges a crucible's last two aspects |
-| Thaumaturge's Drum, Warped Drum | ✅ | Wisps of random primals / harmless mind spiders while played |
+| Thaumaturge's Drum, Warped Drum | ✅ | Wisps of random primals / harmless mind spiders while played; from the off hand too (0.7.3); drum stance casting (`bracelet_drum_stance`, `bracelet_drum_taint`, `drum_offhand`) |
 | Research | ✅ | Thaumdrum, Warpdrum, Xylography, Quicksilver Crucible, Astral Monitor, Lithographer |
 
 Deviations: the fidelity review, "Phase 6b". QA chapter: **Monitors and machines (6b)** (`qa_phase_6b`). Pack test:
@@ -227,17 +215,7 @@ and all 30 GameTests pass.
 
 ### Needs in-game testing
 
-- Polished infusion: do a Cooling Focus infusion with no draw (result lost, pedestal empty, message), then channel the
-  Vis Conductor at a 64+ aversio crystal while it completes (crystal gone, shock, arc, focus on the pedestal). Check
-  another polished item (Tight Belt, volatus 128), the book line and the tooltip.
-- Xylography; Astral Monitor (sneak-use, slot, first-person glyphs, item icon in the GUI and the book).
-- Lithographer: build on both axes, the screen, the redstone pulse with a condenser, a sensus crystal of 32+ and a
-  sleeper, the HUD, eye drops toggling it.
-- Quicksilver Elemental (spawn, immunities, shrinking hitbox, turning a crucible into a reactor) and the Reactor
-  (feeding quicksilver, the flow of mercury, redstone pause, burning creatures, comparator).
-- Both drums: the continuous play, wisps and mind spiders and their caps.
-- Not testable headlessly: the Vis Conductor channel feeding the gate (the pack test binds the draw directly),
-  rendering, sounds, particles.
+Every manual check is a QA quest in the FTB Quests book: **Monitors and machines (6b)** (`qa_phase_6b`: polished infusions, Xylography, the monitor, Lithographer and HUD, elemental, reactor, Polishment Device, the drums and the drum stance) and **The rift workshop** (`qa_rift_workshop`: primal orb). Nothing is listed here.
 
 ## Remaining phases (planned)
 

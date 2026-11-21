@@ -17,6 +17,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.movingcastle.thaumicconcilium.registry.TCSpellBehaviors;
+import dev.movingcastle.thaumicconcilium.spell.DrumStance;
 import dev.movingcastle.thaumicconcilium.spell.Looking;
 import dev.movingcastle.thaumicconcilium.spell.Taint;
 import java.util.ArrayList;
@@ -48,6 +49,9 @@ import org.joml.Vector3f;
  *   lands on, or, failing that, the one the caster is looking at. Potency feeds them strength scaled by the
  *   caster's permanent warp.</li>
  * </ul>
+ * In the drum stance ({@link DrumStance#unaimed()}: you cannot aim while drumming) nothing resolves an aimed target:
+ * command mode, when the area hasn't chosen a victim, sends the tainted at the nearest hostile creature near the caster,
+ * and the creatures animate mode raises pick their own targets instead of the one the caster looks at.
  */
 public final class TaintAnimationEffect extends AbstractEffectBehavior {
     public static final MapCodec<TaintAnimationEffect> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
@@ -108,6 +112,7 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
 
     private void command(CastContext ctx, LivingEntity caster, SpellTarget target) {
         LivingEntity victim = target.entity().orElse(null) instanceof LivingEntity l && l != caster ? l
+                : DrumStance.unaimed() ? nearestFoe(ctx, caster)
                 : Looking.at(caster, 32.0, 0.2) instanceof LivingEntity seen ? seen : null;
         if (victim == null || Taint.isTainted(victim)) {
             return;
@@ -137,8 +142,27 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
         }
     }
 
+    /**
+     * The drum stance's command target (you cannot aim while drumming): what the area chose, else the nearest creature
+     * that is not tainted, not an ally and not the caster, within the command range of the caster.
+     */
+    private LivingEntity nearestFoe(CastContext ctx, LivingEntity caster) {
+        LivingEntity best = null;
+        double bestDistance = Double.MAX_VALUE;
+        for (LivingEntity near : ctx.level().getEntitiesOfClass(LivingEntity.class, caster.getBoundingBox().inflate(this.commandRange),
+                e -> e.isAlive() && e != caster && !Taint.isTainted(e) && !ctx.isAlly(e) && e instanceof net.minecraft.world.entity.monster.Enemy)) {
+            double distance = near.distanceToSqr(caster);
+            if (distance < bestDistance) {
+                best = near;
+                bestDistance = distance;
+            }
+        }
+        return best;
+    }
+
     private void animate(CastContext ctx, LivingEntity caster, SpellTarget target) {
         ServerLevel level = ctx.level();
+        boolean unaimed = DrumStance.unaimed();   // the drum stance: the new creatures pick their own targets
         if (ctx.setting("manifestation") == 1) {
             List<EntityMindSpider> spiders = level.getEntitiesOfClass(EntityMindSpider.class, caster.getBoundingBox().inflate(16.0));
             if (!spiders.isEmpty()) {
@@ -178,7 +202,7 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
             EntityTaintacle taintacle = TTEntities.TAINTACLE.get().create(level);
             if (taintacle != null) {
                 taintacle.moveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ctx.random().nextFloat() * 360.0F, 0.0F);
-                aim(taintacle, caster);
+                aim(taintacle, caster, unaimed);
                 level.addFreshEntity(taintacle);
             }
             sparkle(level, pos);
@@ -188,7 +212,7 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
             if (swarm != null) {
                 swarm.moveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, ctx.random().nextFloat() * 360.0F, 0.0F);
                 swarm.setSummoned(true);
-                aim(swarm, caster);
+                aim(swarm, caster, unaimed);
                 level.addFreshEntity(swarm);
             }
             sparkle(level, pos);
@@ -198,8 +222,8 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
         }
     }
 
-    private static void aim(Mob mob, LivingEntity caster) {
-        if (Looking.at(caster, 32.0, 1.1) instanceof LivingEntity look && look != mob) {
+    private static void aim(Mob mob, LivingEntity caster, boolean unaimed) {
+        if (!unaimed && Looking.at(caster, 32.0, 1.1) instanceof LivingEntity look && look != mob) {
             mob.setTarget(look);
         }
     }

@@ -71,10 +71,32 @@ public final class TCCommands {
     private static java.util.concurrent.CompletableFuture<com.mojang.brigadier.suggestion.Suggestions> presets(
             CommandContext<CommandSourceStack> ctx, com.mojang.brigadier.suggestion.SuggestionsBuilder builder) {
         return SharedSuggestionProvider.suggest(
-                java.util.stream.Stream.concat(java.util.stream.Stream.of("none"), FocusPresets.ALL.stream().map(FocusPresets.Preset::id)), builder);
+                java.util.stream.Stream.concat(java.util.stream.Stream.of("none", DRUM_AURA), FocusPresets.ALL.stream().map(FocusPresets.Preset::id)), builder);
+    }
+
+    /** QA-only focus (not a preset: no research or lang): Aura > Frost, to see the drum stance's radius and cost. */
+    private static final String DRUM_AURA = "qa_drum_aura";
+
+    private static ItemStack drumAura() {
+        ItemStack focus = new ItemStack(com.leclowndu93150.thaumaturge.registry.TTItems.FOCUS_3.get());
+        ResourceLocation aura = ResourceLocation.fromNamespaceAndPath("thaumaturge", "aura");
+        ResourceLocation frost = ResourceLocation.fromNamespaceAndPath("thaumaturge", "frost");
+        java.util.function.BiFunction<ResourceLocation, java.util.List<com.leclowndu93150.thaumaturge.api.spell.SpellNode>, com.leclowndu93150.thaumaturge.api.spell.SpellNode> node =
+                (part, kids) -> new com.leclowndu93150.thaumaturge.api.spell.SpellNode(
+                        net.minecraft.resources.ResourceKey.create(com.leclowndu93150.thaumaturge.api.spell.part.SpellPart.REGISTRY_KEY, part),
+                        java.util.Optional.empty(), java.util.Map.of(), kids);
+        var root = node.apply(com.leclowndu93150.thaumaturge.api.spell.Spell.ORIGIN.location(),
+                java.util.List.of(node.apply(aura, java.util.List.of(node.apply(frost, java.util.List.of())))));
+        com.leclowndu93150.thaumaturge.api.spell.Spells.setSpell(focus,
+                new com.leclowndu93150.thaumaturge.api.spell.Spell(com.leclowndu93150.thaumaturge.api.spell.CastStyle.INSTANT, root));
+        focus.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, Component.literal("QA Aura > Frost"));
+        return focus;
     }
 
     private static ItemStack preset(String id) {
+        if (id.equals(DRUM_AURA)) {
+            return drumAura();
+        }
         return FocusPresets.ALL.stream().filter(p -> p.id().equals(id)).findFirst().map(FocusPresets.Preset::stack).orElse(ItemStack.EMPTY);
     }
 

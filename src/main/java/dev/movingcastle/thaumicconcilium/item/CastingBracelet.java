@@ -49,6 +49,10 @@ public class CastingBracelet extends ItemWand implements ICurioItem {
     /** In either hand it is a wand (Thaumaturge's use: casting, node tapping, wand-driven blocks), at bracelet prices. */
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+        // A drum in the off hand takes the click: pass it on so the game tries the off hand (the drum plays).
+        if (hand == InteractionHand.MAIN_HAND && player.getOffhandItem().getItem() instanceof ThaumaturgeDrum) {
+            return InteractionResultHolder.pass(player.getItemInHand(hand));
+        }
         if (player instanceof ServerPlayer server) {
             return BraceletCasting.handUse(server, hand, player.getItemInHand(hand), () -> super.use(level, player, hand));
         }

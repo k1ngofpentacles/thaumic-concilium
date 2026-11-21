@@ -72,6 +72,7 @@
   "itemGroup.thaumicconcilium": "Thaumic Concilium",
   "key.categories.thaumicconcilium": "Thaumic Concilium",
   "key.thaumicconcilium.bracelet_cast": "Cast from bracelet",
+  "message.thaumicconcilium.bracelet_drum_undirected": "You cannot aim while drumming",
   "message.thaumicconcilium.bracelet_no_focus": "Your bracelet holds no focus",
   "message.thaumicconcilium.bracelet_shield_busy": "Your shield arm is busy: only shield foci cast past a shield",
   "message.thaumicconcilium.hex_no_vis": "The hex needs %1$s ordo and %1$s terra vis in your wand",
