@@ -2,7 +2,7 @@
   "category": "thaumicconcilium:concilium",
   "name": "research.thaumicconcilium.dump_jackboots.title",
   "parents": [
-    "thaumicconcilium:concilium",
+    "thaumicconcilium:destabilized_crystal",
     "~thaumaturge:boots_traveller"
   ],
   "column": -2,

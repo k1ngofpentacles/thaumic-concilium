@@ -1,0 +1,51 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.hex_of_predictability.title",
+  "parents": [
+    "thaumicconcilium:vis_condenser",
+    "~thaumaturge:outer_revelations"
+  ],
+  "column": -12,
+  "row": 1,
+  "icons": [
+    "thaumicconcilium:textures/research/hex.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.hex_of_predictability.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 2
+    },
+    {
+      "text": "research.thaumicconcilium.hex_of_predictability.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 12
+    },
+    {
+      "aspect": "thaumaturge:vinculum",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 12
+    }
+  ],
+  "complexity": 3,
+  "meta": [
+    "spiky"
+  ]
+}

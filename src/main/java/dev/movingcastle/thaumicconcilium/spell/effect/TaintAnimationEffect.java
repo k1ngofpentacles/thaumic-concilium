@@ -1,5 +1,6 @@
 package dev.movingcastle.thaumicconcilium.spell.effect;
 
+import dev.movingcastle.thaumicconcilium.entity.mob.SmartTaintSpiders;
 import com.leclowndu93150.thaumaturge.api.spell.behavior.AbstractEffectBehavior;
 import com.leclowndu93150.thaumaturge.api.spell.behavior.SpellBehaviorType;
 import com.leclowndu93150.thaumaturge.api.spell.cast.CastContext;
@@ -118,8 +119,17 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
             // The original: clamp(permanent warp / 10 * potency, 1, 200).
             strength = Mth.clamp(warp / 10 * potency, 1, this.maxStrength);
         }
-        for (Mob mob : ctx.level().getEntitiesOfClass(Mob.class, caster.getBoundingBox().inflate(this.commandRange),
+        for (Mob found : ctx.level().getEntitiesOfClass(Mob.class, caster.getBoundingBox().inflate(this.commandRange),
                 m -> m.isAlive() && m != victim && Taint.isTainted(m))) {
+            Mob mob = found;
+            // Original: a commanded taint spider becomes a smart one, which then hunts only what it is set on.
+            if (SmartTaintSpiders.isPlainTaintSpider(found)) {
+                mob = SmartTaintSpiders.spawn(ctx.level(), found.position(), found.getYRot());
+                found.discard();
+                if (mob == null) {
+                    continue;
+                }
+            }
             mob.setTarget(victim);
             if (strength > 0) {
                 mob.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100, strength));
@@ -136,14 +146,8 @@ public final class TaintAnimationEffect extends AbstractEffectBehavior {
                 Vec3 at = chosen.position();
                 float yaw = chosen.getYRot();
                 chosen.discard();
-                // The upgrade's research: mind spiders "turned into fearsome tainted crawlers" (Concilium's smart
-                // taint spider in code; Thaumaturge's taint crawler here until the phase-4 mobs).
-                Mob crawler = TTEntities.TAINT_CRAWLER.get().create(level);
-                if (crawler != null) {
-                    crawler.moveTo(at.x, at.y, at.z, yaw, 0.0F);
-                    level.addFreshEntity(crawler);
-                    Taint.taintsplosion(level, at);
-                }
+                // The upgrade's research: mind spiders "turned into fearsome tainted crawlers"; in code, the smart taint spider.
+                SmartTaintSpiders.spawn(level, at, yaw);
             }
         }
 

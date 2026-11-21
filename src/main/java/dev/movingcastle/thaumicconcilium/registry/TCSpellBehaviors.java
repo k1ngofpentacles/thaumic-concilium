@@ -60,6 +60,9 @@ public final class TCSpellBehaviors {
     public static final DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<WarpExtractionEffect>> WARP_EXTRACTION =
             register("warp_extraction", SpellPartKind.EFFECT, WarpExtractionEffect.CODEC);
 
+    public static final DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<dev.movingcastle.thaumicconcilium.spell.effect.VisConductorEffect>> VIS_CONDUCTOR =
+            register("vis_conductor", SpellPartKind.EFFECT, dev.movingcastle.thaumicconcilium.spell.effect.VisConductorEffect.CODEC);
+
     private static <B extends SpellBehavior> DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<B>> register(
             String name, SpellPartKind kind, MapCodec<B> codec) {
         return BEHAVIORS.register(name, () -> new SpellBehaviorType<>(kind, codec));

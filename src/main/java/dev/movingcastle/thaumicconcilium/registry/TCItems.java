@@ -96,6 +96,35 @@ public final class TCItems {
         }
     }
 
+    // ---------------------------------------------------------------- phase 4
+    /** Notes from Thaumaturges and Mad Thaumaturges; the entry is in the {@code thaumicconcilium:hint} component. */
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.ResearchHint> RESEARCH_HINT = ITEMS.register("research_hint",
+            () -> new dev.movingcastle.thaumicconcilium.item.ResearchHint(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    /** Original: resource meta 4, dropped as a fire-resistant item. */
+    public static final DeferredItem<Item> NETHER_MEMBRANE = ITEMS.register("nether_membrane",
+            () -> new Item(new Item.Properties().fireResistant()));
+
+    // ---------------------------------------------------------------- phase 6a
+    /** Original: resource meta 2, shed by a Hex of Predictability while it works a transmutation. */
+    public static final DeferredItem<Item> VOID_SLAG = ITEMS.register("void_slag", () -> new Item(new Item.Properties()));
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> DESTABILIZED_CRYSTAL = ITEMS.registerSimpleBlockItem(
+            "destabilized_crystal", TCBlocks.DESTABILIZED_CRYSTAL, new Item.Properties().rarity(Rarity.UNCOMMON));
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> VIS_CONDENSER = ITEMS.registerSimpleBlockItem(
+            "vis_condenser", TCBlocks.VIS_CONDENSER, new Item.Properties());
+
+    // Original egg colours: 65535 / 139.
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> THAUMATURGE_SPAWN_EGG = egg("thaumaturge", TCEntities.THAUMATURGE);
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> MAD_THAUMATURGE_SPAWN_EGG = egg("mad_thaumaturge", TCEntities.MAD_THAUMATURGE);
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> NETHER_EXPLORER_SPAWN_EGG = egg("nether_explorer", TCEntities.NETHER_EXPLORER);
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> WITHERED_BOTANIST_SPAWN_EGG =
+            TCEntities.hasBotanist() ? egg("withered_botanist", TCEntities.WITHERED_BOTANIST) : null;
+
+    private static DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> egg(String name,
+            java.util.function.Supplier<? extends net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob>> type) {
+        return ITEMS.register(name + "_spawn_egg", () -> new net.neoforged.neoforge.common.DeferredSpawnEggItem(type, 0x00FFFF, 0x00008B,
+                new Item.Properties()));
+    }
+
     /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
     public static void defaultComponents(ModifyDefaultComponentsEvent event) {
         BRACELETS.forEach((kind, item) -> {

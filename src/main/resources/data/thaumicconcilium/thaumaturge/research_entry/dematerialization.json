@@ -1,0 +1,47 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.dematerialization.title",
+  "parents": [
+    "thaumicconcilium:rifts",
+    "~thaumicconcilium:vis_conductor_focus"
+  ],
+  "column": -11,
+  "row": -1,
+  "icons": [
+    "thaumicconcilium:textures/research/dematerialization.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.dematerialization.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.dematerialization.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 2
+    }
+  ],
+  "complexity": 1
+}

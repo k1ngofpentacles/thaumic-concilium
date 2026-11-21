@@ -17,6 +17,27 @@ public final class TCConfig {
             .comment("Ticks a Positive Burst orb lives before fading (original: 150).")
             .defineInRange("foci.positiveOrbLifetime", 150, 20, 1200);
 
+    public static final ModConfigSpec.DoubleValue WANDERER_CHANCE = B
+            .comment("Chance, checked once a minute in the overworld, that a wandering Thaumaturge (sometimes two) turns up near a",
+                    "random player. 0 disables them. The default works out to about one visit every three days. (Not in the original:",
+                    "its Thaumaturges spawned naturally, which here happens only as the chunk of a structure in",
+                    "#thaumicconcilium:thaumaturge_haunts generates.)")
+            .defineInRange("mobs.wandererChance", 0.015, 0.0, 1.0);
+
+    public static final ModConfigSpec.IntValue MAD_REPLACES_BRAINY = B
+            .comment("Percent of Brainy Zombies replaced by a Mad Thaumaturge as they spawn (original: madThaumaturgeReplacesBrainyZombieChance, 20).")
+            .defineInRange("mobs.madThaumaturgeReplacesBrainyZombieChance", 20, 0, 100);
+
+    public static final ModConfigSpec.IntValue NETHER_EXPLORERS = B
+            .comment("Nether Explorers drift on the lava sea until this many are loaded (original: more spawn while at most 3 exist). 0 disables them.")
+            .defineInRange("mobs.netherExplorerCap", 4, 0, 64);
+
+    public static final ModConfigSpec.IntValue RIFT_CHANCE = B
+            .comment("Percent chance that breaking an aura node tears open a spatial rift (original: chanceOfRiftOpening, 100).",
+                    "0 is not recommended: the original warned it softlocks unmodified survival progress (the Rifts research is found",
+                    "by scanning one; Thaumaturge's own flux rifts also count).")
+            .defineInRange("balance.chanceOfRiftOpening", 100, 0, 100);
+
     public static final ModConfigSpec SPEC = B.build();
 
     private TCConfig() {

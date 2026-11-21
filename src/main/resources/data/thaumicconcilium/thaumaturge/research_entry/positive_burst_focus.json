@@ -19,6 +19,15 @@
           "category": "thaumicconcilium:concilium",
           "amount": 1
         }
+      ],
+      "obtain": [
+        {
+          "items": "thaumicconcilium:research_hint",
+          "amount": 1,
+          "components": {
+            "thaumicconcilium:hint": "thaumicconcilium:positive_burst_focus"
+          }
+        }
       ]
     },
     {

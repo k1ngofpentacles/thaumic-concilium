@@ -1,0 +1,59 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.destabilized_crystal.title",
+  "parents": [
+    "thaumicconcilium:vis_conductor_focus",
+    "~thaumaturge:essentia_crystalizer"
+  ],
+  "column": -2,
+  "row": 5,
+  "icons": [
+    "thaumicconcilium:destabilized_crystal"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.destabilized_crystal.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": "thaumicconcilium:research_hint",
+          "amount": 1,
+          "components": {
+            "thaumicconcilium:hint": "thaumicconcilium:destabilized_crystal"
+          }
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.destabilized_crystal.stage_1",
+      "recipes": [
+        "thaumicconcilium:arcane_workbench/destabilized_crystal"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 12
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 8
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 8
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 12
+    }
+  ],
+  "complexity": 2
+}

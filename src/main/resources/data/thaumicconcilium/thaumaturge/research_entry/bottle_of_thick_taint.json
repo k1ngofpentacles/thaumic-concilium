@@ -20,7 +20,16 @@
           "amount": 1
         }
       ],
-      "warp": 2
+      "warp": 2,
+      "obtain": [
+        {
+          "items": "thaumicconcilium:research_hint",
+          "amount": 1,
+          "components": {
+            "thaumicconcilium:hint": "thaumicconcilium:bottle_of_thick_taint"
+          }
+        }
+      ]
     },
     {
       "text": "research.thaumicconcilium.bottle_of_thick_taint.stage_1",

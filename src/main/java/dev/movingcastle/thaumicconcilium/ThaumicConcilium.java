@@ -38,6 +38,11 @@ public final class ThaumicConcilium {
         TCSounds.SOUNDS.register(modBus);
         TCCreativeTabs.TABS.register(modBus);
         TCSpellBehaviors.BEHAVIORS.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCMenus.MENUS.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCRecipes.SERIALIZERS.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCRecipes.TYPES.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCBlocks.BLOCKS.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCBlocks.BLOCK_ENTITIES.register(modBus);
         modBus.addListener(TCNetwork::register);
         container.registerConfig(ModConfig.Type.COMMON, TCConfig.SPEC);
     }

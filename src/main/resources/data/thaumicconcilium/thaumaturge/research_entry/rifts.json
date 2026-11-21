@@ -1,0 +1,51 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.rifts.title",
+  "parents": [
+    "thaumaturge:scanned/fluxrift"
+  ],
+  "column": -9,
+  "row": -3,
+  "icons": [
+    "thaumicconcilium:textures/research/rift_res.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.rifts.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.rifts.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

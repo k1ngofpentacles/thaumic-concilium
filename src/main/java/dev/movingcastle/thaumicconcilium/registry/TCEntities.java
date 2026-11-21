@@ -3,6 +3,10 @@ package dev.movingcastle.thaumicconcilium.registry;
 import dev.movingcastle.thaumicconcilium.entity.ClearWaterBottle;
 import dev.movingcastle.thaumicconcilium.entity.ShardPowder;
 import dev.movingcastle.thaumicconcilium.entity.ThickTaintBottle;
+import dev.movingcastle.thaumicconcilium.entity.mob.MadThaumaturge;
+import dev.movingcastle.thaumicconcilium.entity.mob.NetherExplorer;
+import dev.movingcastle.thaumicconcilium.entity.mob.ThaumaturgeEntity;
+import dev.movingcastle.thaumicconcilium.entity.mob.WitheredBotanist;
 
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.entity.CompressedBlastEntity;
@@ -45,6 +49,41 @@ public final class TCEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<ShardPowder>> SHARD_POWDER = ENTITY_TYPES.register("shard_powder",
             () -> EntityType.Builder.<ShardPowder>of(ShardPowder::new, MobCategory.MISC)
                     .sized(0.125F, 0.125F).clientTrackingRange(4).updateInterval(2).noSave().build("shard_powder"));
+
+    // ---------------------------------------------------------------- phase 6a
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.ChargedWisp>> CHARGED_WISP =
+            ENTITY_TYPES.register("charged_wisp", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.ChargedWisp>of(
+                    dev.movingcastle.thaumicconcilium.entity.ChargedWisp::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F).clientTrackingRange(8).updateInterval(1).build("charged_wisp"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.PrimalOrb>> PRIMAL_ORB =
+            ENTITY_TYPES.register("primal_orb", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.PrimalOrb>of(
+                    dev.movingcastle.thaumicconcilium.entity.PrimalOrb::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F).clientTrackingRange(8).updateInterval(1).build("primal_orb"));
+
+    // ---------------------------------------------------------------- phase 4 mobs
+    public static final DeferredHolder<EntityType<?>, EntityType<ThaumaturgeEntity>> THAUMATURGE = ENTITY_TYPES.register("thaumaturge",
+            () -> EntityType.Builder.<ThaumaturgeEntity>of(ThaumaturgeEntity::new, MobCategory.CREATURE)
+                    .sized(0.6F, 1.95F).eyeHeight(1.62F).clientTrackingRange(8).build("thaumaturge"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<MadThaumaturge>> MAD_THAUMATURGE = ENTITY_TYPES.register("mad_thaumaturge",
+            () -> EntityType.Builder.<MadThaumaturge>of(MadThaumaturge::new, MobCategory.MONSTER)
+                    .sized(0.6F, 1.95F).eyeHeight(1.62F).clientTrackingRange(8).build("mad_thaumaturge"));
+
+    /** Original: 2 x 0.3, fire-immune. */
+    public static final DeferredHolder<EntityType<?>, EntityType<NetherExplorer>> NETHER_EXPLORER = ENTITY_TYPES.register("nether_explorer",
+            () -> EntityType.Builder.<NetherExplorer>of(NetherExplorer::new, MobCategory.MISC)
+                    .sized(2.0F, 0.3F).eyeHeight(0.15F).fireImmune().clientTrackingRange(8).build("nether_explorer"));
+
+    /** Registered only with Botania, as in the original. */
+    public static final DeferredHolder<EntityType<?>, EntityType<WitheredBotanist>> WITHERED_BOTANIST =
+            net.neoforged.fml.ModList.get().isLoaded("botania") ? ENTITY_TYPES.register("withered_botanist",
+                    () -> EntityType.Builder.<WitheredBotanist>of(WitheredBotanist::new, MobCategory.CREATURE)
+                            .sized(2.0F, 0.3F).eyeHeight(0.15F).clientTrackingRange(8).build("withered_botanist")) : null;
+
+    public static boolean hasBotanist() {
+        return WITHERED_BOTANIST != null;
+    }
 
     private TCEntities() {
     }

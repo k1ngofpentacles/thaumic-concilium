@@ -1,0 +1,50 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.vis_condenser.title",
+  "parents": [
+    "thaumicconcilium:dematerialization",
+    "~thaumaturge:node_stabilizer_advanced"
+  ],
+  "column": -13,
+  "row": -1,
+  "icons": [
+    "thaumicconcilium:vis_condenser"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.vis_condenser.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.vis_condenser.stage_1",
+      "recipes": [
+        "thaumicconcilium:arcane_workbench/vis_condenser"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 2
+    }
+  ],
+  "complexity": 1
+}

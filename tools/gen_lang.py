@@ -219,6 +219,88 @@ for key, (title, sub, first, second) in P3B.items():
     L[f'research.{NS}.{key}.stage_1'] = second or HOW
 
 L[f'{NS}.focus.preset'] = 'Pre-inscribed: %s'
+
+# ---------------------------------------------------------------- phase 4
+for i in range(4):
+    L[f'{NS}.thaumaturge.taunt.{i}'] = o(f'tc.thaumaturge.taunt.{i}')
+L[f'{NS}.thaumaturge.no_more'] = o('tc.thaumaturge.no_more')
+for i in range(1, 4):
+    L[f'{NS}.thaumaturge.trade.{i}'] = o(f'tc.thaumaturge.trade.{i}')
+for k in ['mad_complete', 'reflection', 'thicktaint', 'windings', 'destcrystal', 'visconductor', 'positiveburst', 'impulse']:
+    L[f'{NS}.tooltip.hint.{k}'] = o(f'tc.tooltip.hint.{k}').replace('§5', '')
+L[f'{NS}.tooltip.nether_membrane'] = o('tc.tooltip.nether_membrane').replace('§c', '')
+for e, orig in [('thaumaturge', 'Thaumaturge'), ('mad_thaumaturge', 'MadThaumaturge'), ('nether_explorer', 'NetherExplorer'),
+                ('withered_botanist', 'WitheredBotanist')]:
+    L[f'entity.{NS}.{e}'] = o(f'entity.ThaumicConcilium.{orig}.name')
+    L[f'item.{NS}.{e}_spawn_egg'] = o(f'entity.ThaumicConcilium.{orig}.name') + ' Spawn Egg'
+L[f'container.{NS}.thaumaturge'] = o('entity.ThaumicConcilium.Thaumaturge.name')
+L[f'item.{NS}.nether_membrane'] = o('item.NetherMembrane.name')
+L[f'item.{NS}.research_hint'] = 'Scribbled Research Notes'
+L[f'research.{NS}.thaumaturges.title'] = o('tc.research_name.THAUMATURGES')
+L[f'research.{NS}.thaumaturges.stage_0'] = join(o('tc.research_text.THAUMATURGES'), o('entry.thaumaturges.first'))
+L[f'research.{NS}.thaumaturges.stage_1'] = join(o('entry.thaumaturges.second'),
+    "Now they will talk to me. Offered something they value at the trade table (mana beans, skulls, wands, bottles o' "
+    "enchanting, enchanted books) they lay out what they feel it is worth. A finished research note interests them most: "
+    "in exchange they share an idea of their own.")
+L[f'research.{NS}.mad_thaumaturges.title'] = o('tc.research_name.MADTHAUMATURGES')
+L[f'research.{NS}.mad_thaumaturges.stage_0'] = join(o('tc.research_text.MADTHAUMATURGES'), o('entry.madthaumaturges.first'))
+L[f'research.{NS}.mad_thaumaturges.stage_1'] = o('entry.madthaumaturges.second')
+# The original's bestiary entry was also called "Thaumic Concilium", like the tab's root here; it takes its subtitle.
+L[f'research.{NS}.fallen.title'] = o('tc.research_text.THAUMICCONCILIUM')
+L[f'research.{NS}.fallen.stage_0'] = o('entry.thaumicconcilium.first')
+L[f'research.{NS}.fallen.stage_1'] = join(o('entry.thaumicconcilium.second'), o('entry.thaumicconcilium.netherexplorer1'),
+                                          o('entry.thaumicconcilium.netherexplorer2'))
+L[f'research.{NS}.fallen.botanist'] = join(o('entry.thaumicconcilium.witheredbotanist1'), o('entry.thaumicconcilium.witheredbotanist2'))
+L[f'research.{NS}.nether_membrane.title'] = o('tc.research_name.NETHER_MEMBRANE')
+L[f'research.{NS}.nether_membrane.stage_0'] = join(o('tc.research_text.NETHER_MEMBRANE'), o('entry.nether_membrane.first'))
+L[f'research.{NS}.nether_membrane.stage_1'] = ("Wrapping anything in the membrane at a crafting table, one item at a time, leaves it "
+    "proof against fire and lava.")
+
+# ---------------------------------------------------------------- phase 6a
+L[f'block.{NS}.hex_of_predictability'] = o('tc.research_name.HEXOFPREDICTABILITY')
+L[f'block.{NS}.destabilized_crystal'] = o('tile.DestabilizedCrystalBlock.name')
+L[f'block.{NS}.vis_condenser'] = o('tile.VisCondenserBlock.name')
+L[f'item.{NS}.void_slag'] = o('item.VoidSlag.name')
+L[f'entity.{NS}.charged_wisp'] = o('entity.ThaumicConcilium.ChargedWispEntity.name')
+L[f'entity.{NS}.primal_orb'] = 'Primal Orb'
+L[f'message.{NS}.hex_no_vis'] = 'The hex needs %1$s ordo and %1$s terra vis in your wand'
+L[f'spell.{NS}.vis_conductor.name'] = 'Vis Conductor'
+L[f'spell.{NS}.vis_conductor.desc'] = ("Channel at a destabilized crystal cluster to draw its charge, then let go at a target. Letting go at "
+    "nothing bursts the cluster. Dematerialization turns the charge on creatures, and an auram charge on rifts.")
+L[f'spell.{NS}.setting.upgrade'] = 'Upgrade'
+L[f'spell.{NS}.setting.extend'] = 'Extend'
+for v, txt in [('none', 'None'), ('dematerialization', o('focus.upgrade.dematerialization.name')), ('wisp_launcher', o('focus.upgrade.wispLauncher.name'))]:
+    L[f'spell.{NS}.value.vis_conductor.upgrade.{v}'] = txt
+CLUSTER = ("Feed a cluster crystallized essentia by hand, one at a time: the first sets its aspect, each of that aspect "
+           "adds one. It holds what it is given; break it and it is lost.")
+P6A = {
+ 'vis_conductor_focus': (o('tc.research_name.VISCONDUCTOR'), o('tc.research_text.VISCONDUCTOR'), o('entry.visconductor.first'),
+    join(o('entry.visconductor.second'), "Channelled at a destabilized crystal cluster, it draws the cluster's charge into "
+    "itself; what happens when I let go depends on where I point it, and on the upgrade I set in the focal manipulator: "
+    "Dematerialization, once I understand rifts, or the Wisp Launcher, which reels in a wisp and flings it, charged.")),
+ 'destabilized_crystal': (o('tc.research_name.DESTCRYSTAL'), o('tc.research_text.DESTCRYSTAL'), o('entry.destcrystal.first'), CLUSTER),
+ 'rifts': (o('tc.research_name.RIFTS'), o('tc.research_text.RIFTS'), o('entry.rifts.first'), join(o('entry.rifts.second'),
+    "A rift torn from a node grows, lashes out at whatever lives near it, and taints the ground as it closes. The rifts "
+    "that flux tears open are kin to it, if calmer.")),
+ 'dematerialization': (o('tc.research_name.DEMATUPGRADE'), o('tc.research_text.DEMATUPGRADE'), o('entry.dematupgrade.first'),
+    o('focus.upgrade.dematerialization.text')),
+ 'vis_condenser': (o('tc.research_name.VISCONDENSER'), o('tc.research_text.VISCONDENSER'), o('entry.viscondenser.first'),
+    join(o('entry.viscondenser.second'), "A signal from below sends the whole charge into a Hex of Predictability holding a "
+    "rift within eight blocks.")),
+ 'hex_of_predictability': (o('tc.research_name.HEXOFPREDICTABILITY'), o('tc.research_text.HEXOFPREDICTABILITY'), o('entry.hex.first'),
+    join(o('entry.hex.second'), "Eight ancient stone around a bedrock block, struck with a wand (100 ordo and 100 terra): "
+    "the Hex. A jarred node set on its centre and struck again unseals into a young rift, chained above it. Condensers send "
+    "it essentia; throw one item onto the hex and wait while the runes burn: the rift remakes it, if I know how. Void slag "
+    "keeps it hot; too hot and the rift collapses.<BR>The same ring around a Barrier Stone makes a lesser hex (50 and 50). "
+    "It cannot open a rift, but it calms a flux rift hanging above it: no more growth, no more taint when it closes, and it "
+    "will remake things too, for twice the essentia. Keep the rift three blocks or more above the ring, or it eats what I "
+    "throw.")),
+}
+for key, (title, sub, first, second) in P6A.items():
+    L[f'research.{NS}.{key}.title'] = title
+    L[f'research.{NS}.{key}.stage_0'] = join(sub, first)
+    L[f'research.{NS}.{key}.stage_1'] = second
+
 out = f'src/main/resources/assets/{NS}/lang/en_us.json'
 os.makedirs(os.path.dirname(out), exist_ok=True)
 json.dump(dict(sorted(L.items())), open(out, 'w', encoding='utf-8'), indent=2, ensure_ascii=False)

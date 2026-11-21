@@ -6,6 +6,9 @@ import dev.movingcastle.thaumicconcilium.entity.PositiveBurstOrb;
 import dev.movingcastle.thaumicconcilium.entity.ShardPowder;
 import dev.movingcastle.thaumicconcilium.registry.TCEntities;
 import dev.movingcastle.thaumicconcilium.registry.TCItems;
+import dev.movingcastle.thaumicconcilium.client.mob.CorpseRenderer;
+import dev.movingcastle.thaumicconcilium.client.mob.TCModelLayers;
+import dev.movingcastle.thaumicconcilium.client.mob.ThaumaturgeRenderer;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -80,5 +83,42 @@ public final class TCClient {
         // Original: additive particle-atlas sprite in the shard's aspect colour, half opacity, 0.1 scale.
         event.registerEntityRenderer(TCEntities.SHARD_POWDER.get(), ctx -> new SparkleBillboardRenderer<ShardPowder>(ctx,
                 e -> 0x80000000 | e.kind().color(e.level().registryAccess()), (e, pt) -> 0.25, true));
+        // Phase 6a: the charged wisp in its aspect's colour; the primal orb cycling the primal colours (original art
+        // was Thaumcraft 4's wisp and orb sprites, all rights reserved).
+        event.registerEntityRenderer(TCEntities.CHARGED_WISP.get(), ChargedWispRenderer::new);
+        int[] primals = {0xFFFFFF7E, 0xFFFF5A01, 0xFF3CD4FC, 0xFF56C000, 0xFFD5D4EC, 0xFF404040};
+        event.registerEntityRenderer(TCEntities.PRIMAL_ORB.get(), ctx -> new SparkleBillboardRenderer<dev.movingcastle.thaumicconcilium.entity.PrimalOrb>(ctx,
+                e -> primals[(e.tickCount / 4) % primals.length], (e, pt) -> 0.8, true));
+        event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.HEX_BLOCK_ENTITY.get(), HexRenderer::new);
+        // Phase 4 mobs.
+        event.registerEntityRenderer(TCEntities.THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "thaumaturge"));
+        event.registerEntityRenderer(TCEntities.MAD_THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "mad_thaumaturge"));
+        event.registerEntityRenderer(TCEntities.NETHER_EXPLORER.get(),
+                ctx -> new CorpseRenderer<>(ctx, TCModelLayers.NETHER_EXPLORER, "nether_explorer"));
+        if (TCEntities.hasBotanist()) {
+            event.registerEntityRenderer(TCEntities.WITHERED_BOTANIST.get(),
+                    ctx -> new CorpseRenderer<>(ctx, TCModelLayers.WITHERED_BOTANIST, "withered_botanist"));
+        }
+    }
+
+    /** The destabilized crystal takes its aspect's colour (original: colorMultiplier from the tile's aspect). */
+    @SubscribeEvent
+    public static void blockColors(net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tint) -> level != null && pos != null
+                        && level.getBlockEntity(pos) instanceof dev.movingcastle.thaumicconcilium.block.DestabilizedCrystalBlockEntity crystal
+                        ? crystal.color() : 0xFFFFFF,
+                dev.movingcastle.thaumicconcilium.registry.TCBlocks.DESTABILIZED_CRYSTAL.get());
+    }
+
+    @SubscribeEvent
+    public static void layers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(TCModelLayers.THAUMATURGE, TCModelLayers::biped);
+        event.registerLayerDefinition(TCModelLayers.NETHER_EXPLORER, TCModelLayers::explorer);
+        event.registerLayerDefinition(TCModelLayers.WITHERED_BOTANIST, TCModelLayers::botanist);
+    }
+
+    @SubscribeEvent
+    public static void screens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
+        event.register(dev.movingcastle.thaumicconcilium.registry.TCMenus.THAUMATURGE.get(), ThaumaturgeScreen::new);
     }
 }

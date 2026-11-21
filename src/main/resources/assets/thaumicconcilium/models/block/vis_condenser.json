@@ -1,0 +1,10 @@
+{
+  "loader": "neoforge:obj",
+  "model": "thaumicconcilium:models/block/vis_condenser.obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "textures": {
+    "tex": "thaumicconcilium:block/vis_condenser",
+    "particle": "thaumicconcilium:block/vis_condenser"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "thaumicconcilium:block/destabilized_crystal"
+    },
+    "facing=down": {
+      "model": "thaumicconcilium:block/destabilized_crystal",
+      "x": 180
+    },
+    "facing=north": {
+      "model": "thaumicconcilium:block/destabilized_crystal",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "thaumicconcilium:block/destabilized_crystal",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "thaumicconcilium:block/destabilized_crystal",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "thaumicconcilium:block/destabilized_crystal",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

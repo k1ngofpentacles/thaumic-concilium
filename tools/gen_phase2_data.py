@@ -198,4 +198,63 @@ infusion('warp_extraction_focus', [('cognitio', 256), ('alienis', 256), ('instru
 w('data/curios/tags/item/ring.json', {'replace': False, 'values': [f'{NS}:ring_of_blustering_light']})
 for item in ('ring_of_blustering_light', 'primordial_life'):
     w(f'assets/{NS}/models/item/{item}.json', {'parent': 'minecraft:item/generated', 'textures': {'layer0': f'{NS}:item/{item}'}})
+# ---------------------------------------------------------------- spell part icons (original art, WTFPL)
+# Each focus's original item sprite is an animated strip; Thaumaturge draws a spell part icon as one 32x32 picture, so
+# the icon is the strip's first frame at double size. The compressed blast has no original focus (it was split out of
+# Signal and Impulse), so its icon is the port's own and is left alone. Phase 1 and 2 parts alike are refreshed here.
+import struct, zipfile, zlib
+JAR = os.environ.get('TC_ORIGINAL_JAR', '../../reference/jars/legacy-1.7.10/ThaumicConcilium-1.1.1.jar')
+FOCUS_ICONS = {'signal': 'signal', 'impulse': 'impulse', 'positive_burst': 'positive_burst', 'flurry': 'cooling',
+               'reflection': 'reflection', 'scribing': 'scribing', 'wrath_attraction': 'wrath_attraction',
+               'taint_animation': 'taint_animation', 'ethereal_manipulator': 'ethereal_manipulator',
+               'spotlight': 'spotlight', 'alchemist_spree': 'alchemist_spree', 'warp_extraction': 'warp_extraction',
+               'vis_conductor': 'vis_conductor'}
+
+
+def _png_rgba(b):
+    pos, idat, plte, trns = 8, b'', None, None
+    while pos < len(b):
+        n = struct.unpack('>I', b[pos:pos + 4])[0]; t = b[pos + 4:pos + 8]; d = b[pos + 8:pos + 8 + n]; pos += 12 + n
+        if t == b'IHDR': wid, hei, _, ct = struct.unpack('>IIBB', d[:10])
+        elif t == b'PLTE': plte = d
+        elif t == b'tRNS': trns = d
+        elif t == b'IDAT': idat += d
+    bpp = {6: 4, 2: 3, 3: 1, 0: 1, 4: 2}[ct]; stride = wid * bpp; raw = zlib.decompress(idat)
+    prev = bytearray(stride); i = 0; px = []
+    for _ in range(hei):
+        f = raw[i]; i += 1; line = bytearray(raw[i:i + stride]); i += stride
+        for x in range(stride):
+            a = line[x - bpp] if x >= bpp else 0; up = prev[x]; c = prev[x - bpp] if x >= bpp else 0
+            if f == 1: line[x] = (line[x] + a) & 255
+            elif f == 2: line[x] = (line[x] + up) & 255
+            elif f == 3: line[x] = (line[x] + (a + up) // 2) & 255
+            elif f == 4:
+                p = a + up - c; pa, pb, pc = abs(p - a), abs(p - up), abs(p - c)
+                line[x] = (line[x] + (a if pa <= pb and pa <= pc else up if pb <= pc else c)) & 255
+        for x in range(wid):
+            q = line[x * bpp:(x + 1) * bpp]
+            px.append(tuple(q) if ct == 6 else tuple(q) + (255,) if ct == 2 else
+                      tuple(plte[3 * q[0]:3 * q[0] + 3]) + ((trns[q[0]] if trns and q[0] < len(trns) else 255),) if ct == 3 else
+                      (q[0],) * 3 + (255,) if ct == 0 else (q[0],) * 3 + (q[1],))
+        prev = line
+    return wid, hei, px
+
+
+def _write_png(path, size, px):
+    raw = b''.join(b'\x00' + b''.join(struct.pack('BBBB', *px[y * size + x]) for x in range(size)) for y in range(size))
+    def chunk(t, d): return struct.pack('>I', len(d)) + t + d + struct.pack('>I', zlib.crc32(t + d) & 0xffffffff)
+    open(path, 'wb').write(b'\x89PNG\r\n\x1a\n' + chunk(b'IHDR', struct.pack('>IIBBBBB', size, size, 8, 6, 0, 0, 0))
+                           + chunk(b'IDAT', zlib.compress(raw, 9)) + chunk(b'IEND', b''))
+
+
+if os.path.exists(JAR):
+    jar = zipfile.ZipFile(JAR)
+    for part, orig in FOCUS_ICONS.items():
+        wid, _, px = _png_rgba(jar.read(f'assets/{NS}/textures/items/{orig}_foci.png'))
+        icon = [px[(y // 2) * wid + x // 2] for y in range(32) for x in range(32)]
+        out = os.path.join(ROOT, f'assets/{NS}/textures/foci/{part}.png')
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        _write_png(out, 32, icon)
+else:
+    print('original jar not found, focus icons not refreshed:', JAR)
 print('phase 2 generated')

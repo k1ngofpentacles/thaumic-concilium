@@ -2,8 +2,7 @@
   "category": "thaumicconcilium:concilium",
   "name": "research.thaumicconcilium.cooling_focus.title",
   "parents": [
-    "thaumicconcilium:concilium",
-    "thaumaturge:focus_elemental"
+    "thaumicconcilium:destabilized_crystal"
   ],
   "column": -3,
   "row": 4,

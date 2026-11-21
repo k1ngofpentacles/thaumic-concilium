@@ -1,0 +1,14 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": {
+    "type": "neoforge:any"
+  },
+  "spawners": [
+    {
+      "type": "thaumicconcilium:mad_thaumaturge",
+      "weight": 5,
+      "minCount": 1,
+      "maxCount": 3
+    }
+  ]
+}

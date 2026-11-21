@@ -1,0 +1,46 @@
+{
+  "aspect": "thaumaturge:auram",
+  "behavior": {
+    "type": "thaumicconcilium:vis_conductor"
+  },
+  "color": 11184810,
+  "complexity": 6,
+  "icon": "thaumicconcilium:textures/foci/vis_conductor.png",
+  "research": {
+    "entry": "thaumicconcilium:vis_conductor_focus"
+  },
+  "vis": 0.5,
+  "max_per_spell": 1,
+  "settings": [
+    {
+      "key": "potency",
+      "min": 0,
+      "max": 3,
+      "name": "spell.thaumicconcilium.setting.potency",
+      "default": 0,
+      "complexity": 2.0,
+      "vis": 0.2
+    },
+    {
+      "key": "upgrade",
+      "min": 0,
+      "max": 2,
+      "name": "spell.thaumicconcilium.setting.upgrade",
+      "default": 0,
+      "complexity": 3.0,
+      "labels": [
+        "spell.thaumicconcilium.value.vis_conductor.upgrade.none",
+        "spell.thaumicconcilium.value.vis_conductor.upgrade.dematerialization",
+        "spell.thaumicconcilium.value.vis_conductor.upgrade.wisp_launcher"
+      ]
+    },
+    {
+      "key": "extend",
+      "min": 0,
+      "max": 2,
+      "name": "spell.thaumicconcilium.setting.extend",
+      "default": 0,
+      "complexity": 1.0
+    }
+  ]
+}

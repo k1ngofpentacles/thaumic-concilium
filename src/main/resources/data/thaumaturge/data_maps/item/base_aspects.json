@@ -1,0 +1,32 @@
+{
+  "values": {
+    "thaumicconcilium:nether_membrane": [
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumadditions:infernum",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:fabrico",
+        "amount": 5
+      }
+    ],
+    "thaumicconcilium:research_hint": [
+      {
+        "aspect": "thaumaturge:cognitio",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 3
+      }
+    ]
+  }
+}

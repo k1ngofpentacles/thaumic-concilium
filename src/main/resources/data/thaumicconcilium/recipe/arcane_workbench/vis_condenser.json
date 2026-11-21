@@ -1,0 +1,69 @@
+{
+  "type": "thaumaturge:arcane_workbench_shaped",
+  "pattern": [
+    "GSG",
+    "BFB",
+    "BAB"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "S": {
+      "item": "thaumaturge:stone_arcane"
+    },
+    "B": {
+      "item": "minecraft:obsidian"
+    },
+    "F": {
+      "type": "neoforge:components",
+      "items": "thaumaturge:focus_1",
+      "components": {
+        "thaumaturge:spell": {
+          "style": "channeled",
+          "root": {
+            "part": "thaumaturge:origin",
+            "children": [
+              {
+                "part": "thaumicconcilium:vis_conductor",
+                "settings": {
+                  "upgrade": 1
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "A": {
+      "item": "thaumaturge:node_stabilizer_advanced"
+    }
+  },
+  "vis": 120,
+  "crystals": [
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 1
+    }
+  ],
+  "research": {
+    "entry": "thaumicconcilium:vis_condenser",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:vis_condenser"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:village",
+    "minecraft:desert_pyramid",
+    "minecraft:jungle_pyramid",
+    "minecraft:swamp_hut",
+    "minecraft:igloo",
+    "minecraft:ruined_portal",
+    {
+      "id": "thaumaturge:mound",
+      "required": false
+    },
+    {
+      "id": "thaumaturge:eldritch_obelisk",
+      "required": false
+    },
+    {
+      "id": "villagesandpillages:village_witch",
+      "required": false
+    }
+  ]
+}

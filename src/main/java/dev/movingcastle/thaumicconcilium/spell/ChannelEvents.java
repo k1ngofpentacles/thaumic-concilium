@@ -58,6 +58,9 @@ public final class ChannelEvents {
                 charge.hurl(player.getLookAngle());
             }
         }
+        if (entity instanceof Player player && SpellTrees.contains(spell, SpellTrees.part("vis_conductor"))) {
+            dev.movingcastle.thaumicconcilium.spell.effect.VisConductorEffect.released(player);
+        }
         if (SpellTrees.contains(spell, SpellTrees.part("ethereal_manipulator"))) {
             EtherealManipulatorEffect.resetRange(entity);
         }

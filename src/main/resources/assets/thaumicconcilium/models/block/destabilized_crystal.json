@@ -1,0 +1,220 @@
+{
+  "render_type": "minecraft:translucent",
+  "ambientocclusion": false,
+  "textures": {
+    "crystal": "thaumicconcilium:block/destabilized_crystal",
+    "particle": "thaumicconcilium:block/destabilized_crystal"
+  },
+  "elements": [
+    {
+      "from": [
+        6,
+        0,
+        6
+      ],
+      "to": [
+        10,
+        12,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            4,
+            12
+          ]
+        },
+        "south": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            4,
+            12
+          ]
+        },
+        "east": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            4,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            4,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            4,
+            4
+          ]
+        }
+      }
+    },
+    {
+      "from": [
+        3,
+        0,
+        7
+      ],
+      "to": [
+        6,
+        8,
+        10
+      ],
+      "faces": {
+        "north": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            8
+          ]
+        },
+        "south": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            8
+          ]
+        },
+        "east": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            8
+          ]
+        },
+        "west": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            8
+          ]
+        },
+        "up": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          0,
+          8
+        ],
+        "axis": "z",
+        "angle": 22.5
+      }
+    },
+    {
+      "from": [
+        10,
+        0,
+        5
+      ],
+      "to": [
+        13,
+        9,
+        8
+      ],
+      "faces": {
+        "north": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            9
+          ]
+        },
+        "south": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            9
+          ]
+        },
+        "east": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            9
+          ]
+        },
+        "west": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            9
+          ]
+        },
+        "up": {
+          "texture": "#crystal",
+          "tintindex": 0,
+          "uv": [
+            0,
+            0,
+            3,
+            3
+          ]
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          0,
+          8
+        ],
+        "axis": "x",
+        "angle": -22.5
+      }
+    }
+  ]
+}

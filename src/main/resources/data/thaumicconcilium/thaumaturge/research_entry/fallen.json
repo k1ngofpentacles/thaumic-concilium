@@ -1,0 +1,56 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.fallen.title",
+  "parents": [
+    "thaumicconcilium:thaumaturges",
+    "thaumicconcilium:scanned/fallen"
+  ],
+  "column": -3,
+  "row": -3,
+  "icons": [
+    "thaumicconcilium:textures/category.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.fallen.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 1
+    },
+    {
+      "text": "research.thaumicconcilium.fallen.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 6
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden",
+    "round"
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumicconcilium.fallen.botanist",
+      "required_research": [
+        "thaumaturge:scanned/entity/thaumicconcilium/withered_botanist"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.thaumaturges.title",
+  "parents": [
+    "thaumicconcilium:concilium"
+  ],
+  "column": -3,
+  "row": -1,
+  "icons": [
+    "thaumicconcilium:textures/item/icon_thaumaturge.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.thaumaturges.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.thaumaturges.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    }
+  ],
+  "complexity": 1
+}

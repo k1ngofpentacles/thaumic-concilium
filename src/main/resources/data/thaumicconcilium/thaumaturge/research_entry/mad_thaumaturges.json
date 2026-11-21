@@ -1,0 +1,48 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.mad_thaumaturges.title",
+  "parents": [
+    "thaumicconcilium:thaumaturges",
+    "thaumaturge:scanned/entity/thaumicconcilium/mad_thaumaturge"
+  ],
+  "column": -5,
+  "row": -1,
+  "icons": [
+    "thaumicconcilium:textures/item/icon_mad_thaumaturge.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.mad_thaumaturges.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 1
+    },
+    {
+      "text": "research.thaumicconcilium.mad_thaumaturges.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 6
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

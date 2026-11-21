@@ -1,0 +1,49 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.nether_membrane.title",
+  "parents": [
+    "thaumaturge:scanned/item/thaumicconcilium/nether_membrane"
+  ],
+  "column": 3,
+  "row": -2,
+  "icons": [
+    "thaumicconcilium:nether_membrane"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.nether_membrane.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.nether_membrane.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumadditions:infernum",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:fabrico",
+      "amount": 2
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden"
+  ]
+}

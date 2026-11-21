@@ -1,0 +1,68 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.vis_conductor_focus.title",
+  "parents": [
+    "~thaumicconcilium:concilium",
+    "~thaumicconcilium:thaumaturges",
+    "~thaumaturge:infusion",
+    "~thaumaturge:recharge_pedestal"
+  ],
+  "column": -4,
+  "row": 5,
+  "icons": [
+    "focus:thaumicconcilium:vis_conductor"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.vis_conductor_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "obtain": [
+        {
+          "items": "thaumicconcilium:research_hint",
+          "amount": 1,
+          "components": {
+            "thaumicconcilium:hint": "thaumicconcilium:vis_conductor_focus"
+          }
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.vis_conductor_focus.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/vis_conductor_focus"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    }
+  ],
+  "complexity": 3,
+  "meta": [
+    "spiky"
+  ]
+}

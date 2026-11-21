@@ -74,8 +74,15 @@ public final class FocusPresets {
     public static final Preset WARP_EXTRACTION = new Preset("warp_extraction_focus", CastStyle.CHANNELED,
             origin(node("warp_extraction", Map.of())), 5);
 
+    /** Phase 6a. The dematerialization variant is the original's focus with that upgrade (the Vis Condenser needs one). */
+    public static final Preset VIS_CONDUCTOR = new Preset("vis_conductor_focus", CastStyle.CHANNELED,
+            origin(node("vis_conductor", Map.of())));
+    public static final Preset DEMATERIALIZATION = new Preset("dematerialization", CastStyle.CHANNELED,
+            origin(node("vis_conductor", Map.of("upgrade", 1))));
+
     public static final List<Preset> ALL = List.of(SIGNAL, IMPULSE, POSITIVE_BURST, COOLING,
-            REFLECTION, SCRIBING, WRATH_ATTRACTION, TAINT_ANIMATION, ETHEREAL_MANIPULATOR, SPOTLIGHT, ALCHEMIST_SPREE, WARP_EXTRACTION);
+            REFLECTION, SCRIBING, WRATH_ATTRACTION, TAINT_ANIMATION, ETHEREAL_MANIPULATOR, SPOTLIGHT, ALCHEMIST_SPREE, WARP_EXTRACTION,
+            VIS_CONDUCTOR, DEMATERIALIZATION);
 
     private static SpellNode origin(SpellNode... children) {
         return new SpellNode(Spell.ORIGIN, Optional.empty(), Map.of(), List.of(children));

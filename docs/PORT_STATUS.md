@@ -154,6 +154,59 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
 
 See `../../../docs/design/concilium-fidelity-review.md` for every deviation from the original awaiting a decision.
 
+## Phase 4: Thaumaturges, Mad Thaumaturges, the corpses (0.5.0)
+
+| Area | Status | Notes |
+|---|---|---|
+| Thaumaturge | ✅ | `entity/mob/ThaumaturgeEntity`: 20 HP, 6 attack, 0.4 speed, +2 armour, heals 1 per 2 s. Fire wand (five fire bolts through Thaumaturge's own `projectile → fire` spell); hunts cultists, zombies, skeletons, eldritch and tainted mobs. Hit one: every Thaumaturge within 32 is angry for 20-40 s. Taunts until the Thaumaturges research is done; says it has nothing left to surprise you with once all three traded hints are known |
+| Trading | ✅ | `ThaumaturgeMenu` + `ThaumaturgeScreen` (Pech layout; the background is Thaumaturge's `gui_pech.png`, used from its jar). `ThaumaturgeTrades`: the original values and weighted table, 1:1 |
+| Mad Thaumaturge | ✅ | Void hoe or shovel; hunts players, Thaumaturges, cultists; leaps onto whoever hurt it and claws; drops hint notes (20%) or Curios of Knowledge. Replaces 20% of Brainy Zombies (config) |
+| Research hints | ✅ | `research_hint` with a `thaumicconcilium:hint` component; an `obtain` requirement on the first stage of Reflection, Thick Taint, Runic Windings, Positive Burst and Impulse (consumed). Original tooltips, including "these lunatics" once all Mad hints are known |
+| Nether Explorer | ✅ | Floats on lava and water (the original's boat physics); touch or hit: Nether Membrane + the Nether Membrane research. Spawner: near a player in the Nether, on the lava sea, while fewer than 4 are loaded |
+| Nether Membrane | ✅ | Special crafting recipe: membrane + one item → that item with vanilla `fire_resistant` (plus a "Nether Protection" tooltip) |
+| Withered Botanist | ✅ | Only with Botania. Touch or hit: 3-4 random mystical flowers bloom; it blows away |
+| Smart taint spider | ✅ | `SmartTaintSpiders`: a tainted spider without self-targeting or drops; Taint Animation's command mode and Thought Manifestation make them (phase 2 used a taint crawler) |
+| Research | ✅ | Thaumaturges (bought), Mad Thaumaturges (scan one), The Price of Scientific Advances (the bestiary: scan a Nether Explorer or Botanist; the Botanist page appears once one is scanned), Nether Membrane |
+| Drums | ⬜ | Moved to phase 6: the Thaumaturge's Drum hangs off the Vis Conductor entry and the Warped Drum is a rift recipe |
+
+### Mapping decisions (phase 4)
+
+- **Spawning** (agreed 2026-11-21: Thaumaturges a welcome, uncommon sight, not a constant presence): the original's
+  creature spawn (weight 5, groups of 1-3) only takes as the chunk of an overworld surface structure in
+  `#thaumicconcilium:thaumaturge_haunts` generates (villages, temples, witch huts, igloos, ruined portals, Thaumaturge's
+  mounds and obelisks, Villages & Pillages' witch village), and those Thaumaturges stay. The periodic creature
+  respawns never bring them. On top of that, rare wanderers: checked once a minute, 1.5% (config), one or two near a
+  random player, gone after one or two days.
+- Mad Thaumaturges and Withered Botanists spawn in every biome, as in the original (the Botanist's own rule keeps it in
+  the overworld). Mad Thaumaturges carry a void hoe or shovel, as in the original code (not an axe).
+- Knowledge fragment → Thaumaturge's Curio of Knowledge; TC4 shards → essentia crystals; crystal clusters → the six
+  primal clusters (Thaumaturge has no balanced cluster); the fire focus → a focus inscribed `projectile → fire`.
+- Hints for entries that don't exist yet (Vis Conductor, Destabilized Crystal: phase 6) are skipped: the Mad roll drops
+  nothing, the trade falls back to Positive Burst or Impulse.
+- Not ported: the Mad Thaumaturge's crimson-dagger conversion (needs Tainted Magic, not in the pack).
+
+### Needs in-game testing
+
+The FTB Quests chapter **Thaumaturges and the fallen** (`qa_thaumaturges`) walks through each check. Not covered by the
+pack test: the trade screen itself, the fire bolts and anger in play, the Mad Thaumaturge leaping onto a player, lava
+floating, flowers blooming, natural spawns near structures, wanderers, and the bestiary appearing on scans.
+
+## Phase 6a: the rift workshop (0.6.0)
+
+| Area | Status | Notes |
+|---|---|---|
+| Spatial rifts | ✅ | `rift/ConciliumRifts`: Thaumaturge flux rifts tagged by Concilium. Breaking an aura node opens one (config `chanceOfRiftOpening`, 100); the original's growth, event table and collapse taint, on top of Thaumaturge's sweep |
+| Taming native rifts | ✅ | Port addition (to be revisited, see the scope doc): a lesser hex (ancient stone around a Barrier Stone) pins a native flux rift very stable (no events, growth or taint), reins it to size 25, transmutes at double essentia |
+| Hex of Predictability | ✅ | `rift/Hexes`, `block/Hex*`: bedrock + 8 ancient stone, wand trigger; jarred node -> chained rift; heat, void slag, transmutation; OBJ rings with a tinted ink layer (`client/HexRenderer`) |
+| Rift recipes | ✅ | `recipe/RiftRecipe` (`thaumicconcilium:rift`). None yet: the first (Astral Monitor) arrives in 6b; the pack test uses a test recipe |
+| Vis Conductor | ✅ | `spell/effect/VisConductorEffect`: drain a crystal, burst it, Dematerialization (creatures, auram into rifts), Wisp Launcher -> `entity/ChargedWisp` |
+| Destabilized Crystal, Vis Condenser | ✅ | `block/DestabilizedCrystal*`, `block/VisCondenserBlock` (original OBJ) |
+| Primal orb | ✅ | The port's own (`entity/PrimalOrb`) for the rift's orb event |
+| Research | ✅ | Vis Conductor and Destabilized Crystal (hint-gated), Rifts (scan a flux rift), Dematerialization, Vis Condenser, Hex; Cooling Focus and Dump Jackboots back under the crystal |
+
+QA commands: `/thaumicconcilium qa hex <pos> full|chained|lesser`, `qa rift <pos> <size>`, `qa crystal <pos> <aspect> <amount>`.
+QA chapter: **The rift workshop** (`qa_rift_workshop`). Deviations: the fidelity review, "Phase 6a".
+
 ## Remaining phases (planned)
 
 Dependencies mirror the original's (`required-after: Thaumcraft, ForbiddenMagic, ThaumicTinkerer`):
@@ -165,9 +218,9 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 |---|---|
 | FM | ✅ (0.2.1) Forbidden Magic (Thaumaturge) built; sin aspects moved; shard stand-ins swapped for real shards |
 | 3 | ✅ (0.3.0) Gear, warp baubles, bottles, shard mills. 3b: casting bracelets |
-| 4 | Thaumaturges, Mad Thaumaturges and the corpse mobs; research hints from scanning |
+| 4 | ✅ (0.5.0) Thaumaturges, Mad Thaumaturges, Nether Explorer, Withered Botanist, hint notes, Nether Membrane |
 | 5 | Crimson forces: paladin, archer, ranger, lesser portal, Pontifex boss |
-| 6 | Rifts, Hex of Predictability, machines (Destabilized Crystal), Vis Conductor focus, Brightest One, Gem of Rifts, Causal Bouillon dimension |
+| 6 | Rifts, Hex of Predictability, machines (Destabilized Crystal), Vis Conductor focus, Thaumaturge's and Warped Drums, Brightest One, Gem of Rifts, Causal Bouillon dimension |
 | 7 | Golem cores → seals, Golem Bydlo, Vengeful Golem |
 | 8 | Horizons flesh alchemy, Gadomancy gadgets, Thaumic Bases picks |
 | 10 | Neo Vitae and Enchanted integrations |

@@ -21,7 +21,16 @@
           "amount": 1
         }
       ],
-      "warp": 3
+      "warp": 3,
+      "obtain": [
+        {
+          "items": "thaumicconcilium:research_hint",
+          "amount": 1,
+          "components": {
+            "thaumicconcilium:hint": "thaumicconcilium:runic_windings"
+          }
+        }
+      ]
     },
     {
       "text": "research.thaumicconcilium.runic_windings.stage_1",

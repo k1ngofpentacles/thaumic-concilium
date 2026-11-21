@@ -1,0 +1,77 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumaturge:node_transducer"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:infusion_matrix"
+    },
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:recharge_pedestal"
+    },
+    {
+      "item": "thaumaturge:infusion_matrix"
+    },
+    {
+      "item": "minecraft:quartz"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:recharge_pedestal"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:vis_conductor_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "channeled",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:vis_conductor"
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.vis_conductor_focus.title\"}]}"
+    }
+  }
+}

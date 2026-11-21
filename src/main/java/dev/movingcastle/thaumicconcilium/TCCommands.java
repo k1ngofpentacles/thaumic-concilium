@@ -47,7 +47,22 @@ public final class TCCommands {
                         .then(Commands.literal("caster")
                                 .then(Commands.argument("item", ResourceLocationArgument.id())
                                         .then(Commands.argument("preset", StringArgumentType.word()).suggests(TCCommands::presets)
-                                                .executes(TCCommands::caster))))));
+                                                .executes(TCCommands::caster))))
+                        // Phase 6a test scaffolding: a ready hex (full needs bedrock, which survival can't place).
+                        .then(Commands.literal("hex")
+                                .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+                                        .then(Commands.literal("full").executes(c -> hex(c, false, false)))
+                                        .then(Commands.literal("chained").executes(c -> hex(c, false, true)))
+                                        .then(Commands.literal("lesser").executes(c -> hex(c, true, false)))))
+                        .then(Commands.literal("rift")
+                                .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+                                        .then(Commands.argument("size", com.mojang.brigadier.arguments.IntegerArgumentType.integer(5, 100))
+                                                .executes(TCCommands::rift))))
+                        .then(Commands.literal("crystal")
+                                .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+                                        .then(Commands.argument("aspect", ResourceLocationArgument.id())
+                                                .then(Commands.argument("amount", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 1000))
+                                                        .executes(TCCommands::crystal)))))));
     }
 
     private static java.util.concurrent.CompletableFuture<com.mojang.brigadier.suggestion.Suggestions> presets(
@@ -65,6 +80,51 @@ public final class TCCommands {
         ResearchGrants.grantAll(player);
         AspectPools.grantAllForCommand(player, 100);
         ctx.getSource().sendSuccess(() -> Component.literal("QA: all research and aspects granted"), false);
+        return 1;
+    }
+
+    /** Builds the ring and centre at {@code pos} and forms the hex; {@code chained} also opens its chained rift. */
+    private static int hex(CommandContext<CommandSourceStack> ctx, boolean lesser, boolean chained) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        net.minecraft.core.BlockPos pos = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        net.minecraft.server.level.ServerLevel level = ctx.getSource().getLevel();
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                level.setBlock(pos.offset(dx, 0, dz), dx == 0 && dz == 0
+                        ? (lesser ? com.leclowndu93150.thaumaturge.registry.TTBlocks.PAVING_STONE_BARRIER.get() : net.minecraft.world.level.block.Blocks.BEDROCK).defaultBlockState()
+                        : com.leclowndu93150.thaumaturge.registry.TTBlocks.STONE_ANCIENT.get().defaultBlockState(), 3);
+            }
+        }
+        dev.movingcastle.thaumicconcilium.rift.Hexes.form(level, pos, lesser);
+        if (chained) {
+            level.setBlock(pos.above(), com.leclowndu93150.thaumaturge.registry.TTBlocks.JAR_NODE.get().defaultBlockState(), 3);
+            dev.movingcastle.thaumicconcilium.rift.Hexes.chain(level, pos.above(), pos);
+        }
+        return 1;
+    }
+
+    /** A native flux rift (Thaumaturge's own) of that size at {@code pos}. */
+    private static int rift(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        net.minecraft.core.BlockPos pos = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        var level = ctx.getSource().getLevel();
+        var rift = com.leclowndu93150.thaumaturge.registry.TTEntities.FLUX_RIFT.get().create(level);
+        if (rift == null) {
+            return 0;
+        }
+        rift.reseed(level.random.nextInt());
+        rift.moveTo(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0.0F, 0.0F);
+        rift.resize(com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "size"));
+        level.addFreshEntity(rift);
+        return 1;
+    }
+
+    /** A destabilized crystal at {@code pos} holding {@code amount} of {@code aspect}. */
+    private static int crystal(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        net.minecraft.core.BlockPos pos = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        var level = ctx.getSource().getLevel();
+        level.setBlock(pos, dev.movingcastle.thaumicconcilium.registry.TCBlocks.DESTABILIZED_CRYSTAL.get().defaultBlockState(), 3);
+        if (level.getBlockEntity(pos) instanceof dev.movingcastle.thaumicconcilium.block.DestabilizedCrystalBlockEntity crystal) {
+            crystal.charge(ResourceLocationArgument.getId(ctx, "aspect"), com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "amount"));
+        }
         return 1;
     }
 
