@@ -41,6 +41,7 @@ import net.neoforged.neoforge.event.tick.EntityTickEvent;
  *   to a size set by the node's vis, rolls the original's event table every 15 seconds, and spreads taint as it
  *   closes. Its Thaumaturge stability is held at 0, so Thaumaturge's own flux events stay quiet and these replace them.</li>
  *   <li>{@link Kind#CHAINED}: made on a Hex of Predictability from a jarred node: tame, full-efficiency transmutation.</li>
+ *   <li>{@link Kind#INTERDIMENSIONAL}: opened by a Gem of Rifts, see {@link Subspace}.</li>
  *   <li>{@link Kind#TAMED}: a native flux rift held by a lesser hex: tame, half-efficiency transmutation.</li>
  * </ul>
  * Tame rifts are pinned to "very stable" through Thaumaturge's own stability: no events, no growth, a harmless collapse.
@@ -51,10 +52,10 @@ public final class ConciliumRifts {
     private static final float PINNED_STABLE = 100.0F;
 
     public enum Kind {
-        SPATIAL, CHAINED, TAMED;
+        SPATIAL, CHAINED, TAMED, INTERDIMENSIONAL;
 
         public boolean tame() {
-            return this != SPATIAL;
+            return this == CHAINED || this == TAMED;
         }
     }
 
@@ -75,7 +76,7 @@ public final class ConciliumRifts {
         }
     }
 
-    private static CompoundTag data(EntityFluxRift rift) {
+    static CompoundTag data(EntityFluxRift rift) {
         CompoundTag root = rift.getPersistentData();
         if (!root.contains(TAG)) {
             root.put(TAG, new CompoundTag());
@@ -166,6 +167,19 @@ public final class ConciliumRifts {
     }
 
     // ---------------------------------------------------------------- ticking
+    /**
+     * Interdimensional rifts (the Gem of Rifts') run their own life ({@link Subspace}): Thaumaturge's tick is cancelled on the
+     * server, so its block-eating sweep, damage, events and collapse loot never happen. The client keeps ticking (it only refreshes the outline).
+     */
+    @SubscribeEvent
+    public static void onRiftTickPre(EntityTickEvent.Pre event) {
+        if (event.getEntity() instanceof EntityFluxRift rift && rift.level() instanceof ServerLevel level && !rift.isRemoved()
+                && kind(rift) == Kind.INTERDIMENSIONAL) {
+            event.setCanceled(true);
+            Subspace.tick(level, rift);
+        }
+    }
+
     @SubscribeEvent
     public static void onRiftTick(EntityTickEvent.Post event) {
         if (!(event.getEntity() instanceof EntityFluxRift rift) || !(rift.level() instanceof ServerLevel level) || rift.isRemoved()) {

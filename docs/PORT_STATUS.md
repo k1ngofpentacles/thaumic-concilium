@@ -217,6 +217,25 @@ and all 30 GameTests pass.
 
 Every manual check is a QA quest in the FTB Quests book: **Monitors and machines (6b)** (`qa_phase_6b`: polished infusions, Xylography, the monitor, Lithographer and HUD, elemental, reactor, Polishment Device, the drums and the drum stance) and **The rift workshop** (`qa_rift_workshop`: primal orb). Nothing is listed here.
 
+## Phase 6c: aura cores, gems, subspace and the Brightest One (0.8.0)
+
+| Area | Status | Notes |
+|---|---|---|
+| Aura cores | ✅ | Gadomancy's cores: blank core by infusion from a primal charm; attuned by tossing it beside a primal crystal cluster and striking the cluster with a charged wand (scan of 9 x 9 x 9 around the core, particles and sound); six cleaning crucible recipes. Earth and entropy cores are usable |
+| Gem of Rifts, Terra-cast Gem | ✅ | Held use opens an interdimensional rift (no rift within 16 blocks; perditio 10 + aer 10, terra 10 + aer 10 for the terra gem); the terra gem absorbs a block with terra and binds a dimension; crafting adds a cast to the Rift Gem (16 at most). Held rendering in first person (both hands), third person, GUI, ground and frame |
+| Interdimensional rift | ✅ | Grows 5 to 50, teleports a player holding a gem, collapses by shrinking; no taint, no warp |
+| Causal Bouillon, Void Reality | ✅ | Flat void dimension with a Void Reality floor, fixed noon, no beds; crossing keeps x and z in, scales x10 or /10 out, safe landing, Nether pocket exit |
+| The Brightest One | ✅ | Summoned by a charged wisp (Wisp Launcher) from a researched player into a chained rift; immune to damage, short-circuited by charged wisps (1 of 15 health each); four attack sets by aspect; pink boss bar and darkened sky; despawns on peaceful |
+| Primordial Life | ✅ | Now obtainable: the Brightest One drops it once |
+| Solid Void | moved | To phase 8 (needs the Protobody and six protolimbs) |
+| Burning Site | moved | To phase 10 (the Witchery re-imagining) |
+
+Deviations: the fidelity review, "Phase 6c". Added a `wisp_launcher` focus preset (`/thaumicconcilium qa focus wisp_launcher`) for testing. QA chapter: **The Brightest One and subspace (6c)** (`qa_phase_6c`). Pack test: `Phase6cTests`, `Phase6cGemTests`, `Phase6cBossTests`.
+
+### Needs in-game testing
+
+Every manual check is a QA quest in the FTB Quests book: **The Brightest One and subspace (6c)** (`qa_phase_6c`). Nothing is listed here.
+
 ## Remaining phases (planned)
 
 Dependencies mirror the original's (`required-after: Thaumcraft, ForbiddenMagic, ThaumicTinkerer`):
@@ -230,9 +249,9 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 | 3 | ✅ (0.3.0) Gear, warp baubles, bottles, shard mills. 3b: casting bracelets |
 | 4 | ✅ (0.5.0) Thaumaturges, Mad Thaumaturges, Nether Explorer, Withered Botanist, hint notes, Nether Membrane |
 | 5 | Crimson forces: paladin, archer, ranger, lesser portal, Pontifex boss |
-| 6 | 6a and 6b done (0.6.0, 0.7.0); 6c: Brightest One, Gem of Rifts, Causal Bouillon dimension |
+| 6 | ✅ 6a, 6b, 6c done (0.6.0, 0.7.0, 0.8.0): Brightest One, Gem of Rifts, Causal Bouillon dimension |
 | 7 | Golem cores → seals, Golem Bydlo, Vengeful Golem |
-| 8 | Horizons flesh alchemy, Gadomancy gadgets, Thaumic Bases picks |
-| 10 | Neo Vitae and Enchanted integrations |
+| 8 | Horizons flesh alchemy, Gadomancy gadgets, Thaumic Bases picks, Solid Void |
+| 10 | Neo Vitae and Enchanted integrations, the Burning Site |
 
 Phase 9 (a Tinkerer KAMI module) is dropped: Thaumaturge Tinker already ports KAMI.

@@ -1,0 +1,74 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.aura_core.title",
+  "parents": [
+    "thaumicconcilium:thaumaturges"
+  ],
+  "column": -5,
+  "row": 1,
+  "icons": [
+    "thaumicconcilium:aura_core"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.aura_core.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.aura_core.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/aura_core",
+        "thaumicconcilium:crucible/aura_core_clean_air",
+        "thaumicconcilium:crucible/aura_core_clean_fire",
+        "thaumicconcilium:crucible/aura_core_clean_water",
+        "thaumicconcilium:crucible/aura_core_clean_earth",
+        "thaumicconcilium:crucible/aura_core_clean_order",
+        "thaumicconcilium:crucible/aura_core_clean_entropy"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 9
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 3
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "round"
+  ]
+}

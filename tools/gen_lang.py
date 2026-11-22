@@ -360,6 +360,69 @@ for key, (title, sub, first, second) in P6B2.items():
     L[f'research.{NS}.{key}.stage_0'] = join(sub, first)
     L[f'research.{NS}.{key}.stage_1'] = second
 
+# ---------------------------------------------------------------- phase 6c (first cycle): Gadomancy's Aura Cores
+# Text adapted from Gadomancy 1.7.10 (LGPL; Makeo and the Gadomancy team): item.ItemAuraCore.name, gadomancy.auracore.blank,
+# tc.research_*.GADOMANCY.AURA_CORE and gadomancy.research_page.AURA_CORE.1 / .3 / CLEAN_AURA_CORE.1 (spelling corrected).
+L[f'item.{NS}.aura_core'] = 'Aura Core'
+L[f'{NS}.auracore.blank'] = 'Blank'
+L[f'message.{NS}.aura_core_no_vis'] = 'The cluster needs %s vis of its primal in your wand'
+L[f'research.{NS}.aura_core.title'] = 'Aura Core'
+L[f'research.{NS}.aura_core.stage_0'] = join('Your surroundings matter!',
+    "Many times, the strange properties of the primal charm have been puzzling. Constantly spitting out small sparks of primal "
+    "energy and changing colors in a completely unstable fashion, the charm's behavior is unlike anything else, making the primal "
+    "charm most difficult to use. By encasing the charm in a layer of crystallized thaumium it is possible to calm these bizarre "
+    "tendencies, resulting in a much more usable object known as an Aura Core.")
+L[f'research.{NS}.aura_core.stage_1'] = join(
+    "Unlike the charm that it was constructed from, an Aura Core has had most of the primal energy removed in the crafting process. "
+    "This leaves Aura Cores heavily susceptible to the presence of auras in the environment. Tossing one on the ground near a "
+    "primal crystal cluster and then energizing the cluster with a wand will cause the core to coat itself in an extra layer of "
+    "crystal, forcing the core to tune to one primal aspect. Six primal cores are possible to make.",
+    "Here: the wand pays 84 vis of the cluster's primal and the cluster is consumed (without breaking blocks around it). The core "
+    "then gathers for twenty-five seconds, reading the aspects of every block in the nine-by-nine cube around it, so surround it "
+    "with the element you want: at least 109 blocks with aspects are needed, and the winner is drawn by weight from the primals "
+    "above the average. Too bare a place and the core comes back blank.",
+    "Returning an Aura Core to its original state is very simple. Tossing an attuned core into a bath of essentia (a crucible "
+    "holding 12 praecantatio, 12 aqua and 18 victus) removes the extra crystal coat without damaging the core.",
+    "(Adapted from Gadomancy by Makeo, LGPL.)")
+
+# ---------------------------------------------------------------- phase 6c (second cycle): Gem of Rifts, Terra-cast Gem, Causal Bouillon
+L[f'item.{NS}.inert_rift_gem'] = o('item.RiftGemInert.name')
+L[f'item.{NS}.rift_gem'] = o('item.RiftGem.name')
+L[f'item.{NS}.inert_terra_cast_gem'] = o('item.TerraGemInert.name')
+L[f'item.{NS}.terra_cast_gem'] = o('item.TerraGem.name')
+L[f'block.{NS}.void_reality'] = o('tile.VoidRealityBlock.name')
+L[f'{NS}.tooltip.gem_cost'] = 'Vis cost:'
+L[f'{NS}.tooltip.riftgem'] = o('tc.tooltip.riftgem').replace('§9', '')
+L[f'{NS}.tooltip.riftgem.inflate'] = o('tc.tooltip.riftgem.inflate').replace('§e', '')
+L[f'{NS}.tooltip.riftgem.deflate'] = o('tc.tooltip.riftgem.deflate').replace('§e', '')
+L[f'{NS}.tooltip.terragem'] = o('tc.tooltip.terragem').replace('§9', '')
+L['death.attack.%s.void_reality' % NS] = '%1$s was lost to the Void Reality'
+L[f'research.{NS}.rift_gem.title'] = o('tc.research_name.RIFTGEM')
+L[f'research.{NS}.rift_gem.stage_0'] = join(o('tc.research_text.RIFTGEM'), o('entry.riftgem.first'), o('entry.riftgem.second'))
+L[f'research.{NS}.rift_gem.stage_1'] = join(
+    o('entry.riftgem.third'), o('entry.riftgem.fourth'),
+    "Here: hold the use key with the gem in your hand and a wand with 10 perditio and 10 aer in your hotbar; every four seconds, "
+    "where no other rift is within sixteen blocks, it opens a rift that lives about ten seconds. Step into it with the gem in your "
+    "main hand to enter the Causal Bouillon at the same x and z; step into another rift there to leave, at ten times (or, with the "
+    "space deflated, a tenth of) your x and z, to a safe surface. Shift + use cycles the casts. The gem is made by infusion from an "
+    "entropy aura core, and woken by throwing it onto a Hex of Predictability whose rift holds 128 motus, 128 perditio, 128 vitreus, "
+    "128 vacuos and 64 auram. Crafting it with a Terra-cast Gem that holds a cast adds the cast (sixteen at most).")
+L[f'research.{NS}.terra_cast_gem.title'] = o('tc.research_name.TERRACAST')
+L[f'research.{NS}.terra_cast_gem.stage_0'] = join(o('tc.research_text.TERRACAST'), o('entry.terracast.first'), o('entry.terracast.second'))
+L[f'research.{NS}.terra_cast_gem.stage_1'] = join(
+    "Here: hold the use key on a solid block that holds terra (10 terra and 10 aer from a wand in your hotbar). The block "
+    "vanishes without a drop and the gem remembers it and your dimension. The gem is made by infusion from an earth aura core, and "
+    "woken by throwing it onto a Hex of Predictability whose rift holds 128 motus, 128 perditio, 128 vitreus, 128 cognitio and 64 auram.")
+
+# ---------------------------------------------------------------- phase 6c (third cycle): the Brightest One
+L[f'entity.{NS}.brightest_one'] = o('entity.ThaumicConcilium.BrightestOne.name')
+L[f'research.{NS}.brightest_one.title'] = o('tc.research_name.BRIGHTESTONE')
+L[f'research.{NS}.brightest_one.stage_0'] = join(o('tc.research_text.BRIGHTESTONE'), o('entry.brightestone.first'))
+L[f'research.{NS}.brightest_one.stage_1'] = join(o('entry.brightestone.second'),
+    "Here: fling a charged wisp (Vis Conductor with the wisp launcher) into a chained rift on a Hex of Predictability. The rift "
+    "turns interdimensional and collapses, and the Brightest One is born from it. It cannot be hurt: every charged wisp that "
+    "reaches it changes its aspect and costs it one of its fifteen health.")
+
 # ---------------------------------------------------------------- phase 6b (third cycle): polished infusions
 # Thaumaturge's book has no page type for the original's "Polished Infusion" page, so the recipe stage says it in words.
 # Polishment files are named after their research entry (gen_phase6b_data.py).

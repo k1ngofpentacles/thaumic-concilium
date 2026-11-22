@@ -7,7 +7,8 @@
   ],
   "type": "neoforge:add_spawns",
   "biomes": {
-    "type": "neoforge:any"
+    "type": "neoforge:not",
+    "value": "thaumicconcilium:causal_bouillon"
   },
   "spawners": [
     {

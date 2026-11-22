@@ -2,7 +2,7 @@
   "category": "thaumicconcilium:concilium",
   "name": "research.thaumicconcilium.primordial_life.title",
   "parents": [
-    "thaumicconcilium:concilium"
+    "thaumicconcilium:brightest_one"
   ],
   "column": -6,
   "row": 4,
@@ -50,6 +50,7 @@
   ],
   "complexity": 2,
   "meta": [
+    "hidden",
     "round"
   ]
 }

@@ -1,0 +1,99 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "type": "neoforge:components",
+    "items": "thaumicconcilium:aura_core",
+    "components": {
+      "thaumicconcilium:core_type": "entropy"
+    }
+  },
+  "components": [
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:vacuos"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:vacuos"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:crystal_perditio"
+    },
+    {
+      "item": "thaumaturge:crystal_perditio"
+    },
+    {
+      "item": "thaumaturge:nitor_yellow"
+    },
+    {
+      "item": "thaumaturge:nitor_yellow"
+    },
+    {
+      "item": "thaumaturge:warded_glass"
+    },
+    {
+      "item": "thaumaturge:warded_glass"
+    },
+    {
+      "item": "thaumaturge:void_seed"
+    },
+    {
+      "item": "thaumaturge:void_seed"
+    },
+    {
+      "item": "thaumaturge:crystal_aer"
+    },
+    {
+      "item": "thaumaturge:crystal_aer"
+    },
+    {
+      "item": "thaumaturge:alumentum"
+    },
+    {
+      "item": "thaumaturge:alumentum"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 32
+    }
+  ],
+  "instability": 4,
+  "research": {
+    "entry": "thaumicconcilium:rift_gem",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:inert_rift_gem"
+  }
+}

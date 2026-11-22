@@ -79,10 +79,13 @@ public final class FocusPresets {
             origin(node("vis_conductor", Map.of())));
     public static final Preset DEMATERIALIZATION = new Preset("dematerialization", CastStyle.CHANNELED,
             origin(node("vis_conductor", Map.of("upgrade", 1))));
+    /** Phase 6c. The Wisp Launcher variant (upgrade 2, potency 2): the charged wisp that summons the Brightest One. */
+    public static final Preset WISP_LAUNCHER = new Preset("wisp_launcher", CastStyle.CHANNELED,
+            origin(node("vis_conductor", Map.of("upgrade", 2, "potency", 2))));
 
     public static final List<Preset> ALL = List.of(SIGNAL, IMPULSE, POSITIVE_BURST, COOLING,
             REFLECTION, SCRIBING, WRATH_ATTRACTION, TAINT_ANIMATION, ETHEREAL_MANIPULATOR, SPOTLIGHT, ALCHEMIST_SPREE, WARP_EXTRACTION,
-            VIS_CONDUCTOR, DEMATERIALIZATION);
+            VIS_CONDUCTOR, DEMATERIALIZATION, WISP_LAUNCHER);
 
     private static SpellNode origin(SpellNode... children) {
         return new SpellNode(Spell.ORIGIN, Optional.empty(), Map.of(), List.of(children));

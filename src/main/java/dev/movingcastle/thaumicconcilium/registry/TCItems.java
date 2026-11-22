@@ -146,6 +146,23 @@ public final class TCItems {
                 new Item.Properties()));
     }
 
+    // ---------------------------------------------------------------- phase 6c (Gadomancy's aura cores)
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.AuraCore> AURA_CORE = ITEMS.register("aura_core",
+            () -> new dev.movingcastle.thaumicconcilium.item.AuraCore(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
+                    .component(TCDataComponents.CORE_TYPE.get(), dev.movingcastle.thaumicconcilium.item.AuraCore.Type.BLANK)));
+
+    // ---------------------------------------------------------------- phase 6c, cycle 2 (rift gems and the Causal Bouillon)
+    public static final DeferredItem<Item> INERT_RIFT_GEM = ITEMS.register("inert_rift_gem",
+            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.RiftGem> RIFT_GEM = ITEMS.register("rift_gem",
+            () -> new dev.movingcastle.thaumicconcilium.item.RiftGem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final DeferredItem<Item> INERT_TERRA_CAST_GEM = ITEMS.register("inert_terra_cast_gem",
+            () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.TerraCastGem> TERRA_CAST_GEM = ITEMS.register("terra_cast_gem",
+            () -> new dev.movingcastle.thaumicconcilium.item.TerraCastGem(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> VOID_REALITY = ITEMS.registerSimpleBlockItem(
+            "void_reality", TCBlocks.VOID_REALITY, new Item.Properties());
+
     /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
     public static void defaultComponents(ModifyDefaultComponentsEvent event) {
         BRACELETS.forEach((kind, item) -> {

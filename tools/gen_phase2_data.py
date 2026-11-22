@@ -88,9 +88,9 @@ entry('taint_animation_focus', 4, 6, f'focus:{NS}:taint_animation', [C, f'{T}:fl
 entry('reflection_focus', -2, 6, f'focus:{NS}:reflection', [C, f'{T}:warp', f'{T}:sane_soap', '~thaumaturgetinker:focus_xp_drain'],
       [(f'{T}:alienis', 2), (f'{T}:cognitio', 3), (f'{T}:instrumentum', 2), (f'{T}:vitium', 2), (f'{T}:permutatio', 3)], 3,
       rec('reflection_focus'), warp=5)
-entry('primordial_life', -6, 4, f'{NS}:primordial_life', [C],
+entry('primordial_life', -6, 4, f'{NS}:primordial_life', [f'{NS}:brightest_one'],
       [(f'{T}:potentia', 2), (f'{T}:auram', 3), (f'{T}:victus', 2), (f'{FM}:superbia', 2)], 2, stages=1, warp=3,
-      obtain=[{'items': [f'{NS}:primordial_life'], 'amount': 1}], meta=['round'])
+      obtain=[{'items': [f'{NS}:primordial_life'], 'amount': 1}], meta=['hidden', 'round'])
 entry('ring_of_blustering_light', -6, 6, f'{NS}:ring_of_blustering_light', [f'{NS}:primordial_life', f'~{T}:runic_shielding', f'~{T}:primordial_pearl', '~thaumaturgetinker:ichor'],
       [(f'{T}:potentia', 3), (f'{T}:praemunio', 3), (f'{T}:lux', 3), (f'{T}:praecantatio', 2), (f'{FM}:superbia', 2)], 3,
       rec('ring_of_blustering_light'), warp=3)

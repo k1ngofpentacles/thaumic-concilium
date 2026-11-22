@@ -1,0 +1,87 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "type": "neoforge:components",
+    "items": "thaumicconcilium:aura_core",
+    "components": {
+      "thaumicconcilium:core_type": "earth"
+    }
+  },
+  "components": [
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "thaumaturge:cluster_iron"
+    },
+    {
+      "item": "thaumaturge:crystal_terra"
+    },
+    {
+      "item": "thaumaturge:crystal_terra"
+    },
+    {
+      "item": "thaumaturge:nitor_yellow"
+    },
+    {
+      "item": "thaumaturge:nitor_yellow"
+    },
+    {
+      "item": "thaumaturge:warded_glass"
+    },
+    {
+      "item": "thaumaturge:warded_glass"
+    },
+    {
+      "item": "thaumaturge:ore_cinnabar"
+    },
+    {
+      "item": "thaumaturge:ore_amber"
+    },
+    {
+      "item": "thaumaturge:crystal_aer"
+    },
+    {
+      "item": "thaumaturge:crystal_aer"
+    },
+    {
+      "item": "thaumaturge:alumentum"
+    },
+    {
+      "item": "thaumaturge:alumentum"
+    },
+    {
+      "item": "thaumaturge:cluster_cinnabar"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 32
+    }
+  ],
+  "instability": 4,
+  "research": {
+    "entry": "thaumicconcilium:terra_cast_gem",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:inert_terra_cast_gem"
+  }
+}

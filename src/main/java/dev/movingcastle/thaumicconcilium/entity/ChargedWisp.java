@@ -4,6 +4,12 @@ import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.registry.TTMobEffects;
 import com.leclowndu93150.thaumaturge.registry.TTSounds;
 import dev.movingcastle.thaumicconcilium.registry.TCEntities;
+import dev.movingcastle.thaumicconcilium.entity.mob.BrightestOne;
+import dev.movingcastle.thaumicconcilium.rift.ConciliumRifts;
+import dev.movingcastle.thaumicconcilium.rift.Subspace;
+import com.leclowndu93150.thaumaturge.api.capability.PlayerResearchAccess;
+import com.leclowndu93150.thaumaturge.content.entity.EntityFluxRift;
+import net.minecraft.world.entity.player.Player;
 import java.util.List;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -37,6 +43,8 @@ public class ChargedWisp extends Entity {
     private int power = 2;
     @Nullable
     private UUID caster;
+    /** Cast by a player who has the Brightest One research (decided at the cast, so no lookup per tick). */
+    private boolean summons;
 
     public ChargedWisp(EntityType<? extends ChargedWisp> type, Level level) {
         super(type, level);
@@ -48,6 +56,7 @@ public class ChargedWisp extends Entity {
         ChargedWisp wisp = new ChargedWisp(TCEntities.CHARGED_WISP.get(), level);
         wisp.setPos(at);
         wisp.caster = caster.getUUID();
+        wisp.summons = caster instanceof Player player && PlayerResearchAccess.of(player).hasCompleted(Subspace.BOSS_RESEARCH);
         wisp.setDeltaMovement(caster.getLookAngle());
         wisp.lifetime = 20 + wisp.random.nextInt(20) + 20 * extend;
         wisp.power = potency;
@@ -103,8 +112,11 @@ public class ChargedWisp extends Entity {
             return;
         }
         int rgb = this.color();
+        if (this.shortCircuitBoss(level) || this.openBossRift(level)) {
+            return;
+        }
         List<LivingEntity> near = level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(4.0),
-                e -> this.caster == null || !e.getUUID().equals(this.caster));
+                e -> (this.caster == null || !e.getUUID().equals(this.caster)) && !(e instanceof BrightestOne));
         Entity owner = this.caster == null ? null : level.getEntity(this.caster);
         for (LivingEntity e : near) {
             e.hurt(level.damageSources().indirectMagic(this, owner), 10 + this.power);
@@ -128,11 +140,47 @@ public class ChargedWisp extends Entity {
         }
     }
 
+    /** Original: a charged wisp whose 4-block box meets a Brightest One older than 20 ticks short-circuits it and is spent. */
+    private boolean shortCircuitBoss(ServerLevel level) {
+        for (BrightestOne boss : level.getEntitiesOfClass(BrightestOne.class, this.getBoundingBox().inflate(4.0))) {
+            if (boss.tickCount > 20 && boss.getHealth() > 0.0F) {
+                boss.changeType();
+                boss.shortCircuit();
+                int rgb = this.color();
+                DustParticleOptions dust = new DustParticleOptions(new Vector3f((rgb >> 16 & 255) / 255F, (rgb >> 8 & 255) / 255F, (rgb & 255) / 255F), 1.2F);
+                Vec3 to = boss.position().add(0.0, 1.5, 0.0);
+                for (int i = 0; i <= 8; i++) {
+                    Vec3 p = this.position().lerp(to, i / 8.0);
+                    level.sendParticles(dust, p.x, p.y, p.z, 1, 0.05, 0.05, 0.05, 0.0);
+                }
+                this.discard();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Original RiftEntity: a charged wisp cast by a player with the Brightest One research entering a chained rift. */
+    private boolean openBossRift(ServerLevel level) {
+        if (!this.summons) {
+            return false;
+        }
+        for (EntityFluxRift rift : level.getEntitiesOfClass(EntityFluxRift.class, this.getBoundingBox().expandTowards(this.getDeltaMovement().scale(-1.0)).inflate(0.5), r -> !r.isRemoved() && !r.isCollapsing())) {
+            if (ConciliumRifts.kind(rift) == ConciliumRifts.Kind.CHAINED) {
+                Subspace.summonBoss(rift);
+                this.discard();
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         this.age = tag.getInt("Life");
         this.lifetime = tag.getInt("LifeTime");
         this.power = tag.getInt("power");
+        this.summons = tag.getBoolean("summons");
         this.setAspect(tag.getString("type"));
         if (tag.hasUUID("caster")) {
             this.caster = tag.getUUID("caster");
@@ -144,6 +192,7 @@ public class ChargedWisp extends Entity {
         tag.putInt("Life", this.age);
         tag.putInt("LifeTime", this.lifetime);
         tag.putInt("power", this.power);
+        tag.putBoolean("summons", this.summons);
         tag.putString("type", this.aspect());
         if (this.caster != null) {
             tag.putUUID("caster", this.caster);

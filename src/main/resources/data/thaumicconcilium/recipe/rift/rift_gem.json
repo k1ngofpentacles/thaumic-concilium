@@ -1,0 +1,33 @@
+{
+  "type": "thaumicconcilium:rift",
+  "catalyst": {
+    "item": "thaumicconcilium:inert_rift_gem"
+  },
+  "aspects": [
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 64
+    }
+  ],
+  "research": "thaumicconcilium:rift_gem",
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:rift_gem"
+  }
+}

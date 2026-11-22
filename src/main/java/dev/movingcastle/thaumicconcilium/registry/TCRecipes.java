@@ -21,6 +21,9 @@ public final class TCRecipes {
     public static final DeferredHolder<RecipeSerializer<?>, dev.movingcastle.thaumicconcilium.recipe.RiftRecipe.Serializer> RIFT =
             SERIALIZERS.register("rift", dev.movingcastle.thaumicconcilium.recipe.RiftRecipe.Serializer::new);
 
+    public static final DeferredHolder<RecipeSerializer<?>, SimpleCraftingRecipeSerializer<dev.movingcastle.thaumicconcilium.item.TerraGemCastRecipe>> TERRA_GEM_CAST =
+            SERIALIZERS.register("terra_gem_cast", () -> new SimpleCraftingRecipeSerializer<>(dev.movingcastle.thaumicconcilium.item.TerraGemCastRecipe::new));
+
     public static final DeferredRegister<net.minecraft.world.item.crafting.RecipeType<?>> TYPES =
             DeferredRegister.create(Registries.RECIPE_TYPE, ThaumicConcilium.MODID);
     public static final DeferredHolder<net.minecraft.world.item.crafting.RecipeType<?>,

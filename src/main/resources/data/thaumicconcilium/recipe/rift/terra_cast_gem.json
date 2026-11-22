@@ -1,0 +1,33 @@
+{
+  "type": "thaumicconcilium:rift",
+  "catalyst": {
+    "item": "thaumicconcilium:inert_terra_cast_gem"
+  },
+  "aspects": [
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 64
+    }
+  ],
+  "research": "thaumicconcilium:terra_cast_gem",
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:terra_cast_gem"
+  }
+}

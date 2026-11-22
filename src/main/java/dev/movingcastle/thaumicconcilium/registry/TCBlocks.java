@@ -58,6 +58,11 @@ public final class TCBlocks {
             BLOCK_ENTITIES.register("lithographer", () -> BlockEntityType.Builder.of(
                     dev.movingcastle.thaumicconcilium.block.LithographerBlockEntity::new, LITHOGRAPHER.get()).build(null));
 
+    /** Original: unbreakable, resistance 6000, cloth sounds. The Causal Bouillon's floor. */
+    public static final DeferredBlock<net.minecraft.world.level.block.Block> VOID_REALITY = BLOCKS.register("void_reality",
+            () -> new net.minecraft.world.level.block.Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                    .strength(-1.0F, 6000.0F).sound(SoundType.WOOL).noLootTable()));
+
     private TCBlocks() {
     }
 }

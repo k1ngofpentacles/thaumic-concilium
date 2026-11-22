@@ -1,0 +1,32 @@
+{
+  "type": "thaumaturge:crucible",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 12
+    },
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 12
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 18
+    }
+  ],
+  "catalyst": {
+    "type": "neoforge:components",
+    "items": "thaumicconcilium:aura_core",
+    "components": {
+      "thaumicconcilium:core_type": "air"
+    }
+  },
+  "research": {
+    "entry": "thaumicconcilium:aura_core",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:aura_core"
+  }
+}

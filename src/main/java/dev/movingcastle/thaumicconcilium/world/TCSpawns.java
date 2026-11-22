@@ -55,6 +55,7 @@ public final class TCSpawns {
         event.put(TCEntities.MAD_THAUMATURGE.get(), MadThaumaturge.createAttributes().build());
         event.put(TCEntities.QUICKSILVER_ELEMENTAL.get(),
                 dev.movingcastle.thaumicconcilium.entity.mob.QuicksilverElemental.createAttributes().build());
+        event.put(TCEntities.BRIGHTEST_ONE.get(), dev.movingcastle.thaumicconcilium.entity.mob.BrightestOne.createAttributes().build());
         event.put(TCEntities.NETHER_EXPLORER.get(), Corpse.createAttributes().build());
         if (TCEntities.hasBotanist()) {
             event.put(TCEntities.WITHERED_BOTANIST.get(), Corpse.createAttributes().build());

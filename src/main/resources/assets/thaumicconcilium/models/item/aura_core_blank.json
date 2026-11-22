@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "thaumicconcilium:item/aura_core_core_blank",
+    "layer1": "thaumicconcilium:item/aura_core_border"
+  }
+}

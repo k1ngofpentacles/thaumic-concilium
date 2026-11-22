@@ -31,6 +31,8 @@ public final class TCClient {
     public static void itemExtensions(RegisterClientExtensionsEvent event) {
         event.registerItem(new MillClientExtensions(), TCItems.SHARD_MILL.get(), TCItems.SILVERWOOD_SHARD_MILL.get());
         event.registerItem(new AstralMonitorRenderer.Extensions(), TCItems.ASTRAL_MONITOR.get());
+        event.registerItem(new GemRenderer.Extensions(), TCItems.INERT_RIFT_GEM.get(), TCItems.RIFT_GEM.get(),
+                TCItems.INERT_TERRA_CAST_GEM.get(), TCItems.TERRA_CAST_GEM.get());
     }
 
     /** The Shard Mill's body and crank models, drawn by {@link MillRenderer}. */
@@ -38,6 +40,11 @@ public final class TCClient {
     public static void extraModels(ModelEvent.RegisterAdditional event) {
         MillRenderer.MODELS.forEach(event::register);
         event.register(AstralMonitorRenderer.FRAME);
+    }
+
+    @SubscribeEvent
+    public static void dimensionEffects(net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent event) {
+        event.register(ThaumicConcilium.id("causal_bouillon"), new CausalBouillonEffects());
     }
 
     @SubscribeEvent
@@ -80,6 +87,7 @@ public final class TCClient {
                     return 0.2 + 0.6 * (left / max);
                 }, true));
         event.registerEntityRenderer(TCEntities.FLURRY_SHOT.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(TCEntities.AURA_CORE.get(), net.minecraft.client.renderer.entity.ItemEntityRenderer::new);
         event.registerEntityRenderer(TCEntities.WARP_CHARGE.get(), WarpChargeRenderer::new);
         event.registerEntityRenderer(TCEntities.THICK_TAINT_BOTTLE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(TCEntities.CLEAR_WATER_BOTTLE.get(), ThrownItemRenderer::new);
@@ -89,6 +97,8 @@ public final class TCClient {
         // Phase 6a: the charged wisp in its aspect's colour; the primal orb cycling the primal colours (original art
         // was Thaumcraft 4's wisp and orb sprites, all rights reserved).
         event.registerEntityRenderer(TCEntities.CHARGED_WISP.get(), ChargedWispRenderer::new);
+        event.registerEntityRenderer(TCEntities.BRIGHTEST_ONE.get(), BrightestOneRenderer::new);
+        event.registerEntityRenderer(TCEntities.BOSS_EMBER.get(), net.minecraft.client.renderer.entity.NoopRenderer::new);
         int[] primals = {0xFFFFFF7E, 0xFFFF5A01, 0xFF3CD4FC, 0xFF56C000, 0xFFD5D4EC, 0xFF404040};
         event.registerEntityRenderer(TCEntities.PRIMAL_ORB.get(), ctx -> new SparkleBillboardRenderer<dev.movingcastle.thaumicconcilium.entity.PrimalOrb>(ctx,
                 e -> primals[(e.tickCount / 4) % primals.length], (e, pt) -> 0.8, true));
@@ -117,6 +127,33 @@ public final class TCClient {
                         && level.getBlockEntity(pos) instanceof dev.movingcastle.thaumicconcilium.block.DestabilizedCrystalBlockEntity crystal
                         ? crystal.color() : 0xFFFFFF,
                 dev.movingcastle.thaumicconcilium.registry.TCBlocks.DESTABILIZED_CRYSTAL.get());
+    }
+
+    /** The core layer takes its aspect's colour (original: getColorFromItemStack pass 0); the border stays untinted. */
+    @SubscribeEvent
+    public static void itemColors(net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tint) -> {
+            var type = dev.movingcastle.thaumicconcilium.item.AuraCore.type(stack);
+            if (tint != 0 || type.isBlank()) {
+                return 0xFFFFFFFF;
+            }
+            var level = net.minecraft.client.Minecraft.getInstance().level;
+            if (level != null) {
+                var holder = com.leclowndu93150.thaumaturge.api.aspect.Aspects.resolve(level, type.primal());
+                if (holder != null) {
+                    return 0xFF000000 | holder.value().color();
+                }
+            }
+            return type.fallbackColor();
+        }, TCItems.AURA_CORE.get());
+    }
+
+    /** Selects the blank model (animated blank core art) from the item model's overrides. */
+    @SubscribeEvent
+    public static void clientSetup(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+        event.enqueueWork(() -> net.minecraft.client.renderer.item.ItemProperties.register(TCItems.AURA_CORE.get(),
+                ThaumicConcilium.id("blank"), (stack, level, entity, seed) ->
+                        dev.movingcastle.thaumicconcilium.item.AuraCore.type(stack).isBlank() ? 1.0F : 0.0F));
     }
 
     @SubscribeEvent

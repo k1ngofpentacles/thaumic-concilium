@@ -93,6 +93,90 @@
         "aspect": "thaumaturge:metallum",
         "amount": 20
       }
+    ],
+    "thaumicconcilium:aura_core": [
+      {
+        "aspect": "thaumaturge:auram",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 5
+      }
+    ],
+    "thaumicconcilium:inert_rift_gem": [
+      {
+        "aspect": "thaumaturge:vitreus",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:motus",
+        "amount": 20
+      }
+    ],
+    "thaumicconcilium:rift_gem": [
+      {
+        "aspect": "thaumaturge:vitreus",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:motus",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:perditio",
+        "amount": 10
+      }
+    ],
+    "thaumicconcilium:inert_terra_cast_gem": [
+      {
+        "aspect": "thaumaturge:vitreus",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:terra",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:motus",
+        "amount": 20
+      }
+    ],
+    "thaumicconcilium:terra_cast_gem": [
+      {
+        "aspect": "thaumaturge:vitreus",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:terra",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:motus",
+        "amount": 20
+      }
+    ],
+    "thaumicconcilium:void_reality": [
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 10
+      }
     ]
   }
 }

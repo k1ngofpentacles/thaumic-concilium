@@ -1,0 +1,54 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.terra_cast_gem.title",
+  "parents": [
+    "thaumicconcilium:aura_core",
+    "thaumicconcilium:hex_of_predictability",
+    "thaumicconcilium:rift_gem"
+  ],
+  "column": -9,
+  "row": 0,
+  "icons": [
+    "thaumicconcilium:terra_cast_gem"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.terra_cast_gem.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.terra_cast_gem.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/terra_cast_gem"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 3
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden"
+  ]
+}

@@ -82,7 +82,7 @@ w(f'data/{T}/data_maps/item/base_aspects.json', {'values': {
 }})
 
 # ---------------------------------------------------------------- spawns
-ANY = {'type': 'neoforge:any'}
+ANY = {'type': 'neoforge:not', 'value': f'{NS}:causal_bouillon'}   # every biome except the Causal Bouillon (6c cycle 2)
 def add_spawns(name, entity, weight, lo, hi, biomes='#minecraft:is_overworld', cond=None):
     w(f'data/{NS}/neoforge/biome_modifier/{name}.json', ({'neoforge:conditions': cond} if cond else {}) | {
         'type': 'neoforge:add_spawns', 'biomes': biomes,

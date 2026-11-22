@@ -6,6 +6,7 @@ This mod is an unofficial port of **Thaumic Concilium** to NeoForge 1.21.1 and T
 |---|---|---|---|
 | Thaumic Concilium 1.1.1 (1.7.10) | Ilya3000 (Ilya3point999K), BreadX22; zh_CN by Fantasy5hark | WTFPL / CC0 | Design, behaviour, textures, models, sounds, shaders and lore text |
 | Forbidden Magic 0.575 (1.7.10) | SpitefulFox | WTFPL | Recipe ingredients (via the Forbidden Magic (Thaumaturge) dependency) |
+| Gadomancy 1.0.7.3 (1.7.10) | Makeo and the Gadomancy team | LGPL | Aura Core design, behaviour, text and the three item textures (never monetised) |
 | Thaumaturge | Leclowndu93150 and contributors | All Rights Reserved | Compiled against only; nothing is bundled |
 | Thaumaturge Tinker | kajitsy | MIT (as declared) | Required at runtime; recipes and research reference its items and entries by ID. Nothing is bundled |
 
