@@ -93,7 +93,7 @@ public final class FirstPersonHands {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderHand(RenderHandEvent event) {
         LocalPlayer player = Minecraft.getInstance().player;
-        if (player == null) {
+        if (player == null || ShacklesFirstPerson.active()) {
             return;
         }
         ItemStack stack = event.getItemStack();

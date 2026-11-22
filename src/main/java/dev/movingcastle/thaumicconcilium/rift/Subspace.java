@@ -41,6 +41,7 @@ public final class Subspace {
     public static final ResourceKey<Level> DIMENSION = ResourceKey.create(Registries.DIMENSION, ThaumicConcilium.id("causal_bouillon"));
     /** Research a player needs for their Crimson Rites to open the Pontifex portal (original CRIMSONPONTIFEX). */
     public static final net.minecraft.resources.ResourceLocation PONTIFEX_RESEARCH = ThaumicConcilium.id("crimson_pontifex");
+    public static final net.minecraft.resources.ResourceLocation PEELER_RESEARCH = ThaumicConcilium.id("material_peeler");
     public static final net.minecraft.resources.ResourceLocation BOSS_RESEARCH = ThaumicConcilium.id("brightest_one");
     public static final int MAX_SIZE = 50;
     public static final int START_SIZE = 5;
@@ -108,6 +109,17 @@ public final class Subspace {
         rift.beginCollapse();
     }
 
+    /** Original RiftEntity state 3: a chained rift fed a Primordial Life by a player with the Material Peeler research collapses and leaves a Peeler. */
+    public static void summonPeeler(EntityFluxRift rift) {
+        convert(rift);
+        ConciliumRifts.data(rift).putBoolean("peeler", true);
+        rift.beginCollapse();
+    }
+
+    private static void spawnPeeler(ServerLevel level, EntityFluxRift rift) {
+        dev.movingcastle.thaumicconcilium.entity.MaterialPeeler.summon(level, rift.position(), ConciliumRifts.hex(rift));
+    }
+
     private static void spawnPontifexPortal(ServerLevel level, EntityFluxRift rift) {
         dev.movingcastle.thaumicconcilium.entity.mob.LesserCrimsonPortal.summon(level, rift.position(), true);
         level.playSound(null, rift.getX(), rift.getY(), rift.getZ(), com.leclowndu93150.thaumaturge.registry.TTSounds.WANDFAIL.get(),
@@ -144,6 +156,9 @@ public final class Subspace {
                 }
                 if (tag.getBoolean("pontifex")) {
                     spawnPontifexPortal(level, rift);
+                }
+                if (tag.getBoolean("peeler")) {
+                    spawnPeeler(level, rift);
                 }
                 rift.discard();
             } else {

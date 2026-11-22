@@ -63,6 +63,9 @@ public final class TCSpellBehaviors {
     public static final DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<dev.movingcastle.thaumicconcilium.spell.effect.VisConductorEffect>> VIS_CONDUCTOR =
             register("vis_conductor", SpellPartKind.EFFECT, dev.movingcastle.thaumicconcilium.spell.effect.VisConductorEffect.CODEC);
 
+    public static final DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<dev.movingcastle.thaumicconcilium.spell.effect.CrimsonRaidEffect>> CRIMSON_RAID =
+            register("crimson_raid", SpellPartKind.EFFECT, dev.movingcastle.thaumicconcilium.spell.effect.CrimsonRaidEffect.CODEC);
+
     private static <B extends SpellBehavior> DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<B>> register(
             String name, SpellPartKind kind, MapCodec<B> codec) {
         return BEHAVIORS.register(name, () -> new SpellBehaviorType<>(kind, codec));

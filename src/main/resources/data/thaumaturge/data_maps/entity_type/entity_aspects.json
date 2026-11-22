@@ -171,6 +171,24 @@
         "aspect": "thaumaturge:praecantatio",
         "amount": 40
       }
+    ],
+    "thaumicconcilium:material_peeler": [
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 40
+      },
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 40
+      },
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 40
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 80
+      }
     ]
   }
 }

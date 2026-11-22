@@ -88,7 +88,7 @@ public final class TCClient {
                 net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("thaumaturge", "textures/entity/cultist.png")));
         // Orb: dark crimson additive sparkle; shackles: a small pale blue one (the original drew a shader orb and no model).
         event.registerEntityRenderer(TCEntities.CRIMSON_ORB.get(), ctx -> new SparkleBillboardRenderer<>(ctx, e -> 0xFFC01030, (e, pt) -> 0.9, true));
-        event.registerEntityRenderer(TCEntities.ETHEREAL_SHACKLES.get(), ctx -> new SparkleBillboardRenderer<>(ctx, e -> 0xFFA0D0FF, (e, pt) -> 0.5, true));
+        event.registerEntityRenderer(TCEntities.ETHEREAL_SHACKLES.get(), EtherealShacklesRenderer::new);
         // Original: white sprite at 80% opacity, 0.3 scale.
         event.registerEntityRenderer(TCEntities.COMPRESSED_BLAST.get(), ctx -> new SparkleBillboardRenderer<>(ctx,
                 e -> 0xCCFFFFFF, (e, pt) -> 0.6, false));
@@ -127,6 +127,7 @@ public final class TCClient {
                 QuicksilverReactorRenderer::new);
         event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.LITHOGRAPHER_BLOCK_ENTITY.get(),
                 LithographerRenderer::new);
+        event.registerEntityRenderer(TCEntities.MATERIAL_PEELER.get(), MaterialPeelerRenderer::new);
         // Phase 4 mobs.
         event.registerEntityRenderer(TCEntities.THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "thaumaturge"));
         event.registerEntityRenderer(TCEntities.MAD_THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "mad_thaumaturge"));

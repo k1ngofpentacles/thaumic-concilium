@@ -500,10 +500,41 @@ L[f'research.{NS}.pontifex_robe.stage_1'] = join(o('entry.pontifexrobe.second'),
     "Here: each piece is made by throwing a Crimson Robe piece (helm, robe, legs, boots) onto a hex whose chained rift holds the essentia.")
 L[f'research.{NS}.crimson_initiation.title'] = o('tc.research_name.CRIMSONINITIATION')
 L[f'research.{NS}.crimson_initiation.stage_0'] = join(o('tc.research_text.CRIMSONINITIATION'), o('entry.crimsonimitiation.first'),
-    "Here: the dagger of the Cult is not in this pack, so nothing opens from this knowledge yet.")
+    "Here: Tainted Magic's crystal dagger is not in this pack; the Cult's own dagger will take its place. In the full vestments, "
+    "right-click a Mad Thaumaturge with it and it is made a Crimson Knight, Cleric or Paladin.")
 L[f'{NS}.tooltip.hint.pontifexhammer'] = 'The weapon of the Pontifex: a hammer that drinks life. Its making is set down here...'
 L[f'{NS}.tooltip.hint.pontifexrobe'] = 'The vestments of the Pontifex, and how the Cult came to fear them. The method is set down here...'
 L[f'{NS}.tooltip.hint.materialpeeler'] = 'Where did the Pontifex go? These notes say how to follow...'
+
+# phase 5b cycle 2: the Peeler of Matter
+L[f'entity.{NS}.material_peeler'] = o('entity.ThaumicConcilium.MaterialPeeler.name')
+L[f'research.{NS}.material_peeler.title'] = o('tc.research_name.MATERIALPEELER')
+L[f'research.{NS}.material_peeler.stage_0'] = join(o('tc.research_text.MATERIALPEELER'), o('entry.materialpeeler.first'))
+L[f'research.{NS}.material_peeler.stage_1'] = join(o('entry.materialpeeler.second'),
+    "Here: throw a Primordial Life into a chained rift above a Hex of Predictability. The rift swallows it, collapses, and leaves a "
+    "Peeler hanging two blocks above the hex. Touching it every second flips you between flesh and ethereal and makes you sick, unless "
+    "the Pontifex's robe is what holds you ethereal. While it hangs there, a wand will not tear a new rift from a jarred node on that hex.")
+
+# phase 5b cycle 3: the Flesh Crucible
+L[f'block.{NS}.flesh_crucible'] = o('tile.FleshCrucible.name')
+L[f'research.{NS}.flesh_crucible.title'] = o('tc.research_name.FLESHCRUCIBLE')
+L[f'research.{NS}.flesh_crucible.stage_0'] = join(o('tc.research_text.FLESHCRUCIBLE'), o('entry.fleshcrucible.first'))
+L[f'research.{NS}.flesh_crucible.stage_1'] = (
+    "Infused on a Quicksilver Reactor with a nether shard, three void metal plates, a bright nitor and three primordial pearls "
+    "(motes will do). Stand in it carrying flesh and it takes one flesh from you for one point of what it holds, up to sixty-four. "
+    "Feed it by herding a Mad Thaumaturge into it: each is dissolved for two points. Anything else that stands in it is burned. "
+    "A redstone signal quiets it.")
+
+# phase 5b cycle 4: the Crimson Raid
+L[f'spell.{NS}.crimson_raid.name'] = o('am2.spell.crimson_raid')
+L[f'spell.{NS}.crimson_raid.desc'] = o('am2.entry.crimson_raid')
+L[f'research.{NS}.crimson_raid.title'] = o('tc.research_name.CRIMSONRAID')
+L[f'research.{NS}.crimson_raid.stage_0'] = join(o('tc.research_text.CRIMSONRAID'), o('entry.crimsonraid.first').replace(
+    '<BR>Refer to Arcane Compendium for details on casting.', ''))
+L[f'research.{NS}.crimson_raid.stage_1'] = (
+    "Here: a spell part for the focal manipulator, an effect. Where the spell lands, a caster in the full Pontifex Robe opens a Lesser "
+    "Crimson Portal that is theirs and closes by itself after twenty seconds; its cultists ignore the robe's wearer. Only one portal "
+    "of yours may stand at a time. Without the robe the cast is spent and nothing opens.")
 
 # cycle 5: the Arcane Levitator (our own text; Thaumcraft 4's levitator is mechanics only)
 L[f'block.{NS}.arcane_levitator'] = 'Arcane Levitator'

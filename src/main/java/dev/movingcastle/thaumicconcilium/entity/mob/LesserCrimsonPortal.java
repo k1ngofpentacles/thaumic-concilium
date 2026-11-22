@@ -5,6 +5,7 @@ import com.leclowndu93150.thaumaturge.content.entity.portal.CultistPortals;
 import com.leclowndu93150.thaumaturge.registry.TTEntities;
 import com.leclowndu93150.thaumaturge.registry.TTSounds;
 import dev.movingcastle.thaumicconcilium.registry.TCEntities;
+import java.util.UUID;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -120,6 +121,32 @@ public class LesserCrimsonPortal extends Monster {
 
     // ---------------------------------------------------------------- behaviour
 
+    // ---------------------------------------------------------------- the Crimson Raid's owner and lifetime
+
+    /** Ticks a raid portal lasts (original: AM2 summon duration 400). */
+    public static final int RAID_LIFETIME = 400;
+
+    /** The caster who opened this portal with the Crimson Raid; null for every other portal. */
+    @Nullable
+    private UUID owner;
+    /** Ticks of life left while owned. */
+    private int lifetime;
+
+    @Nullable
+    public UUID owner() {
+        return owner;
+    }
+
+    public int lifetime() {
+        return lifetime;
+    }
+
+    /** Marks this portal as a raid portal of {@code caster}: it ends itself after {@link #RAID_LIFETIME} ticks. */
+    public void setOwner(UUID caster, int ticks) {
+        this.owner = caster;
+        this.lifetime = ticks;
+    }
+
     @Override
     protected void registerGoals() {
     }
@@ -128,6 +155,10 @@ public class LesserCrimsonPortal extends Monster {
     public void tick() {
         super.tick();
         if (level().isClientSide() || !isAlive()) {
+            return;
+        }
+        if (owner != null && --lifetime <= 0) {
+            discard();
             return;
         }
         if (stage < 12 && getHealth() < getMaxHealth()) {
@@ -283,6 +314,10 @@ public class LesserCrimsonPortal extends Monster {
         tag.putInt("Stage", stage);
         tag.putInt("Counter", counter);
         tag.putBoolean("Boss", boss);
+        if (owner != null) {
+            tag.putUUID("RaidOwner", owner);
+            tag.putInt("RaidLife", lifetime);
+        }
     }
 
     @Override
@@ -291,5 +326,7 @@ public class LesserCrimsonPortal extends Monster {
         stage = tag.getInt("Stage");
         counter = tag.contains("Counter") ? tag.getInt("Counter") : FIRST_COUNTER;
         boss = tag.getBoolean("Boss");
+        owner = tag.hasUUID("RaidOwner") ? tag.getUUID("RaidOwner") : null;
+        lifetime = tag.getInt("RaidLife");
     }
 }

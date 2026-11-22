@@ -32,6 +32,7 @@ public final class ThaumicConcilium {
         TCArmorMaterials.MATERIALS.register(modBus);
         TCDataComponents.COMPONENTS.register(modBus);
         dev.movingcastle.thaumicconcilium.lithograph.Lithograph.ATTACHMENTS.register(modBus);
+        dev.movingcastle.thaumicconcilium.world.CrimsonState.ATTACHMENTS.register(modBus);
         TCWandParts.RODS.register(modBus);
         TCItems.ITEMS.register(modBus);
         modBus.addListener(TCItems::defaultComponents);

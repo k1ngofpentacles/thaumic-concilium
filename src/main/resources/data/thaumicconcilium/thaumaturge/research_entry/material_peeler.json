@@ -1,0 +1,67 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.material_peeler.title",
+  "parents": [
+    "thaumicconcilium:crimson_pontifex"
+  ],
+  "column": -8,
+  "row": 10,
+  "icons": [
+    "thaumicconcilium:textures/research/peeler.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.material_peeler.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 4,
+      "obtain": [
+        {
+          "items": "thaumicconcilium:research_hint",
+          "amount": 1,
+          "components": {
+            "thaumicconcilium:hint": "thaumicconcilium:material_peeler"
+          }
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.material_peeler.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ],
+  "siblings": [
+    "thaumicconcilium:flesh_crucible"
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.flesh_crucible.title",
+  "parents": [
+    "thaumicconcilium:material_peeler",
+    "~thaumicconcilium:quicksilver_crucible"
+  ],
+  "column": -8,
+  "row": 12,
+  "icons": [
+    "thaumicconcilium:flesh_crucible"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.flesh_crucible.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 4
+    },
+    {
+      "text": "research.thaumicconcilium.flesh_crucible.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/flesh_crucible"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 3
+    }
+  ],
+  "complexity": 3,
+  "meta": [
+    "hidden"
+  ]
+}

@@ -108,7 +108,10 @@ public final class Hexes {
         BlockState state = level.getBlockState(pos);
         if (state.is(TTBlocks.JAR_NODE.get()) && level.getBlockEntity(pos.below()) instanceof HexBlockEntity hex
                 && hex.isMaster() && !hex.isLesser() && !hex.hasRift()) {
-            chain(level, pos, pos.below());
+            // original WandHandler:63-77: a Peeler of Matter in the 3x4x3 box above the hex holds the rift down
+            if (!dev.movingcastle.thaumicconcilium.entity.MaterialPeeler.peelerAbove(level, pos.below())) {
+                chain(level, pos, pos.below());
+            }
             done(event);
             return;
         }

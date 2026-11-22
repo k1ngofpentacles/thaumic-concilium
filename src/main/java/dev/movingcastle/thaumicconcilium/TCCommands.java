@@ -70,7 +70,30 @@ public final class TCCommands {
                                                 .then(Commands.argument("amount", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 1000))
                                                         .executes(TCCommands::crystal)))))
                         // Phase 6b: lithograph the player, watching themselves (the HUD without the bed operation).
-                        .then(Commands.literal("lithograph").executes(TCCommands::lithograph))));
+                        .then(Commands.literal("lithograph").executes(TCCommands::lithograph))
+                        // Phase 5b: the crimson state (flesh amount, the ethereal state).
+                        .then(Commands.literal("flesh")
+                                .then(Commands.argument("n", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 200))
+                                        .executes(c -> flesh(c, com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "n")))))
+                        .then(Commands.literal("ethereal")
+                                .then(Commands.literal("on").executes(c -> ethereal(c, true)))
+                                .then(Commands.literal("off").executes(c -> ethereal(c, false))))));
+    }
+
+    private static int flesh(CommandContext<CommandSourceStack> ctx, int n) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        var s = dev.movingcastle.thaumicconcilium.world.CrimsonState.get(player);
+        dev.movingcastle.thaumicconcilium.world.CrimsonState.set(player, s.withFlesh(n));
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: flesh " + n), false);
+        return 1;
+    }
+
+    private static int ethereal(CommandContext<CommandSourceStack> ctx, boolean on) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        var s = dev.movingcastle.thaumicconcilium.world.CrimsonState.get(player);
+        dev.movingcastle.thaumicconcilium.world.CrimsonState.set(player, s.withEthereal(on));
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: ethereal " + on), false);
+        return 1;
     }
 
     private static java.util.concurrent.CompletableFuture<com.mojang.brigadier.suggestion.Suggestions> presets(

@@ -1,0 +1,69 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumicconcilium:quicksilver_reactor"
+  },
+  "components": [
+    {
+      "item": "thaumaturgetinker:nether_shard"
+    },
+    {
+      "item": "thaumaturge:plate_void"
+    },
+    {
+      "item": "thaumaturge:plate_void"
+    },
+    {
+      "item": "thaumaturge:plate_void"
+    },
+    {
+      "item": "thaumaturgetinker:bright_nitor"
+    },
+    {
+      "item": "thaumaturge:primordial_pearl"
+    },
+    {
+      "item": "thaumaturge:primordial_pearl"
+    },
+    {
+      "item": "thaumaturge:primordial_pearl"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 128
+    },
+    {
+      "aspect": "forbiddenmagic:gula",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumadditions:infernum",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 64
+    }
+  ],
+  "instability": 4,
+  "research": {
+    "entry": "thaumicconcilium:flesh_crucible",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:flesh_crucible"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:item_exists",
+      "item": "thaumaturgetinker:ichor"
+    }
+  ]
+}

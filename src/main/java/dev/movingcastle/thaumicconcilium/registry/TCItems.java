@@ -130,6 +130,8 @@ public final class TCItems {
             "lithographer", TCBlocks.LITHOGRAPHER, new Item.Properties());
     public static final DeferredItem<net.minecraft.world.item.BlockItem> QUICKSILVER_REACTOR = ITEMS.registerSimpleBlockItem(
             "quicksilver_reactor", TCBlocks.QUICKSILVER_REACTOR, new Item.Properties());
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> FLESH_CRUCIBLE = ITEMS.registerSimpleBlockItem(
+            "flesh_crucible", TCBlocks.FLESH_CRUCIBLE, new Item.Properties());
     public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> QUICKSILVER_ELEMENTAL_SPAWN_EGG =
             egg("quicksilver_elemental", TCEntities.QUICKSILVER_ELEMENTAL);
 

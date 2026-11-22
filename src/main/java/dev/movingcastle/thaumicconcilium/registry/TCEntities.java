@@ -102,6 +102,13 @@ public final class TCEntities {
                     dev.movingcastle.thaumicconcilium.entity.mob.QuicksilverElemental::new, MobCategory.MONSTER)
                     .sized(0.6F, 1.8F).clientTrackingRange(8).build("quicksilver_elemental"));
 
+    // ---------------------------------------------------------------- phase 5b
+    /** Original: 1 x 1, fire-immune, tracked at 64 blocks, updates every 3 ticks. */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.MaterialPeeler>> MATERIAL_PEELER =
+            ENTITY_TYPES.register("material_peeler", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.MaterialPeeler>of(
+                    dev.movingcastle.thaumicconcilium.entity.MaterialPeeler::new, MobCategory.MISC)
+                    .sized(1.0F, 1.0F).clientTrackingRange(4).updateInterval(3).fireImmune().build("material_peeler"));
+
     // ---------------------------------------------------------------- phase 4 mobs
     public static final DeferredHolder<EntityType<?>, EntityType<ThaumaturgeEntity>> THAUMATURGE = ENTITY_TYPES.register("thaumaturge",
             () -> EntityType.Builder.<ThaumaturgeEntity>of(ThaumaturgeEntity::new, MobCategory.CREATURE)

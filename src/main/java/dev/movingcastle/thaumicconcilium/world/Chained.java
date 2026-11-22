@@ -10,26 +10,24 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 /**
  * The state of the Paladin's Ethereal Shackles on a player (original: TCPlayerCapabilities.chainedTime): while chained a player
- * can not use items, place or break blocks, or hit and use things. Kept as a game-time deadline in the player's persistent data
- * (server side; nothing to save beyond that, nothing per tick).
+ * can not use items, place or break blocks, or hit and use things. The remaining ticks live in {@link CrimsonState} ({@code chainedTime}).
  */
 @EventBusSubscriber(modid = ThaumicConcilium.MODID)
 public final class Chained {
-    private static final String KEY = ThaumicConcilium.MODID + "_chained_until";
-
     private Chained() {
     }
 
+    /** Sets the remaining chained ticks (the state counts down on both sides, see {@link Ethereal#tick}). */
     public static void chain(Player player, int ticks) {
-        player.getPersistentData().putLong(KEY, player.level().getGameTime() + ticks);
+        CrimsonState.set(player, CrimsonState.get(player).withChained(ticks));
     }
 
     public static boolean isChained(Player player) {
-        return player.getPersistentData().getLong(KEY) > player.level().getGameTime();
+        return CrimsonState.get(player).chainedTime() > 0;
     }
 
     public static void free(Player player) {
-        player.getPersistentData().remove(KEY);
+        CrimsonState.set(player, CrimsonState.get(player).withChained(0));
     }
 
     @SubscribeEvent

@@ -1,0 +1,12 @@
+{
+  "aspect": "thaumaturge:alienis",
+  "behavior": {
+    "type": "thaumicconcilium:crimson_raid"
+  },
+  "color": 10489888,
+  "complexity": 22,
+  "icon": "thaumicconcilium:textures/foci/crimson_raid.png",
+  "research": {
+    "entry": "thaumicconcilium:crimson_raid"
+  }
+}

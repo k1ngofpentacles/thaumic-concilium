@@ -1,9 +1,17 @@
 package dev.movingcastle.thaumicconcilium.entity.mob;
 
 import com.leclowndu93150.thaumaturge.content.entity.EntityCultist;
+import com.leclowndu93150.thaumaturge.registry.TTEntities;
 import com.leclowndu93150.thaumaturge.registry.TTItems;
+import com.leclowndu93150.thaumaturge.registry.TTSounds;
+import dev.movingcastle.thaumicconcilium.item.PontifexRobe;
 import dev.movingcastle.thaumicconcilium.item.ResearchHint;
+import dev.movingcastle.thaumicconcilium.registry.TCEntities;
 import dev.movingcastle.thaumicconcilium.registry.TCSounds;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import org.joml.Vector3f;
 import javax.annotation.Nullable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -83,6 +91,58 @@ public class MadThaumaturge extends Monster {
         data = super.finalizeSpawn(level, difficulty, reason, data);
         this.populateDefaultEquipmentSlots(level.getRandom(), difficulty);
         return data;
+    }
+
+    /**
+     * Crimson Initiation (original: right-click with the Crimson dagger in the full Pontifex Robe, no research needed). Any item in
+     * the tag {@code thaumicconcilium:initiation_tools} is the tool (user decision: the tag is empty until our own Crimson Dagger
+     * is designed and joins it). With a tool and the robe the server turns this creature into a Crimson Knight, Cleric or Paladin
+     * (a third each); any other item in hand only shows the blood particles; an empty hand does nothing.
+     */
+    public static final net.minecraft.tags.TagKey<net.minecraft.world.item.Item> INITIATION_TOOLS = net.minecraft.tags.TagKey.create(
+            net.minecraft.core.registries.Registries.ITEM, dev.movingcastle.thaumicconcilium.ThaumicConcilium.id("initiation_tools"));
+
+    public static boolean initiationTool(ItemStack stack) {
+        return stack.is(INITIATION_TOOLS);
+    }
+
+    @Override
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack held = player.getItemInHand(hand);
+        if (held.isEmpty()) {
+            return InteractionResult.PASS;
+        }
+        if (PontifexRobe.isFullSet(player) && initiationTool(held)) {
+            if (this.level() instanceof ServerLevel server) {
+                this.initiate(server);
+            }
+            return InteractionResult.sidedSuccess(this.level().isClientSide());
+        }
+        if (this.level().isClientSide()) {
+            for (int i = 0; i < 4; i++) {
+                this.level().addParticle(new DustParticleOptions(new Vector3f(0.7F, 0.0F, 0.05F), 1.0F),
+                        this.getRandomX(0.6), this.getRandomY(), this.getRandomZ(0.6), 0.0, 0.05, 0.0);
+            }
+        }
+        return InteractionResult.sidedSuccess(this.level().isClientSide());
+    }
+
+    /** Replaces this creature with a Crimson Knight, Cleric or Paladin at random, finalised so it is equipped. */
+    public net.minecraft.world.entity.Mob initiate(ServerLevel server) {
+        net.minecraft.world.entity.Mob cultist = switch (this.random.nextInt(3)) {
+            case 0 -> TTEntities.CULTIST_KNIGHT.get().create(server);
+            case 1 -> TTEntities.CULTIST_CLERIC.get().create(server);
+            default -> TCEntities.CRIMSON_PALADIN.get().create(server);
+        };
+        cultist.getPersistentData().putBoolean(LesserCrimsonPortal.NO_REPLACE, true);
+        cultist.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
+        net.neoforged.neoforge.event.EventHooks.finalizeMobSpawn(cultist, server, server.getCurrentDifficultyAt(this.blockPosition()),
+                MobSpawnType.CONVERSION, null);
+        server.addFreshEntity(cultist);
+        server.playSound(null, this.getX(), this.getY(), this.getZ(), TTSounds.CRAFTFAIL.get(), net.minecraft.sounds.SoundSource.HOSTILE,
+                0.5F, 1.0F);
+        this.discard();
+        return cultist;
     }
 
     /** Equips a Mad Thaumaturge that replaced a Brainy Zombie (original: addEquipment). */

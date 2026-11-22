@@ -42,6 +42,15 @@ public final class TCBlocks {
             BLOCK_ENTITIES.register("quicksilver_reactor", () -> BlockEntityType.Builder.of(
                     dev.movingcastle.thaumicconcilium.block.QuicksilverReactorBlockEntity::new, QUICKSILVER_REACTOR.get()).build(null));
 
+    /** Original: 3.0 hardness, 17 resistance, metal sounds. Infused from a Quicksilver Reactor. */
+    public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.FleshCrucibleBlock> FLESH_CRUCIBLE = BLOCKS.register(
+            "flesh_crucible", () -> new dev.movingcastle.thaumicconcilium.block.FleshCrucibleBlock(
+                    BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(3.0F, 17.0F).sound(SoundType.METAL).noOcclusion()));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<dev.movingcastle.thaumicconcilium.block.FleshCrucibleBlockEntity>> FLESH_CRUCIBLE_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("flesh_crucible", () -> BlockEntityType.Builder.of(
+                    dev.movingcastle.thaumicconcilium.block.FleshCrucibleBlockEntity::new, FLESH_CRUCIBLE.get()).build(null));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HexBlockEntity>> HEX_BLOCK_ENTITY = BLOCK_ENTITIES.register(
             "hex_of_predictability", () -> BlockEntityType.Builder.of(HexBlockEntity::new, HEX.get()).build(null));
 

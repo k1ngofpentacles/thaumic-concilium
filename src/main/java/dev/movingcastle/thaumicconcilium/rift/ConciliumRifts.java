@@ -189,8 +189,8 @@ public final class ConciliumRifts {
         if (kind == null) {
             return;
         }
-        if (kind == Kind.CHAINED && rift.tickCount % 5 == 0) {
-            crimsonOffering(level, rift);
+        if (kind == Kind.CHAINED && rift.tickCount % 5 == 0 && !crimsonOffering(level, rift)) {
+            peelerOffering(level, rift);
         }
         if (kind.tame()) {
             if (rift.stabilityValue() < PINNED_STABLE) {
@@ -240,6 +240,26 @@ public final class ConciliumRifts {
         return false;
     }
 
+    /**
+     * Original RiftEntity:397 and :500: a Primordial Life thrown into a chained rift by a player with the Material Peeler research is
+     * eaten, and the rift collapses at once and leaves a Peeler of Matter where it was. Runs every 5 ticks on chained rifts only.
+     */
+    public static boolean peelerOffering(ServerLevel level, EntityFluxRift rift) {
+        for (net.minecraft.world.entity.item.ItemEntity item : level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,
+                rift.getBoundingBox().inflate(0.5), e -> e.isAlive() && e.getItem().is(dev.movingcastle.thaumicconcilium.registry.TCItems.PRIMORDIAL_LIFE.get()))) {
+            if (item.getOwner() instanceof net.minecraft.world.entity.player.Player thrower && com.leclowndu93150.thaumaturge.api.capability.PlayerResearchAccess
+                    .of(thrower).hasCompleted(Subspace.PEELER_RESEARCH)) {
+                item.getItem().shrink(1);
+                if (item.getItem().isEmpty()) {
+                    item.discard();
+                }
+                Subspace.summonPeeler(rift);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /** Original growth: one size step a third of the time towards the target; shrinking a step a tick. */
     private static void sizeStep(EntityFluxRift rift) {
         CompoundTag tag = data(rift);
@@ -267,10 +287,15 @@ public final class ConciliumRifts {
 
     /** Original collapse: taint fibres, flux gas or goo around the rift (no taint biome here: ecological pressure). */
     private static void spreadTaint(ServerLevel level, EntityFluxRift rift) {
+        spreadTaint(level, rift.position(), 1.5);
+    }
+
+    /** The same spread around any point (the Peeler of Matter's failing burst uses it too). */
+    public static void spreadTaint(ServerLevel level, Vec3 at, double spread) {
         RandomSource random = level.random;
-        int x = (int) (rift.getX() + random.nextGaussian() * 1.5);
-        int y = (int) rift.getY();
-        int z = (int) (rift.getZ() + random.nextGaussian() * 1.5);
+        int x = (int) (at.x + random.nextGaussian() * spread);
+        int y = (int) at.y;
+        int z = (int) (at.z + random.nextGaussian() * spread);
         for (int a = 0; a < 10; a++) {
             if (!random.nextBoolean()) {
                 continue;
