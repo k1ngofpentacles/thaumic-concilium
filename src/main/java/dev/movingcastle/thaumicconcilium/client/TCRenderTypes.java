@@ -8,7 +8,6 @@ import java.util.function.Function;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -34,13 +33,14 @@ public final class TCRenderTypes extends RenderType {
             });
 
     /** The end portal pattern added on top of what is behind: the original's three halo shells. Draw before the core. */
-    public static final RenderType PEELER_HALO = RenderType.create("tc_peeler_halo", DefaultVertexFormat.POSITION,
+    public static final ResourceLocation PEELER_HALO_TEXTURE = ResourceLocation.fromNamespaceAndPath("thaumicconcilium", "textures/misc/peeler_halo.png");
+
+    /** D4-b: the vanilla position-tex-colour program, our own pale white-blue noise texture, blended (ONE, ONE). */
+    public static final RenderType PEELER_HALO = RenderType.create("tc_peeler_halo", DefaultVertexFormat.POSITION_TEX_COLOR,
             VertexFormat.Mode.QUADS, 1536, false, false,
             RenderType.CompositeState.builder()
-                    .setShaderState(RENDERTYPE_END_PORTAL_SHADER)
-                    .setTextureState(RenderStateShard.MultiTextureStateShard.builder()
-                            .add(TheEndPortalRenderer.END_SKY_LOCATION, false, false)
-                            .add(TheEndPortalRenderer.END_PORTAL_LOCATION, false, false).build())
+                    .setShaderState(new RenderStateShard.ShaderStateShard(net.minecraft.client.renderer.GameRenderer::getPositionTexColorShader))
+                    .setTextureState(new RenderStateShard.TextureStateShard(PEELER_HALO_TEXTURE, false, false))
                     .setTransparencyState(ADDITIVE_TRANSPARENCY)
                     .setWriteMaskState(COLOR_WRITE)
                     .createCompositeState(false));

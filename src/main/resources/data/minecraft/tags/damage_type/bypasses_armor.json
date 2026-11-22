@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "thaumicconcilium:air_arrow",
-    "thaumicconcilium:order_arrow"
+    "thaumicconcilium:order_arrow",
+    "thaumicconcilium:binding"
   ]
 }

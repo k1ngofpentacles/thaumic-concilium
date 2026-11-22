@@ -256,6 +256,28 @@ Deviations: the fidelity review, "Phase 5a". Pack test: `Phase5a*Tests` (batches
 
 Every manual check is a QA quest in the FTB Quests book: **Crimson Forces** (`qa_phase_5a`). Nothing is listed here.
 
+## Phase 5b: Peeler, flesh and the Crimson Dagger (0.10.0)
+
+| Area | Status | Notes |
+|---|---|---|
+| Player state, ethereal, flesh | built | One attachment `crimson_state`; no-clip, damage and healing cancelled (void too, by decision), flesh as reserved max health; replaces 5a's minimal state |
+| Material Peeler | built | Entity summoned by Primordial Life thrown into a chained rift; bursts without a Hex below; touch flips ethereal; whiter rim (option B) over a vanilla end-portal core |
+| Flesh Crucible | built | Sip every tick, smelt leaves a Quicksilver Reactor, burns others every 10 ticks; recipe needs 3 plating + 3 motes, so uncraftable until 5c. Open: nothing in play adds aspect to a fresh crucible (the smelt's +2 goes with the replaced block) |
+| Crimson Initiation, Crimson Raid | built | Our Crimson Dagger (tag `initiation_tools`) converts a Mad Thaumaturge in the full robe; Raid spell part, complexity 22, 400-tick owned portal |
+| Ethereal Shackles visual | built | Projectile and first-person chained hand from the original's art |
+| Crimson Dagger | built | Infusion (Rites centre), 15-tick raise, stun by tier, Bleed (3 counters), self-cut with Neo Vitae, Enchanted sacrifice damage, Crimson Blood drop |
+| Crimson Plating, Primordial Mote | built | Plating: the Gilded Cult Plate (2 blood + 4 gold nuggets around an iron block, 9 out). Mote is an item with no source until The Vessel (5c) |
+| The Offertory (infusion minigame) | built as D1-c | Binding chain, flesh-offering demands, drain and snap; the ritual never kills the binder |
+| Cult aspects | built | Real `base_aspects` for 8 Thaumaturge ids and our new items; Aspect Interpreter 1.8.0 (separate jar) |
+| D1-c2: Yank, snap completes the rite and opens a Crimson Raid, Paladin champion, human-flesh offerings | pending merge | User's revision of the Offertory; replaces the offering list and the snap |
+| D8: dagger animation | pending merge | Fable; option still to be chosen |
+
+Deviations: the fidelity review, "Phase 5b". The decision record is `docs/design/5b-decision-tree.md`. Pack test: `Phase5bStateTests`, `Phase5bPeelerTests`, `Phase5bCrucibleTests`, `Phase5bCrimsonTests`, `Phase5bTrunkTests`, `Phase5bMinigameTests`. Known pre-existing gap: with Thaumaturge's aspect cache cleared, `items_have_aspects` fails on `polishment_device`.
+
+### Needs in-game testing
+
+Every manual check is a QA quest in the FTB Quests book: **Flesh, Peeler and the Crimson Dagger (5b)** (`qa_phase_5b`). Nothing is listed here.
+
 ## Remaining phases (planned)
 
 Dependencies mirror the original's (`required-after: Thaumcraft, ForbiddenMagic, ThaumicTinkerer`):

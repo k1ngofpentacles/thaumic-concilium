@@ -520,10 +520,37 @@ L[f'block.{NS}.flesh_crucible'] = o('tile.FleshCrucible.name')
 L[f'research.{NS}.flesh_crucible.title'] = o('tc.research_name.FLESHCRUCIBLE')
 L[f'research.{NS}.flesh_crucible.stage_0'] = join(o('tc.research_text.FLESHCRUCIBLE'), o('entry.fleshcrucible.first'))
 L[f'research.{NS}.flesh_crucible.stage_1'] = (
-    "Infused on a Quicksilver Reactor with a nether shard, three void metal plates, a bright nitor and three primordial pearls "
-    "(motes will do). Stand in it carrying flesh and it takes one flesh from you for one point of what it holds, up to sixty-four. "
-    "Feed it by herding a Mad Thaumaturge into it: each is dissolved for two points. Anything else that stands in it is burned. "
-    "A redstone signal quiets it.")
+    "Infused on a Quicksilver Reactor with a nether shard, three Crimson Plating, a bright nitor and three Primordial Motes. "
+    "Stand in it carrying flesh and it takes one flesh from you every moment, one point of what it holds for each, up to sixty-four. "
+    "Feed it by herding a Mad Thaumaturge into it: each is dissolved for two points, and the basin turns back into an empty Quicksilver Reactor. "
+    "Anything else that stands in it is burned. A redstone signal quiets it.")
+
+# phase 5b trunk: the Crimson Dagger, Crimson Blood, Crimson Plating, Primordial Mote (our own text)
+L[f'item.{NS}.crimson_dagger'] = 'Crimson Dagger'
+L[f'item.{NS}.crimson_blood'] = 'Crimson Blood'
+L[f'item.{NS}.crimson_plating'] = 'Crimson Plating'
+L[f'item.{NS}.primordial_mote'] = 'Primordial Mote'
+L[f'{NS}.tooltip.crimson_dagger'] = ('Hold right-click to raise it. Raised, with Death Gaze, it stills the lesser cultists you look at. '
+                                     'Then stab: the wound bleeds. Sneak and right-click to cut your own hand for an Ara Vitae.')
+L[f'message.{NS}.dagger_no_vitae'] = 'The dagger has nothing to bleed into'
+L[f'message.{NS}.dagger_no_altar'] = 'No Ara Vitae within reach'
+L[f'death.attack.{NS}.binding'] = '%1$s was drunk dry by the chain'
+L[f'message.{NS}.binding_demand'] = 'The chain wants %s'
+L[f'message.{NS}.binding_fed'] = 'The chain is fed'
+L[f'message.{NS}.binding_unbound'] = 'The Rites was never bound: nothing is signed'
+L[f'message.{NS}.binding_miss'] = 'The chain bites: it was not fed'
+L[f'message.{NS}.binding_open'] = 'The chain binds you. Feed it on a spare pedestal'
+L[f'message.{NS}.binding_snap.health'] = 'The chain snaps: you have given all you can. The rite finishes, and the Raid answers'
+L[f'message.{NS}.binding_snap.away'] = 'The chain snaps: you strayed too far. The rite finishes, and the Raid answers'
+L[f'message.{NS}.binding_snap.other'] = 'The chain snaps. The rite finishes, and the Raid answers'
+L[f'message.{NS}.binding_yank'] = 'The chain tightens'
+L[f'message.{NS}.raid_champion'] = 'Raid Champion'
+L[f'message.{NS}.raid_champion_took'] = 'The Raid Champion takes the dagger from %s'
+L[f'effect.{NS}.bleed'] = 'Bleed'
+L[f'effect.{NS}.stunned'] = 'Stunned'
+L[f'research.{NS}.crimson_initiation.stage_0'] = join(L[f'research.{NS}.crimson_initiation.stage_0'],
+    "The Cult's own dagger: infused at the centre of the Crimson Rites, with a brain, tallow, a phial, a bone and a void sword in the ring. "
+    "Its blood, spilled by a stab or the bleeding after it, is what the Cult's plating is made of: infuse an iron block with Crimson Blood and gold nuggets.")
 
 # phase 5b cycle 4: the Crimson Raid
 L[f'spell.{NS}.crimson_raid.name'] = o('am2.spell.crimson_raid')

@@ -66,6 +66,24 @@
         "amount": 5
       }
     ],
+    "thaumicconcilium:polishment_device": [
+      {
+        "aspect": "thaumaturge:ordo",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:fabrico",
+        "amount": 8
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 3
+      }
+    ],
     "thaumicconcilium:astral_monitor": [
       {
         "aspect": "thaumaturge:sensus",
@@ -355,6 +373,180 @@
       },
       {
         "aspect": "thaumaturge:machina",
+        "amount": 5
+      }
+    ],
+    "thaumaturge:crimson_blade": [
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 12
+      },
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 6
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 6
+      }
+    ],
+    "thaumaturge:curio_rites": [
+      {
+        "aspect": "thaumaturge:cognitio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 5
+      }
+    ],
+    "thaumaturge:crimson_captain_helm": [
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 8
+      },
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 8
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 3
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 3
+      }
+    ],
+    "thaumaturge:crimson_captain_chest": [
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 24
+      },
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 5
+      }
+    ],
+    "thaumaturge:crimson_ranger_helm": [
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 6
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 3
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 3
+      }
+    ],
+    "thaumaturge:crimson_ranger_chest": [
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 5
+      }
+    ],
+    "thaumaturge:crimson_ranger_legs": [
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 12
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 4
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 4
+      }
+    ],
+    "thaumicconcilium:crimson_dagger": [
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 6
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 5
+      }
+    ],
+    "thaumicconcilium:crimson_blood": [
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 12
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 6
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 4
+      }
+    ],
+    "thaumicconcilium:crimson_plating": [
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 6
+      },
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 4
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 2
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 2
+      }
+    ],
+    "thaumicconcilium:primordial_mote": [
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:vacuos",
         "amount": 5
       }
     ]

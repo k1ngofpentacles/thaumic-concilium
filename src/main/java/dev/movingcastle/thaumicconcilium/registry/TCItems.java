@@ -222,6 +222,16 @@ public final class TCItems {
         });
     }
 
+    // ---------------------------------------------------------------- phase 5b trunk: the Crimson Dagger and its materials
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.CrimsonDagger> CRIMSON_DAGGER = ITEMS.register("crimson_dagger",
+            () -> new dev.movingcastle.thaumicconcilium.item.CrimsonDagger(dev.movingcastle.thaumicconcilium.item.CrimsonDagger.properties()));
+    /** Only from a dagger kill of a crimson cultist (DaggerEvents). */
+    public static final DeferredItem<Item> CRIMSON_BLOOD = ITEMS.register("crimson_blood", () -> new Item(new Item.Properties()));
+    /** Infused from Crimson Blood; three go into the Flesh Crucible. */
+    public static final DeferredItem<Item> CRIMSON_PLATING = ITEMS.register("crimson_plating", () -> new Item(new Item.Properties()));
+    /** No recipe and no source until phase 5c (The Vessel drops it). */
+    public static final DeferredItem<Item> PRIMORDIAL_MOTE = ITEMS.register("primordial_mote", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+
     /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
     public static void defaultComponents(ModifyDefaultComponentsEvent event) {
         BRACELETS.forEach((kind, item) -> {

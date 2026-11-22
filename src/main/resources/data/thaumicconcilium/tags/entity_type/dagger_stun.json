@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "thaumaturge:cultist_knight",
+    "thaumaturge:cultist_cleric",
+    "thaumicconcilium:crimson_archer"
+  ]
+}

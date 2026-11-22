@@ -10,7 +10,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 PHASES = ['gen_phase1_data.py', 'gen_phase2_data.py', 'gen_phase3_data.py', 'gen_phase3b_data.py',
           'gen_phase4_data.py', 'gen_phase6a_data.py', 'gen_phase6b_data.py', 'gen_phase6c_data.py', 'gen_phase5a_data.py', 'gen_phase5a_levitator.py', 'gen_phase5a_tower.py',
-          'gen_phase5b_data.py', 'gen_lang.py']
+          'gen_phase5b_data.py', 'gen_phase5b_trunk.py', 'gen_lang.py']
 
 for name in PHASES:
     print('==', name, flush=True)

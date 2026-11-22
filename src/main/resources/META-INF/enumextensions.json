@@ -17,6 +17,15 @@
         "class": "dev/movingcastle/thaumicconcilium/client/BraceletArmPose",
         "field": "CAST"
       }
+    },
+    {
+      "enum": "net/minecraft/client/model/HumanoidModel$ArmPose",
+      "name": "THAUMICCONCILIUM_DAGGER",
+      "constructor": "(ZLnet/neoforged/neoforge/client/IArmPoseTransformer;)V",
+      "parameters": {
+        "class": "dev/movingcastle/thaumicconcilium/client/DaggerArmPose",
+        "field": "POSE"
+      }
     }
   ]
 }

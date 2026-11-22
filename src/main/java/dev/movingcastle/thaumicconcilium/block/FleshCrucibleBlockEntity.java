@@ -25,7 +25,7 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * Flesh Crucible state (original: {@code FleshCrucibleTile}): up to 64 of one aspect (the original's FLESH, Thaumaturge's
  * victus; the pack has no flesh aspect). It never ticks: everything happens in {@code entityInside}. A creature standing in it
- * is handled at most once per 10 ticks (the original fired on every collision tick, which is every tick).
+ * is hurt at most once per 10 ticks (the original's invulnerability frames); a player sips every tick.
  */
 public class FleshCrucibleBlockEntity extends BlockEntity {
     public static final int MAX = 64;
@@ -60,20 +60,23 @@ public class FleshCrucibleBlockEntity extends BlockEntity {
         if (this.level == null || this.level.isClientSide()) {
             return;
         }
+        if (entity instanceof MadThaumaturge mad) {
+            this.attemptSmelt(mad);
+            return;
+        }
+        if (entity instanceof Player player) {
+            // Sipping is every tick (the original fired on every collision tick); only damage keeps the cooldown.
+            if (CrimsonState.get(player).fleshAmount() > 0 && this.amount >= 1) {
+                this.attemptSip(player);
+            }
+            return;
+        }
         long now = this.level.getGameTime();
         Long before = this.last.get(entity.getUUID());
         if (before != null && now - before < COOLDOWN) {
             return;
         }
-        if (entity instanceof MadThaumaturge mad) {
-            this.mark(entity, now);
-            this.attemptSmelt(mad);
-        } else if (entity instanceof Player player) {
-            if (CrimsonState.get(player).fleshAmount() > 0 && this.amount >= 1) {
-                this.mark(entity, now);
-                this.attemptSip(player);
-            }
-        } else if (entity instanceof LivingEntity) {
+        if (entity instanceof LivingEntity) {
             this.mark(entity, now);
             entity.hurt(this.level.damageSources().inFire(), 1.0F);
             this.level.playSound(null, this.worldPosition, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.4F,
@@ -96,8 +99,10 @@ public class FleshCrucibleBlockEntity extends BlockEntity {
     }
 
     /**
-     * Original {@code attemptSmelt}: the Mad Thaumaturge is consumed for 2 aspect (capped at 64). The original also turned the
-     * block into a quicksilver crucible; here it stays a Flesh Crucible (the reactor is not a variant of it).
+     * Original {@code attemptSmelt}: the Mad Thaumaturge is consumed for 2 aspect (capped at 64) and the block stays a
+     * Flesh Crucible, never reverting. The original's {@code func_147452_c} is {@code World.addBlockEvent}, not setBlock, and
+     * nothing handles the event (confirmed in the 1.7.10 game, docs/design/5b-crucible-original-check.md; user decision
+     * 2026-11-22).
      */
     public void attemptSmelt(MadThaumaturge mad) {
         this.level.playSound(null, mad.getX(), mad.getY(), mad.getZ(), TTSounds.BUBBLE.get(), SoundSource.BLOCKS, 0.2F,

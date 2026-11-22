@@ -104,6 +104,7 @@ ba = r(f'data/{T}/data_maps/item/base_aspects.json')
 ba['values'][f'{NS}:thaumaturge_drum'] = aspects([('sensus', 10), ('instrumentum', 10), ('auram', 10)])
 ba['values'][f'{NS}:warped_drum'] = aspects([('sensus', 10), ('cognitio', 10), ('bestia', 10)])
 ba['values'][f'{NS}:coagulating_eye_drops'] = aspects([('sensus', 5), ('victus', 5)])
+ba['values'][f'{NS}:polishment_device'] = aspects([('ordo', 10), ('fabrico', 8), ('alienis', 5), ('praecantatio', 3)])   # user 2026-11-22: split of the two proposals
 w(f'data/{T}/data_maps/item/base_aspects.json', ba)
 
 # ---------------------------------------------------------------- spawn (original: monster, weight 5, groups 1-2)

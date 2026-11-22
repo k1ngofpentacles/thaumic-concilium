@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "thaumicconcilium:crimson_paladin",
+    "thaumaturge:cultist_ranger",
+    "thaumaturge:cultist_ranger_captain",
+    "thaumicconcilium:crimson_ranger"
+  ]
+}

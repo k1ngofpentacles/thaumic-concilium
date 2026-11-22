@@ -38,7 +38,7 @@ public class MaterialPeelerRenderer extends EntityRenderer<MaterialPeeler> {
             pose.translate(-0.1F, -0.1F, -0.1F);
             float s = (float) Math.pow(1.1, q);
             pose.scale(s, s, s);
-            cube(pose, halo);
+            haloCube(pose, halo);
             pose.popPose();
         }
         cube(pose, buffers.getBuffer(RenderType.endPortal()));
@@ -54,6 +54,26 @@ public class MaterialPeelerRenderer extends EntityRenderer<MaterialPeeler> {
         quad(m, out, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1); // south
         quad(m, out, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0); // west
         quad(m, out, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1); // east
+    }
+
+    /** The same box with UVs (the noise texture repeats three times a face) and a white vertex colour, for the halo program. */
+    private static void haloCube(PoseStack pose, VertexConsumer out) {
+        var m = pose.last().pose();
+        haloQuad(m, out, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1);
+        haloQuad(m, out, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0);
+        haloQuad(m, out, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0);
+        haloQuad(m, out, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1);
+        haloQuad(m, out, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0);
+        haloQuad(m, out, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1);
+    }
+
+    private static void haloQuad(org.joml.Matrix4f m, VertexConsumer out, float x0, float y0, float z0, float x1, float y1, float z1,
+                                 float x2, float y2, float z2, float x3, float y3, float z3) {
+        final float t = 3.0F;
+        out.addVertex(m, x0, y0, z0).setUv(0, 0).setColor(0xFFFFFFFF);
+        out.addVertex(m, x1, y1, z1).setUv(t, 0).setColor(0xFFFFFFFF);
+        out.addVertex(m, x2, y2, z2).setUv(t, t).setColor(0xFFFFFFFF);
+        out.addVertex(m, x3, y3, z3).setUv(0, t).setColor(0xFFFFFFFF);
     }
 
     private static void quad(org.joml.Matrix4f m, VertexConsumer out, float x0, float y0, float z0, float x1, float y1, float z1,

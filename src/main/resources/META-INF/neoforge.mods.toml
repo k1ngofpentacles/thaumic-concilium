@@ -77,6 +77,21 @@ side = "BOTH"
     ordering="AFTER"
     side="BOTH"
 
+# Crimson Dagger: the self-cut gives LP to a Neo Vitae altar; its hits use Enchanted's sacrifice damage type.
+[[dependencies.thaumicconcilium]]
+    modId="neovitae"
+    type="optional"
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.thaumicconcilium]]
+    modId="enchanted"
+    type="optional"
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"
+
 # Accessor for the private aspect list of Thaumaturge crucibles (Quicksilver Reactor).
 [[mixins]]
 config = "thaumicconcilium.mixins.json"

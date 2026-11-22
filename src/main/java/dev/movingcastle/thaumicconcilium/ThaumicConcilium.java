@@ -34,6 +34,7 @@ public final class ThaumicConcilium {
         dev.movingcastle.thaumicconcilium.lithograph.Lithograph.ATTACHMENTS.register(modBus);
         dev.movingcastle.thaumicconcilium.world.CrimsonState.ATTACHMENTS.register(modBus);
         TCWandParts.RODS.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCEffects.EFFECTS.register(modBus);
         TCItems.ITEMS.register(modBus);
         modBus.addListener(TCItems::defaultComponents);
         TCEntities.ENTITY_TYPES.register(modBus);

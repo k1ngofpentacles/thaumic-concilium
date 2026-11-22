@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#thaumicconcilium:dagger_stun",
+    "#thaumicconcilium:dagger_slow",
+    "thaumicconcilium:crimson_pontifex",
+    "thaumaturge:cultist_leader"
+  ]
+}

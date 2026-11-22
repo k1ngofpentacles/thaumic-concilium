@@ -19,7 +19,11 @@
           "amount": 1
         }
       ],
-      "warp": 3
+      "warp": 3,
+      "recipes": [
+        "thaumicconcilium:infusion/crimson_dagger",
+        "thaumicconcilium:infusion/crimson_plating"
+      ]
     }
   ],
   "note_aspects": [

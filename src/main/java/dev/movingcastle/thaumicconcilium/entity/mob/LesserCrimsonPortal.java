@@ -132,6 +132,27 @@ public class LesserCrimsonPortal extends Monster {
     /** Ticks of life left while owned. */
     private int lifetime;
 
+    /** The owner of a hostile raid (the Crimson Dagger's snap): no player, so it is hostile to everyone; its cultists never despawn. */
+    public static final UUID HOSTILE_RAID = new UUID(0L, 0L);
+
+    public boolean isHostileRaid() {
+        return HOSTILE_RAID.equals(owner);
+    }
+
+    /**
+     * Opens a hostile raid portal at {@code pos} (the Crimson Dagger's snap): owned by nobody, closing after {@link #RAID_LIFETIME}
+     * like any raid portal, stage 0, and every cultist it sends is persistent.
+     */
+    @Nullable
+    public static LesserCrimsonPortal summonHostile(ServerLevel level, Vec3 pos) {
+        LesserCrimsonPortal portal = summon(level, pos, false);
+        if (portal != null) {
+            portal.setStage(0);
+            portal.setOwner(HOSTILE_RAID, RAID_LIFETIME);
+        }
+        return portal;
+    }
+
     @Nullable
     public UUID owner() {
         return owner;
@@ -214,6 +235,9 @@ public class LesserCrimsonPortal extends Monster {
         };
         // keeps the world's 20% knight-to-Paladin replacement from skewing the portal's own odds
         minion.getPersistentData().putBoolean(NO_REPLACE, true);
+        if (isHostileRaid()) {
+            minion.setPersistenceRequired();   // a snapped binding's raid never fades away
+        }
         CultistPortals.summon(this, server, minion);
         minion.restrictTo(blockPosition(), 32);
         if (stage > 12) {

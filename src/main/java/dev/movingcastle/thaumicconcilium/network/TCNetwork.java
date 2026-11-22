@@ -24,6 +24,9 @@ public final class TCNetwork {
         registrar.playToClient(EnslavePayload.TYPE, EnslavePayload.STREAM_CODEC, EnslavePayload::handle);
         registrar.playToClient(CrimsonStatePayload.TYPE, CrimsonStatePayload.STREAM_CODEC, CrimsonStatePayload::handle);
         registrar.playToServer(PontifexTogglePayload.TYPE, PontifexTogglePayload.STREAM_CODEC, PontifexTogglePayload::handle);
+        registrar.playToClient(BindingPayload.TYPE, BindingPayload.STREAM_CODEC, BindingPayload::handle);
         registrar.playToServer(BraceletFocusPayload.TYPE, BraceletFocusPayload.STREAM_CODEC, BraceletFocusPayload::handle);
+        registrar.playToClient(DaggerFxPayload.TYPE, DaggerFxPayload.STREAM_CODEC, DaggerFxPayload::handle);
+        registrar.playToServer(DaggerStabPayload.TYPE, DaggerStabPayload.STREAM_CODEC, DaggerStabPayload::handle);
     }
 }

@@ -1,0 +1,48 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "minecraft:iron_block"
+  },
+  "components": [
+    {
+      "item": "thaumicconcilium:crimson_blood"
+    },
+    {
+      "item": "thaumicconcilium:crimson_blood"
+    },
+    {
+      "item": "minecraft:gold_nugget"
+    },
+    {
+      "item": "minecraft:gold_nugget"
+    },
+    {
+      "item": "minecraft:gold_nugget"
+    },
+    {
+      "item": "minecraft:gold_nugget"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:metallum",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 32
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:crimson_initiation"
+  },
+  "result": {
+    "count": 9,
+    "id": "thaumicconcilium:crimson_plating"
+  }
+}

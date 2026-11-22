@@ -1,0 +1,48 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumaturge:curio_rites"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:brain"
+    },
+    {
+      "item": "thaumaturge:tallow"
+    },
+    {
+      "item": "thaumaturge:tallow"
+    },
+    {
+      "item": "thaumaturge:phial"
+    },
+    {
+      "item": "minecraft:bone"
+    },
+    {
+      "item": "thaumaturge:void_sword"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 48
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 24
+    },
+    {
+      "aspect": "thaumaturge:vinculum",
+      "amount": 24
+    }
+  ],
+  "instability": 6,
+  "research": {
+    "entry": "thaumicconcilium:crimson_initiation"
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:crimson_dagger"
+  }
+}

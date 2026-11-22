@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "thaumicconcilium:item/crimson_dagger"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "thaumicconcilium:grip": 0.25
+      },
+      "model": "thaumicconcilium:item/crimson_dagger_cut"
+    },
+    {
+      "predicate": {
+        "thaumicconcilium:grip": 0.5
+      },
+      "model": "thaumicconcilium:item/crimson_dagger_inline"
+    },
+    {
+      "predicate": {
+        "thaumicconcilium:grip": 0.75
+      },
+      "model": "thaumicconcilium:item/crimson_dagger_plunge"
+    },
+    {
+      "predicate": {
+        "thaumicconcilium:grip": 0.875
+      },
+      "model": "thaumicconcilium:item/crimson_dagger_heart"
+    },
+    {
+      "predicate": {
+        "thaumicconcilium:grip": 1.0
+      },
+      "model": "thaumicconcilium:item/crimson_dagger_reverse"
+    }
+  ]
+}

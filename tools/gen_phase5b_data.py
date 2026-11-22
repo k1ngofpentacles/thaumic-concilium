@@ -25,9 +25,10 @@ add_entity_aspects('material_peeler', [('alienis', 40), ('vacuos', 40), ('praeca
 # ================================================================ cycle 3: the Flesh Crucible
 # PROVISIONAL (user decision pending): FLESH_ASPECT is the aspect the crucible stores (the module maps TC4 FLESH to victus; the
 # Java side, FleshCrucibleBlockEntity, is aspect-free: it holds one number, and this only names it in the recipe and notes).
-# PLATING stands in for Tainted Magic's Crimson Plating (ItemMaterial meta 7), which has no Thaumaturge counterpart.
+# PLATING and MOTE are our Crimson Plating and Primordial Mote (trunk T1; Tainted Magic's plating was ItemMaterial meta 7).
 FLESH_ASPECT = 'victus'
-PLATING = 'thaumaturge:plate_void'
+PLATING = f'{NS}:crimson_plating'      # T1: ours now (was the plate_void stand-in)
+MOTE = f'{NS}:primordial_mote'          # T1: ours now, no source until 5c
 copy_from_jar({f'textures/blocks/flesh_crucible{i}.png': f'block/flesh_crucible{i}.png' for i in range(1, 7)}
               | {'textures/blocks/liquid_flesh.png': 'block/liquid_flesh.png'})
 # The original drew a full cube (top 1, bottom 2, sides 3) and added inner faces by code (inner side 5, inner floor 6); this is the
@@ -62,20 +63,20 @@ w(f'data/{NS}/thaumaturge/research_entry/material_peeler.json', _p)
 
 # Recipe (TCRecipeRegistry.java:858-883): instability 10; flesh 128 + 128, fire 128, gluttony 64, nether 128 (infernum), hunger 64
 # (desiderium); catalyst the quicksilver crucible (our reactor); components: nether shard, 3 crimson plating, bright nitor,
-# 3 primordial motes (a mote is a worn primordial pearl: the plain pearl ingredient matches any).
+# 3 primordial motes (ours; no source until 5c, so the recipe stays uncraftable: user decision).
 infusion('flesh_crucible', 'flesh_crucible',
          [(FLESH_ASPECT, 256), ('ignis', 128), ('forbiddenmagic:gula', 64), ('thaumadditions:infernum', 128), ('desiderium', 64)],
          it(f'{NS}:quicksilver_reactor'),
          [it('thaumaturgetinker:nether_shard')] + [it(PLATING)] * 3 + [it('thaumaturgetinker:bright_nitor')]
-         + [it('thaumaturge:primordial_pearl')] * 3, 10, 'flesh_crucible')
+         + [it(MOTE)] * 3, 10, 'flesh_crucible')
 _path = f'data/{NS}/recipe/infusion/flesh_crucible.json'
 _o = r(_path)
 _o['neoforge:conditions'] = [{'type': 'neoforge:item_exists', 'item': 'thaumaturgetinker:ichor'}]
 w(_path, _o)
 
 # ================================================================ cycle 4: the Crimson Raid spell part
-# Crimson Initiation's tool: any item in this tag (user decision). Empty until our Crimson Dagger exists; the pack test adds its own.
-w(f'data/{NS}/tags/item/initiation_tools.json', {'values': []})
+# Crimson Initiation's tool: any item in this tag (user decision); our Crimson Dagger is in it (the pack test adds crimson_blade too).
+w(f'data/{NS}/tags/item/initiation_tools.json', {'values': [f'{NS}:crimson_dagger']})
 # RAID_COMPLEXITY is the part's price (Thaumaturge prices a part by complexity: hellbat with two bats 16, primal 20). The original was an Ars Magica 2 component (mana 3000, burnout 300); no AM2 here.
 RAID_COMPLEXITY = 22   # user decision: above a lesser focus's 20, so it needs an advanced focus or better
 _z = jar()
@@ -101,3 +102,15 @@ for _mesh in ('shackles', 'chain'):
         with open(_out, 'wb') as _f:
             _f.write(jar_read(f'models/{_mesh}.obj'))
 copy_from_jar({'textures/models/shackles.png': 'entity/shackles/shackles.png', 'textures/models/Chain.png': 'entity/shackles/chain.png'})
+
+# ================================================================ phase 5b D6: base_aspects for the crimson cult's gear (option A)
+# Thaumaturge ships none for these ids (the interpreter guessed). Real entries for crimson_plate_*, praetor, robe and boots stay.
+_ba = r(f'data/{T}/data_maps/item/base_aspects.json')
+_ba['values']['thaumaturge:crimson_blade'] = aspects([('metallum', 12), ('aversio', 16), ('humanus', 6), ('alienis', 6)])
+_ba['values']['thaumaturge:curio_rites'] = aspects([('cognitio', 10), ('alienis', 10), ('humanus', 5)])
+_ba['values']['thaumaturge:crimson_captain_helm'] = aspects([('praemunio', 8), ('metallum', 8), ('humanus', 3), ('alienis', 3)])
+_ba['values']['thaumaturge:crimson_captain_chest'] = aspects([('praemunio', 24), ('metallum', 20), ('humanus', 5), ('alienis', 5)])
+_ba['values']['thaumaturge:crimson_ranger_helm'] = aspects([('praemunio', 6), ('humanus', 3), ('alienis', 3)])
+_ba['values']['thaumaturge:crimson_ranger_chest'] = aspects([('praemunio', 16), ('humanus', 5), ('alienis', 5)])
+_ba['values']['thaumaturge:crimson_ranger_legs'] = aspects([('praemunio', 12), ('humanus', 4), ('alienis', 4)])
+w(f'data/{T}/data_maps/item/base_aspects.json', _ba)

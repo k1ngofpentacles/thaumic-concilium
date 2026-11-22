@@ -6,7 +6,13 @@ import com.leclowndu93150.thaumaturge.api.wands.WandRod;
 import com.leclowndu93150.thaumaturge.registry.TTDataComponents;
 import com.leclowndu93150.thaumaturge.registry.TTItems;
 import com.leclowndu93150.thaumaturge.registry.TTWandParts;
+import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.entity.CrimsonOrb;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.BossEvent;
 import dev.movingcastle.thaumicconcilium.entity.EtherealShackles;
 import dev.movingcastle.thaumicconcilium.registry.TCItems;
 import dev.movingcastle.thaumicconcilium.registry.TCSounds;
@@ -141,6 +147,112 @@ public class CrimsonPaladin extends CrimsonCultist implements RangedAttackMob {
             lookAt(target, 100.0F, 100.0F);
             CrimsonOrb.launch(server, this, new Vec3(getX() + look.x, getY() + getEyeHeight(), getZ() + look.z), look);
             swing(InteractionHand.MAIN_HAND);
+        }
+    }
+
+    // ---------------------------------------------------------------- the Raid Champion (the Crimson Dagger's snap, D1-c2)
+
+    private boolean champion;
+    private ServerBossEvent championBar;
+
+    public boolean isChampion() {
+        return champion;
+    }
+
+    /** Marks this Paladin as the champion of a hostile Crimson Raid: persistent, named, with a boss bar. */
+    public void makeChampion() {
+        this.champion = true;
+        setPersistenceRequired();
+        ensureBar();
+        setCustomName(Component.translatable("message." + ThaumicConcilium.MODID + ".raid_champion"));
+    }
+
+    private void ensureBar() {
+        if (championBar == null) {
+            championBar = new ServerBossEvent(Component.translatable("message." + ThaumicConcilium.MODID + ".raid_champion"),
+                    BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
+        }
+    }
+
+    /** The dagger a champion holds (offhand), or empty. */
+    public ItemStack heldDagger() {
+        ItemStack stack = getItemBySlot(EquipmentSlot.OFFHAND);
+        return stack.is(TCItems.CRIMSON_DAGGER.get()) ? stack : ItemStack.EMPTY;
+    }
+
+    /** The champion takes the dagger and holds it; it drops with certainty when the champion dies. */
+    public void holdDagger(ItemStack dagger) {
+        setItemSlot(EquipmentSlot.OFFHAND, dagger);
+        setPersistenceRequired();
+    }
+
+    @Override
+    protected void dropAllDeathLoot(ServerLevel level, DamageSource source) {
+        ItemStack dagger = heldDagger();
+        if (!dagger.isEmpty()) {
+            setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
+            spawnAtLocation(dagger.copy());   // guaranteed: no drop chance, no looting roll, whatever the mob-loot rule says
+        }
+        super.dropAllDeathLoot(level, source);
+    }
+
+    @Override
+    public void setCustomName(@Nullable Component name) {
+        super.setCustomName(name);
+        if (championBar != null) {
+            championBar.setName(getDisplayName());
+        }
+    }
+
+    @Override
+    public void startSeenByPlayer(ServerPlayer player) {
+        super.startSeenByPlayer(player);
+        if (champion) {
+            ensureBar();
+            championBar.addPlayer(player);
+        }
+    }
+
+    @Override
+    public void stopSeenByPlayer(ServerPlayer player) {
+        super.stopSeenByPlayer(player);
+        if (championBar != null) {
+            championBar.removePlayer(player);
+        }
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        if (championBar != null) {
+            championBar.removeAllPlayers();
+        }
+        super.remove(reason);
+    }
+
+    @Override
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        if (champion && championBar != null) {
+            championBar.setProgress(getHealth() / getMaxHealth());
+        }
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        if (champion) {
+            tag.putBoolean("RaidChampion", true);
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        if (tag.getBoolean("RaidChampion")) {
+            champion = true;
+            ensureBar();
+            setPersistenceRequired();
+            championBar.setName(getDisplayName());
         }
     }
 

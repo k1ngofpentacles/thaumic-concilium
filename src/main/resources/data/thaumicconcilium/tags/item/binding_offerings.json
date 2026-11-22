@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "thaumicconcilium:crimson_blood",
+    "thaumaturge:brain",
+    "minecraft:rotten_flesh",
+    "thaumaturge:flesh_block"
+  ]
+}
