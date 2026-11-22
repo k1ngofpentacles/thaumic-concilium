@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+"""Run every generator in dependency order (run from the module root: python -I tools/gen_all.py).
+
+Phase 4 before 6a/6b/6c (data maps are read-modify-write); lang last. Add new gen_phaseNx_data.py to PHASES.
+"""
+import os
+import subprocess
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+PHASES = ['gen_phase1_data.py', 'gen_phase2_data.py', 'gen_phase3_data.py', 'gen_phase3b_data.py',
+          'gen_phase4_data.py', 'gen_phase6a_data.py', 'gen_phase6b_data.py', 'gen_phase6c_data.py',
+          'gen_lang.py']
+
+for name in PHASES:
+    print('==', name, flush=True)
+    r = subprocess.run([sys.executable, '-I', os.path.join(HERE, name)])
+    if r.returncode != 0:
+        sys.exit(f'{name} failed with exit code {r.returncode}')
+print('all generators done')
