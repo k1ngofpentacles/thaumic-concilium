@@ -549,6 +549,20 @@
         "aspect": "thaumaturge:vacuos",
         "amount": 5
       }
+    ],
+    "thaumicconcilium:vessel_anchor": [
+      {
+        "aspect": "thaumaturge:terra",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 10
+      }
     ]
   }
 }

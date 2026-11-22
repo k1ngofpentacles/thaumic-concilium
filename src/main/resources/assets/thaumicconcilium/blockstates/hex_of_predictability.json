@@ -1,6 +1,15 @@
 {
   "variants": {
-    "": {
+    "crack=0": {
+      "model": "thaumicconcilium:block/hex_of_predictability"
+    },
+    "crack=1": {
+      "model": "thaumicconcilium:block/hex_of_predictability"
+    },
+    "crack=2": {
+      "model": "thaumicconcilium:block/hex_of_predictability"
+    },
+    "crack=3": {
       "model": "thaumicconcilium:block/hex_of_predictability"
     }
   }

@@ -278,6 +278,35 @@ Deviations: the fidelity review, "Phase 5b". The decision record is `docs/design
 
 Every manual check is a QA quest in the FTB Quests book: **Flesh, Peeler and the Crimson Dagger (5b)** (`qa_phase_5b`). Nothing is listed here.
 
+## Phase 5c: The Vessel, pure half (0.11.0)
+
+The Vessel is our own design (no original to port); the Brightest One is its sibling. Design canon: `docs/design/5c-design.md`; cycle notes in `docs/agents/retro/5c-cycle*-notes.md`.
+
+| Area | Status | Notes |
+|---|---|---|
+| The sink | built | Only a **lesser hex** (Barrier Stone centre) holding a **tamed** rift feeds. Burden routes: F1 aura flux, F2 vitium through condensers, F3 goo and gas within 4 blocks, W1 sneak-use warp (temporary, then normal, never permanent), W2 thrown warp items (destroyed). Rift grows 25 -> 75 with burden and **eats no blocks**; three crack states on the hex, a hidden strain threshold (400, +-15%). Break on the next chunk load once strained, or leak (150% back as flux) and break when all players sleep. Chained rifts (the Brightest One's) and full hexes are exactly as before |
+| Break cinematic | built | About 6.5 s: the hex becomes a **Sable sub-level** and rises, spins inside the Vessel, cracks with light, bursts; the four edge stones fly out as shards and land as anchors. Without Sable (or `vessel.break.sable = false`) a rendered stand-in plays the same timeline. Interrupted sequences finish at once on load; the Vessel cannot be woken until it ends. The hex is permanently broken (nothing restored) |
+| Crater | built | Shallow bowl (about 4 deep, tapering), ragged rim, debris-block mound; carved from the centre outward by a queue over about 3 s; blast-resistant blocks stay, containers spill; the burst damages and throws players and mobs inside (explosion damage). Anchors land on the finished floor on radial spokes (roughly a circle, 8-12 out) |
+| Anchor shards | built | Eight shapes, four picked per Vessel; textured from the hex's own stone, glyphs rise as particles (charge reads through them), a hovering shard bobs and turns; states `charges`, `tethered`, cooling. They crumble when the rite ends |
+| The fight | built | Entity with a Mass bar; pull and horizon; draws at the anchors with cooldown; clots batted back as the stagger; Feeding, Spin-up and Collapse; dormancy when abandoned; weapons never hurt it. Mass 0 subdues. Darkness inside about 8 blocks of the hole, Blindness inside about 4 |
+| Sable pull | built | Airships near the hole get impulses toward it (`compat/SablePull`, the only class naming Sable); capped impulse, approach speed and angular speed; one query per 20 ticks while active |
+| The look | built | Black core, violet ring, haze, halo, clots, tether ribbons, vignette, sounds; harness-measured against the design numbers |
+| The rite | built | Subdued Vessel, 20 charge units drained by held wand tethers at the anchors (resumable, per-anchor progress saved); 1 temporary warp per unit and one normal per 5 units; taint pulses on a widening ring; the Vessel is a living taint origin while draining |
+| Taint Seed scar | built | Left at the end, sized by missed clots and spilled goo (Prime from score 12); the blight withers when it dies (Thaumaturge's rule, not tested) |
+| Primordial Motes | built | To every participant at the subdue, second mote 10% each; absent contributors' share is paid on login. Makes the Flesh Crucible craftable |
+| Research | built | Our tab: Rifts That Hold, What It Keeps, The Vessel, Drawing It Out (gated with `thaumaturge:unlock_eldritch`, permanent warp 3), Primordial Mote; notes granted by code |
+| Absent-contributor debt | built | Level saved data keyed by UUID: temporary warp and a warp event (`rift/WarpKick`, by reflection, fails soft) on next login; teleport of contributors from any dimension |
+
+Configurable numbers that are **first guesses** (all `TCConfig`, groups `vessel.*`): every burden rate and the threshold and its spread, the leak ratio and sleep threshold, growth 25 -> 75, the pull, horizon, Mass, clot and gulp numbers, the Sable caps (impulse 150, 4 blocks/s, angular 1.0 rad/s), Darkness and Blindness radii, crater size and blast damage and knockback (24, 1.6), the rite's charge (20 units), unit time (1200 ticks, about 20 min solo), pulse ring and goo rates, seed score and strength, and the second-mote chance. The QA chapter judges them.
+
+Mixin `RiftSweepMixin` (`defaultRequire: 1`): one cancellable inject at the head of Thaumaturge's `RiftSegmentSweep.tick`, skipping the sweep for a tamed rift under a lesser hex. Justification: the sweep is called straight from the rift's own tick with no event, config or state to flip, and cancelling `EntityTickEvent.Pre` would also drop the collapse and outline refresh. Wild, chained, Gem and spatial rifts are unchanged (control test `wild_rift_still_eats`). Other mixins: `CrucibleAccessor`, `InfusionMatrixMixin`.
+
+Deviations: the fidelity review, "Phase 5c". Pack test: `Phase5cSinkTests`, `Phase5cVesselTests`, `Phase5cSableTests`, `Phase5cShardTests`, `Phase5cBreakTests`, `Phase5cRiteTests` (214 GameTests in all, 0 failures; `pontifex_attack_rolls` is a known flake). Render harness: `phase5c.json`, `phase5c_break.json`.
+
+### Needs in-game testing
+
+Every manual check is a QA quest in the FTB Quests book: **The Vessel (5c)** (`qa_phase_5c`). Nothing is listed here. Not covered by any test or shot: the real player teleport and the break with real players, the feel of the pull, the 6.5 s sequence and the blast throw, bob and glyph motion, blight withering, the Sable twist and aboard rules, shaders, and multiplayer over LAN.
+
 ## Remaining phases (planned)
 
 Dependencies mirror the original's (`required-after: Thaumcraft, ForbiddenMagic, ThaumicTinkerer`):
@@ -290,7 +319,7 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 | FM | ✅ (0.2.1) Forbidden Magic (Thaumaturge) built; sin aspects moved; shard stand-ins swapped for real shards |
 | 3 | ✅ (0.3.0) Gear, warp baubles, bottles, shard mills. 3b: casting bracelets |
 | 4 | ✅ (0.5.0) Thaumaturges, Mad Thaumaturges, Nether Explorer, Withered Botanist, hint notes, Nether Membrane |
-| 5 | Crimson forces: paladin, archer, ranger, lesser portal, Pontifex boss |
+| 5 | 5a, 5b, 5c done (0.9.0, 0.10.0, 0.11.0: Crimson forces, flesh and Peeler, The Vessel pure half). **Next: 5d**, the Botania half: biome painter and Concilium Grove, Verdant Capital, mana, research 5 and 7, the Botania lexicon pointer |
 | 6 | ✅ 6a, 6b, 6c done (0.6.0, 0.7.0, 0.8.0): Brightest One, Gem of Rifts, Causal Bouillon dimension |
 | 7 | Golem cores → seals, Golem Bydlo, Vengeful Golem |
 | 8 | Horizons flesh alchemy, Gadomancy gadgets, Thaumic Bases picks, Solid Void |

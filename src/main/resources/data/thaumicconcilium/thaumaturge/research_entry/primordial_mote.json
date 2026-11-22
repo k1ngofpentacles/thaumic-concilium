@@ -1,0 +1,39 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.primordial_mote.title",
+  "parents": [
+    "thaumicconcilium:the_vessel"
+  ],
+  "column": -7,
+  "row": 1,
+  "icons": [
+    "thaumicconcilium:primordial_mote"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.primordial_mote.stage_0"
+    },
+    {
+      "text": "research.thaumicconcilium.primordial_mote.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

@@ -44,6 +44,17 @@ public final class TCClient {
         event.register(AstralMonitorRenderer.FRAME);
     }
 
+    /** Phase 5c: the Vessel's pull on the local player runs on this client (see {@link VesselClientPull}). */
+    @SubscribeEvent
+    public static void vesselSetup(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            dev.movingcastle.thaumicconcilium.entity.Vessel.clientPull = VesselClientPull::pull;
+            dev.movingcastle.thaumicconcilium.entity.Vessel.clientTick = VesselFx::tick;
+            dev.movingcastle.thaumicconcilium.entity.Vessel.clientEvent = VesselFx::event;
+            dev.movingcastle.thaumicconcilium.entity.VesselClot.clientTick = VesselFx::clotTick;
+        });
+    }
+
     @SubscribeEvent
     public static void dimensionEffects(net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent event) {
         event.register(ThaumicConcilium.id("causal_bouillon"), new CausalBouillonEffects());
@@ -57,6 +68,7 @@ public final class TCClient {
 
     @SubscribeEvent
     public static void guiLayers(RegisterGuiLayersEvent event) {
+        event.registerAboveAll(ThaumicConcilium.id("vessel_vignette"), new VesselVignette());
         event.registerAboveAll(ThaumicConcilium.id("bracelet_hud"), new BraceletHud());
         event.registerAboveAll(ThaumicConcilium.id("bracelet_radial"), new BraceletRadial());
         event.registerAboveAll(ThaumicConcilium.id("lithograph_hud"), new LithographHud());
@@ -128,6 +140,8 @@ public final class TCClient {
         event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.LITHOGRAPHER_BLOCK_ENTITY.get(),
                 LithographerRenderer::new);
         event.registerEntityRenderer(TCEntities.MATERIAL_PEELER.get(), MaterialPeelerRenderer::new);
+        event.registerEntityRenderer(TCEntities.VESSEL.get(), VesselRenderer::new);
+        event.registerEntityRenderer(TCEntities.VESSEL_CLOT.get(), VesselClotRenderer::new);
         // Phase 4 mobs.
         event.registerEntityRenderer(TCEntities.THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "thaumaturge"));
         event.registerEntityRenderer(TCEntities.MAD_THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "mad_thaumaturge"));

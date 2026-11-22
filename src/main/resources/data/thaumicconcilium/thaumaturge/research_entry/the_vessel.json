@@ -1,0 +1,39 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.the_vessel.title",
+  "parents": [
+    "thaumicconcilium:what_it_keeps"
+  ],
+  "column": -9,
+  "row": 1,
+  "icons": [
+    "thaumicconcilium:vessel_anchor"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.the_vessel.stage_0"
+    },
+    {
+      "text": "research.thaumicconcilium.the_vessel.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

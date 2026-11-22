@@ -247,5 +247,192 @@
         "stream": false
       }
     ]
+  },
+  "vessel.hum": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.hum",
+    "sounds": [
+      {
+        "name": "minecraft:block.beacon.ambient",
+        "type": "event",
+        "volume": 0.8,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "vessel.wake": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.wake",
+    "sounds": [
+      {
+        "name": "minecraft:block.respawn_anchor.charge",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.5
+      }
+    ]
+  },
+  "vessel.swell": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.swell",
+    "sounds": [
+      {
+        "name": "minecraft:entity.warden.sonic_charge",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.6
+      }
+    ]
+  },
+  "vessel.gulp": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.gulp",
+    "sounds": [
+      {
+        "name": "minecraft:entity.warden.sonic_boom",
+        "type": "event",
+        "volume": 0.9,
+        "pitch": 0.5
+      }
+    ]
+  },
+  "vessel.clot_windup": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.clot_windup",
+    "sounds": [
+      {
+        "name": "minecraft:entity.ghast.warn",
+        "type": "event",
+        "volume": 0.8,
+        "pitch": 1.4
+      }
+    ]
+  },
+  "vessel.clot_launch": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.clot_launch",
+    "sounds": [
+      {
+        "name": "minecraft:entity.ghast.shoot",
+        "type": "event",
+        "volume": 0.8,
+        "pitch": 0.7
+      }
+    ]
+  },
+  "vessel.bat": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.bat",
+    "sounds": [
+      {
+        "name": "minecraft:entity.breeze.deflect",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.9
+      }
+    ]
+  },
+  "vessel.stagger": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.stagger",
+    "sounds": [
+      {
+        "name": "minecraft:block.beacon.deactivate",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.6
+      }
+    ]
+  },
+  "vessel.recover": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.recover",
+    "sounds": [
+      {
+        "name": "minecraft:block.beacon.activate",
+        "type": "event",
+        "volume": 0.8,
+        "pitch": 0.6
+      }
+    ]
+  },
+  "vessel.tether_form": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.tether_form",
+    "sounds": [
+      {
+        "name": "thaumaturge:wand",
+        "type": "event",
+        "volume": 0.8,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "vessel.tether_break": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.tether_break",
+    "sounds": [
+      {
+        "name": "thaumaturge:craftfail",
+        "type": "event",
+        "volume": 0.7,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "vessel.mass_drop": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.mass_drop",
+    "sounds": [
+      {
+        "name": "minecraft:block.respawn_anchor.deplete",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.8
+      }
+    ]
+  },
+  "vessel.horizon_throw": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.horizon_throw",
+    "sounds": [
+      {
+        "name": "minecraft:entity.enderman.teleport",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.5
+      }
+    ]
+  },
+  "vessel.eat": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.eat",
+    "sounds": [
+      {
+        "name": "minecraft:entity.item.pickup",
+        "type": "event",
+        "volume": 0.5,
+        "pitch": 0.4
+      }
+    ]
+  },
+  "vessel.anchor_cool": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.anchor_cool",
+    "sounds": [
+      {
+        "name": "minecraft:block.fire.extinguish",
+        "type": "event",
+        "volume": 0.6,
+        "pitch": 0.6
+      }
+    ]
+  },
+  "vessel.anchor_ready": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.anchor_ready",
+    "sounds": [
+      {
+        "name": "minecraft:block.amethyst_block.chime",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.8
+      }
+    ]
+  },
+  "vessel.subdued": {
+    "subtitle": "subtitles.thaumicconcilium.vessel.subdued",
+    "sounds": [
+      {
+        "name": "minecraft:block.conduit.deactivate",
+        "type": "event",
+        "volume": 1.0,
+        "pitch": 0.6
+      }
+    ]
   }
 }

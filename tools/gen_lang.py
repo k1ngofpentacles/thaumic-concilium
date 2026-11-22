@@ -54,7 +54,7 @@ for e, orig in [('compressed_blast',None),('positive_burst_orb','PositiveBurstOr
     L[f'entity.{NS}.{e}'] = o(f'entity.ThaumicConcilium.{orig}.name') if orig else {'compressed_blast':'Compressed Blast','flurry_shot':'Flurry Shot'}[e]
 # sounds
 for s in json.load(open(f'src/main/resources/assets/{NS}/sounds.json')):
-    L[f'subtitles.{NS}.{s}'] = s.replace('_', ' ').capitalize()
+    L[f'subtitles.{NS}.{s}'] = s.replace('_', ' ').replace('.', ' ').capitalize()
 
 # ---------------------------------------------------------------- phase 2
 def join(*parts): return '<BR><BR>'.join(x for x in parts if x)
@@ -571,6 +571,76 @@ L[f'research.{NS}.arcane_levitator.stage_0'] = join('Rising on a breath',
     'A chamber of greatwood and brass that holds a pocket of bound air, fed from a nitor. Anything above it, a dropped item, a beast or yourself, is lifted up the column of air.')
 L[f'research.{NS}.arcane_levitator.stage_1'] = join(
     'The column is ten blocks tall and ends at the first solid block. Stacking levitators adds ten blocks each. Sneaking settles you gently; redstone on the levitator, or on the block above it, switches it off.')
+
+# ---------------------------------------------------------------- phase 5c cycle 1: the sink (our own text, placeholders until the rite)
+L[f'block.{NS}.vessel_anchor'] = 'Anchor'
+L[f'entity.{NS}.vessel'] = 'The Vessel'
+L[f'message.{NS}.hex_no_warp'] = 'You have no warp to give it'
+L[f'message.{NS}.hex_warp_taken'] = 'The rift drinks a little of what haunts you'
+L[f'message.{NS}.vessel_debt'] = 'Something you fed has come due, in your absence'
+# cycle 2: the fight (placeholder text)
+L[f'entity.{NS}.vessel_clot'] = 'Clot'
+L[f'effect.{NS}.tethered'] = 'Tethered'
+L[f'effect.{NS}.flung'] = 'Flung'
+L[f'message.{NS}.vessel_cooling'] = 'The anchor is still cooling'
+# cycle 4: the Quiescent Vessel, the rite, the motes and the field notes (our own text)
+L[f'message.{NS}.rite_locked'] = 'You do not know how to draw from it, and it does not seem to mind'
+L[f'message.{NS}.rite_done'] = 'The last of it has gone through someone. Something is left standing where it hung'
+L[f'message.{NS}.mote_given'] = 'It leaves %s of its first light with you'
+L[f'research.{NS}.rifts_that_hold.title'] = 'Rifts That Hold'
+L[f'research.{NS}.rifts_that_hold.stage_0'] = join(
+    'Field note, the first',
+    'A rift that has been made to sit under a hex stops growing, and stops eating. I put a flask of vitium essence in the condenser as a test, '
+    'and the rift took it without a ripple. It has no floor that I can find. I measured the flux in the chunk before and after and the '
+    'second number was smaller, which is what I wanted, and I am trying not to think about where the difference went.')
+L[f'research.{NS}.rifts_that_hold.stage_1'] = join(
+    'It is a sink: anything that would otherwise sit in the air as flux, it will drink. A tamed rift grows as it is fed, from a size of '
+    'twenty-five to seventy-five, and it has stopped eating blocks while it is held. Wild rifts are unchanged, and so are the chained rifts '
+    'the Brightest One uses.')
+L[f'research.{NS}.what_it_keeps.title'] = 'What It Keeps'
+L[f'research.{NS}.what_it_keeps.stage_0'] = join(
+    'Field note, the second',
+    'The ring stones are marked now. Fine lines, like frost on a window, and they run further each time I feed it. I would call it a quarter '
+    'full. I cannot say what full means. My estimate, from how the cracks spread, is that it holds a little over four hundred of whatever '
+    'I measure in, and that the figure is not fixed from one hex to the next.')
+L[f'research.{NS}.what_it_keeps.stage_1'] = join(
+    'It holds while I watch. I have written that down twice because I keep wanting to write something else. Past its limit it is strained '
+    'but it still works, and the next time its chunk is loaded it will not hold any longer. A hex in a chunk that never unloads leaks '
+    'instead, and will break when everyone sleeps. Anyone who fed it is owed something when it goes, whether they are there or not.')
+L[f'research.{NS}.the_vessel.title'] = 'The Vessel'
+L[f'research.{NS}.the_vessel.stage_0'] = join(
+    'Field note, the third',
+    'It broke. The ring is gone and the rift is gone, and what is left is a hole about the size of a door, hanging in the air above where '
+    'the centre was, and it is not a rift. It does not open anything. It takes. Four of the ring stones landed round about and they are '
+    'still warm. Nobody who fed it was left out of the room.')
+L[f'research.{NS}.the_vessel.stage_1'] = join(
+    'It can be starved but not hurt. Weapons pass through it and anything that flies at it feeds it. It draws everything within sixteen '
+    'blocks and eats what reaches the middle. A wand held to an anchor ties you to it and lets a little of it out of the hole, again and '
+    'again, and it knows. It throws clots of what it holds at whoever is tied: strike them back into the hole and it staggers. When it '
+    'had nothing left to take, it went quiet, and the air is full of it still. It is not finished. It is holding what we gave it, '
+    'in one place, as charge, and it will keep holding it until somebody takes it away.')
+L[f'research.{NS}.drawing_it_out.title'] = 'Drawing It Out'
+L[f'research.{NS}.drawing_it_out.stage_0'] = join(
+    'Field note, the fourth',
+    'There is only one way to empty it, and it goes through a person. I knew that before I started and I started anyway. The stuff is '
+    'not destroyed by the drawing. It is carried, and where it is carried it leaves a mark.')
+L[f'research.{NS}.drawing_it_out.stage_1'] = join(
+    'With the eldritch research behind you, hold a wand to an anchor of the quiet Vessel and it begins to drain, one unit at a time, '
+    'twenty units in all. Each takes about a minute at one anchor, and the four anchors can be drawn at once. Each unit gives the drawer '
+    'one point of temporary warp, and every fifth unit one point of normal warp. Put the wand down or walk away and the drawing stops, '
+    'and the stopped part keeps. While it is drawn the Vessel is a living source of taint: fibres and blight spread outward from it in a '
+    'ring that widens from eight to twenty-four blocks as it empties, and goo spills at the anchor you are using. When the last unit is '
+    'gone, so is the Vessel, and a Taint Seed is left at the centre, bigger the more clots you let strike and the more goo was spilled. '
+    'It lives until somebody kills it, and the blight around it withers when it dies. Everyone who took part has already been given a '
+    'mote.')
+L[f'research.{NS}.primordial_mote.title'] = 'Primordial Mote'
+L[f'research.{NS}.primordial_mote.stage_0'] = join(
+    'Field note, the sixth',
+    'It gave each of us something when it went quiet. A speck of dull light, in the hand, that does not warm and does not go out. '
+    'Whatever it was before it was taken, it is that now, and it was not given as a reward.')
+L[f'research.{NS}.primordial_mote.stage_1'] = join(
+    'Everyone who took part in the fight receives a Primordial Mote when the Vessel is subdued, and one in ten receives a second. A mote '
+    'you are away for waits for you when you next come back. Three are needed for the Flesh Crucible.')
 
 # ---------------------------------------------------------------- phase 6b (third cycle): polished infusions
 # Thaumaturge's book has no page type for the original's "Polished Infusion" page, so the recipe stage says it in words.

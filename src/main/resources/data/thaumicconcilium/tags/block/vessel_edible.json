@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#thaumaturge:taint_blocks",
+    "#thaumaturge:physical_flux",
+    "#minecraft:flowers",
+    "#minecraft:saplings",
+    "#minecraft:replaceable",
+    "minecraft:short_grass",
+    "minecraft:tall_grass",
+    "minecraft:fern",
+    "minecraft:large_fern"
+  ]
+}

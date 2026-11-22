@@ -12,6 +12,8 @@ This mod is an unofficial port of **Thaumic Concilium** to NeoForge 1.21.1 and T
 
 Content inspired by Tainted Magic, Witchery, Automagy, Thaumic Dyes and Thaumcraft 4 is re-created from scratch: none of their code, textures, models or text is included.
 
+The Vessel's anchors and the glyphs that rise from them are cut from Thaumic Concilium's Hex of Predictability textures (the rune ring, its ink and the caps; Ilya3000, WTFPL), altered for this port.
+
 The Elemental Surfer Shorts' icon and armour texture are original to this port (the 1.7.10 release shipped none).
 
 Everything not listed above is © 2026 k1ngofpentacles under the MIT licence (see LICENSE).

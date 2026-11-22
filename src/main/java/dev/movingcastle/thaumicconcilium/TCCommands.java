@@ -54,7 +54,17 @@ public final class TCCommands {
                                 .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
                                         .then(Commands.literal("full").executes(c -> hex(c, false, false)))
                                         .then(Commands.literal("chained").executes(c -> hex(c, false, true)))
-                                        .then(Commands.literal("lesser").executes(c -> hex(c, true, false)))))
+                                        .then(Commands.literal("lesser").executes(c -> hex(c, true, false)))
+                                        // Phase 5c: a full hex holding a tamed rift (the sink: feed it, watch the cracks, let it break).
+                                        .then(Commands.literal("tamed").executes(TCCommands::hexTamed))))
+                        // Phase 5c: a Vessel with its four anchors, dormant or quiescent (charge 20, ready to drain), you as its contributor.
+                        .then(Commands.literal("vessel")
+                                .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+                                        .then(Commands.literal("dormant").executes(c -> vessel(c, false)))
+                                        .then(Commands.literal("quiescent").executes(c -> vessel(c, true)))
+                                        // cycle 3c: the break sequence here (a hex at pos breaks; with none, the stand-in plays)
+                                        .then(Commands.literal("breaking").executes(c -> vesselBreak(c, false)))
+                                        .then(Commands.literal("breaking_standin").executes(c -> vesselBreak(c, true)))))
                         // Phase 5a: a Lesser Crimson Portal (the rift route that sets the boss flag needs the eldritch object, a later cycle).
                         .then(Commands.literal("portal")
                                 .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.Vec3Argument.vec3())
@@ -165,6 +175,43 @@ public final class TCCommands {
             level.setBlock(pos.above(), com.leclowndu93150.thaumaturge.registry.TTBlocks.JAR_NODE.get().defaultBlockState(), 3);
             dev.movingcastle.thaumicconcilium.rift.Hexes.chain(level, pos.above(), pos);
         }
+        return 1;
+    }
+
+    private static int hexTamed(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        hex(ctx, true, false); // only a lesser hex is a sink
+        net.minecraft.core.BlockPos pos = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        net.minecraft.server.level.ServerLevel level = ctx.getSource().getLevel();
+        if (!(level.getBlockEntity(pos) instanceof dev.movingcastle.thaumicconcilium.block.HexBlockEntity hex)) {
+            return 0;
+        }
+        hex.setHasRift(true);
+        hex.setSinkActive(true);
+        hex.rollSpreads(level.random);
+        var rift = com.leclowndu93150.thaumaturge.registry.TTEntities.FLUX_RIFT.get().create(level);
+        rift.reseed(level.random.nextInt());
+        rift.moveTo(pos.getX() + 0.5, pos.getY() + 3.5, pos.getZ() + 0.5, 0.0F, 0.0F);
+        rift.resize(25);
+        level.addFreshEntity(rift);
+        dev.movingcastle.thaumicconcilium.rift.ConciliumRifts.mark(rift, dev.movingcastle.thaumicconcilium.rift.ConciliumRifts.Kind.TAMED, pos);
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: a hex with a tamed rift; its threshold is about "
+                + hex.threshold() + " burden"), false);
+        return 1;
+    }
+
+    private static int vesselBreak(CommandContext<CommandSourceStack> ctx, boolean standIn) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        net.minecraft.core.BlockPos pos = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        dev.movingcastle.thaumicconcilium.rift.HexSink.qaBreak(ctx.getSource().getLevel(), pos, player.getUUID(), standIn);
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: the break sequence"), false);
+        return 1;
+    }
+
+    private static int vessel(CommandContext<CommandSourceStack> ctx, boolean quiescent) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        net.minecraft.core.BlockPos pos = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        dev.movingcastle.thaumicconcilium.rift.HexSink.qaVessel(ctx.getSource().getLevel(), pos, player.getUUID(), quiescent);
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: a " + (quiescent ? "quiescent" : "dormant") + " Vessel with four anchors"), false);
         return 1;
     }
 

@@ -36,6 +36,16 @@ public final class TCSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> SHACKLES_THROW = register("shackles_throw");
     public static final DeferredHolder<SoundEvent, SoundEvent> BREATH = register("breath");
 
+    /** Phase 5c: the Vessel's own events (vessel.hum ...), each pointing at a vanilla or Thaumaturge event in sounds.json; nothing is shipped. */
+    public static final java.util.Map<String, DeferredHolder<SoundEvent, SoundEvent>> VESSEL = new java.util.LinkedHashMap<>();
+
+    static {
+        for (String n : new String[] {"hum", "wake", "swell", "gulp", "clot_windup", "clot_launch", "bat", "stagger", "recover", "tether_form",
+                "tether_break", "mass_drop", "horizon_throw", "eat", "anchor_cool", "anchor_ready", "subdued"}) {
+            VESSEL.put(n, register("vessel." + n));
+        }
+    }
+
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(ThaumicConcilium.id(name)));
     }

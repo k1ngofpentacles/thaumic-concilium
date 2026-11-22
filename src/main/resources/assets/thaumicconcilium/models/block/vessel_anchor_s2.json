@@ -1,0 +1,210 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "carved": "thaumicconcilium:block/vessel_anchor_r2",
+    "carved2": "thaumicconcilium:block/vessel_anchor_r5",
+    "break": "thaumicconcilium:block/vessel_anchor_break",
+    "ember": "thaumicconcilium:block/vessel_anchor_ember",
+    "particle": "thaumicconcilium:block/vessel_anchor_break"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        0,
+        3
+      ],
+      "to": [
+        13,
+        2,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#break"
+        },
+        "south": {
+          "texture": "#break"
+        },
+        "east": {
+          "texture": "#break"
+        },
+        "west": {
+          "texture": "#break"
+        },
+        "up": {
+          "texture": "#break"
+        },
+        "down": {
+          "texture": "#break",
+          "cullface": "down"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        0,
+        3
+      ],
+      "to": [
+        8,
+        6,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#break"
+        },
+        "south": {
+          "texture": "#break"
+        },
+        "east": {
+          "texture": "#break"
+        },
+        "west": {
+          "texture": "#break"
+        },
+        "up": {
+          "texture": "#carved"
+        },
+        "down": {
+          "texture": "#break"
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          0,
+          8
+        ],
+        "axis": "z",
+        "angle": -22.5
+      }
+    },
+    {
+      "from": [
+        8,
+        0,
+        3
+      ],
+      "to": [
+        14,
+        5,
+        13
+      ],
+      "faces": {
+        "north": {
+          "texture": "#break"
+        },
+        "south": {
+          "texture": "#break"
+        },
+        "east": {
+          "texture": "#break"
+        },
+        "west": {
+          "texture": "#break"
+        },
+        "up": {
+          "texture": "#carved2"
+        },
+        "down": {
+          "texture": "#break"
+        }
+      },
+      "rotation": {
+        "origin": [
+          8,
+          0,
+          8
+        ],
+        "axis": "z",
+        "angle": 22.5
+      }
+    },
+    {
+      "from": [
+        1,
+        0,
+        1
+      ],
+      "to": [
+        4,
+        3,
+        4
+      ],
+      "faces": {
+        "north": {
+          "texture": "#break"
+        },
+        "south": {
+          "texture": "#break"
+        },
+        "east": {
+          "texture": "#break"
+        },
+        "west": {
+          "texture": "#break"
+        },
+        "up": {
+          "texture": "#break"
+        },
+        "down": {
+          "texture": "#break"
+        }
+      },
+      "rotation": {
+        "origin": [
+          2.5,
+          1.5,
+          2.5
+        ],
+        "axis": "y",
+        "angle": 45
+      }
+    },
+    {
+      "from": [
+        12,
+        0,
+        12
+      ],
+      "to": [
+        15,
+        2,
+        15
+      ],
+      "faces": {
+        "north": {
+          "texture": "#break"
+        },
+        "south": {
+          "texture": "#break"
+        },
+        "east": {
+          "texture": "#break"
+        },
+        "west": {
+          "texture": "#break"
+        },
+        "up": {
+          "texture": "#break"
+        },
+        "down": {
+          "texture": "#break"
+        }
+      },
+      "rotation": {
+        "origin": [
+          13.5,
+          1.0,
+          13.5
+        ],
+        "axis": "y",
+        "angle": -22.5
+      }
+    }
+  ]
+}

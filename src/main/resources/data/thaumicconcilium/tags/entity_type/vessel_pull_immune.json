@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "thaumicconcilium:vessel",
+    "thaumicconcilium:vessel_clot",
+    "thaumicconcilium:brightest_one",
+    "minecraft:ender_dragon",
+    "minecraft:wither"
+  ]
+}

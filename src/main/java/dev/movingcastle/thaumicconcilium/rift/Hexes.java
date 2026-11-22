@@ -8,6 +8,7 @@ import com.leclowndu93150.thaumaturge.content.wands.WandVisHelper;
 import com.leclowndu93150.thaumaturge.registry.TTBlocks;
 import com.leclowndu93150.thaumaturge.registry.TTEntities;
 import com.leclowndu93150.thaumaturge.registry.TTSounds;
+import dev.movingcastle.thaumicconcilium.TCConfig;
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.block.HexBlockEntity;
 import dev.movingcastle.thaumicconcilium.item.CastingBracelet;
@@ -60,7 +61,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 @EventBusSubscriber(modid = ThaumicConcilium.MODID)
 public final class Hexes {
     public static final ResourceLocation RESEARCH = ThaumicConcilium.id("hex_of_predictability");
-    private static final int CHAINED_SIZE = 25;
+    static final int CHAINED_SIZE = 25;
     private static final double CHAINED_HEIGHT = 3.5;
     private static boolean unmaking;
 
@@ -83,6 +84,11 @@ public final class Hexes {
             }
         }
         return true;
+    }
+
+    /** A wand, not a casting bracelet (the Vessel's anchors take the same test). */
+    public static boolean isWand(ItemStack stack) {
+        return wand(stack);
     }
 
     private static boolean wand(ItemStack stack) {
@@ -231,8 +237,61 @@ public final class Hexes {
             } else {
                 rift.beginCollapse();
             }
-        } else if (kind == ConciliumRifts.Kind.TAMED && rift.currentSize() > CHAINED_SIZE) {
-            ConciliumRifts.dematerialize(rift, CHAINED_SIZE);
+        } else if (kind == ConciliumRifts.Kind.TAMED && level.getBlockEntity(pos) instanceof HexBlockEntity hex) {
+            // Phase 5c: the size follows the hex's burden (25 empty, 75 at the threshold); it replaces the old clamp at 25.
+            int target = HexSink.targetSize(hex.burden(), hex.threshold(), TCConfig.VESSEL_MIN_SIZE.get(), TCConfig.VESSEL_MAX_SIZE.get());
+            if (rift.currentSize() < target) {
+                ConciliumRifts.growTo(rift, target);
+            } else if (rift.currentSize() > target) {
+                ConciliumRifts.dematerialize(rift, target);
+            }
+        }
+    }
+
+    /** The rift this master hex holds, tamed if it was native (null if none). */
+    @Nullable
+    public static EntityFluxRift held(ServerLevel level, BlockPos pos, HexBlockEntity hex) {
+        return heldRift(level, pos, hex);
+    }
+
+    /**
+     * Phase 5c: the hex breaks. Every block goes back to what it replaced, except the four edge ring stones (north, south, east,
+     * west of the centre), which are removed (they became the Vessel's anchors).
+     */
+    public static void dismantle(ServerLevel level, BlockPos master) {
+        if (unmaking) {
+            return;
+        }
+        unmaking = true;
+        try {
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dz = -1; dz <= 1; dz++) {
+                    BlockPos p = master.offset(dx, 0, dz);
+                    if (!(level.getBlockEntity(p) instanceof HexBlockEntity hex)) {
+                        continue;
+                    }
+                    BlockState back = hex.replaced();
+                    boolean edge = (dx == 0) != (dz == 0);
+                    if (edge) {
+                        level.setBlock(p, Blocks.AIR.defaultBlockState(), 3);
+                    } else {
+                        level.setBlock(p, back.isAir() ? TTBlocks.STONE_ANCIENT.get().defaultBlockState() : back, 3);
+                    }
+                }
+            }
+        } finally {
+            unmaking = false;
+        }
+    }
+
+    /** Runs block changes on a hex without any of them unmaking it (the break moves and replaces its blocks itself). */
+    public static void quietly(Runnable changes) {
+        boolean before = unmaking;
+        unmaking = true;
+        try {
+            changes.run();
+        } finally {
+            unmaking = before;
         }
     }
 
@@ -254,7 +313,15 @@ public final class Hexes {
 
     public static void tickMaster(ServerLevel level, BlockPos pos, HexBlockEntity hex) {
         if (level.getGameTime() % 60L == 0L) {
-            hex.setHasRift(heldRift(level, pos, hex) != null);
+            EntityFluxRift held = heldRift(level, pos, hex);
+            hex.setHasRift(held != null);
+            hex.setSinkActive(held != null && ConciliumRifts.kind(held) == ConciliumRifts.Kind.TAMED);
+            HexSink.check(level, pos, hex);
+        }
+        // Phase 5c: a strained hex that loaded strained breaks on its first master tick.
+        if (hex.breakPending() && hex.strained() && hex.isLesser()) {
+            HexSink.breakHex(level, pos, hex);
+            return;
         }
         if (!hex.hasRift()) {
             return;

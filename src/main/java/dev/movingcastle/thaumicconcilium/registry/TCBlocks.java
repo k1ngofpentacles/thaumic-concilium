@@ -51,6 +51,11 @@ public final class TCBlocks {
             BLOCK_ENTITIES.register("flesh_crucible", () -> BlockEntityType.Builder.of(
                     dev.movingcastle.thaumicconcilium.block.FleshCrucibleBlockEntity::new, FLESH_CRUCIBLE.get()).build(null));
 
+    /** Phase 5c placeholder: a broken hex's ring stone, landed 8 to 12 blocks out. Hard, no loot. */
+    public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.AnchorBlock> ANCHOR = BLOCKS.register("vessel_anchor",
+            () -> new dev.movingcastle.thaumicconcilium.block.AnchorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                    .strength(25.0F, 1200.0F).sound(SoundType.STONE).lightLevel(s -> 4).noLootTable().noOcclusion()));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<HexBlockEntity>> HEX_BLOCK_ENTITY = BLOCK_ENTITIES.register(
             "hex_of_predictability", () -> BlockEntityType.Builder.of(HexBlockEntity::new, HEX.get()).build(null));
 

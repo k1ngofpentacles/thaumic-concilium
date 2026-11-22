@@ -1,0 +1,35 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.rifts_that_hold.title",
+  "parents": [
+    "thaumicconcilium:hex_of_predictability"
+  ],
+  "column": -11,
+  "row": 1,
+  "icons": [
+    "thaumicconcilium:vessel_anchor"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.rifts_that_hold.stage_0",
+      "warp": 1
+    },
+    {
+      "text": "research.thaumicconcilium.rifts_that_hold.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden"
+  ]
+}

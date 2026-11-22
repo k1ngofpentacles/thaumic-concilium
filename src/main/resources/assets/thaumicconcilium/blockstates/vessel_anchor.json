@@ -1,0 +1,148 @@
+{
+  "variants": {
+    "charges=2,shape=0,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s0"
+    },
+    "charges=2,shape=0,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s0"
+    },
+    "charges=1,shape=0,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s0"
+    },
+    "charges=1,shape=0,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s0"
+    },
+    "charges=0,shape=0,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s0_cool"
+    },
+    "charges=0,shape=0,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s0_cool"
+    },
+    "charges=2,shape=1,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s1"
+    },
+    "charges=2,shape=1,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s1"
+    },
+    "charges=1,shape=1,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s1"
+    },
+    "charges=1,shape=1,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s1"
+    },
+    "charges=0,shape=1,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s1_cool"
+    },
+    "charges=0,shape=1,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s1_cool"
+    },
+    "charges=2,shape=2,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s2"
+    },
+    "charges=2,shape=2,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s2"
+    },
+    "charges=1,shape=2,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s2"
+    },
+    "charges=1,shape=2,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s2"
+    },
+    "charges=0,shape=2,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s2_cool"
+    },
+    "charges=0,shape=2,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s2_cool"
+    },
+    "charges=2,shape=3,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s3"
+    },
+    "charges=2,shape=3,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s3"
+    },
+    "charges=1,shape=3,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s3"
+    },
+    "charges=1,shape=3,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s3"
+    },
+    "charges=0,shape=3,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s3_cool"
+    },
+    "charges=0,shape=3,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s3_cool"
+    },
+    "charges=2,shape=4,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s4"
+    },
+    "charges=2,shape=4,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s4"
+    },
+    "charges=1,shape=4,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s4"
+    },
+    "charges=1,shape=4,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s4"
+    },
+    "charges=0,shape=4,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s4_cool"
+    },
+    "charges=0,shape=4,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s4_cool"
+    },
+    "charges=2,shape=5,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s5"
+    },
+    "charges=2,shape=5,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s5"
+    },
+    "charges=1,shape=5,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s5"
+    },
+    "charges=1,shape=5,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s5"
+    },
+    "charges=0,shape=5,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s5_cool"
+    },
+    "charges=0,shape=5,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s5_cool"
+    },
+    "charges=2,shape=6,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s6"
+    },
+    "charges=2,shape=6,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s6"
+    },
+    "charges=1,shape=6,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s6"
+    },
+    "charges=1,shape=6,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s6"
+    },
+    "charges=0,shape=6,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s6_cool"
+    },
+    "charges=0,shape=6,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s6_cool"
+    },
+    "charges=2,shape=7,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s7"
+    },
+    "charges=2,shape=7,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s7"
+    },
+    "charges=1,shape=7,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s7"
+    },
+    "charges=1,shape=7,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s7"
+    },
+    "charges=0,shape=7,tethered=false": {
+      "model": "thaumicconcilium:block/vessel_anchor_s7_cool"
+    },
+    "charges=0,shape=7,tethered=true": {
+      "model": "thaumicconcilium:block/vessel_anchor_s7_cool"
+    }
+  }
+}

@@ -199,6 +199,9 @@ public final class ConciliumRifts {
             if (rift.tickCount % 20 == 0) {
                 Hexes.checkRift(level, rift, kind);
             }
+            if (kind == Kind.TAMED && rift.tickCount % 5 == 0) {
+                HexSink.offerWarpItems(level, rift);
+            }
             sizeStep(rift);
             return;
         }

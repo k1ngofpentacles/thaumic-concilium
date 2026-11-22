@@ -102,6 +102,19 @@ public final class TCEntities {
                     dev.movingcastle.thaumicconcilium.entity.mob.QuicksilverElemental::new, MobCategory.MONSTER)
                     .sized(0.6F, 1.8F).clientTrackingRange(8).build("quicksilver_elemental"));
 
+    // ---------------------------------------------------------------- phase 5c
+    /** The dormant Vessel (placeholder): 3 x 3, never moves, saved. */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.Vessel>> VESSEL =
+            ENTITY_TYPES.register("vessel", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.Vessel>of(
+                    dev.movingcastle.thaumicconcilium.entity.Vessel::new, MobCategory.MISC)
+                    .sized(3.0F, 3.0F).clientTrackingRange(10).updateInterval(20).fireImmune().build("vessel"));
+
+    /** A clot the Vessel throws at a tethered player: not saved, ticks every tick, small and hittable. */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.VesselClot>> VESSEL_CLOT =
+            ENTITY_TYPES.register("vessel_clot", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.VesselClot>of(
+                    dev.movingcastle.thaumicconcilium.entity.VesselClot::new, MobCategory.MISC)
+                    .sized(0.8F, 0.8F).clientTrackingRange(8).updateInterval(1).fireImmune().noSave().build("vessel_clot"));
+
     // ---------------------------------------------------------------- phase 5b
     /** Original: 1 x 1, fire-immune, tracked at 64 blocks, updates every 3 ticks. */
     public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.MaterialPeeler>> MATERIAL_PEELER =

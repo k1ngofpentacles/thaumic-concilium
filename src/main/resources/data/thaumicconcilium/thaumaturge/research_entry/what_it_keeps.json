@@ -1,0 +1,38 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.what_it_keeps.title",
+  "parents": [
+    "thaumicconcilium:rifts_that_hold"
+  ],
+  "column": -10,
+  "row": 1,
+  "icons": [
+    "thaumicconcilium:vessel_anchor"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.what_it_keeps.stage_0"
+    },
+    {
+      "text": "research.thaumicconcilium.what_it_keeps.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden"
+  ]
+}

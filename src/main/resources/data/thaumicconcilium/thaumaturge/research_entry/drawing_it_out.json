@@ -1,0 +1,52 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.drawing_it_out.title",
+  "parents": [
+    "thaumicconcilium:the_vessel",
+    "~thaumaturge:unlock_eldritch"
+  ],
+  "column": -8,
+  "row": 1,
+  "icons": [
+    "thaumicconcilium:vessel_anchor"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.drawing_it_out.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    },
+    {
+      "text": "research.thaumicconcilium.drawing_it_out.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vitium",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 5
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 3
+    }
+  ],
+  "complexity": 3,
+  "meta": [
+    "hidden",
+    "spiky"
+  ]
+}
