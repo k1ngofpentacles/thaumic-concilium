@@ -1,0 +1,56 @@
+{
+  "type": "thaumaturge:arcane_workbench_shaped",
+  "pattern": [
+    "WEW",
+    "BNB",
+    "WAW"
+  ],
+  "key": {
+    "W": {
+      "item": "thaumaturge:plank_greatwood"
+    },
+    "E": {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:terra"
+        }
+      }
+    },
+    "A": {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:aer"
+        }
+      }
+    },
+    "N": {
+      "item": "thaumaturge:nitor_yellow"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "vis": 15,
+  "crystals": [
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 1
+    }
+  ],
+  "research": {
+    "entry": "thaumicconcilium:arcane_levitator",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:arcane_levitator"
+  }
+}

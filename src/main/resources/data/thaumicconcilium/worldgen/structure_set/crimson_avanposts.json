@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "thaumicconcilium:crimson_avanpost",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 17,
+    "separation": 8,
+    "salt": 1550370113
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "loader": "neoforge:obj",
+  "model": "thaumicconcilium:models/item/pontifex_hammer.obj",
+  "flip_v": true,
+  "automatic_culling": false,
+  "textures": {
+    "tex": "thaumicconcilium:item/pontifex_hammer",
+    "particle": "thaumicconcilium:item/pontifex_hammer"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        10
+      ],
+      "translation": [
+        0.071,
+        4.878,
+        -1.389
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        -90,
+        10
+      ],
+      "translation": [
+        0.071,
+        4.878,
+        -1.389
+      ],
+      "scale": [
+        0.625,
+        0.625,
+        0.625
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        95,
+        0
+      ],
+      "translation": [
+        -0.905,
+        3.2,
+        -0.905
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        95,
+        0
+      ],
+      "translation": [
+        -0.905,
+        3.2,
+        -0.905
+      ],
+      "scale": [
+        0.4,
+        0.4,
+        0.4
+      ]
+    },
+    "gui": {
+      "rotation": [
+        -41.75,
+        -17.39,
+        -42.19
+      ],
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.3125,
+        0.3125,
+        0.3125
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        12,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "fixed": {
+      "translation": [
+        0,
+        0,
+        0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    }
+  }
+}

@@ -236,6 +236,26 @@ Deviations: the fidelity review, "Phase 6c". Added a `wisp_launcher` focus prese
 
 Every manual check is a QA quest in the FTB Quests book: **The Brightest One and subspace (6c)** (`qa_phase_6c`). Nothing is listed here.
 
+## Phase 5a: Crimson forces (0.9.0)
+
+| Area | Status | Notes |
+|---|---|---|
+| Primal Arrows | ✅ | Six arrows (aer, ignis, aqua, terra, ordo, perditio) as real arrows: bows, crossbows, enchantments and dispensers fire them; per-type effects and multipliers from Thaumcraft's; arcane recipe (8 arrows around a primal essentia crystal, 8 vis); research `primal_arrows` |
+| Crimson Paladin, Archer, Ranger | ✅ | Wear Thaumaturge's crimson armour plus our own overlays (Archer visor and quiver, Ranger spikes and cuffs); 50% of Paladins wear the **Gilded Crimson Helm** (our item, droppable, wearable). Crimson Orb, Ethereal Shackles (no visual yet), shard spray. 20% of Thaumaturge's Crimson Knight spawns become Paladins; Rangers spawn naturally. Archer damage as the original, scaled by `mobs.crimsonArcherDamageMultiplier` |
+| Lesser Crimson Portal | ✅ | Staged cycle and minion waves; opens linearly over 50 ticks to 2.6 x 3 blocks; Thaumaturge's red portal texture (the original's was its host's, violet) |
+| Crimson Pontifex | ✅ | Summoned by throwing Crimson Rites into a chained rift (with the research): the rift collapses into a boss portal. Boss bar and darkened sky, life drain, damage split by nearby cultists, enslave walk, loot bag and note drops |
+| Crimson Annales | ✅ | Unlocks `crimson_annales` after Crimson Rites; in chests at the original's effective chances (11-44%) and the rare loot bag |
+| Pontifex Hammer, Pontifex Robe | ✅ | Pulled forward from 5b. Hammer life steal and held render; dyeable four-piece robe with the original model and art, toggle L (minimal ethereal state), cultists ignore a full-set wearer; research for both and Crimson Initiation (text only) |
+| Arcane Levitator | ✅ | Our own block (Thaumcraft's lifter mechanics, original code and art): lifts the column above it, 10 blocks per stacked levitator, redstone off, sneak damps falls; cached column |
+| Cultist tower | ✅ | The Crimson Avanpost: original layout with mapped blocks, about 1 per 289 chunks on dirt, grass, sand or stone, armed archer guards, chest loot |
+| Material Peeler, flesh economy, Crimson Raid, Shackles visual | 5b | 70% of Pontifex note drops wait for the Peeler |
+
+Deviations: the fidelity review, "Phase 5a". Pack test: `Phase5a*Tests` (batches `phase5a_*`); the Brightest One tests now poll and run in their own batches.
+
+### Needs in-game testing
+
+Every manual check is a QA quest in the FTB Quests book: **Crimson Forces** (`qa_phase_5a`). Nothing is listed here.
+
 ## Remaining phases (planned)
 
 Dependencies mirror the original's (`required-after: Thaumcraft, ForbiddenMagic, ThaumicTinkerer`):

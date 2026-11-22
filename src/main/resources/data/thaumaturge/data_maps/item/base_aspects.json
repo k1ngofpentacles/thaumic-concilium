@@ -177,6 +177,186 @@
         "aspect": "thaumaturge:alienis",
         "amount": 10
       }
+    ],
+    "thaumicconcilium:primal_arrow_aer": [
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 1
+      }
+    ],
+    "thaumicconcilium:primal_arrow_ignis": [
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 1
+      }
+    ],
+    "thaumicconcilium:primal_arrow_aqua": [
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 1
+      }
+    ],
+    "thaumicconcilium:primal_arrow_terra": [
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 1
+      }
+    ],
+    "thaumicconcilium:primal_arrow_ordo": [
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 1
+      }
+    ],
+    "thaumicconcilium:primal_arrow_perditio": [
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 1
+      }
+    ],
+    "thaumicconcilium:crimson_annales": [
+      {
+        "aspect": "thaumaturge:cognitio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 5
+      }
+    ],
+    "thaumicconcilium:pontifex_helm": [
+      {
+        "aspect": "thaumaturge:cognitio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:fabrico",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:desiderium",
+        "amount": 16
+      },
+      {
+        "aspect": "forbiddenmagic:superbia",
+        "amount": 16
+      }
+    ],
+    "thaumicconcilium:pontifex_chest": [
+      {
+        "aspect": "thaumaturge:cognitio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:fabrico",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:desiderium",
+        "amount": 16
+      },
+      {
+        "aspect": "forbiddenmagic:superbia",
+        "amount": 16
+      }
+    ],
+    "thaumicconcilium:pontifex_legs": [
+      {
+        "aspect": "thaumaturge:cognitio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:fabrico",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:desiderium",
+        "amount": 16
+      },
+      {
+        "aspect": "forbiddenmagic:superbia",
+        "amount": 16
+      }
+    ],
+    "thaumicconcilium:pontifex_boots": [
+      {
+        "aspect": "thaumaturge:cognitio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:fabrico",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:desiderium",
+        "amount": 16
+      },
+      {
+        "aspect": "forbiddenmagic:superbia",
+        "amount": 16
+      }
+    ],
+    "thaumicconcilium:pontifex_hammer": [
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 20
+      }
+    ],
+    "thaumicconcilium:gilded_crimson_helm": [
+      {
+        "aspect": "thaumaturge:praemunio",
+        "amount": 16
+      },
+      {
+        "aspect": "thaumaturge:metallum",
+        "amount": 8
+      }
+    ],
+    "thaumicconcilium:arcane_levitator": [
+      {
+        "aspect": "thaumaturge:motus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:volatus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:aer",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:machina",
+        "amount": 5
+      }
     ]
   }
 }

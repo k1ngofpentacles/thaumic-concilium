@@ -1,0 +1,63 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.pontifex_robe.title",
+  "parents": [
+    "thaumicconcilium:crimson_pontifex"
+  ],
+  "column": -7,
+  "row": 11,
+  "icons": [
+    "thaumicconcilium:pontifex_helm"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.pontifex_robe.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 2,
+      "obtain": [
+        {
+          "items": "thaumicconcilium:research_hint",
+          "amount": 1,
+          "components": {
+            "thaumicconcilium:hint": "thaumicconcilium:pontifex_robe"
+          }
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.pontifex_robe.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 3
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:fabrico",
+      "amount": 3
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden"
+  ]
+}

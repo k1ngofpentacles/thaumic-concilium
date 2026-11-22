@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:entity",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thaumaturge:loot_bag_rare",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "random_sequence": "thaumicconcilium:entities/crimson_pontifex"
+}

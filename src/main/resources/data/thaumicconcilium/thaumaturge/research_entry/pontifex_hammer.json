@@ -1,0 +1,66 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.pontifex_hammer.title",
+  "parents": [
+    "thaumicconcilium:crimson_pontifex"
+  ],
+  "column": -6,
+  "row": 10,
+  "icons": [
+    "thaumicconcilium:pontifex_hammer"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.pontifex_hammer.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 2,
+      "obtain": [
+        {
+          "items": "thaumicconcilium:research_hint",
+          "amount": 1,
+          "components": {
+            "thaumicconcilium:hint": "thaumicconcilium:pontifex_hammer"
+          }
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.pontifex_hammer.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/pontifex_hammer"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 3
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 3
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden"
+  ]
+}

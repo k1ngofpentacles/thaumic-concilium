@@ -24,6 +24,22 @@ public final class TCArmorMaterials {
     public static final Holder<ArmorMaterial> DUMP_JACKBOOTS = register("dump_jackboots", 1, 3, 2, 1, 25);
     public static final Holder<ArmorMaterial> SURFER_SHORTS = register("elemental_surfer_shorts", 1, 3, 2, 1, 25);
 
+    /** The Gilded Paladin's helm: the armour value of Thaumaturge's crimson plate helm (2); only the helmet exists. */
+    public static final Holder<ArmorMaterial> GILDED_CRIMSON = register("gilded_crimson", 2, 6, 5, 2, 20);
+
+    /** Original: TCPONTIFEXROBE, reduction 4/8/7/4, durability factor 30, enchantability 25. Base layer dyeable, overlay not. */
+    public static final Holder<ArmorMaterial> PONTIFEX_ROBE = MATERIALS.register("pontifex_robe", () -> {
+        EnumMap<ArmorItem.Type, Integer> defense = new EnumMap<>(ArmorItem.Type.class);
+        defense.put(ArmorItem.Type.HELMET, 4);
+        defense.put(ArmorItem.Type.CHESTPLATE, 8);
+        defense.put(ArmorItem.Type.LEGGINGS, 7);
+        defense.put(ArmorItem.Type.BOOTS, 4);
+        defense.put(ArmorItem.Type.BODY, 8);
+        return new ArmorMaterial(defense, 25, SoundEvents.ARMOR_EQUIP_LEATHER, () -> Ingredient.EMPTY,
+                List.of(new ArmorMaterial.Layer(ThaumicConcilium.id("pontifex_robe"), "", true),
+                        new ArmorMaterial.Layer(ThaumicConcilium.id("pontifex_robe"), "_overlay", false)), 0.0F, 0.0F);
+    });
+
     private TCArmorMaterials() {
     }
 

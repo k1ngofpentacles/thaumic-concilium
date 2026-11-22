@@ -89,6 +89,88 @@
         "aspect": "thaumaturge:praecantatio",
         "amount": 10
       }
+    ],
+    "thaumicconcilium:crimson_paladin": [
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 10
+      }
+    ],
+    "thaumicconcilium:crimson_archer": [
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:aversio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 10
+      }
+    ],
+    "thaumicconcilium:crimson_ranger": [
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:motus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 10
+      }
+    ],
+    "thaumicconcilium:lesser_crimson_portal": [
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 40
+      },
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 40
+      },
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 40
+      }
+    ],
+    "thaumicconcilium:crimson_pontifex": [
+      {
+        "aspect": "thaumaturge:spiritus",
+        "amount": 40
+      },
+      {
+        "aspect": "thaumaturge:victus",
+        "amount": 40
+      },
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 40
+      }
     ]
   }
 }

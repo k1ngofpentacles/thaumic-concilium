@@ -31,6 +31,8 @@ public final class TCClient {
     public static void itemExtensions(RegisterClientExtensionsEvent event) {
         event.registerItem(new MillClientExtensions(), TCItems.SHARD_MILL.get(), TCItems.SILVERWOOD_SHARD_MILL.get());
         event.registerItem(new AstralMonitorRenderer.Extensions(), TCItems.ASTRAL_MONITOR.get());
+        event.registerItem(new PontifexClient.Extensions(), PontifexClient.pieces());
+        event.registerItem(new GildedHelmModel.Extensions(), TCItems.GILDED_CRIMSON_HELM.get());
         event.registerItem(new GemRenderer.Extensions(), TCItems.INERT_RIFT_GEM.get(), TCItems.RIFT_GEM.get(),
                 TCItems.INERT_TERRA_CAST_GEM.get(), TCItems.TERRA_CAST_GEM.get());
     }
@@ -50,6 +52,7 @@ public final class TCClient {
     @SubscribeEvent
     public static void keys(RegisterKeyMappingsEvent event) {
         event.register(BraceletInput.CAST);
+        event.register(PontifexClient.TOGGLE);
     }
 
     @SubscribeEvent
@@ -71,6 +74,21 @@ public final class TCClient {
 
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(TCEntities.PRIMAL_ARROW.get(), PrimalArrowRenderer::new);
+        event.registerEntityRenderer(TCEntities.CRIMSON_PALADIN.get(), ctx -> new CrimsonCultistRenderer<>(ctx, ThaumicConcilium.id("textures/entity/crimson_paladin.png")));
+        event.registerEntityRenderer(TCEntities.CRIMSON_ARCHER.get(), ctx -> new CrimsonCultistRenderer<>(ctx, ThaumicConcilium.id("textures/entity/crimson_archer.png"),
+                CrimsonOverlayLayer.ARCHER, ThaumicConcilium.id("textures/entity/overlay/crimson_archer.png")));
+        // Original: the Ranger wears Thaumcraft's own cultist texture, which Thaumaturge also ships.
+        event.registerEntityRenderer(TCEntities.CRIMSON_RANGER.get(), ctx -> new CrimsonCultistRenderer<>(ctx,
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("thaumaturge", "textures/entity/cultist.png"),
+                CrimsonOverlayLayer.RANGER, ThaumicConcilium.id("textures/entity/overlay/crimson_ranger.png")));
+        event.registerEntityRenderer(TCEntities.LESSER_CRIMSON_PORTAL.get(), LesserPortalRenderer::new);
+        // Original: the Pontifex wears Thaumcraft's cultist texture (Thaumaturge ships it); its own look is the overlay cycle's.
+        event.registerEntityRenderer(TCEntities.CRIMSON_PONTIFEX.get(), ctx -> new CrimsonCultistRenderer<>(ctx,
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("thaumaturge", "textures/entity/cultist.png")));
+        // Orb: dark crimson additive sparkle; shackles: a small pale blue one (the original drew a shader orb and no model).
+        event.registerEntityRenderer(TCEntities.CRIMSON_ORB.get(), ctx -> new SparkleBillboardRenderer<>(ctx, e -> 0xFFC01030, (e, pt) -> 0.9, true));
+        event.registerEntityRenderer(TCEntities.ETHEREAL_SHACKLES.get(), ctx -> new SparkleBillboardRenderer<>(ctx, e -> 0xFFA0D0FF, (e, pt) -> 0.5, true));
         // Original: white sprite at 80% opacity, 0.3 scale.
         event.registerEntityRenderer(TCEntities.COMPRESSED_BLAST.get(), ctx -> new SparkleBillboardRenderer<>(ctx,
                 e -> 0xCCFFFFFF, (e, pt) -> 0.6, false));
@@ -159,6 +177,10 @@ public final class TCClient {
     @SubscribeEvent
     public static void layers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(TCModelLayers.THAUMATURGE, TCModelLayers::biped);
+        event.registerLayerDefinition(PontifexRobeModel.LAYER, PontifexRobeModelData::create);
+        event.registerLayerDefinition(GildedHelmModel.LAYER, GildedHelmModel::create);
+        event.registerLayerDefinition(CrimsonOverlayLayer.ARCHER, CrimsonOverlayLayer::archer);
+        event.registerLayerDefinition(CrimsonOverlayLayer.RANGER, CrimsonOverlayLayer::ranger);
         event.registerLayerDefinition(TCModelLayers.NETHER_EXPLORER, TCModelLayers::explorer);
         event.registerLayerDefinition(TCModelLayers.WITHERED_BOTANIST, TCModelLayers::botanist);
     }
@@ -168,5 +190,11 @@ public final class TCClient {
         event.register(dev.movingcastle.thaumicconcilium.registry.TCMenus.THAUMATURGE.get(), ThaumaturgeScreen::new);
         event.register(dev.movingcastle.thaumicconcilium.registry.TCMenus.ASTRAL_MONITOR.get(), SlotScreens.Monitor::new);
         event.register(dev.movingcastle.thaumicconcilium.registry.TCMenus.LITHOGRAPHER.get(), SlotScreens.Lithographer::new);
+    }
+
+    /** The robe icons' base layer takes the dye colour. */
+    @SubscribeEvent
+    public static void pontifexColors(net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Item event) {
+        event.register(PontifexClient::iconTint, PontifexClient.pieces());
     }
 }

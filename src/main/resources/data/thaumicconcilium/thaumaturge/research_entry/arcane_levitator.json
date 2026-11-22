@@ -1,0 +1,48 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.arcane_levitator.title",
+  "parents": [
+    "thaumicconcilium:concilium"
+  ],
+  "column": -1,
+  "row": -2,
+  "icons": [
+    "thaumicconcilium:arcane_levitator"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.arcane_levitator.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.arcane_levitator.stage_1",
+      "recipes": [
+        "thaumicconcilium:arcane_workbench/arcane_levitator"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:volatus",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 1
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden"
+  ]
+}

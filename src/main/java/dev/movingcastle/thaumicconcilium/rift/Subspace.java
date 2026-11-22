@@ -39,6 +39,8 @@ import net.minecraft.world.phys.Vec3;
  */
 public final class Subspace {
     public static final ResourceKey<Level> DIMENSION = ResourceKey.create(Registries.DIMENSION, ThaumicConcilium.id("causal_bouillon"));
+    /** Research a player needs for their Crimson Rites to open the Pontifex portal (original CRIMSONPONTIFEX). */
+    public static final net.minecraft.resources.ResourceLocation PONTIFEX_RESEARCH = ThaumicConcilium.id("crimson_pontifex");
     public static final net.minecraft.resources.ResourceLocation BOSS_RESEARCH = ThaumicConcilium.id("brightest_one");
     public static final int MAX_SIZE = 50;
     public static final int START_SIZE = 5;
@@ -96,6 +98,22 @@ public final class Subspace {
         rift.beginCollapse();
     }
 
+    /**
+     * Original RiftEntity state 2: a chained rift fed a Crimson Rites by a player who has done the Crimson Pontifex research goes
+     * interdimensional, collapses at once, and a Lesser Crimson Portal with the boss flag opens where it was.
+     */
+    public static void summonPontifexPortal(EntityFluxRift rift) {
+        convert(rift);
+        ConciliumRifts.data(rift).putBoolean("pontifex", true);
+        rift.beginCollapse();
+    }
+
+    private static void spawnPontifexPortal(ServerLevel level, EntityFluxRift rift) {
+        dev.movingcastle.thaumicconcilium.entity.mob.LesserCrimsonPortal.summon(level, rift.position(), true);
+        level.playSound(null, rift.getX(), rift.getY(), rift.getZ(), com.leclowndu93150.thaumaturge.registry.TTSounds.WANDFAIL.get(),
+                net.minecraft.sounds.SoundSource.HOSTILE, 1.0F, 1.0F);
+    }
+
     private static void spawnBoss(ServerLevel level, EntityFluxRift rift) {
         dev.movingcastle.thaumicconcilium.entity.mob.BrightestOne boss =
                 dev.movingcastle.thaumicconcilium.registry.TCEntities.BRIGHTEST_ONE.get().create(level);
@@ -123,6 +141,9 @@ public final class Subspace {
                 level.sendParticles(ParticleTypes.PORTAL, rift.getX(), rift.getY(), rift.getZ(), 20, 0.5, 0.5, 0.5, 0.2);
                 if (tag.getBoolean("boss")) {
                     spawnBoss(level, rift);
+                }
+                if (tag.getBoolean("pontifex")) {
+                    spawnPontifexPortal(level, rift);
                 }
                 rift.discard();
             } else {

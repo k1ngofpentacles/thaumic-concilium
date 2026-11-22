@@ -55,6 +55,11 @@ public final class TCCommands {
                                         .then(Commands.literal("full").executes(c -> hex(c, false, false)))
                                         .then(Commands.literal("chained").executes(c -> hex(c, false, true)))
                                         .then(Commands.literal("lesser").executes(c -> hex(c, true, false)))))
+                        // Phase 5a: a Lesser Crimson Portal (the rift route that sets the boss flag needs the eldritch object, a later cycle).
+                        .then(Commands.literal("portal")
+                                .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.Vec3Argument.vec3())
+                                        .executes(c -> portal(c, false))
+                                        .then(Commands.literal("boss").executes(c -> portal(c, true)))))
                         .then(Commands.literal("rift")
                                 .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
                                         .then(Commands.argument("size", com.mojang.brigadier.arguments.IntegerArgumentType.integer(5, 100))
@@ -114,6 +119,11 @@ public final class TCCommands {
         AspectPools.grantAllForCommand(player, 100);
         ctx.getSource().sendSuccess(() -> Component.literal("QA: all research and aspects granted"), false);
         return 1;
+    }
+
+    private static int portal(CommandContext<CommandSourceStack> ctx, boolean boss) {
+        net.minecraft.world.phys.Vec3 pos = net.minecraft.commands.arguments.coordinates.Vec3Argument.getVec3(ctx, "pos");
+        return dev.movingcastle.thaumicconcilium.entity.mob.LesserCrimsonPortal.summon(ctx.getSource().getLevel(), pos, boss) != null ? 1 : 0;
     }
 
     /** Builds the ring and centre at {@code pos} and forms the hex; {@code chained} also opens its chained rift. */

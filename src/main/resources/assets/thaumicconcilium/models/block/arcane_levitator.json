@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "thaumicconcilium:block/arcane_levitator_top",
+    "bottom": "thaumicconcilium:block/arcane_levitator_bottom",
+    "side": "thaumicconcilium:block/arcane_levitator_side",
+    "particle": "thaumicconcilium:block/arcane_levitator_side"
+  }
+}

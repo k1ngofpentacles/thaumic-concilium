@@ -56,6 +56,11 @@ public final class TCSpawns {
         event.put(TCEntities.QUICKSILVER_ELEMENTAL.get(),
                 dev.movingcastle.thaumicconcilium.entity.mob.QuicksilverElemental.createAttributes().build());
         event.put(TCEntities.BRIGHTEST_ONE.get(), dev.movingcastle.thaumicconcilium.entity.mob.BrightestOne.createAttributes().build());
+        event.put(TCEntities.CRIMSON_PALADIN.get(), dev.movingcastle.thaumicconcilium.entity.mob.CrimsonPaladin.createAttributes().build());
+        event.put(TCEntities.CRIMSON_ARCHER.get(), dev.movingcastle.thaumicconcilium.entity.mob.CrimsonArcher.createAttributes().build());
+        event.put(TCEntities.CRIMSON_RANGER.get(), dev.movingcastle.thaumicconcilium.entity.mob.CrimsonRanger.createAttributes().build());
+        event.put(TCEntities.LESSER_CRIMSON_PORTAL.get(), dev.movingcastle.thaumicconcilium.entity.mob.LesserCrimsonPortal.createAttributes().build());
+        event.put(TCEntities.CRIMSON_PONTIFEX.get(), dev.movingcastle.thaumicconcilium.entity.mob.CrimsonPontifex.createAttributes().build());
         event.put(TCEntities.NETHER_EXPLORER.get(), Corpse.createAttributes().build());
         if (TCEntities.hasBotanist()) {
             event.put(TCEntities.WITHERED_BOTANIST.get(), Corpse.createAttributes().build());
@@ -75,6 +80,9 @@ public final class TCSpawns {
                         || random.nextInt(100) < dev.movingcastle.thaumicconcilium.TCConfig.QUICKSILVER_ELEMENTAL_SPAWN.get())
                         && Monster.checkMonsterSpawnRules(type, level, reason, pos, random),
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        // Original: the Ranger spawns by the monster rules, weight 5, groups of 1-2 in every biome (biome modifier).
+        event.register(TCEntities.CRIMSON_RANGER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(TCEntities.NETHER_EXPLORER.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
                 (type, level, reason, pos, random) -> true, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         if (TCEntities.hasBotanist()) {

@@ -44,7 +44,11 @@ public final class ThaumicConcilium {
         dev.movingcastle.thaumicconcilium.registry.TCRecipes.TYPES.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCBlocks.BLOCKS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCBlocks.BLOCK_ENTITIES.register(modBus);
+        dev.movingcastle.thaumicconcilium.world.TCStructures.STRUCTURE_TYPES.register(modBus);
+        dev.movingcastle.thaumicconcilium.world.TCStructures.STRUCTURE_PIECES.register(modBus);
         modBus.addListener(TCNetwork::register);
+        modBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent e) -> e.enqueueWork(() ->
+                TCItems.PRIMAL_ARROWS.values().forEach(i -> net.minecraft.world.level.block.DispenserBlock.registerProjectileBehavior(i.get()))));
         container.registerConfig(ModConfig.Type.COMMON, TCConfig.SPEC);
     }
 

@@ -1,0 +1,37 @@
+{
+  "type": "thaumaturge:arcane_workbench_shaped",
+  "pattern": [
+    "AAA",
+    "ASA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:arrow"
+    },
+    "S": {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:terra"
+        }
+      }
+    }
+  },
+  "vis": 8,
+  "crystals": [
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 1
+    }
+  ],
+  "research": {
+    "entry": "thaumicconcilium:primal_arrows",
+    "stage": 1
+  },
+  "result": {
+    "count": 8,
+    "id": "thaumicconcilium:primal_arrow_terra"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:equipment",
+  "random_sequence": "thaumicconcilium:equipment/crimson_paladin",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thaumaturge:crimson_robe_helm"
+        }
+      ]
+    },
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thaumaturge:crimson_plate_chest"
+        }
+      ]
+    },
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thaumaturge:crimson_robe_legs"
+        }
+      ]
+    },
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thaumaturge:crimson_boots"
+        }
+      ]
+    }
+  ]
+}

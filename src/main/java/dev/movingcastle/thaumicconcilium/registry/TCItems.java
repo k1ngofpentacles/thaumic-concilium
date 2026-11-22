@@ -163,6 +163,63 @@ public final class TCItems {
     public static final DeferredItem<net.minecraft.world.item.BlockItem> VOID_REALITY = ITEMS.registerSimpleBlockItem(
             "void_reality", TCBlocks.VOID_REALITY, new Item.Properties());
 
+    // ---------------------------------------------------------------- phase 5a, cycle 1 (Thaumcraft's primal arrows)
+    public static final java.util.Map<dev.movingcastle.thaumicconcilium.entity.PrimalType, DeferredItem<dev.movingcastle.thaumicconcilium.item.PrimalArrowItem>> PRIMAL_ARROWS = primalArrows();
+
+    private static java.util.Map<dev.movingcastle.thaumicconcilium.entity.PrimalType, DeferredItem<dev.movingcastle.thaumicconcilium.item.PrimalArrowItem>> primalArrows() {
+        java.util.Map<dev.movingcastle.thaumicconcilium.entity.PrimalType, DeferredItem<dev.movingcastle.thaumicconcilium.item.PrimalArrowItem>> map =
+                new java.util.EnumMap<>(dev.movingcastle.thaumicconcilium.entity.PrimalType.class);
+        for (dev.movingcastle.thaumicconcilium.entity.PrimalType kind : dev.movingcastle.thaumicconcilium.entity.PrimalType.values()) {
+            map.put(kind, ITEMS.register(kind.itemName(),
+                    () -> new dev.movingcastle.thaumicconcilium.item.PrimalArrowItem(kind, new Item.Properties())));
+        }
+        return map;
+    }
+
+    // ---------------------------------------------------------------- phase 5a, cycle 2 (the Crimson forces)
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> CRIMSON_PALADIN_SPAWN_EGG = egg("crimson_paladin", TCEntities.CRIMSON_PALADIN);
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> CRIMSON_ARCHER_SPAWN_EGG = egg("crimson_archer", TCEntities.CRIMSON_ARCHER);
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> CRIMSON_RANGER_SPAWN_EGG = egg("crimson_ranger", TCEntities.CRIMSON_RANGER);
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> LESSER_CRIMSON_PORTAL_SPAWN_EGG = egg("lesser_crimson_portal", TCEntities.LESSER_CRIMSON_PORTAL);
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.CrimsonAnnales> CRIMSON_ANNALES = ITEMS.register("crimson_annales",
+            () -> new dev.movingcastle.thaumicconcilium.item.CrimsonAnnales(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> CRIMSON_PONTIFEX_SPAWN_EGG = egg("crimson_pontifex", TCEntities.CRIMSON_PONTIFEX);
+
+    // ---------------------------------------------------------------- phase 5a cycle 5
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> ARCANE_LEVITATOR = ITEMS.registerSimpleBlockItem(
+            "arcane_levitator", TCBlocks.ARCANE_LEVITATOR, new Item.Properties());
+
+    // ---------------------------------------------------------------- phase 5a cycle 4b: the Pontifex's gear
+    /** Original: epic, 3 warp. */
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.PontifexHammer> PONTIFEX_HAMMER = ITEMS.register("pontifex_hammer",
+            () -> new dev.movingcastle.thaumicconcilium.item.PontifexHammer(new Item.Properties().rarity(Rarity.EPIC).durability(1000)
+                    .component(TTDataComponents.STACK_WARP.get(), 3)));
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.PontifexRobe> PONTIFEX_HELM = robe("pontifex_helm", ArmorItem.Type.HELMET, true);
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.PontifexRobe> PONTIFEX_CHEST = robe("pontifex_chest", ArmorItem.Type.CHESTPLATE, false);
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.PontifexRobe> PONTIFEX_LEGS = robe("pontifex_legs", ArmorItem.Type.LEGGINGS, false);
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.PontifexRobe> PONTIFEX_BOOTS = robe("pontifex_boots", ArmorItem.Type.BOOTS, false);
+
+    // ---------------------------------------------------------------- phase 5a cycle 6
+    /** The gilded Paladin's helm (original: dropped by the Paladin, no recipe). Defence 2 and durability 18 as Thaumaturge's crimson plate helm. */
+    public static final DeferredItem<net.minecraft.world.item.ArmorItem> GILDED_CRIMSON_HELM = ITEMS.register("gilded_crimson_helm",
+            () -> new net.minecraft.world.item.ArmorItem(TCArmorMaterials.GILDED_CRIMSON, ArmorItem.Type.HELMET,
+                    new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON).durability(ArmorItem.Type.HELMET.getDurability(18))));
+
+    /** Original: epic, durability factor 30, runic charge 5, 3 warp, dyeable (default 0xA01818), the helm shows nodes (goggles). */
+    private static DeferredItem<dev.movingcastle.thaumicconcilium.item.PontifexRobe> robe(String name, ArmorItem.Type type, boolean goggles) {
+        return ITEMS.register(name, () -> {
+            Item.Properties p = new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).durability(type.getDurability(30))
+                    .component(TTDataComponents.RUNIC_CHARGE.get(), 5)
+                    .component(TTDataComponents.STACK_WARP.get(), 3)
+                    .component(net.minecraft.core.component.DataComponents.DYED_COLOR,
+                            new net.minecraft.world.item.component.DyedItemColor(dev.movingcastle.thaumicconcilium.item.PontifexRobe.DEFAULT_COLOR, false));
+            if (goggles) {
+                p.component(TTDataComponents.GOGGLES_UPGRADE.get(), net.minecraft.util.Unit.INSTANCE);
+            }
+            return new dev.movingcastle.thaumicconcilium.item.PontifexRobe(TCArmorMaterials.PONTIFEX_ROBE, type, p);
+        });
+    }
+
     /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
     public static void defaultComponents(ModifyDefaultComponentsEvent event) {
         BRACELETS.forEach((kind, item) -> {

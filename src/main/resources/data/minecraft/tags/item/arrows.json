@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "thaumicconcilium:primal_arrow_aer",
+    "thaumicconcilium:primal_arrow_ignis",
+    "thaumicconcilium:primal_arrow_aqua",
+    "thaumicconcilium:primal_arrow_terra",
+    "thaumicconcilium:primal_arrow_ordo",
+    "thaumicconcilium:primal_arrow_perditio"
+  ]
+}

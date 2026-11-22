@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "thaumicconcilium:pontifex_helm",
+    "thaumicconcilium:pontifex_chest",
+    "thaumicconcilium:pontifex_legs",
+    "thaumicconcilium:pontifex_boots"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.primal_arrows.title",
+  "parents": [
+    "thaumicconcilium:concilium"
+  ],
+  "column": 2,
+  "row": 0,
+  "icons": [
+    "thaumicconcilium:primal_arrow_aer"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.primal_arrows.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.primal_arrows.stage_1",
+      "recipes": [
+        "thaumicconcilium:arcane_workbench/primal_arrow_aer",
+        "thaumicconcilium:arcane_workbench/primal_arrow_ignis",
+        "thaumicconcilium:arcane_workbench/primal_arrow_aqua",
+        "thaumicconcilium:arcane_workbench/primal_arrow_terra",
+        "thaumicconcilium:arcane_workbench/primal_arrow_ordo",
+        "thaumicconcilium:arcane_workbench/primal_arrow_perditio"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:aer",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:ignis",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:terra",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 1
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 1
+    }
+  ],
+  "complexity": 2
+}

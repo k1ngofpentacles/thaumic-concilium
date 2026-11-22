@@ -189,6 +189,9 @@ public final class ConciliumRifts {
         if (kind == null) {
             return;
         }
+        if (kind == Kind.CHAINED && rift.tickCount % 5 == 0) {
+            crimsonOffering(level, rift);
+        }
         if (kind.tame()) {
             if (rift.stabilityValue() < PINNED_STABLE) {
                 rift.adjustStability(PINNED_STABLE - rift.stabilityValue());
@@ -217,6 +220,24 @@ public final class ConciliumRifts {
         if (rift.currentSize() > 300) {
             dematerialize(rift, rift.currentSize() / 2);
         }
+    }
+
+    /**
+     * Original RiftEntity:391 and :486: a Crimson Rites (Thaumaturge's {@code curio_rites}, for the original's eldritch object meta 1)
+     * thrown into a chained rift by a player with the Crimson Pontifex research is eaten, and the rift opens the boss portal.
+     * Runs every 5 ticks on chained rifts only.
+     */
+    public static boolean crimsonOffering(ServerLevel level, EntityFluxRift rift) {
+        for (net.minecraft.world.entity.item.ItemEntity item : level.getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class,
+                rift.getBoundingBox().inflate(0.5), e -> e.isAlive() && e.getItem().is(com.leclowndu93150.thaumaturge.registry.TTItems.CURIO_RITES.get()))) {
+            if (item.getOwner() instanceof net.minecraft.world.entity.player.Player thrower && com.leclowndu93150.thaumaturge.api.capability.PlayerResearchAccess
+                    .of(thrower).hasCompleted(Subspace.PONTIFEX_RESEARCH)) {
+                item.discard();
+                Subspace.summonPontifexPortal(rift);
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Original growth: one size step a third of the time towards the target; shrinking a step a tick. */

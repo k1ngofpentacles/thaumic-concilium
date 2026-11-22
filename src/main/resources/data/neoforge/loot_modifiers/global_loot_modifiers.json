@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "entries": [
+    "thaumicconcilium:annales_dungeon",
+    "thaumicconcilium:annales_jungle_temple",
+    "thaumicconcilium:annales_desert_pyramid",
+    "thaumicconcilium:annales_mineshaft",
+    "thaumicconcilium:annales_stronghold_corridor",
+    "thaumicconcilium:annales_stronghold_crossing",
+    "thaumicconcilium:annales_stronghold_library",
+    "thaumicconcilium:annales_loot_bag_rare"
+  ]
+}

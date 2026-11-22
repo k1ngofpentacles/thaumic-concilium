@@ -63,6 +63,15 @@ public final class TCBlocks {
             () -> new net.minecraft.world.level.block.Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                     .strength(-1.0F, 6000.0F).sound(SoundType.WOOL).noLootTable()));
 
+    /** Our own design (the idea is Thaumcraft 4's lifter): a greatwood and brass chamber, a full block. */
+    public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.ArcaneLevitatorBlock> ARCANE_LEVITATOR = BLOCKS.register("arcane_levitator",
+            () -> new dev.movingcastle.thaumicconcilium.block.ArcaneLevitatorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
+                    .strength(2.0F, 6.0F).sound(SoundType.WOOD)));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<dev.movingcastle.thaumicconcilium.block.ArcaneLevitatorBlockEntity>> ARCANE_LEVITATOR_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("arcane_levitator", () -> BlockEntityType.Builder.of(
+                    dev.movingcastle.thaumicconcilium.block.ArcaneLevitatorBlockEntity::new, ARCANE_LEVITATOR.get()).build(null));
+
     private TCBlocks() {
     }
 }

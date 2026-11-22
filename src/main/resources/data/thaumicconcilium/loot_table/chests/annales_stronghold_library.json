@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thaumicconcilium:crimson_annales",
+          "weight": 4361
+        },
+        {
+          "type": "minecraft:empty",
+          "weight": 5639
+        }
+      ]
+    }
+  ]
+}

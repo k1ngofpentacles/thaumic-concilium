@@ -32,6 +32,10 @@ public final class ResearchHint extends Item {
     public static final ResourceLocation VIS_CONDUCTOR = ThaumicConcilium.id("vis_conductor_focus");
     public static final ResourceLocation POSITIVE_BURST = ThaumicConcilium.id("positive_burst_focus");
     public static final ResourceLocation IMPULSE = ThaumicConcilium.id("impulse_focus");
+    /** Dropped by the Crimson Pontifex (original: research notes CRIMSONSPELLS/MATERIALPEELER, PONTIFEXHAMMER, PONTIFEXROBE). */
+    public static final ResourceLocation PONTIFEX_HAMMER = ThaumicConcilium.id("pontifex_hammer");
+    public static final ResourceLocation PONTIFEX_ROBE = ThaumicConcilium.id("pontifex_robe");
+    public static final ResourceLocation MATERIAL_PEELER = ThaumicConcilium.id("material_peeler");
 
     /** The four a Mad Thaumaturge carries; all four known lights up the original's "these lunatics" line. */
     public static final List<ResourceLocation> MAD = List.of(REFLECTION, THICK_TAINT, WINDINGS, DEST_CRYSTAL);
@@ -40,7 +44,8 @@ public final class ResearchHint extends Item {
 
     private static final Map<ResourceLocation, String> TEXT = Map.of(
             REFLECTION, "reflection", THICK_TAINT, "thicktaint", WINDINGS, "windings", DEST_CRYSTAL, "destcrystal",
-            VIS_CONDUCTOR, "visconductor", POSITIVE_BURST, "positiveburst", IMPULSE, "impulse");
+            VIS_CONDUCTOR, "visconductor", POSITIVE_BURST, "positiveburst", IMPULSE, "impulse",
+            PONTIFEX_HAMMER, "pontifexhammer", PONTIFEX_ROBE, "pontifexrobe", MATERIAL_PEELER, "materialpeeler");
 
     public ResearchHint(Properties properties) {
         super(properties);

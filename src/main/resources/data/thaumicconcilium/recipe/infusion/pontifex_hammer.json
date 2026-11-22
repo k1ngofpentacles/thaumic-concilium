@@ -1,0 +1,73 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumaturge:crimson_blade"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:void_seed"
+    },
+    {
+      "item": "minecraft:gold_block"
+    },
+    {
+      "item": "thaumaturge:ingot_void"
+    },
+    {
+      "item": "thaumaturge:ingot_void"
+    },
+    {
+      "item": "thaumaturge:ingot_thaumium"
+    },
+    {
+      "item": "thaumaturge:void_seed"
+    },
+    {
+      "item": "thaumaturge:ingot_thaumium"
+    },
+    {
+      "item": "thaumaturge:ingot_void"
+    },
+    {
+      "item": "thaumaturge:ingot_void"
+    },
+    {
+      "item": "minecraft:gold_block"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:metallum",
+      "amount": 128
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 16
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 16
+    }
+  ],
+  "instability": 3,
+  "research": {
+    "entry": "thaumicconcilium:pontifex_hammer",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:pontifex_hammer"
+  }
+}

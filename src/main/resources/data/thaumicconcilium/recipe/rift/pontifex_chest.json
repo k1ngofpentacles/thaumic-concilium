@@ -1,0 +1,29 @@
+{
+  "type": "thaumicconcilium:rift",
+  "catalyst": {
+    "item": "thaumaturge:crimson_robe_chest"
+  },
+  "aspects": [
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 384
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 256
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 64
+    }
+  ],
+  "research": "thaumicconcilium:pontifex_robe",
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:pontifex_chest"
+  }
+}

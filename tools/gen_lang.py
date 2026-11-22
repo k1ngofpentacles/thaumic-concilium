@@ -423,6 +423,97 @@ L[f'research.{NS}.brightest_one.stage_1'] = join(o('entry.brightestone.second'),
     "turns interdimensional and collapses, and the Brightest One is born from it. It cannot be hurt: every charged wisp that "
     "reaches it changes its aspect and costs it one of its fifteen health.")
 
+# ---------------------------------------------------------------- phase 5a (first cycle): primal arrows (Thaumcraft 4 mechanics, port text)
+PA = {'aer': 'Aer', 'ignis': 'Ignis', 'aqua': 'Aqua', 'terra': 'Terra', 'ordo': 'Ordo', 'perditio': 'Perditio'}
+PA_TIP = {
+    'aer': 'Magic damage that ignores armour',
+    'ignis': 'Sets the target alight for five more seconds',
+    'aqua': 'Slows the target (V, 10 s) and never ignites',
+    'terra': 'Hits half as hard again and knocks back further',
+    'ordo': 'Weakens the target (V, 10 s); magic damage that ignores armour; hits softer',
+    'perditio': 'Withers the target (5 s); hits softer',
+}
+for k, n in PA.items():
+    L[f'item.{NS}.primal_arrow_{k}'] = f'{n} Arrow'
+    L[f'{NS}.tooltip.primal_arrow.{k}'] = PA_TIP[k]
+L[f'entity.{NS}.primal_arrow'] = 'Primal Arrow'
+L[f'death.attack.{NS}.air_arrow'] = '%1$s was torn apart by a gale arrow'
+L[f'death.attack.{NS}.air_arrow.player'] = '%1$s was torn apart by a gale arrow from %2$s'
+L[f'death.attack.{NS}.fire_arrow'] = '%1$s was burnt by a fire arrow'
+L[f'death.attack.{NS}.fire_arrow.player'] = '%1$s was burnt by a fire arrow from %2$s'
+L[f'death.attack.{NS}.order_arrow'] = '%1$s was unravelled by an arrow of order'
+L[f'death.attack.{NS}.order_arrow.player'] = '%1$s was unravelled by an arrow of order from %2$s'
+L[f'research.{NS}.primal_arrows.title'] = 'Primal Arrows'
+L[f'research.{NS}.primal_arrows.stage_0'] = join('Arrows with a crystal heart',
+    "A crystal of a primal, set in the head of an ordinary arrow, makes the arrow carry that primal with it. Six kinds are possible, "
+    "one for each primal. They fly half as fast again as a plain arrow drawn the same, and any bow or crossbow will take them.")
+L[f'research.{NS}.primal_arrows.stage_1'] = join(
+    "Aer and Ordo arrows strike as magic and pass through armour; Ordo also saps the target's strength for ten seconds, but hits "
+    "a fifth softer than a plain arrow. Ignis arrows burn, adding five seconds of fire to anything they hit (but never endermen), "
+    "and Aqua arrows chill the target to a crawl for ten seconds and will not set it alight.",
+    "Terra arrows hit half as hard again, and when a player shot them they knock the target back like an extra level of Punch. "
+    "Perditio arrows wither what they hit for five seconds and also hit a fifth softer than a plain arrow.",
+    "Here: eight arrows of one kind are made at an arcane workbench from an arrow in every slot but the middle, which takes an "
+    "essentia crystal of that primal, and cost 8 vis of the primal. Infinity does not make them free. A player's own arrows can be picked up again.")
+
+# ---------------------------------------------------------------- phase 5a (second cycle): the Crimson Paladin, Archer and Ranger
+for e, orig in (('crimson_paladin', 'CrimsonPaladin'), ('crimson_archer', 'CrimsonArcher'), ('crimson_ranger', 'CrimsonRanger')):
+    L[f'entity.{NS}.{e}'] = o(f'entity.ThaumicConcilium.{orig}.name')
+    L[f'item.{NS}.{e}_spawn_egg'] = o(f'entity.ThaumicConcilium.{orig}.name') + ' Spawn Egg'
+L[f'entity.{NS}.crimson_orb'] = o('entity.ThaumicConcilium.CrimsonOrbEntity.name')
+L[f'entity.{NS}.ethereal_shackles'] = 'Ethereal Shackles'
+
+# cycle 3: the portal and the Pontifex (the original's name is a format string "Pontifex %s the %d"; ours drops the champion modifier)
+L[f'entity.{NS}.lesser_crimson_portal'] = o('entity.ThaumicConcilium.LesserPortal.name')
+L[f'item.{NS}.lesser_crimson_portal_spawn_egg'] = o('entity.ThaumicConcilium.LesserPortal.name') + ' Spawn Egg'
+L[f'entity.{NS}.crimson_pontifex'] = 'Crimson Pontifex'
+L[f'item.{NS}.crimson_pontifex_spawn_egg'] = 'Crimson Pontifex Spawn Egg'
+L[f'message.{NS}.pontifex_enrage'] = '%s is enraged!'
+
+# cycle 4a: Crimson Annales and the two research entries
+L[f'item.{NS}.crimson_annales'] = o('item.CrimsonAnnales.name')
+L[f'message.{NS}.annales_unclear'] = o('tc.tooltip.book.2')
+L[f'research.{NS}.crimson_annales.title'] = o('tc.research_name.CRIMSONANNALES')
+L[f'research.{NS}.crimson_annales.stage_0'] = join(o('tc.research_text.CRIMSONANNALES'), o('entry.crimsonannales.first'))
+L[f'research.{NS}.crimson_annales.stage_1'] = o('entry.crimsonannales.second')
+L[f'research.{NS}.crimson_pontifex.title'] = o('tc.research_name.CRIMSONPONTIFEX')
+L[f'research.{NS}.crimson_pontifex.stage_0'] = join(o('tc.research_text.CRIMSONPONTIFEX'), o('entry.crimsonpontifex.first'),
+    "Here: with this knowledge, a Crimson Rites thrown into a chained rift is not wasted. The rift swallows it, turns on itself and "
+    "collapses, and a Lesser Crimson Portal that will not stop until it has brought the Pontifex through opens in its place.")
+
+# cycle 4b: the Pontifex's hammer and robe
+L[f'item.{NS}.gilded_crimson_helm'] = 'Gilded Crimson Helm'
+L[f'item.{NS}.pontifex_hammer'] = o('item.PontifexHammer.name')
+L[f'item.{NS}.pontifex_helm'] = o('item.ItemPontifexRobeHead.name')
+L[f'item.{NS}.pontifex_chest'] = o('item.ItemPontifexRobeChest.name')
+L[f'item.{NS}.pontifex_legs'] = o('item.ItemPontifexRobeLegs.name')
+L[f'item.{NS}.pontifex_boots'] = o('item.ItemPontifexRobeFeet.name')
+L[f'item.{NS}.pontifex_hammer.desc'] = 'Hold use to drain the life of everything within six blocks'
+L[f'item.{NS}.pontifex_robe.desc'] = 'Full set: press the toggle key to let go of your body. Cultists will not hunt you. Can be dyed'
+L[f'key.{NS}.pontifex_toggle'] = "Toggle Pontifex's Robe"
+L[f'research.{NS}.pontifex_hammer.title'] = o('tc.research_name.PONTIFEXHAMMER')
+L[f'research.{NS}.pontifex_hammer.stage_0'] = join(o('tc.research_text.PONTIFEXHAMMER'), o('entry.pontifexhammer.first'))
+L[f'research.{NS}.pontifex_hammer.stage_1'] = "Infused on a Crimson Blade with gold, void metal, thaumium and void seeds. Hold the use button: everything living within six blocks loses health and you gain it."
+L[f'research.{NS}.pontifex_robe.title'] = o('tc.research_name.PONTIFEXROBE')
+L[f'research.{NS}.pontifex_robe.stage_0'] = join(o('tc.research_text.PONTIFEXROBE'), o('entry.pontifexrobe.first'))
+L[f'research.{NS}.pontifex_robe.stage_1'] = join(o('entry.pontifexrobe.second'),
+    "Here: each piece is made by throwing a Crimson Robe piece (helm, robe, legs, boots) onto a hex whose chained rift holds the essentia.")
+L[f'research.{NS}.crimson_initiation.title'] = o('tc.research_name.CRIMSONINITIATION')
+L[f'research.{NS}.crimson_initiation.stage_0'] = join(o('tc.research_text.CRIMSONINITIATION'), o('entry.crimsonimitiation.first'),
+    "Here: the dagger of the Cult is not in this pack, so nothing opens from this knowledge yet.")
+L[f'{NS}.tooltip.hint.pontifexhammer'] = 'The weapon of the Pontifex: a hammer that drinks life. Its making is set down here...'
+L[f'{NS}.tooltip.hint.pontifexrobe'] = 'The vestments of the Pontifex, and how the Cult came to fear them. The method is set down here...'
+L[f'{NS}.tooltip.hint.materialpeeler'] = 'Where did the Pontifex go? These notes say how to follow...'
+
+# cycle 5: the Arcane Levitator (our own text; Thaumcraft 4's levitator is mechanics only)
+L[f'block.{NS}.arcane_levitator'] = 'Arcane Levitator'
+L[f'block.{NS}.arcane_levitator.desc'] = 'Lifts what stands above it. Sneak to settle. Stack them for height; redstone switches it off'
+L[f'research.{NS}.arcane_levitator.title'] = 'Arcane Levitator'
+L[f'research.{NS}.arcane_levitator.stage_0'] = join('Rising on a breath',
+    'A chamber of greatwood and brass that holds a pocket of bound air, fed from a nitor. Anything above it, a dropped item, a beast or yourself, is lifted up the column of air.')
+L[f'research.{NS}.arcane_levitator.stage_1'] = join(
+    'The column is ten blocks tall and ends at the first solid block. Stacking levitators adds ten blocks each. Sneaking settles you gently; redstone on the levitator, or on the block above it, switches it off.')
+
 # ---------------------------------------------------------------- phase 6b (third cycle): polished infusions
 # Thaumaturge's book has no page type for the original's "Polished Infusion" page, so the recipe stage says it in words.
 # Polishment files are named after their research entry (gen_phase6b_data.py).

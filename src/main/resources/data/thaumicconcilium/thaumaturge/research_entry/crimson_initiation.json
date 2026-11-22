@@ -1,0 +1,48 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.crimson_initiation.title",
+  "parents": [
+    "thaumicconcilium:pontifex_robe"
+  ],
+  "column": -6,
+  "row": 12,
+  "icons": [
+    "thaumicconcilium:pontifex_chest"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.crimson_initiation.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 3
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 3
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

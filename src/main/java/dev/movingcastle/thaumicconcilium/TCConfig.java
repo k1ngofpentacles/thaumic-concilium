@@ -43,6 +43,15 @@ public final class TCConfig {
                     "overworld biome, as the original) goes ahead. 0 disables them; they are the Quicksilver Reactor's only source.")
             .defineInRange("mobs.quicksilverElementalSpawnChance", 100, 0, 100);
 
+    public static final ModConfigSpec.DoubleValue ARCHER_DAMAGE_MULTIPLIER = B
+            .comment("Scales the base damage of the Crimson Archer's primal arrows (original 2 to 9 at speed 2.5; 1.0 keeps that).")
+            .defineInRange("mobs.crimsonArcherDamageMultiplier", 1.0, 0.0, 10.0);
+
+    public static final ModConfigSpec.IntValue PALADIN_REPLACES_KNIGHT = B
+            .comment("Percent chance that a Crimson Knight (Thaumaturge's cultist knight) joining the world as a fresh spawn becomes a",
+                    "Crimson Paladin instead (original: crimsonPaladinReplacesCultistWarriorChance, 20). 0 disables the replacement.")
+            .defineInRange("mobs.crimsonPaladinReplacesKnightChance", 20, 0, 100);
+
     public static final ModConfigSpec.DoubleValue DRUM_RADIUS_MULTIPLIER = B
             .comment("Drum stance (casting bracelet in the main hand, a drum in the off hand): while the drum is being played (the use key",
                     "held) the area radius of the stance's cast is multiplied by this. Server-side. 1 turns the bonus off.")
@@ -52,6 +61,12 @@ public final class TCConfig {
             .comment("Drum stance: while the drum is being played, the vis cost of the stance's cast is multiplied by this. Server-side.",
                     "A drum held silent casts at the plain wand cost.")
             .defineInRange("drum.drumVisCostMultiplier", 1.5, 0.0, 10.0);
+
+    public static final ModConfigSpec.BooleanValue GENERATE_AVANPOSTS = B
+            .comment("Whether Crimson Avanposts (cultist towers with their archers and loot chest) generate in newly made overworld chunks",
+                    "(original: generateCrimsonAvanposts, true). Their rarity is the structure set's spacing (data), about one attempt per 289",
+                    "chunks as the original's 1 in 300. Takes effect for chunks generated after the change.")
+            .define("world.generateCrimsonAvanposts", true);
 
     public static final ModConfigSpec SPEC = B.build();
 
