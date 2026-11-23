@@ -362,6 +362,35 @@ public final class TCConfig {
     public static final ModConfigSpec.IntValue POND_RIFT_MIN = pi("riftSizeMin", 10, 5, 100, "Smallest flux rift a broken node becomes.");
     public static final ModConfigSpec.IntValue POND_RIFT_MAX = pi("riftSizeMax", 50, 5, 200, "Largest flux rift a broken node becomes.");
 
+    // ---------------------------------------------------------------- phase 7 (Vengeful Golem)
+    public static final ModConfigSpec.IntValue VENGEFUL_GOLEM_SPAWN_WEIGHT = B
+            .comment("Spawn weight of the Vengeful Golem (monster category, groups of 1-2, overworld, Nether and End; original:",
+                    "vengefulGolemSpawnChance, 5). 0 disables its natural spawning. Read as the server starts.")
+            .defineInRange("vengefulGolem.spawnWeight", 5, 0, 1000);
+
+    public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> VENGEFUL_GOLEM_BIOME_BLACKLIST = B
+            .comment("Biome ids (for example \"minecraft:desert\") where the Vengeful Golem does not spawn naturally",
+                    "(original: vengefulGolemBiomeBlacklist). Read as the server starts.")
+            .defineListAllowEmpty("vengefulGolem.biomeBlacklist", java.util.List.of(), () -> "minecraft:plains",
+                    o -> o instanceof String);
+
+    /** The weight, or the default when the config is not loaded yet (data generation, early tooling). */
+    public static int vengefulGolemSpawnWeight() {
+        try {
+            return VENGEFUL_GOLEM_SPAWN_WEIGHT.get();
+        } catch (IllegalStateException e) {
+            return 5;
+        }
+    }
+
+    public static java.util.List<? extends String> vengefulGolemBiomeBlacklist() {
+        try {
+            return VENGEFUL_GOLEM_BIOME_BLACKLIST.get();
+        } catch (IllegalStateException e) {
+            return java.util.List.of();
+        }
+    }
+
     public static final ModConfigSpec SPEC = B.build();
 
     private TCConfig() {

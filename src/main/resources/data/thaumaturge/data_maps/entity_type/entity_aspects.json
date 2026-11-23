@@ -90,6 +90,24 @@
         "amount": 10
       }
     ],
+    "thaumicconcilium:vengeful_golem": [
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:fabrico",
+        "amount": 10
+      },
+      {
+        "aspect": "forbiddenmagic:superbia",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:motus",
+        "amount": 10
+      }
+    ],
     "thaumicconcilium:crimson_paladin": [
       {
         "aspect": "thaumaturge:humanus",

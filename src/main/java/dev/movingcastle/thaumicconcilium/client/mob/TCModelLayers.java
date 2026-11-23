@@ -19,7 +19,22 @@ public final class TCModelLayers {
     public static final ModelLayerLocation NETHER_EXPLORER = new ModelLayerLocation(ThaumicConcilium.id("nether_explorer"), "main");
     public static final ModelLayerLocation WITHERED_BOTANIST = new ModelLayerLocation(ThaumicConcilium.id("withered_botanist"), "main");
 
+    public static final ModelLayerLocation VENGEFUL_GOLEM = new ModelLayerLocation(ThaumicConcilium.id("vengeful_golem"), "main");
+    public static final ModelLayerLocation VENGEFUL_DECORATION = new ModelLayerLocation(ThaumicConcilium.id("vengeful_golem"), "decoration");
+
     private TCModelLayers() {
+    }
+
+    /**
+     * Original VengefulGolemModel's brain (96,70, 7x3x7) and jar (96,56, 8x4x8): separate 128x128 parts on Thaumcraft's golem
+     * decoration texture (all rights reserved), here on our own drawing of the same layout.
+     */
+    public static LayerDefinition vengefulDecoration() {
+        MeshDefinition mesh = new MeshDefinition();
+        PartDefinition root = mesh.getRoot();
+        root.addOrReplaceChild("brain", CubeListBuilder.create().texOffs(96, 70).addBox(-3.5F, -7.0F, -3.5F, 7, 3, 7), PartPose.ZERO);
+        root.addOrReplaceChild("jar", CubeListBuilder.create().texOffs(96, 56).addBox(-4.0F, -8.0F, -4.0F, 8, 4, 8), PartPose.ZERO);
+        return LayerDefinition.create(mesh, 128, 128);
     }
 
     public static LayerDefinition biped() {

@@ -51,6 +51,12 @@
       "required_research": [
         "thaumaturge:scanned/entity/thaumicconcilium/withered_botanist"
       ]
+    },
+    {
+      "text": "research.thaumicconcilium.fallen.vengeful",
+      "required_research": [
+        "thaumaturge:scanned/entity/thaumicconcilium/vengeful_golem"
+      ]
     }
   ]
 }

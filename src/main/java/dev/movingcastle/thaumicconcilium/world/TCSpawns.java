@@ -62,6 +62,7 @@ public final class TCSpawns {
         event.put(TCEntities.LESSER_CRIMSON_PORTAL.get(), dev.movingcastle.thaumicconcilium.entity.mob.LesserCrimsonPortal.createAttributes().build());
         event.put(TCEntities.CRIMSON_PONTIFEX.get(), dev.movingcastle.thaumicconcilium.entity.mob.CrimsonPontifex.createAttributes().build());
         event.put(TCEntities.NETHER_EXPLORER.get(), Corpse.createAttributes().build());
+        event.put(TCEntities.VENGEFUL_GOLEM.get(), dev.movingcastle.thaumicconcilium.entity.mob.VengefulGolem.createAttributes().build());
         if (TCEntities.hasBotanist()) {
             event.put(TCEntities.WITHERED_BOTANIST.get(), Corpse.createAttributes().build());
         }
@@ -82,6 +83,9 @@ public final class TCSpawns {
                 RegisterSpawnPlacementsEvent.Operation.REPLACE);
         // Original: the Ranger spawns by the monster rules, weight 5, groups of 1-2 in every biome (biome modifier).
         event.register(TCEntities.CRIMSON_RANGER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        // Original: EntityMob's rule; the biome blacklist and weight are the ConfiguredSpawns biome modifier.
+        event.register(TCEntities.VENGEFUL_GOLEM.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(TCEntities.NETHER_EXPLORER.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
                 (type, level, reason, pos, random) -> true, RegisterSpawnPlacementsEvent.Operation.REPLACE);

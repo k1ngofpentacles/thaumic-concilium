@@ -97,6 +97,10 @@ public final class TCCommands {
                                 .then(Commands.argument("tier", com.mojang.brigadier.arguments.IntegerArgumentType.integer(3, 4))
                                         .executes(TCCommands::finale)))
                         .then(Commands.literal("lithograph").executes(TCCommands::lithograph))
+                        // Phase 7 (render harness, QA): a Valet seal on top of the block at pos, you as its owner, its phrase item named "open sesame".
+                        .then(Commands.literal("valet")
+                                .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+                                        .executes(TCCommands::valet)))
                         // Shield foci look (render harness, QA): arm <charges> | release | aegis_block | clear. See Riposte.qa.
                         .then(Commands.literal("guard")
                                 .then(Commands.literal("arm")
@@ -177,6 +181,25 @@ public final class TCCommands {
         dev.movingcastle.thaumicconcilium.lithograph.Lithograph.set(player, new dev.movingcastle.thaumicconcilium.lithograph.Lithograph.State(
                 true, false, java.util.List.of(dev.movingcastle.thaumicconcilium.lithograph.Lithograph.playerTarget(player.getUUID()), "", "", "")));
         ctx.getSource().sendSuccess(() -> Component.literal("QA: lithographed, watching yourself"), false);
+        return 1;
+    }
+
+    private static int valet(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        net.minecraft.core.BlockPos pos = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        net.minecraft.server.level.ServerLevel level = ctx.getSource().getLevel();
+        var at = new com.leclowndu93150.thaumaturge.api.golems.seals.SealPos(pos, net.minecraft.core.Direction.UP);
+        if (!com.leclowndu93150.thaumaturge.content.golem.seals.SealHandler.place(level, at, ThaumicConcilium.id("valet"),
+                dev.movingcastle.thaumicconcilium.registry.TCSeals.VALET.get(), player)) {
+            ctx.getSource().sendFailure(Component.literal("QA: a seal is already there"));
+            return 0;
+        }
+        var seal = com.leclowndu93150.thaumaturge.content.golem.seals.SealHandler.getSealEntity(level, at);
+        net.minecraft.world.item.ItemStack phrase = new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.PAPER);
+        phrase.set(net.minecraft.core.component.DataComponents.CUSTOM_NAME, Component.literal("open sesame"));
+        seal.filter().orElseThrow().setStack(dev.movingcastle.thaumicconcilium.golem.ValetBehavior.PHRASE_SLOT, phrase);
+        seal.markChanged(level);
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: Valet seal placed, phrase 'open sesame'"), false);
         return 1;
     }
 

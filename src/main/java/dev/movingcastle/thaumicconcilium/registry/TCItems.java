@@ -146,6 +146,9 @@ public final class TCItems {
     public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> WITHERED_BOTANIST_SPAWN_EGG =
             TCEntities.hasBotanist() ? egg("withered_botanist", TCEntities.WITHERED_BOTANIST) : null;
 
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> VENGEFUL_GOLEM_SPAWN_EGG =
+            egg("vengeful_golem", TCEntities.VENGEFUL_GOLEM);
+
     private static DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> egg(String name,
             java.util.function.Supplier<? extends net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob>> type) {
         return ITEMS.register(name + "_spawn_egg", () -> new net.neoforged.neoforge.common.DeferredSpawnEggItem(type, 0x00FFFF, 0x00008B,
@@ -235,6 +238,11 @@ public final class TCItems {
     public static final DeferredItem<Item> CRIMSON_PLATING = ITEMS.register("crimson_plating", () -> new Item(new Item.Properties()));
     /** No recipe and no source until phase 5c (The Vessel drops it). */
     public static final DeferredItem<Item> PRIMORDIAL_MOTE = ITEMS.register("primordial_mote", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
+
+    // ---------------------------------------------------------------- phase 7 (golem cores as seals)
+    /** Control Seal: Valet (original: the Valet golem core). Places the seal registered as {@code thaumicconcilium:valet}. */
+    public static final DeferredItem<com.leclowndu93150.thaumaturge.content.golem.ItemSealPlacer> SEAL_VALET = ITEMS.register("seal_valet",
+            () -> new com.leclowndu93150.thaumaturge.content.golem.ItemSealPlacer(ThaumicConcilium.id("valet"), new Item.Properties()));
 
     /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
     public static void defaultComponents(ModifyDefaultComponentsEvent event) {

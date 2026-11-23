@@ -390,6 +390,30 @@ render takeover and the third-person batch end are untested with Iris and other 
 
 The QA chapter `qa_shield_foci` (spec `tools/qa-quests/specs/shield_foci.json`).
 
+## Phase 7: Valet seal and Vengeful Golem (0.14.0)
+
+Designs: `docs/design/phase7-design.md`; decisions in the scope doc ("Settled 2026-11-23"). The Assistant core and Golem
+Bydlo moved to after the Horizons port; the Burlak core is not ported (unfinished in the original).
+
+**Built:**
+- Valet seal `thaumicconcilium:valet` (a Thaumaturge `SealType`, placer `seal_valet`): filter slot 0 the tool, slot 1 a
+  renamed phrase item; armed (transient, 200 ticks) by the owner's exact chat phrase within 32 blocks of the seal (every
+  matching seal fires) or by a renamed golem bell rung in the air or at a seal-less block; one click task per arming;
+  idle cost nothing. Infusion `seal_valet`, research `valet_seal`, the original `valet_core` art, `/thaumicconcilium qa valet`.
+- Vengeful Golem (`thaumicconcilium:vengeful_golem`): attributes, goals and the enslave/release ranged attack as the
+  original, golem bell in hand, gnaw sounds, loot, our own model port and brain/jar layer, spawn egg, bestiary scan and
+  addendum page. Spawns in the Overworld, Nether and End through the `configured_spawns` biome modifier (config weight and
+  biome blacklist); Enchanted's earmuffs protect. Added to the `enslavers` tag.
+- Pack test: batches `phase7_valet` (5) and `phase7_vengeful` (7); render scenes `phase7.json`.
+
+**Known caveats:** nothing is run in game (a real golem walking to a seal, a real chat message, real spawning, a real
+enslave); the brain/jar colours are approximate (our own art, the original's is All Rights Reserved); our bell is
+Thaumaturge's silver bell model; the Valet GUI shows only Thaumaturge's generic seal title.
+
+### Needs in-game testing
+
+The QA chapter `qa_phase_7` (spec `tools/qa-quests/specs/phase_7.json`).
+
 ## Remaining phases (planned)
 
 Dependencies mirror the original's (`required-after: Thaumcraft, ForbiddenMagic, ThaumicTinkerer`):
@@ -402,10 +426,10 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 | FM | ✅ (0.2.1) Forbidden Magic (Thaumaturge) built; sin aspects moved; shard stand-ins swapped for real shards |
 | 3 | ✅ (0.3.0) Gear, warp baubles, bottles, shard mills. 3b: casting bracelets |
 | 4 | ✅ (0.5.0) Thaumaturges, Mad Thaumaturges, Nether Explorer, Withered Botanist, hint notes, Nether Membrane |
-| 5 | 5a, 5b, 5c done (0.9.0, 0.10.0, 0.11.0: Crimson forces, flesh and Peeler, The Vessel pure half). **Next: 5d**, the Botania half: biome painter and Concilium Grove, Verdant Capital, mana, research 5 and 7, the Botania lexicon pointer |
+| 5 | ✅ 5a, 5b, 5c, 5d done (0.9.0, 0.10.0, 0.11.0, 0.12.0): Crimson forces, flesh and Peeler, The Vessel pure half, the Botania half and the grove |
 | 6 | ✅ 6a, 6b, 6c done (0.6.0, 0.7.0, 0.8.0): Brightest One, Gem of Rifts, Causal Bouillon dimension |
-| 7 | Golem cores → seals, Golem Bydlo, Vengeful Golem |
-| 8 | Horizons flesh alchemy, Gadomancy gadgets, Thaumic Bases picks, Solid Void |
+| 7 | ✅ (0.14.0) Valet seal and Vengeful Golem. The Assistant core and Golem Bydlo moved to after the Horizons port; Burlak not ported |
+| 8 | Thaumic Horizons is now its own LGPL mod, ported whole; Gadomancy its own LGPL mod, with the aura cores moving there; then the Assistant core and Golem Bydlo, Thaumic Bases picks, Solid Void |
 | 10 | Neo Vitae and Enchanted integrations, the Burning Site |
 
 Phase 9 (a Tinkerer KAMI module) is dropped: Thaumaturge Tinker already ports KAMI.

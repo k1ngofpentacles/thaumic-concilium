@@ -751,6 +751,24 @@ for f in sorted(glob.glob(f'src/main/resources/data/{NS}/{NS}/polishment/*.json'
         f"Polished Infusion: needs {pol['amount']} {aspect_name(pol['aspect'])} drawn from a Destabilized Crystal with a Vis Conductor, "
         "held as the infusion completes; without it the result is lost.")
 
+# ---------------------------------------------------------------- phase 7 (first cycle): the Valet seal
+# Original: tc.research_name.VALETCORE, tc.research_text.VALETCORE, entry.valetcore.first (golem core, markers and slips of paper).
+L[f'item.{NS}.seal_valet'] = 'Control Seal: Valet'
+L[f'research.{NS}.valet_seal.title'] = 'Control Seal: Valet'
+L[f'research.{NS}.valet_seal.stage_0'] = o('tc.research_text.VALETCORE')
+L[f'research.{NS}.valet_seal.stage_1'] = join(o('entry.valetcore.first'),
+    "Here the golem needs no marker: the seal itself is the point of responsibility. Put the tool in its first filter slot (as on the Use seal) "
+    "and, in the second, any item renamed in an anvil: its name is the command. Say exactly that name in chat (case and spaces count) "
+    "and every one of your Valet seals within 32 blocks wakes for ten seconds; a golem with the right tool clicks once, then the seal "
+    "sleeps again. A golem bell renamed in an anvil and rung in the air says its name silently. Only the seal's owner can wake it.")
+
+# ---------------------------------------------------------------- phase 7 (second cycle): the Vengeful Golem
+L[f'entity.{NS}.vengeful_golem'] = o('entity.ThaumicConcilium.VengefulGolem.name')
+L[f'item.{NS}.vengeful_golem_spawn_egg'] = o('entity.ThaumicConcilium.VengefulGolem.name') + ' Spawn Egg'
+for i in range(4):
+    L[f'{NS}.golem.taunt.{i}'] = o(f'tc.golem.taunt.{i}')
+L[f'research.{NS}.fallen.vengeful'] = o('entry.thaumicconcilium.vengefulgolem1')
+
 # ---------------------------------------------------------------- per-cycle lang files (second builder lane)
 # tools/gen_<phase>_c<N>.py may define a module-level LANG dict; its keys are merged here, so two lanes never edit this
 # file's text at the same place. The cycle file is imported (not run as __main__): put its data generation under

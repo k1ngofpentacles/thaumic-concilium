@@ -1,0 +1,50 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.valet_seal.title",
+  "parents": [
+    "thaumicconcilium:aura_core",
+    "~thaumaturge:seal_use",
+    "~thaumaturge:arcane_ear"
+  ],
+  "column": -7,
+  "row": -1,
+  "icons": [
+    "thaumicconcilium:seal_valet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.valet_seal.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.valet_seal.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/seal_valet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 3
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden"
+  ]
+}

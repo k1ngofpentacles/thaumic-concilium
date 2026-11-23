@@ -51,8 +51,10 @@ entry('mad_thaumaturges', -5, -1, f'{NS}:textures/item/icon_mad_thaumaturge.png'
 entry('fallen', -3, -3, f'{NS}:textures/category.png', [f'{NS}:thaumaturges', f'{NS}:scanned/fallen'],
       [('cognitio', 5), ('alienis', 10), ('humanus', 15)], warp=1, meta=['hidden', 'round'],
       addenda=[{'text': f'research.{NS}.fallen.botanist',
-                'required_research': [scanned('entity', f'{NS}:withered_botanist')]}])
-w(f'data/{NS}/thaumaturge/scan/fallen.json', {'entities': [f'{NS}:nether_explorer', f'{NS}:withered_botanist'],
+                'required_research': [scanned('entity', f'{NS}:withered_botanist')]},
+               {'text': f'research.{NS}.fallen.vengeful',
+                'required_research': [scanned('entity', f'{NS}:vengeful_golem')]}])
+w(f'data/{NS}/thaumaturge/scan/fallen.json', {'entities': [f'{NS}:nether_explorer', f'{NS}:withered_botanist', f'{NS}:vengeful_golem'],
                                               'key': f'{NS}:scanned/fallen'})
 # NETHER_MEMBRANE: secondary, lost, triggered by the membrane; a Nether Explorer grants it outright.
 # FLESH, NETHER, ARMOR, CLOTH 4 each (no flesh or cloth aspect in Thaumaturge: victus, fabrico).

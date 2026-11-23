@@ -196,6 +196,20 @@
         "amount": 10
       }
     ],
+    "thaumicconcilium:seal_valet": [
+      {
+        "aspect": "thaumaturge:instrumentum",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:sensus",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:machina",
+        "amount": 5
+      }
+    ],
     "thaumicconcilium:primal_arrow_aer": [
       {
         "aspect": "thaumaturge:aversio",

@@ -148,6 +148,13 @@ public final class TCEntities {
                     () -> EntityType.Builder.<WitheredBotanist>of(WitheredBotanist::new, MobCategory.CREATURE)
                             .sized(2.0F, 0.3F).eyeHeight(0.15F).clientTrackingRange(8).build("withered_botanist")) : null;
 
+    // ---------------------------------------------------------------- phase 7
+    /** Original: a biped (0.6 x 1.8), registered with Automagy; here always. */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.mob.VengefulGolem>> VENGEFUL_GOLEM =
+            ENTITY_TYPES.register("vengeful_golem", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.mob.VengefulGolem>of(
+                    dev.movingcastle.thaumicconcilium.entity.mob.VengefulGolem::new, MobCategory.MONSTER)
+                    .sized(0.6F, 1.8F).clientTrackingRange(8).build("vengeful_golem"));
+
     public static boolean hasBotanist() {
         return WITHERED_BOTANIST != null;
     }

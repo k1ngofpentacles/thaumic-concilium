@@ -9,6 +9,8 @@ import dev.movingcastle.thaumicconcilium.registry.TCItems;
 import dev.movingcastle.thaumicconcilium.client.mob.CorpseRenderer;
 import dev.movingcastle.thaumicconcilium.client.mob.TCModelLayers;
 import dev.movingcastle.thaumicconcilium.client.mob.ThaumaturgeRenderer;
+import dev.movingcastle.thaumicconcilium.client.mob.VengefulGolemModel;
+import dev.movingcastle.thaumicconcilium.client.mob.VengefulGolemRenderer;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
@@ -173,6 +175,7 @@ public final class TCClient {
         event.registerEntityRenderer(TCEntities.MAD_THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "mad_thaumaturge"));
         event.registerEntityRenderer(TCEntities.NETHER_EXPLORER.get(),
                 ctx -> new CorpseRenderer<>(ctx, TCModelLayers.NETHER_EXPLORER, "nether_explorer"));
+        event.registerEntityRenderer(TCEntities.VENGEFUL_GOLEM.get(), VengefulGolemRenderer::new);
         if (TCEntities.hasBotanist()) {
             event.registerEntityRenderer(TCEntities.WITHERED_BOTANIST.get(),
                     ctx -> new CorpseRenderer<>(ctx, TCModelLayers.WITHERED_BOTANIST, "withered_botanist"));
@@ -224,6 +227,8 @@ public final class TCClient {
         event.registerLayerDefinition(CrimsonOverlayLayer.RANGER, CrimsonOverlayLayer::ranger);
         event.registerLayerDefinition(TCModelLayers.NETHER_EXPLORER, TCModelLayers::explorer);
         event.registerLayerDefinition(TCModelLayers.WITHERED_BOTANIST, TCModelLayers::botanist);
+        event.registerLayerDefinition(TCModelLayers.VENGEFUL_GOLEM, VengefulGolemModel::body);
+        event.registerLayerDefinition(TCModelLayers.VENGEFUL_DECORATION, TCModelLayers::vengefulDecoration);
     }
 
     @SubscribeEvent

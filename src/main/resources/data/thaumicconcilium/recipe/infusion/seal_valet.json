@@ -1,0 +1,43 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumaturge:seal_use"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:arcane_ear"
+    },
+    {
+      "item": "thaumaturge:curio_knowledge"
+    },
+    {
+      "item": "thaumaturge:amulet_mundane"
+    },
+    {
+      "item": "thaumaturge:curio_knowledge"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:machina",
+      "amount": 16
+    },
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 32
+    }
+  ],
+  "instability": 3,
+  "research": {
+    "entry": "thaumicconcilium:valet_seal",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:seal_valet"
+  }
+}

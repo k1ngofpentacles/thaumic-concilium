@@ -37,8 +37,10 @@ public final class ThaumicConcilium {
         TCWandParts.RODS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCEffects.EFFECTS.register(modBus);
         TCItems.ITEMS.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCSeals.SEALS.register(modBus);
         modBus.addListener(TCItems::defaultComponents);
         TCEntities.ENTITY_TYPES.register(modBus);
+        dev.movingcastle.thaumicconcilium.world.ConfiguredSpawns.SERIALIZERS.register(modBus);
         TCSounds.SOUNDS.register(modBus);
         TCCreativeTabs.TABS.register(modBus);
         TCSpellBehaviors.BEHAVIORS.register(modBus);

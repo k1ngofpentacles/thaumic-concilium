@@ -167,7 +167,7 @@ add_entity_aspects('crimson_pontifex', [('spiritus', 40), ('victus', 40), ('prae
 for m in ('lesser_crimson_portal', 'crimson_pontifex'):
     spawn_egg_model(m)
 # Entities that enslave a player who is near (client walks the player toward them): the Pontifex now, the Vengeful Golem later.
-w(f'data/{NS}/tags/entity_type/enslavers.json', {'replace': False, 'values': [f'{NS}:crimson_pontifex']})
+w(f'data/{NS}/tags/entity_type/enslavers.json', {'replace': False, 'values': [f'{NS}:crimson_pontifex', f'{NS}:vengeful_golem']})
 
 # ================================================================ cycle 4a: Crimson Annales, research, loot
 # Annales item art (original, WTFPL) and the Pontifex research icon.

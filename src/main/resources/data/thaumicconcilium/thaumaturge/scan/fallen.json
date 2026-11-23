@@ -1,7 +1,8 @@
 {
   "entities": [
     "thaumicconcilium:nether_explorer",
-    "thaumicconcilium:withered_botanist"
+    "thaumicconcilium:withered_botanist",
+    "thaumicconcilium:vengeful_golem"
   ],
   "key": "thaumicconcilium:scanned/fallen"
 }
