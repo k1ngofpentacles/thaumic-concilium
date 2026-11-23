@@ -652,22 +652,42 @@ L[f'research.{NS}.the_green_translation.title'] = 'The Green Translation'
 L[f'research.{NS}.the_green_translation.stage_0'] = join(
     'Field note, the fifth',
     'I have been thinking about the hand. Every unit of it goes through a person, and a person is the wrong shape for the work: too '
-    'slow, too warm, and it keeps what it carries. The green people do the same sums with a different currency. A terrasteel ingot '
+    'slow, too warm, and it keeps what it carries. The green people do the same sums with a different currency. A node shut in a jar '
     'does not care who holds it. A rune of mana, set beside it, begins to hum at the pitch of the hole. I think the hole can be '
     'asked in their language, if one knows the grammar.')
 L[f'research.{NS}.the_green_translation.stage_1'] = join(
-    'The grammar is a block. A Verdant Capital is infused with livingwood, a rune of spring, a rune of mana, a terrasteel ingot and a '
-    'silverwood sapling. It will only be set on top of an anchor of a quiet Vessel, and nowhere else. It is a mana receiver: bursts '
+    'The grammar is a block. A Verdant Capital is infused about a captured node in its jar, with a rune of spring, a rune '
+    'of mana, a silverwood sapling and a greatwood sapling, an ingot of gold, quicksilver and a mana diamond. It will only be set on top of an anchor of a quiet Vessel, and nowhere else. It is a mana receiver: bursts '
     'land in it, and a spark sits on it as on a pool. It holds ten thousand. An anchor with a capital needs no drawer. Each tick it '
     'has about two hundred and ten mana to spend it spends them, and the unit advances; a unit is a minute, so a unit costs a quarter '
     'of a million, and the whole Vessel five million. Mana alone, then: the capital gives no warp to anyone and spills no goo. '
     'Whoever placed it counts as having taken part, and so does whoever they are bound to by a heartstone. If the feed stops, the '
     'unit waits where it was. Wait five minutes and it begins to unwind, a tick for a tick, and a unit that unwinds to nothing '
     'goes back into the Vessel. When the rite ends the capitals come loose and can be used again, and you may set or lift one at any '
-    'time. The unwatched anchors still need a hand, and the hand still pays, but the pulses of living taint thin as more anchors are '
-    'capped, and with all four there are none. What is left standing at the end follows the count: none, and the seed runs wild; one, '
-    'and it is held at the edge; two, and it starves; three, and the green kills it, inside the crater only; four, and it spreads, '
-    'and something is lifted from the ones who stood by it. I cannot yet say how. This is the translation, not the ending.')
+    'time. The unwatched anchors still need a hand, and the hand still pays. The living taint does not thin for any of it: it runs '
+    'in full whatever you do, with a hand or with all four capitals. What the capitals change is what the green does about it. A '
+    'capital is, I think, a measure of how much of the green you were willing to lean on to uproot the rot. For every seed the taint '
+    'brings while the Vessel is awake, each capital in place is a quarter of a chance that roots come up and strangle it; with four, '
+    'none escape. When the rite ends the same chance is rolled for every seed the new wood reaches. What is left at the hole follows '
+    'the count: none, and the seed runs wild; one, and it is held at the edge; two, and it starves; three or four, and no seed is '
+    'left there at all, only a pond and a wood, and whatever seeds still stand in it have a three in four, or every one, to be '
+    'strangled. Four, and something is lifted from the ones who stood by it. I cannot yet say how. This is the translation, not the ending.')
+L[f'research.{NS}.the_glade.title'] = 'The Glade'
+L[f'research.{NS}.the_glade.stage_0'] = join(
+    'Field note, the seventh',
+    'Where the hole was there is a wood. I walked in expecting to be unwell and was not. The air is thick, the way it is after a '
+    'storm, and nothing in it is trying to eat me. I counted the trees twice. They are older than the ground they stand on, and the '
+    'flowers under them were not planted by anyone I have met. I do not like how pleased the place seems to be to see us.')
+L[f'research.{NS}.the_glade.stage_1'] = join(
+    'The grove is a biome of its own, the Concilium Grove, painted over the blight outward from the hole. It grows what a magical '
+    'forest grows: meadow flowers and tall grass, greatwood and silverwood, and wild nodes set here and there. If the green people '
+    'are among your acquaintances their flowers come up too, in beds where the ground was worst. Two great trees stand over the '
+    'rest, a veteran oak with the shape of a greatwood and a pale ghost gum with the shape of a silverwood, and they are not young. '
+    'At the centre lies a mana pond. It is still, it gives off light, and it cannot be lifted in a bucket. Only a mana spreader '
+    'standing against it can draw from it, as from a pool. It is not a spring. The pond holds what the grove holds: ten thousand '
+    'mana for each painted chunk and fifty thousand for each node inside it. A spreader that empties it begins to take the nodes. '
+    'For every fifty thousand drawn beyond that, the weakest node breaks open into a rift, and the rift stains the grove back to '
+    'blight. With no node left the pond runs dry. Take what you need and leave it to fill.')
 
 # ---------------------------------------------------------------- phase 6b (third cycle): polished infusions
 # Thaumaturge's book has no page type for the original's "Polished Infusion" page, so the recipe stage says it in words.
@@ -683,6 +703,25 @@ for f in sorted(glob.glob(f'src/main/resources/data/{NS}/{NS}/polishment/*.json'
     L[f'research.{NS}.{key}.stage_1'] = join(L[f'research.{NS}.{key}.stage_1'],
         f"Polished Infusion: needs {pol['amount']} {aspect_name(pol['aspect'])} drawn from a Destabilized Crystal with a Vis Conductor, "
         "held as the infusion completes; without it the result is lost.")
+
+# ---------------------------------------------------------------- per-cycle lang files (second builder lane)
+# tools/gen_<phase>_c<N>.py may define a module-level LANG dict; its keys are merged here, so two lanes never edit this
+# file's text at the same place. The cycle file is imported (not run as __main__): put its data generation under
+# `if __name__ == '__main__':`. A key already defined (here or by another cycle file) with different text is an error.
+import importlib.util, re, sys
+def _cycle_key(name):
+    m = re.match(r'gen_(.+)_c(\d+)\.py$', name)
+    return (m.group(1), int(m.group(2))) if m else None
+_here = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, _here)   # a cycle file may use genlib
+for _name in sorted((n for n in os.listdir(_here) if _cycle_key(n)), key=_cycle_key):
+    _spec = importlib.util.spec_from_file_location('cyclelang_' + _name[:-3], os.path.join(_here, _name))
+    _mod = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_mod)
+    for _k, _v in getattr(_mod, 'LANG', {}).items():
+        if _k in L and L[_k] != _v:
+            raise SystemExit(f'{_name}: lang key {_k} is already defined with different text')
+        L[_k] = _v
 
 out = f'src/main/resources/assets/{NS}/lang/en_us.json'
 os.makedirs(os.path.dirname(out), exist_ok=True)

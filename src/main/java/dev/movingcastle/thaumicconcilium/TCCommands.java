@@ -88,11 +88,19 @@ public final class TCCommands {
                         // Phase 5d cycle 2d (render harness): one landmark tree variant on the soil block at pos (species greatwood or silverwood, variant 0-3, facing 0-3).
                         .then(Commands.literal("landmark")
                                 .then(Commands.argument("silver", com.mojang.brigadier.arguments.BoolArgumentType.bool())
-                                        .then(Commands.argument("variant", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 3))
+                                        .then(Commands.argument("variant", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 9))
                                                 .then(Commands.argument("facing", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 3))
                                                         .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
                                                                 .executes(TCCommands::landmark))))))
+                        // Phase 5d, the teaser: a finished-rite staging at your feet that runs the real ending (record it yourself).
+                        .then(Commands.literal("finale")
+                                .then(Commands.argument("tier", com.mojang.brigadier.arguments.IntegerArgumentType.integer(3, 4))
+                                        .executes(TCCommands::finale)))
                         .then(Commands.literal("lithograph").executes(TCCommands::lithograph))
+                        // Phase 5d cycle 4b (render harness): a Taint Seed at pos and the grove killing it, without a painter job.
+                        .then(Commands.literal("seeddeath")
+                                .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+                                        .executes(TCCommands::seedDeath)))
                         // Phase 5b: the crimson state (flesh amount, the ethereal state).
                         .then(Commands.literal("flesh")
                                 .then(Commands.argument("n", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 200))
@@ -221,9 +229,20 @@ public final class TCCommands {
         int variant = Math.min(com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "variant"), shapes.size() - 1);
         var facing = net.minecraft.core.Direction.from2DDataValue(com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "facing"));
         var soil = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
-        boolean ok = dev.movingcastle.thaumicconcilium.compat.DynamicTreesLandmarks.grow(ctx.getSource().getLevel(), soil, silver, shapes.get(variant).code(), facing);
+        boolean ok = dev.movingcastle.thaumicconcilium.compat.DynamicTreesLandmarks.grow(ctx.getSource().getLevel(), soil, silver, shapes.get(variant).code(), facing, shapes.get(variant).trunkCap());
         ctx.getSource().sendSuccess(() -> Component.literal("QA: landmark " + (silver ? "silverwood " : "greatwood ") + variant + (ok ? " grown" : " did not grow")), false);
         return ok ? 1 : 0;
+    }
+
+    private static int seedDeath(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        var level = ctx.getSource().getLevel();
+        net.minecraft.core.BlockPos pos = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        var seed = dev.movingcastle.thaumicconcilium.entity.VesselRite.spawnSeed(level, pos.below(), 0, 0);
+        seed.setTaintReserve(0.0F); // as the tier 3 and 4 endings leave it
+        seed.getPersistentData().putBoolean(dev.movingcastle.thaumicconcilium.entity.VesselEndings.DOOMED_KEY, true);
+        dev.movingcastle.thaumicconcilium.world.GroveSeedDeath.begin(level, seed, level.getGameTime());
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: the grove is killing a Taint Seed at " + pos.toShortString()), false);
+        return 1;
     }
 
     private static int grove(CommandContext<CommandSourceStack> ctx) {
@@ -236,6 +255,18 @@ public final class TCCommands {
         var job = dev.movingcastle.thaumicconcilium.world.GrovePainter.openWithRadius(level, hex, crater, tier, radius, null);
         ctx.getSource().sendSuccess(() -> Component.literal(job == null ? "QA: no grove (plot chunk)" : "QA: a tier " + tier + " grove of radius " + radius), false);
         return job == null ? 0 : 1;
+    }
+
+    private static int finale(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        int tier = com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "tier");
+        int capitals = dev.movingcastle.thaumicconcilium.world.FinaleStaging.stage(ctx.getSource().getLevel(), player, tier);
+        if (capitals < 0) {
+            ctx.getSource().sendFailure(Component.literal("QA: cannot stage the ending here"));
+            return 0;
+        }
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: a tier " + tier + " rite with " + capitals + " capitals, finishing now (you are moved to the crater's edge)"), false);
+        return 1;
     }
 
     private static int vesselBreak(CommandContext<CommandSourceStack> ctx, boolean standIn) throws com.mojang.brigadier.exceptions.CommandSyntaxException {

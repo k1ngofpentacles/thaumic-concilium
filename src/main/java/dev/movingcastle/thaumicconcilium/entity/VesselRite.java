@@ -9,6 +9,7 @@ import com.leclowndu93150.thaumaturge.registry.TTEntities;
 import dev.movingcastle.thaumicconcilium.TCConfig;
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.registry.TCItems;
+import dev.movingcastle.thaumicconcilium.world.GrovePainter;
 import dev.movingcastle.thaumicconcilium.world.VesselDebts;
 import dev.movingcastle.thaumicconcilium.world.VesselResearch;
 import java.util.LinkedHashMap;
@@ -72,16 +73,6 @@ public final class VesselRite {
     /** Whether the unit just drained (the {@code drainedAfter}-th) also gives normal warp. */
     public static boolean normalWarpDue(int drainedAfter, int every) {
         return drainedAfter > 0 && drainedAfter % Math.max(1, every) == 0;
-    }
-
-    /** Phase 5d: the share of the 5c pulses that still run: uncapped anchors over {@code total} (0 capitals = 1, all capped = 0). */
-    public static float pulseScale(int uncapped, int total) {
-        return Mth.clamp(uncapped / (float) Math.max(1, total), 0.0F, 1.0F);
-    }
-
-    /** Pulses per beat after scaling: rounded, and at least one while any share remains. */
-    public static int scaledPulses(int base, float scale) {
-        return scale <= 0.0F ? 0 : Math.max(1, Math.round(base * scale));
     }
 
     /** Mana per tick for a capped anchor: its unit's mana over the unit's ticks, rounded up (250,000 / 1200 = 209). */
@@ -165,6 +156,9 @@ public final class VesselRite {
         if (event.getEntity() instanceof ServerPlayer player && player.getServer() != null) {
             VesselDebts data = VesselDebts.get(player.getServer());
             applyWarpRemoval(player, data);
+            if (data.takeGlade(player.getUUID())) {
+                VesselResearch.grantNote(player, VesselResearch.THE_GLADE, 0);
+            }
             if (data.motes().containsKey(player.getUUID())) {
                 int owed = data.takeMotes(player.getUUID());
                 if (owed > 0) {
@@ -180,16 +174,15 @@ public final class VesselRite {
      * One beat of a drain: a few fibre pulses and ecological-pressure points at random spots in a ring around the hex that widens with
      * the units drained. Only chunks that are loaded are touched; a pause (no tether) never reaches here.
      */
-    static void pulse(ServerLevel level, Vessel vessel) {
-        pulse(level, vessel, 1.0F);
-    }
+    /** Pulses thrown since the game started (the tests compare it: the count does not depend on the capitals). */
+    public static long pulsesThrown;
 
-    /** As {@link #pulse(ServerLevel, Vessel)}, with the count and the pressure multiplied by {@code scale} (phase 5d: uncapped anchors / 4). */
-    static void pulse(ServerLevel level, Vessel vessel, float scale) {
+    public static void pulse(ServerLevel level, Vessel vessel) {
         BlockPos centre = vessel.hexPos();
         double radius = ringRadius(vessel.drained(), TCConfig.RITE_CHARGE.get(), TCConfig.RITE_RING_MIN.get(), TCConfig.RITE_RING_MAX.get());
-        float pressure = (float) (TCConfig.RITE_PRESSURE.get() * scale);
-        for (int k = 0; k < scaledPulses(TCConfig.RITE_PULSES.get(), scale); k++) {
+        float pressure = TCConfig.RITE_PRESSURE.get().floatValue();
+        for (int k = 0; k < TCConfig.RITE_PULSES.get(); k++) {
+            pulsesThrown++;
             double angle = level.random.nextDouble() * Math.PI * 2.0;
             double dist = Math.max(2.0, radius - level.random.nextDouble() * 4.0);
             int x = centre.getX() + (int) Math.round(Math.cos(angle) * dist);
@@ -211,13 +204,15 @@ public final class VesselRite {
         vessel.endRite(level);
         crumbleAnchors(level, vessel);
         // phase 5d: the seed, its scar, the extra motes and the warp, by the number of capitals
-        VesselEndings.apply(level, vessel, tier, VesselEndings.craterOf(vessel));
+        VesselCrater crater = VesselEndings.craterOf(vessel);
+        AbstractTaintSeed seed = VesselEndings.apply(level, vessel, tier, crater);
         for (ServerPlayer p : Vessel.players(level)) {
             if (p.distanceToSqr(vessel) <= 64.0 * 64.0) {
                 p.displayClientMessage(Component.translatable("message.thaumicconcilium.rite_done"), true);
             }
         }
-        vessel.discard();
+        // cycle 4e: the Vessel is not gone yet: it swells over the crater (blindness inside) while the painter works, then collapses
+        vessel.beginDying(level, VesselDeath.swellRadius(GrovePainter.maxRim(crater)));
     }
 
     /** The last unit: each anchor shard crumbles. The block goes, leaving a burst of its own rubble particles and the stone's break sound. */

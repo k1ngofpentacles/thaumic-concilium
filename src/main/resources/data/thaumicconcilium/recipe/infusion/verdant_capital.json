@@ -7,7 +7,7 @@
   ],
   "type": "thaumaturge:infusion",
   "catalyst": {
-    "item": "botania:livingwood"
+    "item": "thaumaturge:jar_node"
   },
   "components": [
     {
@@ -17,27 +17,56 @@
       "item": "botania:rune_mana"
     },
     {
-      "item": "botania:terrasteel_ingot"
+      "item": "thaumaturge:sapling_silverwood"
     },
     {
-      "item": "thaumaturge:sapling_silverwood"
+      "item": "thaumaturge:sapling_greatwood"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    },
+    {
+      "item": "thaumaturge:quicksilver"
+    },
+    {
+      "item": "botania:mana_diamond"
     }
   ],
   "aspects": [
     {
+      "aspect": "thaumaturge:victus",
+      "amount": 28
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 28
+    },
+    {
+      "aspect": "thaumaturge:lux",
+      "amount": 40
+    },
+    {
+      "aspect": "thaumaturge:tenebrae",
+      "amount": 40
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 28
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 28
+    },
+    {
       "aspect": "thaumaturge:herba",
-      "amount": 48
+      "amount": 40
     },
     {
       "aspect": "thaumaturge:praecantatio",
-      "amount": 32
-    },
-    {
-      "aspect": "thaumaturge:ordo",
-      "amount": 16
+      "amount": 33
     }
   ],
-  "instability": 4,
+  "instability": 3,
   "research": {
     "entry": "thaumicconcilium:the_green_translation",
     "stage": 1

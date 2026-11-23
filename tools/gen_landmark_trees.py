@@ -12,6 +12,7 @@ unless this file does. Every variant is decoded again and compared with the cell
 map are simulated, and the run fails when a number leaves its range.
 """
 import json
+import functools
 import math
 import os
 import random
@@ -241,8 +242,9 @@ def inflate(tree, tapering, max_radius=24):
     return stored, leaf
 
 
-def slim(tree, step=0.5, column_cap=14):
-    """The gum trunk (DynamicTreesLandmarks.slim): r = min(cap, sqrt(sum child r^2) + step), cap 16 on the straight column from the root and 8 off it."""
+def slim(tree, step=0.5, column_cap=13):
+    """The gum trunk (DynamicTreesLandmarks.slim): r = min(cap, sqrt(sum child r^2) + step), cap 13 (polish round; 14 before) on the straight column
+    from the root and 8 off it."""
     stored = {}
     st = {'radius': 1.0, 'last': None}
     cells = tree.parent
@@ -339,7 +341,9 @@ def tip_stats(tips):
 
 
 # ---------------------------------------------------------------- oak
-def build_oak(rng):
+def build_oak(rng, var=None):
+    """var (cycle 4c, the extra oaks) = {'rot': limb azimuth turn in radians, 'lean': 0..1 how much longer the limbs toward 'dir' are (and shorter
+    opposite), 'dir': lean azimuth, 'lx', 'lz': block shift of the three leaders' ends}. None = the four accepted oaks, rng use unchanged."""
     t = Tree()
     n = rng.choice([5, 6])
     ys = []
@@ -361,9 +365,13 @@ def build_oak(rng):
     for i in range(n):
         ya = ys[i]
         th = axes_order[i % 4] * math.pi / 2 + rng.uniform(-0.45, 0.45)
+        if var:
+            th += var['rot']
         if ya >= H - 1:
             used_axes_high.add(axes_order[i % 4])
         R = rng.uniform(7.2, 8.4)
+        if var:
+            R *= 1.0 + var['lean'] * math.cos(th - var['dir'])
         rise = rng.choice([0, 1]) if i < 2 else rng.choice([1, 2, 3])
         frac = rng.uniform(0.5, 0.6)
         A = (0, ya, 0)
@@ -408,6 +416,8 @@ def build_oak(rng):
         h = rng.randint(3, 5)
         perp = (d[2], 0, d[0])
         end = (d[0] * h + perp[0] * lat, ty, d[2] * h + perp[2] * lat)
+        if var:
+            end = (end[0] + var['lx'], end[1], end[2] + var['lz'])
         path = [first] + walk(first, end)
         if not t.attach_path(top, path):
             return None
@@ -564,7 +574,8 @@ def _fork(t, rng, par, path, depth, vmax):
 
 
 
-def build_gum(rng):
+def build_gum(rng, always_droop=True):
+    """always_droop True = the polished gum (cycle 4a); False = the round-2 gum (the lowest outer tip droops 60% of the time, as at 16b8138)."""
     t = Tree()
     Hc = rng.choice([5, 6, 7])
     prev = t.root
@@ -613,8 +624,8 @@ def build_gum(rng):
             return None
     # up to two low outer tips droop: out, sideways, down (never straight down: that would touch the limb)
     low = sorted([c for c in t.tips() if c[1] <= 15 and max(abs(c[0]), abs(c[2])) >= 3], key=lambda c: c[1])[:2]
-    for c in low:
-        if rng.random() < 0.6:
+    for i, c in enumerate(low):
+        if (always_droop and i == 0) or rng.random() < 0.6:  # polish round: the lowest outer tip always droops, so the crown reaches down
             fdir = _face_towards((0, 0, 0), c) or HDIRS[0]
             g = rng.choice([h for h in HDIRS if h != fdir and h != (-fdir[0], 0, -fdir[2])])
             c1 = add(c, fdir)
@@ -680,10 +691,13 @@ def ascii_view(lv, br, axis):
     return '\n'.join(rows)
 
 
-def check_gum(t, info, after=False):
+def check_gum(t, info, after=False, style='polish'):
+    """style 'polish' = cycle 4a (trunk cap 13), 'r2' = round 2 as at 16b8138 (trunk cap 14)."""
+    r2 = style == 'r2'
+    cap = 14 if r2 else 13
     tips = t.tips()
     stored, leaf = inflate(t, 0.8)
-    slim_r = slim(t, 0.5, 14)
+    slim_r = slim(t, 0.5, cap)
     lv = leaves_of(leaf)
     br = set(t.parent)
     if not lv:
@@ -702,14 +716,16 @@ def check_gum(t, info, after=False):
     conds = {
         "tips": 7 <= len(tips) <= 10,
         "kinds": kinds is not None and 1 <= kinds[0] <= 3 and 2 <= kinds[1] <= 5,
-        "tipy": tys[0] >= 11 and tys[-1] <= 19 and len(set(tys)) >= 3 and tys[-1] - tys[0] >= 7,
-        "top": 20 <= topy <= 23,
-        "width": 15 <= max(w) <= 19 and min(w) >= 12,
-        "low": 8 <= low <= 11,
+        # polish round (cycle 4a): a drooping tip may sit at y 10; the crown is wider against its height (width / top >= 0.72 on both axes)
+        # and reaches lower (lowest leaf 7-9, depth >= 0.6 x top: the shot measured 0.45 where the leaf map said 0.55)
+        "tipy": tys[0] >= (11 if r2 else 10) and tys[-1] <= 19 and len(set(tys)) >= 3 and tys[-1] - tys[0] >= 7,
+        "top": 20 <= topy <= (23 if r2 else 22),
+        "width": 15 <= max(w) <= 19 and min(w) >= 12 and (r2 or (min(w) >= 0.72 * topy and max(w) >= 0.8 * topy)),
+        "low": (8 <= low <= 11) if r2 else (7 <= low <= 9),
         "reach": all(max(abs(c[0]), abs(c[2])) <= 8 for c in tips) and t.depth() <= 30,
         "centroid": 1.5 <= math.hypot(cx, cz) <= 4.5,
         "sky": skyx >= 0.35 and skyz >= 0.35,
-        "depth": (topy - low + 1) >= 0.5 * topy,
+        "depth": (topy - low + 1) >= 0.5 * topy if r2 else (topy - low) >= 0.57 * topy,
         "radius": mid_r >= 4 and 13 <= slim_r[(0, 1, 0)] <= 16 and off_max <= 8,
         "runs": runs_ok(t),
     }
@@ -729,8 +745,187 @@ def check_gum(t, info, after=False):
     return ok
 
 
+# ---------------------------------------------------------------- silverwood candidates (cycle 4c): twin, lean, sprawl, narrow
+# Same rules as the gum (stair stepping: every horizontal move is followed by 1..vmax up, Y forks, runs_ok, the slim trunk with cap 13), but a
+# different skeleton each. The user keeps at least two of the four.
+def stair_moves(a, hms, dy, rng, vmax):
+    """Path from a: each horizontal move of `hms` followed by 1..vmax up, dy up in all. None unless len(hms) <= dy <= len(hms) * vmax."""
+    n = len(hms)
+    if n == 0 or dy < n or dy > n * vmax:
+        return None
+    gaps = [1] * n
+    extra = dy - n
+    while extra > 0:
+        open_ = [i for i in range(n) if gaps[i] < vmax]
+        gaps[rng.choice(open_)] += 1
+        extra -= 1
+    out = []
+    cur = a
+    for i, h in enumerate(hms):
+        cur = add(cur, h)
+        out.append(cur)
+        for _ in range(gaps[i]):
+            cur = add(cur, UPV)
+            out.append(cur)
+    return out
+
+
+def hm_line(f, o, lat=0, back=0):
+    """Horizontal moves: o along face f with |lat| sideways moves interleaved, then `back` against f (an S-curve when back > 0)."""
+    perp = (f[2], 0, f[0])
+    s = 1 if lat >= 0 else -1
+    seq = _interleave([f] * o, [(perp[0] * s, 0, perp[2] * s)] * abs(lat))
+    return seq + [(-f[0], 0, -f[2])] * back
+
+
+def _limb(t, rng, top, hms, ty, vmax, fdepth=2):
+    path = stair_moves(top, hms, ty - top[1], rng, vmax)
+    if path is None:
+        return False
+    t.mids.append(path[len(path) // 2])
+    return _fork(t, rng, top, path, fdepth, vmax)
+
+
+def _droop_tips(t, rng, maxn=2):
+    low = sorted([c for c in t.tips() if c[1] <= 15 and max(abs(c[0]), abs(c[2])) >= 3], key=lambda c: c[1])[:maxn]
+    for i, c in enumerate(low):
+        if i == 0 or rng.random() < 0.6:
+            fdir = _face_towards((0, 0, 0), c) or HDIRS[0]
+            g = rng.choice([h for h in HDIRS if h != fdir and h != (-fdir[0], 0, -fdir[2])])
+            c1 = add(c, fdir)
+            c2 = add(c1, g)
+            if not t.attach_path(c, [c1, c2, add(c2, DOWNV)]):
+                return False
+    return True
+
+
+def _opp(f):
+    return (-f[0], 0, -f[2])
+
+
+def build_variant(rng, kind):
+    t = Tree()
+    t.mids = []
+    Hc = rng.choice({'twin': [3, 4], 'lean': [6, 7], 'sprawl': [3, 4], 'narrow': [6, 7]}[kind])
+    t.Hc = Hc
+    prev = t.root
+    for y in range(1, Hc + 1):
+        c = (0, y, 0)
+        t.attach_path(prev, [c])
+        prev = c
+    top = (0, Hc, 0)
+    f = rng.choice(HDIRS)
+    side = rng.choice([-1, 1])
+    perp = (f[2] * side, 0, f[0] * side)
+    if kind == 'twin':
+        # a short butt that splits at once into two near-equal leaders on opposite faces (a V), and sometimes a small third limb
+        g = _opp(f) if rng.random() < 0.8 else perp
+        for face, ty in ((f, rng.choice([18, 19, 20])), (g, rng.choice([16, 17, 18, 19]))):
+            if not _limb(t, rng, top, hm_line(face, rng.choice([4, 5]), rng.choice([-1, 0, 1])), ty, 3):
+                return None
+        if rng.random() < 0.5:
+            h = rng.choice([x for x in HDIRS if x != f and x != g and x != _opp(g)])
+            if not _limb(t, rng, top, hm_line(h, rng.choice([3, 4]), 0), rng.choice([11, 12, 13, 14]), 2, 1):
+                return None
+    elif kind == 'lean':
+        # tall and leaning one way, one long limb reaching the other way (or sideways), a small third leader
+        if not _limb(t, rng, top, hm_line(f, rng.choice([5, 6]), rng.choice([0, 1]) * side), rng.choice([20, 21, 22]), 3):
+            return None
+        g = _opp(f) if rng.random() < 0.6 else perp
+        o = rng.choice([7, 8])
+        if not _limb(t, rng, top, hm_line(g, o, rng.choice([0, 1])), Hc + o + rng.choice([2, 3, 4]), 2, 1):
+            return None
+        h = rng.choice([x for x in HDIRS if x != f and x != g])
+        if rng.random() < 0.7 and not _limb(t, rng, top, hm_line(h, 3), rng.choice([13, 14, 15]), 2, 1):
+            return None
+    elif kind == 'sprawl':
+        # broad and low: three or four limbs on different faces climbing no faster than the stair allows, tips spread to the reach limit
+        faces = rng.sample(HDIRS, rng.choice([3, 4]))
+        for i, face in enumerate(faces):
+            ty = rng.choice([14, 15, 16]) if i == 0 else rng.choice([11, 12, 13, 14, 15])
+            o = rng.choice([5, 6])
+            if not _limb(t, rng, top, hm_line(face, o, rng.choice([-1, 0, 1])), ty, 2):
+                return None
+    else:
+        # narrow and tall: a long bare butt, then two steep leaders that wind (out, back) rather than spread
+        for i, face in enumerate((f, _opp(f) if rng.random() < 0.6 else perp)):
+            ty = rng.choice([20, 21, 22]) if i == 0 else rng.choice([17, 18, 19])
+            hms = hm_line(face, rng.choice([2, 3]), rng.choice([-1, 0, 1]), rng.choice([0, 1]))
+            if not _limb(t, rng, top, hms, ty, 3):
+                return None
+        h = rng.choice([x for x in HDIRS if x != f and x != _opp(f)])  # a short low limb keeps the crown from starting at the top of the butt
+        if not _limb(t, rng, top, hm_line(h, 3), rng.choice([11, 12]), 2, 1):
+            return None
+    if not _droop_tips(t, rng):
+        return None
+    return t
+
+
+# per-kind targets: (tips), (top), (widest), (narrowest), (lowest leaf), (leaf centroid off the column), tip y floor
+VARIANT_SPECS = {
+    'twin': dict(tips=(6, 11), top=(20, 23), wmax=(15, 20), wmin=(11, 20), low=(6, 11), cen=(0.0, 3.5), tipy=10),
+    'lean': dict(tips=(6, 11), top=(22, 25), wmax=(14, 19), wmin=(10, 19), low=(7, 12), cen=(3.0, 7.0), tipy=10),
+    'sprawl': dict(tips=(8, 13), top=(17, 20), wmax=(19, 23), wmin=(15, 23), low=(5, 10), cen=(0.0, 3.5), tipy=9),
+    'narrow': dict(tips=(5, 10), top=(23, 26), wmax=(10, 15), wmin=(8, 15), low=(8, 12), cen=(0.0, 3.5), tipy=10),
+}
+
+
+def check_variant(t, info, after=False, kind='twin'):
+    sp = VARIANT_SPECS[kind]
+    tips = t.tips()
+    stored, leaf = inflate(t, 0.8)
+    slim_r = slim(t, 0.5, 13)
+    lv = leaves_of(leaf)
+    br = set(t.parent)
+    if not lv:
+        return False
+    w = [max(p[a] for p in lv) - min(p[a] for p in lv) + 1 for a in (0, 2)]
+    topy = max(p[1] for p in lv)
+    low = min(p[1] for p in lv)
+    tys = sorted(c[1] for c in tips)
+    mind, nn = tip_stats(tips)
+    cx = sum(p[0] for p in lv) / len(lv)
+    cz = sum(p[2] for p in lv) / len(lv)
+    cen = math.hypot(cx, cz)
+    skyx = sky_fraction(lv, br, 'z')
+    skyz = sky_fraction(lv, br, 'x')
+    off_max = max((r for c, r in slim_r.items() if not (c[0] == 0 and c[2] == 0 and c[1] <= t.Hc)), default=0)
+    mid_r = min((slim_r[m] for m in t.mids if m in slim_r), default=0)
+    conds = {
+        "tips": sp['tips'][0] <= len(tips) <= sp['tips'][1],
+        "spacing": mind >= 2.5 and nn >= 3.5,
+        "tipy": tys[0] >= sp['tipy'] and len(set(tys)) >= 3 and tys[-1] - tys[0] >= 5,
+        "top": sp['top'][0] <= topy <= sp['top'][1],
+        "wmax": sp['wmax'][0] <= max(w) <= sp['wmax'][1],
+        "wmin": sp['wmin'][0] <= min(w) <= sp['wmin'][1],
+        "low": sp['low'][0] <= low <= sp['low'][1],
+        "reach": all(max(abs(c[0]), abs(c[2])) <= 8 for c in tips) and t.depth() <= 30,
+        "centroid": sp['cen'][0] <= cen <= sp['cen'][1],
+        "sky": skyx >= 0.35 and skyz >= 0.35,
+        "radius": mid_r >= 4 and 13 <= slim_r[(0, 1, 0)] <= 16 and off_max <= 8,
+        "runs": runs_ok(t),
+    }
+    if after:
+        for k in ("tips", "spacing", "tipy", "centroid"):
+            conds[k] = True
+    info["fails"] = [k for k, v in conds.items() if not v]
+    lvs = leaves_of(leaf, True)
+    info["rowSkyX"] = round(row_sky(lvs, br, "z"), 2)
+    info["rowSkyZ"] = round(row_sky(lvs, br, "x"), 2)
+    ok = not info["fails"]
+    info.update(tips=len(tips), cells=len(br), depth=t.depth(), widthX=w[0], widthZ=w[1], top=topy, lowLeaf=low, tipYs=tys, minTip=round(mind, 1),
+                centroid=round(cen, 1), nativeR1=stored[(0, 1, 0)], slimR1=slim_r[(0, 1, 0)], colTopR=slim_r[(0, t.Hc, 0)], midLeaderR=mid_r,
+                leaves=len(lv), skyX=round(skyx, 2), skyZ=round(skyz, 2), firstLimb=t.Hc, trunkTop=t.Hc)
+    if ok:
+        info['_view'] = ascii_view(lv, br, 'z') + '\n' + ascii_view(lv, br, 'x')
+    return ok
+
+
 # gum attempts found by the full search (seed 23), tried first so a run takes seconds; the search still runs if one stops passing
-KNOWN_GUM = [37540, 86768, 116232]
+# polish round (cycle 4a, new checks): a multi-process scan of 4 million attempts found 10 (1 in 400,000); the first three are used
+KNOWN_GUM = [287180, 1449682, 998609]  # 900462 (also a hit) lost 3 branch blocks when grown in game, so it is not used
+# round-2 gum (16b8138, cap 14): the three accepted variants, found by the round-2 search with the round-2 checks
+KNOWN_GUM_R2 = [37540, 86768, 116232]
 
 
 def _spans(leaves, idx):
@@ -883,19 +1078,48 @@ def gum_post(t, rng, info):
     return fill(t, rng, 0.8, 0.04, 4, min_gain=6, mode='sil')
 
 
+# the four extra oaks (cycle 4c): limb azimuths turned and the crown leaned differently; (seed, var, known attempt)
+OAK_VARS = [
+    (100, dict(rot=0.785, lean=0.0, dir=0.0, lx=0, lz=0), [141]),  # limbs on the diagonals, no lean
+    (101, dict(rot=0.30, lean=0.18, dir=0.0, lx=1, lz=0), [760]),  # 725 (also a hit) lost 1 branch block in game  # leans east
+    (102, dict(rot=-0.35, lean=0.18, dir=2.4, lx=-1, lz=1), [92]),  # leans south-west
+    (103, dict(rot=1.0, lean=0.20, dir=4.2, lx=0, lz=-1), [889]),  # 485 (also a hit) lost 1 branch block in game  # leans north-north-west
+]
+# silverwood candidates: kind -> known attempt (seed 31; found by a search of the kind's builder and check)
+NEW_KINDS = [('twin', [68]), ('lean', [366]), ('sprawl', [59]), ('narrow', [8215])]
+NEW_SEED = 31
+
+
 def main():
     oaks = make('greatwood', build_oak, check_oak, 4, 11, oak_post)
-    gums = make('silverwood', build_gum, check_gum, 3, 23, gum_post, known=KNOWN_GUM)
+    for seed, var, known in OAK_VARS:
+        oaks += make('greatwood', functools.partial(build_oak, var=var), check_oak, 1, seed, oak_post, known=known)
+    # (family, trunk cap, variants): the polished gum (cycle 4a), the round-2 gum (16b8138), then the four new candidates
+    fams = [('gum_polish', 13, make('silverwood', build_gum, check_gum, 3, 23, gum_post, known=KNOWN_GUM)),
+            ('gum_r2', 14, make('silverwood', functools.partial(build_gum, always_droop=False), functools.partial(check_gum, style='r2'), 3, 23, gum_post,
+                                known=KNOWN_GUM_R2))]
+    for kind, known in NEW_KINDS:
+        fams.append((kind, 13, make('silverwood', functools.partial(build_variant, kind=kind), functools.partial(check_variant, kind=kind), 1, NEW_SEED,
+                                    gum_post, known=known)))
     data = {'greatwood': [], 'silverwood': []}
-    for key, lst in (('greatwood', oaks), ('silverwood', gums)):
+    for info in oaks:
+        view = info.pop("_view", None)
+        print('greatwood', {k: v for k, v in info.items() if k != "code"})
+        info = dict(info)
+        info.pop("attempt")
+        data['greatwood'].append(info)
+    for fam, cap, lst in fams:
         for info in lst:
             view = info.pop("_view", None)
-            print(key, {k: v for k, v in info.items() if k != "code"})
+            print('silverwood', fam, {k: v for k, v in info.items() if k != "code"})
             if view and "--view" in sys.argv:
                 print(view)
             info = dict(info)
             info.pop("attempt")
-            data[key].append(info)
+            # json format (cycle 4c): every silverwood shape names its family and carries its own trunk cap for the slim pass in Java
+            info['family'] = fam
+            info['trunkCap'] = cap
+            data['silverwood'].append(info)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, 'w', encoding='utf-8', newline='\n') as f:
         json.dump(data, f, indent=1)

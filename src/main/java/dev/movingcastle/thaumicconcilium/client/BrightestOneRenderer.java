@@ -52,17 +52,32 @@ public class BrightestOneRenderer extends EntityRenderer<BrightestOne> {
             color = 0xFF0000 | g << 8 | b;
         }
         final int tint = color;
-        int frame = FRAME_START + entity.tickCount % 16;
-        float core = 2.0F * (0.4F + 0.1F * Mth.sin((entity.tickCount + partialTick) / 10.0F));
+        float age = entity.tickCount + partialTick;
+        int tick = entity.tickCount;
         Vec3 origin = entity.getPosition(partialTick).add(0.0, 1.5, 0.0);
-        RenderType type = TTRenderTypes.fxAdditiveAlphaTest(NODES);
-        RenderType haloType = TTRenderTypes.fxAdditiveAlphaTest(HALO);
-        float pulse = 1.0F + 0.04F * Mth.sin((entity.tickCount + partialTick) / 8.0F);
         LateWorldRenderQueue.enqueue(origin, (latePose, lateBuffers) -> {
             latePose.mulPose(Minecraft.getInstance().gameRenderer.getMainCamera().rotation());
-            quad(lateBuffers, latePose, haloType, 0, 1, 7.0F * pulse, tint, 1.0F);
-            quad(lateBuffers, latePose, type, frame, GRID, core, 0xFFFFFF, 1.0F);
+            draw(lateBuffers, latePose, tint, age, tick, 1.0F, 1.0F);
         });
+    }
+
+    /**
+     * The two billboards about the pose's origin (already turned to the camera): the tinted halo and the white flickering core, at
+     * {@code scale} of the Brightest One's size and {@code bright} of its brightness. The boss draws itself at 1 and 1; the Vessel's
+     * finale draws its wisp smaller and fainter ({@link VesselFinaleDraw}).
+     */
+    static void draw(MultiBufferSource buffers, PoseStack pose, int tint, float age, int tick, float scale, float bright) {
+        int frame = FRAME_START + tick % 16;
+        float core = 2.0F * (0.4F + 0.1F * Mth.sin(age / 10.0F));
+        float pulse = 1.0F + 0.04F * Mth.sin(age / 8.0F);
+        RenderType type = TTRenderTypes.fxAdditiveAlphaTest(NODES);
+        RenderType haloType = TTRenderTypes.fxAdditiveAlphaTest(HALO);
+        quad(buffers, pose, haloType, 0, 1, 7.0F * pulse * scale, tint, 1.0F * bright);
+        quad(buffers, pose, type, frame, GRID, core * scale, 0xFFFFFF, 1.0F * bright);
+        if (buffers instanceof MultiBufferSource.BufferSource source) {
+            source.endBatch(haloType);
+            source.endBatch(type);
+        }
     }
 
     private static void quad(MultiBufferSource buffers, PoseStack pose, RenderType type, int frame, int grid, float scale, int color, float intensity) {

@@ -220,7 +220,7 @@ public final class GroveLife implements GrovePainter.Hooks {
             return;
         }
         long seed = job.craterSeed;
-        if (job.tier >= 4 && saplingAt(level, job, at, seed)) {
+        if (job.tier >= 4 && !GrovePond.moundColumns(job).contains(ChunkPos.asLong(x, z)) && saplingAt(level, job, at, seed)) {
             return;
         }
         boolean botania = botania();
@@ -334,7 +334,7 @@ public final class GroveLife implements GrovePainter.Hooks {
         if (nearSapling(level, at)) {
             return false;
         }
-        return plantSapling(level, at, silver);
+        return plantSapling(level, job, at, silver);
     }
 
     /** A block in {@code #minecraft:saplings} or {@code #dynamictrees:saplings}. */
@@ -345,6 +345,25 @@ public final class GroveLife implements GrovePainter.Hooks {
     /** Whether any sapling stands within {@link #SAPLING_SPACING} blocks (only loaded chunks are looked at). */
     private static boolean nearSapling(ServerLevel level, BlockPos at) {
         BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        if (dynamicTreesAllowed && DynamicTreesSaplings.available()) {
+            // cycle 4e: nor within 6 blocks of a branch (a grown or growing tree's wood), so a sapling never roots in a tree's footprint
+            for (int dx = -6; dx <= 6; dx++) {
+                for (int dz = -6; dz <= 6; dz++) {
+                    if (dx * dx + dz * dz > 36) {
+                        continue;
+                    }
+                    LevelChunk chunk = level.getChunkSource().getChunkNow((at.getX() + dx) >> 4, (at.getZ() + dz) >> 4);
+                    if (chunk == null) {
+                        continue;
+                    }
+                    for (int dy = -1; dy <= 14; dy++) {
+                        if (DynamicTreesSaplings.isBranch(chunk.getBlockState(p.set(at.getX() + dx, at.getY() + dy, at.getZ() + dz)))) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         for (int dx = -SAPLING_SPACING; dx <= SAPLING_SPACING; dx++) {
             for (int dz = -SAPLING_SPACING; dz <= SAPLING_SPACING; dz++) {
                 if (dx * dx + dz * dz > SAPLING_SPACING * SAPLING_SPACING) {
@@ -362,6 +381,17 @@ public final class GroveLife implements GrovePainter.Hooks {
             }
         }
         return false;
+    }
+
+    /** As {@link #plantSapling(ServerLevel, BlockPos, boolean)}, and a Dynamic Trees sapling is listed for the job's accelerated growth (cycle 4e). */
+    public static boolean plantSapling(ServerLevel level, GrovePaintJob job, BlockPos at, boolean silver) {
+        if (!plantSapling(level, at, silver)) {
+            return false;
+        }
+        if (dynamicTreesAllowed && DynamicTreesSaplings.available() && DynamicTreesSaplings.isSapling(level, at)) {
+            GroveGrowth.addSapling(level, job, at, silver);
+        }
+        return true;
     }
 
     /** Plants a greatwood or silverwood sapling at an air block on grass: Dynamic Trees' own when it is loaded, else Thaumaturge's block. */
@@ -479,7 +509,7 @@ public final class GroveLife implements GrovePainter.Hooks {
                     why[1]++;
                     continue;
                 }
-                if (DynamicTreesLandmarks.grow(level, origin.below(), silver, pick.shape().code(), pick.facing())) {
+                if (GroveGrowth.plantLandmark(level, job, origin.below(), silver, pick)) {
                     landmarkShapes++;
                     queueFixedSaplings(job);
                     return true;
@@ -539,7 +569,11 @@ public final class GroveLife implements GrovePainter.Hooks {
         }
     }
 
+    /** A pond column, or one of its livingrock mound: nothing woody is planted there (the mound is built last and would bury it). */
     private static boolean isPond(GrovePaintJob job, int x, int z) {
+        if (GrovePond.moundColumns(job).contains(ChunkPos.asLong(x, z))) {
+            return true;
+        }
         for (long l : job.pond) {
             BlockPos p = BlockPos.of(l);
             if (p.getX() == x && p.getZ() == z) {
@@ -597,7 +631,7 @@ public final class GroveLife implements GrovePainter.Hooks {
                 level.setBlock(at, Blocks.AIR.defaultBlockState(), PLACE_FLAGS);
                 cleared = true;
             }
-            if (plantSapling(level, at, silver)) {
+            if (plantSapling(level, job, at, silver)) {
                 return true;
             }
             if (cleared) {

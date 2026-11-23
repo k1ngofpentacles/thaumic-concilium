@@ -1,0 +1,45 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    }
+  ],
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.the_glade.title",
+  "parents": [
+    "thaumicconcilium:the_green_translation"
+  ],
+  "column": -10,
+  "row": 3,
+  "icons": [
+    "thaumicconcilium:verdant_capital"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.the_glade.stage_0"
+    },
+    {
+      "text": "research.thaumicconcilium.the_glade.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

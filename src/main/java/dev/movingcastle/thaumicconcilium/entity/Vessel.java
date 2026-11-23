@@ -79,6 +79,8 @@ public class Vessel extends Entity implements ITaintOrigin {
     public static final byte WAKING = 1;
     public static final byte ACTIVE = 2;
     public static final byte SUBDUED = 3;
+    /** The finale (phase 5d cycle 4e): the last unit has drained; the black swells over the crater, then collapses. See {@link VesselDeath}. */
+    public static final byte DYING = 4;
 
     /** Blocks it eats, one a second, within 3 of its centre (no drops). */
     public static final TagKey<Block> EDIBLE = TagKey.create(Registries.BLOCK, ThaumicConcilium.id("vessel_edible"));
@@ -122,6 +124,16 @@ public class Vessel extends Entity implements ITaintOrigin {
     /** Game time the break sequence began (cycle 3c), -1 when none runs; and whether a Sable sub-level is playing the hex. */
     private static final EntityDataAccessor<Long> BREAK_START = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.LONG);
     private static final EntityDataAccessor<Boolean> BREAK_SUB = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.BOOLEAN);
+    /** The finale: game time it began (-1 none), the swell's radius, and the age (ticks) the collapse was decided at (-1 undecided). */
+    private static final EntityDataAccessor<Long> DYING_START = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.LONG);
+    private static final EntityDataAccessor<Float> DYING_RS = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> DYING_C = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.INT);
+    /** Tiers 3-4: the ages the light stage began and the light bursts (-1 none), and the pond spot the light rises from. The collapse (DYING_C) follows the stage. */
+    private static final EntityDataAccessor<Integer> DYING_LIGHT = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DYING_BURST = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<BlockPos> DYING_POND = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.BLOCK_POS);
+    /** Whether this ending paints a grove (tiers 3-4), known from the start: the client turns the horizon to the beam's cyan for those only. */
+    private static final EntityDataAccessor<Boolean> DYING_GROVE = SynchedEntityData.defineId(Vessel.class, EntityDataSerializers.BOOLEAN);
     @SuppressWarnings("unchecked")
     private static final EntityDataAccessor<Optional<UUID>>[] TETHER = new EntityDataAccessor[4];
     @SuppressWarnings("unchecked")
@@ -178,9 +190,11 @@ public class Vessel extends Entity implements ITaintOrigin {
     private final int[] starve = new int[4];
     /** Capitals standing on the anchors when the last unit drained (cycle 2's ending reads it). */
     private int capitalCount;
-    /** Uncapped anchors / 4, refreshed each drain tick: the share of the 5c pulses that still run. */
-    private float pulseScale = 1.0F;
     private float taintReserve;
+    /** The finale: the doomed seed's id (the painting job is found by it), whether this session started the finale, and who stood inside at the flash. */
+    private boolean dyingLive;
+    private final List<UUID> flashInside = new ArrayList<>();
+    private final List<UUID> flashOutside = new ArrayList<>();
 
     public Vessel(EntityType<? extends Vessel> type, Level level) {
         super(type, level);
@@ -192,7 +206,8 @@ public class Vessel extends Entity implements ITaintOrigin {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(BURDEN, 0).define(MASS, 0).define(START, 0).define(STATE, DORMANT).define(PULL, 0.0F).define(SWELL, false).define(CHARGE, 0)
-                .define(BREAK_START, -1L).define(BREAK_SUB, false);
+                .define(BREAK_START, -1L).define(BREAK_SUB, false).define(DYING_START, -1L).define(DYING_RS, 0.0F).define(DYING_C, -1)
+                .define(DYING_LIGHT, -1).define(DYING_BURST, -1).define(DYING_POND, BlockPos.ZERO).define(DYING_GROVE, false);
         for (int i = 0; i < 4; i++) {
             builder.define(TETHER[i], Optional.empty()).define(ANCHOR[i], Optional.empty());
         }
@@ -369,11 +384,6 @@ public class Vessel extends Entity implements ITaintOrigin {
     /** Capitals standing when the last unit drained (0 until then). */
     public int capitalCount() {
         return this.capitalCount;
-    }
-
-    /** The share of the 5c pulses that run: uncapped anchors / 4 as of the last drain tick. */
-    public float pulseScale() {
-        return this.pulseScale;
     }
 
     /** Test hook: sets one anchor's progress toward the next unit. */
@@ -710,6 +720,7 @@ public class Vessel extends Entity implements ITaintOrigin {
             }
             case ACTIVE -> this.activeTick(level);
             case SUBDUED -> this.riteTick(level);
+            case DYING -> this.dyingTick(level);
             default -> { }
         }
     }
@@ -1178,9 +1189,16 @@ public class Vessel extends Entity implements ITaintOrigin {
                 }
             }
         }
-        this.pulseScale = VesselRite.pulseScale(Math.min(4, this.anchors.size()) - capped, 4);
+        // cycle 4f: the taint runs in full at every tier, whatever the capitals: a rite run by capitals alone has a live origin too
+        if (busy && !this.originOn) {
+            this.originOn = true;
+            TaintApi.addTaintSeed(level, this.blockPosition());
+        } else if (!busy && this.originOn && this.tetherOwner[0] == null && this.tetherOwner[1] == null && this.tetherOwner[2] == null && this.tetherOwner[3] == null) {
+            this.originOn = false;
+            TaintApi.removeTaintSeed(level, this.blockPosition());
+        }
         if (this.originOn && this.tickCount % TCConfig.RITE_PULSE_TICKS.get() == 0) {
-            VesselRite.pulse(level, this, this.pulseScale);
+            VesselRite.pulse(level, this);
         }
         if (!this.originOn && !busy) {
             this.riteActive = false; // a pause: no tether and no capital with mana or progress
@@ -1311,6 +1329,238 @@ public class Vessel extends Entity implements ITaintOrigin {
         this.riteActive = false;
         this.originOn = false;
         TaintApi.removeTaintSeed(level, this.blockPosition());
+    }
+
+    // ---------------------------------------------------------------- the finale (phase 5d cycle 4e)
+    /** Game time the finale began, or -1. */
+    public long dyingStart() {
+        return this.entityData.get(DYING_START);
+    }
+
+    /** The swell's radius in blocks (the crater's farthest rim plus one). */
+    public float dyingRs() {
+        return this.entityData.get(DYING_RS);
+    }
+
+    /** The age in ticks the collapse was decided at, or -1 while the swell holds. */
+    public int dyingC() {
+        return this.entityData.get(DYING_C);
+    }
+
+    /** Players who stood inside the swell at the flash, and those who did not (set at the collapse; the tests read them). */
+    public List<UUID> flashInside() {
+        return this.flashInside;
+    }
+
+    public List<UUID> flashOutside() {
+        return this.flashOutside;
+    }
+
+    /**
+     * The last unit has drained and the ending has run: the Vessel lives on as DYING, swelling to {@code rs}, until the crater is painted
+     * (or the timeout); {@code seedId} is the doomed seed whose painting job the finale paces and gates. Called by {@code VesselRite.finish}.
+     */
+    public void beginDying(ServerLevel level, float rs) {
+        long now = level.getGameTime();
+        this.dyingLive = true;
+        this.dyingChecked = -1;
+        this.flashInside.clear();
+        this.flashOutside.clear();
+        this.entityData.set(STATE, DYING);
+        this.entityData.set(SWELL, false);
+        this.entityData.set(PULL, 0.0F);
+        this.entityData.set(DYING_RS, rs);
+        this.entityData.set(DYING_C, -1);
+        this.entityData.set(DYING_LIGHT, -1);
+        this.entityData.set(DYING_BURST, -1);
+        this.flashed = false;
+        this.entityData.set(DYING_START, now);
+        dev.movingcastle.thaumicconcilium.world.GrovePaintJob job = this.dyingJob(level);
+        this.entityData.set(DYING_GROVE, job != null);
+        if (job != null) {
+            job.darkUntil = now + TCConfig.FINALE_TIMEOUT.get();
+            job.sightAt = now + TCConfig.FINALE_TIMEOUT.get() + VesselDeath.FADE; // an upper bound until the collapse is decided
+            dev.movingcastle.thaumicconcilium.world.VesselAftermath.get(level).setDirty();
+        }
+    }
+
+    private int dyingChecked = -1;
+
+    @Nullable
+    private dev.movingcastle.thaumicconcilium.world.GrovePaintJob dyingJob(ServerLevel level) {
+        dev.movingcastle.thaumicconcilium.world.VesselAftermath data = dev.movingcastle.thaumicconcilium.world.VesselAftermath.peek(level);
+        if (data == null) {
+            return null;
+        }
+        dev.movingcastle.thaumicconcilium.world.GrovePaintJob found = null;
+        for (dev.movingcastle.thaumicconcilium.world.GrovePaintJob j : data.jobs()) {
+            if (j.centre.equals(this.hex)) {
+                found = j; // the newest job at this hex (a seedless one: tiers 3 and 4 leave no seed to find it by)
+            }
+        }
+        return found;
+    }
+
+    private void dyingTick(ServerLevel level) {
+        if (!this.dyingLive) {
+            this.endDying(level); // loaded in the middle of a finale: nothing is owed, sight is back
+            return;
+        }
+        long now = level.getGameTime();
+        int t = (int) (now - this.dyingStart());
+        int c = this.dyingC();
+        int tc = t - t % VesselDeath.CHECK;
+        if (c >= 0) {
+            // decided: tiers 3-4 play the light stage (shadow only) until c, then flash; tiers 0-2 simply fade
+            if (t < c) {
+                if (this.dyingLight() >= 0 && tc > this.dyingChecked) {
+                    this.dyingChecked = tc;
+                    if (TCConfig.FINALE_LIGHT_DARKNESS.get()) {
+                        this.blind(level, VesselDeath.radius(tc, this.dyingRs(), -1), false);
+                    }
+                }
+                return;
+            }
+            if (this.dyingLight() >= 0 && !this.flashed) {
+                this.flashed = true;
+                this.flash(level, now);
+            }
+            if (t >= c + VesselDeath.FADE) {
+                this.endDying(level);
+            }
+            return;
+        }
+        if (tc <= this.dyingChecked) {
+            return;
+        }
+        this.dyingChecked = tc;
+        dev.movingcastle.thaumicconcilium.world.GrovePaintJob job = this.dyingJob(level);
+        if (job == null) {
+            // tiers 0-2 (or a hex in a plot): full blindness while the taint is laid, a fixed hold, no light and no flash
+            if (VesselDeath.due(tc, true, TCConfig.FINALE_FIXED_HOLD.get(), TCConfig.FINALE_TIMEOUT.get())) {
+                this.entityData.set(DYING_C, tc);
+                return;
+            }
+            this.blind(level, VesselDeath.radius(tc, this.dyingRs(), -1), true);
+            return;
+        }
+        boolean pondReady = job.pondPlaced || !dev.movingcastle.thaumicconcilium.world.GroveLife.botania(); // the pond stands before the light rises from it
+        if (VesselDeath.due(tc, job.craterDoneAt >= 0L && pondReady, TCConfig.FINALE_MIN_HOLD.get(), TCConfig.FINALE_TIMEOUT.get())) {
+            // the crater is painted: the blindness eases to shadow, the light rises from the pond, and the collapse follows
+            int end = tc + TCConfig.FINALE_LIGHT_TICKS.get();
+            this.entityData.set(DYING_LIGHT, tc);
+            this.entityData.set(DYING_BURST, tc + Math.min(TCConfig.FINALE_LIGHT_BURST.get(), TCConfig.FINALE_LIGHT_TICKS.get()));
+            this.entityData.set(DYING_POND, pondSpot(job));
+            this.entityData.set(DYING_C, end);
+            long finalSight = this.dyingStart() + end + VesselDeath.FADE;
+            dev.movingcastle.thaumicconcilium.world.SeedRoots.retime(level, job, job.sightAt, finalSight);
+            job.sightAt = finalSight;
+            job.darkUntil = now;
+            dev.movingcastle.thaumicconcilium.world.VesselAftermath.get(level).setDirty();
+            Vec3 hole = this.holeCentre();
+            for (ServerPlayer p : players(level)) { // blindness ends for those inside: they watch the light in the shadow
+                if (p.level() == level && VesselDeath.inside(p.getEyePosition().distanceToSqr(hole), VesselDeath.radius(tc, this.dyingRs(), -1))) {
+                    p.removeEffect(MobEffects.BLINDNESS);
+                    if (!TCConfig.FINALE_LIGHT_DARKNESS.get()) {
+                        p.removeEffect(MobEffects.DARKNESS); // the client's own shadow veil carries the stage
+                    }
+                }
+            }
+            if (TCConfig.FINALE_LIGHT_DARKNESS.get()) {
+                this.blind(level, VesselDeath.radius(tc, this.dyingRs(), -1), false);
+            }
+            return;
+        }
+        this.blind(level, VesselDeath.radius(tc, this.dyingRs(), -1), true);
+    }
+
+    /** The pond's spot: the middle of the reserve's columns, at its water block. */
+    public static BlockPos pondSpot(dev.movingcastle.thaumicconcilium.world.GrovePaintJob job) {
+        if (job.pond.isEmpty()) {
+            return job.centre;
+        }
+        long x = 0;
+        long z = 0;
+        int y = BlockPos.of(job.pond.get(0)).getY() + 1;
+        for (long l : job.pond) {
+            BlockPos b = BlockPos.of(l);
+            x += b.getX();
+            z += b.getZ();
+        }
+        return new BlockPos((int) Math.floorDiv(x, job.pond.size()), y, (int) Math.floorDiv(z, job.pond.size()));
+    }
+
+    /** Darkness (and, while {@code full}, Blindness) for every player whose eye is within {@code radius} of the hole. */
+    public void blind(ServerLevel level, float radius, boolean full) {
+        int ticks = TCConfig.FINALE_BLIND_TICKS.get();
+        Vec3 hole = this.holeCentre();
+        for (ServerPlayer p : players(level)) {
+            if (p.level() != level || p.isSpectator()) {
+                continue;
+            }
+            if (VesselDeath.inside(p.getEyePosition().distanceToSqr(hole), radius)) {
+                p.addEffect(new MobEffectInstance(MobEffects.DARKNESS, ticks, 0, false, false, true));
+                if (full) {
+                    p.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, ticks, 0, false, false, true));
+                }
+            }
+        }
+    }
+
+    /** The age the light stage began (tiers 3-4), or -1 (none: tiers 0-2). */
+    public int dyingLight() {
+        return this.entityData.get(DYING_LIGHT);
+    }
+
+    /** Whether this ending paints a grove (the look of tiers 3-4: the cyan horizon, later the light). */
+    public boolean dyingGrove() {
+        return this.entityData.get(DYING_GROVE);
+    }
+
+    /** The age the light bursts. */
+    public int dyingBurst() {
+        return this.entityData.get(DYING_BURST);
+    }
+
+    /** Where the light rises from (the pond's spot). */
+    public BlockPos dyingPond() {
+        return this.entityData.get(DYING_POND);
+    }
+
+    private boolean flashed;
+
+    /** The collapse: tells every player near enough when and where, and whether they stood inside (they are spared the white-out). */
+    private void flash(ServerLevel level, long now) {
+        this.flashInside.clear();
+        this.flashOutside.clear();
+        Vec3 hole = this.holeCentre();
+        float rs = this.dyingRs();
+        double range = TCConfig.FINALE_FLASH_RANGE.get();
+        for (ServerPlayer p : players(level)) {
+            if (p.level() != level || p.isSpectator()) {
+                continue;
+            }
+            double d2 = p.getEyePosition().distanceToSqr(hole);
+            boolean inside = VesselDeath.inside(d2, rs);
+            (inside ? this.flashInside : this.flashOutside).add(p.getUUID());
+            if (d2 <= range * range && !EXTRA_PLAYERS.contains(p)) {
+                net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(p,
+                        new dev.movingcastle.thaumicconcilium.network.VesselFlashPayload(now, hole.x, hole.y, hole.z, rs, inside));
+            }
+        }
+    }
+
+    /** The finale is over: sight is back, the gap before the seed's death counts from here at the latest, and the Vessel goes. */
+    public void endDying(ServerLevel level) {
+        dev.movingcastle.thaumicconcilium.world.GrovePaintJob job = this.dyingJob(level);
+        if (job != null) {
+            long now = level.getGameTime();
+            job.sightAt = job.sightAt < 0L ? now : Math.min(job.sightAt, now);
+            job.darkUntil = now;
+            dev.movingcastle.thaumicconcilium.world.VesselAftermath.get(level).setDirty();
+        }
+        this.dyingLive = false;
+        this.discard();
     }
 
     private void releaseAllTethers(ServerLevel level) {
@@ -1799,6 +2049,18 @@ public class Vessel extends Entity implements ITaintOrigin {
                 this.starve[i] = sv[i];
             }
         }
+        this.dyingLive = false; // a Vessel loaded in DYING ends its finale at its first tick
+        if (tag.contains("dyingStart")) {
+            this.entityData.set(DYING_START, tag.getLong("dyingStart"));
+            this.entityData.set(DYING_RS, tag.getFloat("dyingRs"));
+            this.entityData.set(DYING_C, tag.getInt("dyingC"));
+            this.entityData.set(DYING_GROVE, tag.getBoolean("dyingGrove"));
+            if (tag.contains("dyingLight")) {
+                this.entityData.set(DYING_LIGHT, tag.getInt("dyingLight"));
+                this.entityData.set(DYING_BURST, tag.getInt("dyingBurst"));
+                this.entityData.set(DYING_POND, BlockPos.of(tag.getLong("dyingPond")));
+            }
+        }
         this.anchorsDirty = true;
         this.updateBar();
     }
@@ -1838,6 +2100,17 @@ public class Vessel extends Entity implements ITaintOrigin {
         }
         if (this.crater != null) {
             tag.put("crater", this.crater.save());
+        }
+        if (this.state() == DYING) {
+            tag.putLong("dyingStart", this.dyingStart());
+            tag.putFloat("dyingRs", this.dyingRs());
+            tag.putInt("dyingC", this.dyingC());
+            tag.putBoolean("dyingGrove", this.dyingGrove());
+            if (this.dyingLight() >= 0) {
+                tag.putInt("dyingLight", this.dyingLight());
+                tag.putInt("dyingBurst", this.dyingBurst());
+                tag.putLong("dyingPond", this.dyingPond().asLong());
+            }
         }
         tag.putBoolean("QaFrozen", this.frozen);
         ListTag parts = new ListTag();

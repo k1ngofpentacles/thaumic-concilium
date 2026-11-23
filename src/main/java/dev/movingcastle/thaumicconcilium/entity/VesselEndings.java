@@ -7,6 +7,7 @@ import dev.movingcastle.thaumicconcilium.compat.HeartstoneCompat;
 import dev.movingcastle.thaumicconcilium.world.GrovePainter;
 import dev.movingcastle.thaumicconcilium.world.VesselAftermath;
 import dev.movingcastle.thaumicconcilium.world.VesselDebts;
+import dev.movingcastle.thaumicconcilium.world.VesselResearch;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,15 +109,20 @@ public final class VesselEndings {
     }
 
     /** The whole ending, with Botania as the mod list says. Returns the seed. */
+    @javax.annotation.Nullable
     public static AbstractTaintSeed apply(ServerLevel level, Vessel vessel, int capitals, VesselCrater crater) {
         return apply(level, vessel, capitals, crater, ModList.get().isLoaded("botania"));
     }
 
     /** The whole ending, in order: seed, scar record, motes, warp. */
+    @javax.annotation.Nullable
     public static AbstractTaintSeed apply(ServerLevel level, Vessel vessel, int capitals, VesselCrater crater, boolean botania) {
         int tier = tier(capitals);
         AbstractTaintSeed seed = seed(level, vessel, tier, crater, botania);
         endingMotes(level, vessel, tier, level.random);
+        if (botania && kindFor(tier, true) == Kind.DOOMED) {
+            grantGlade(level, vessel);
+        }
         if (tier == MAX_TIER) {
             removeWarp(level, vessel);
         }
@@ -124,27 +130,26 @@ public final class VesselEndings {
     }
 
     /** The seed and its scar record (no motes, no warp). */
+    @javax.annotation.Nullable
     public static AbstractTaintSeed seed(ServerLevel level, Vessel vessel, int tier, VesselCrater crater, boolean botania) {
+        if (kindFor(tier, botania) == Kind.DOOMED) {
+            // cycle 4f: tiers 3 and 4 leave no seed at the centre (the mound and the pond own it): the grove is painted, and the Taint Seeds
+            // inside it roll for roots as its rings reach them (SeedRoots)
+            GrovePainter.open(level, vessel.hexPos(), crater, tier, vessel.burdenAtBreak(), null);
+            return null;
+        }
         AbstractTaintSeed seed = VesselRite.spawnSeed(level, vessel.hexPos(), vessel.missedClots(), vessel.spilled());
         seed.getPersistentData().putInt(TIER_KEY, tier);
         Kind kind = kindFor(tier, botania);
         switch (kind) {
             case ACCELERATED -> seed.setTaintReserve(TaintFeeding.reserveCap());
             case STARVING -> seed.setTaintReserve(0.0F);
-            case DOOMED -> {
-                seed.setTaintReserve(0.0F);
-                seed.getPersistentData().putBoolean(DOOMED_KEY, true);
-            }
             default -> {
             }
         }
-        if (kind == Kind.ACCELERATED || kind == Kind.BOUND || kind == Kind.DOOMED) {
+        if (kind == Kind.ACCELERATED || kind == Kind.BOUND) {
             VesselAftermath.get(level).add(new VesselAftermath.Scar(seed.getUUID(), kind, tier, vessel.hexPos(), crater.radius(),
                     vessel.getUUID().getLeastSignificantBits(), level.getGameTime()));
-        }
-        if (kind == Kind.DOOMED) {
-            // the grove: painted outward from the hex; the seed dies when the last ring closes (a hex in a sub-level plot gets no job, and its seed starves)
-            GrovePainter.open(level, vessel.hexPos(), crater, tier, vessel.burdenAtBreak(), seed.getUUID());
         }
         return seed;
     }
@@ -175,6 +180,21 @@ public final class VesselEndings {
             }
         }
         return extra;
+    }
+
+    /** Tier 3 and 4: The Glade note for every participant; an offline one gets it on next login. Returns the ids granted or queued. */
+    public static java.util.List<UUID> grantGlade(ServerLevel level, Vessel vessel) {
+        java.util.List<UUID> ids = new java.util.ArrayList<>();
+        for (UUID id : vessel.participants()) {
+            ServerPlayer p = Vessel.playerById(level, id);
+            if (p != null) {
+                VesselResearch.grantNote(p, VesselResearch.THE_GLADE, 0);
+            } else {
+                VesselDebts.get(level.getServer()).oweGlade(id);
+            }
+            ids.add(id);
+        }
+        return ids;
     }
 
     /** Tier 4: removes permanent warp from every participant (3 solo, 1 each for a Heartstone pair). Returns what was asked, per participant. */

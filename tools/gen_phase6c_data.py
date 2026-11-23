@@ -11,7 +11,7 @@ import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from genlib import *
 
-GAD_ART = '../../reference/src/gadomancy-1.7.10-1.0.7.3/assets/gadomancy/textures/items'
+GAD_ART = os.environ.get('TC_REFERENCE', '../../reference') + '/src/gadomancy-1.7.10-1.0.7.3/assets/gadomancy/textures/items'
 TYPES = {'air': 'aer', 'fire': 'ignis', 'water': 'aqua', 'earth': 'terra', 'order': 'ordo', 'entropy': 'perditio'}
 
 # ---------------------------------------------------------------- recipes

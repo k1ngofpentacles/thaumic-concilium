@@ -30,6 +30,8 @@ public final class VesselResearch {
     public static final ResourceLocation THE_VESSEL = ThaumicConcilium.id("the_vessel");
     public static final ResourceLocation DRAWING_IT_OUT = ThaumicConcilium.id("drawing_it_out");
     public static final ResourceLocation MOTE = ThaumicConcilium.id("primordial_mote");
+    /** Phase 5d cycle 4: granted to every participant of a tier 3 or 4 rite at its ending (Botania only). */
+    public static final ResourceLocation THE_GLADE = ThaumicConcilium.id("the_glade");
     public static final ResourceLocation UNLOCK_ELDRITCH = ResourceLocation.fromNamespaceAndPath("thaumaturge", "unlock_eldritch");
 
     private VesselResearch() {

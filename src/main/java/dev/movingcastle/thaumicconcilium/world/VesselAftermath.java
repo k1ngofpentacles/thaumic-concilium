@@ -235,11 +235,28 @@ public final class VesselAftermath extends SavedData {
 
     /** The driver's whole tick: a beat on every {@link #BEAT}th tick when the level holds scars, otherwise nothing. */
     public static void tick(ServerLevel level, long now) {
-        if (now % BEAT != 0) {
+        boolean beat = now % BEAT == 0;
+        boolean growStep = now % TCConfig.GROW_STEP_TICKS.get() == 0;
+        if (!beat && !growStep) {
             return;
         }
         VesselAftermath data = cached(level);
         if (data == null) {
+            return;
+        }
+        if (growStep && !data.jobs.isEmpty()) {
+            // cycle 4e: the trees growing on screen (a job sleeps until its earliest entry is due)
+            boolean changed = false;
+            for (GrovePaintJob job : data.jobs) {
+                if (!job.growth.isEmpty()) {
+                    changed |= GroveGrowth.step(level, job);
+                }
+            }
+            if (changed) {
+                data.setDirty();
+            }
+        }
+        if (!beat) {
             return;
         }
         // the painter steps first, so a doomed seed killed by the last ring is already dead when its scar's beat looks

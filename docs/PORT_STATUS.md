@@ -307,6 +307,34 @@ Deviations: the fidelity review, "Phase 5c". Pack test: `Phase5cSinkTests`, `Pha
 
 Every manual check is a QA quest in the FTB Quests book: **The Vessel (5c)** (`qa_phase_5c`). Nothing is listed here. Not covered by any test or shot: the real player teleport and the break with real players, the feel of the pull, the 6.5 s sequence and the blast throw, bob and glyph motion, blight withering, the Sable twist and aboard rules, shaders, and multiplayer over LAN.
 
+## Phase 5d: The Vessel, Botania half (0.12.0)
+
+Our own design (no original to port); everything is gated on Botania (and Dynamic Trees for the trees), so without them the Vessel ends by the pure 5c rite. Design canon: `docs/design/5d-design.md` (with `5d-look.md`, `5d-pond-look.md`, `5d-finale-growth.md`, `5d-capital-breath.md`); cycle notes in `docs/agents/retro/5d-cycle*-notes.md`. Last full pack test: 301 of 301 GameTests, two runs. Phase 5d is **done and not tested in game**.
+
+| Area | Status | Notes |
+|---|---|---|
+| Verdant Capital | built | Infused from terrasteel and a rune; placed on an anchor shard, a 10k Botania mana receiver and spark attachable. A capped anchor drains by mana alone (no drawer); starved, it pauses, then after a grace (6000 ticks) unwinds and refunds a unit. The capital count (0-4) sets the ending. The model is a star of two counter-rotating triforces (8 small tetrahedra) around a translucent sphere, with the mana beam through its centre; the whole look is `CapitalMotion`/`CapitalStar` (breath, anger, panic, relief, crossing choreography from a generated loop table) |
+| Taint at every tier | built | The 5c pulses run in full whatever the capitals. Capitals instead raise the chance that strangling roots (variant C) kill a Taint Seed: 0/25/50/75/100% for 0-4 capitals, in the fight and at the ending |
+| Endings | built | Tier 0 accelerated seed with children, tier 1 bound seed held at the rim, tier 2 starving seed, tiers 3-4 no seed at the centre (grove, pond, mound). Second mote chance by tier; tier 4 removes permanent warp (3 solo, 1 each with a Heartstone partner). Offline participants are paid on login |
+| The finale | built | Every ending: the dying Vessel swells to fill the crater and blinds those inside while the painter paints it at 3x pace (tiers 0-2: 8 s dark, no light; tiers 3-4: dark until the crater is done, then a shadowy light stage with a wisp rising from the pond, a burst, and a white flash outside) |
+| Concilium Grove | built | Biome `thaumicconcilium:concilium_grove` (magical forest plus ours), painted ring by ring from the hex by a queue on the server thread (4 ms budget, never force-loads); radius 24-48 by burden at tier 4, rim + 2 at tier 3. Two node mixins and a taint-restore mixin keep the grove from being tainted back by the vanilla rules |
+| Grove life | built | Botania flowers, double flowers, shade mushrooms, meadow flowers, grass and fern; Thaumaturge's own flora and mana pods; nodes (15% a chunk, at most one); grove trees grown on screen: 8 greatwood and 10 silverwood landmark shapes (Dynamic Trees JoCodes) in stages, growth slowing exponentially from the centre, and Dynamic Trees saplings by accelerated pulses |
+| Grove growth boost | built | +25% extra growth step for crops (`CropGrowEvent.Post`) and trees (two optional mixins), grove columns only |
+| Mana pond | built | Our fluid, 13 still source blocks in a rough round pool that reads the crater floor, in a livingrock mound with mossy and cracked variants; animated chart texture on the standard fluid path. Botania pools and spreaders draw from it; a ledger (10k a painted chunk, 50k a node) then drains grove node vis, and at last breaks the weakest node into a rift of 25 |
+| Research and lexicon | built | *The Green Translation* (hidden, Botania) and *The Glade* (granted by code to every tier 3-4 participant); one entry in Botania's lexicon pointing at our tab |
+
+Mixins added: `NodeDriftMixin`, `NodePurifyMixin`, `TaintRestoreMixin` (all `defaultRequire: 1`, justified in their javadoc) and `SoilGrowthBoostMixin`, `SaplingGrowthBoostMixin` (`thaumicconcilium.growth.mixins.json`, optional). `heartstone` and `dynamictrees` are optional dependencies.
+
+Configurable numbers that are **first guesses** (`TCConfig`, `vessel.rite.*`, `grove.*`, `growth.*`): mana per unit (250000), capital buffer (10000) and starve grace, the root chances, the grove radius and burden span, the flora densities, the pond ledger (10k, 50k, 1000 mana a vis, overdraw step 50k), the finale timings, the growth falloff and apex pulses (500, a choice not a measurement) and the boost (25%).
+
+Known unverified: the sapling pulse count, Voxy LOD of grown leaves, Sable Trees, seasons, roots on a seed in a real fight (tested with fake seeds), several sequences overlapping, the violet rim of the black orb (very faint), the cinematic path against the final capital and landmark positions.
+
+Deviations: the fidelity review, "Phase 5d". Pack test: `Phase5dCapitalTests`, `Phase5dEndingsTests`, `Phase5dPainterTests`, `Phase5dFloraTests`, `Phase5dLandmarkTests`, `Phase5dPondTests`, `Phase5dGladeTests`, `Phase5dLookTests`, `Phase5dFinaleTests`, `Phase5dGrowthTests`, `Phase5dRootsTests`. `5c` rite tests moved to template `big` and an order-dependent flake (`shade_mushrooms_under_a_roof_and_nodes_at_most_one_per_chunk`, `unloaded_chunks_wait_...`) is known (`docs/design/5d-rite-flake.md`). Render harness: `phase5d_look.json`, `phase5d_star.json`, `phase5d_pond2.json`, `phase5d_pond3.json`, `phase5d_landmarks.json`, `phase5d_pool.json`, `phase5d_growth.json`, `phase5d_lexicon.json`.
+
+### Needs in-game testing
+
+Draft checks are in `docs/agents/retro/5d-qa-checks.md` (to become the QA chapter `qa_phase_5d`; `tools/qa-quests/specs/phase_5d_look.json` already holds five look checks). Not covered by any test or shot: Botania bursts and sparks feeding a real capital (the buffer lasts 2.4 s at 209 mana a tick, so one spreader will not keep it fed), the feel of the breath and tremble, the finale from outside and inside, the grove's growth over real days, shader packs (BSL, Bliss) on the pond and capital, a real fight with roots, Heartstone partners, Sable airships over the grove, and multiplayer over LAN.
+
 ## Remaining phases (planned)
 
 Dependencies mirror the original's (`required-after: Thaumcraft, ForbiddenMagic, ThaumicTinkerer`):

@@ -146,15 +146,43 @@ public final class GrovePainter {
             return null;
         }
         GrovePaintJob job = new GrovePaintJob(centre, crater.radius(), crater.seed(), tier, radius, seed);
-        for (int dx = -2; dx <= 2; dx++) {
-            for (int dz = -2; dz <= 2; dz++) {
-                if (dx * dx + dz * dz <= 4) {
-                    job.pond.add(new BlockPos(centre.getX() + dx, centre.getY() - crater.cut(dx, dz), centre.getZ() + dz).asLong());
-                }
-            }
+        // the pond reserve (cycles 4d, 4e): 13 columns read from the crater floor, one level; each entry is the block UNDER its pond block.
+        // The floor block there is the livingrock bed; the pond block lies one above it, in the top layer of its mound (PondMound.TOP = 1)
+        PondShape shape = PondShape.choose(crater::cut, crater.seed());
+        for (int[] c : shape.cells()) {
+            job.pond.add(new BlockPos(centre.getX() + c[0], centre.getY() - shape.level() + PondMound.TOP - 1, centre.getZ() + c[1]).asLong());
         }
         VesselAftermath.get(level).addJob(job);
         return job;
+    }
+
+    // ---------------------------------------------------------------- the finale (cycle 4e)
+    /** Chunk groups one step takes: {@code finale.paintPace} while the swell hides the crater and it is not yet done, else one. */
+    public static int pace(GrovePaintJob job, long now) {
+        return job.darkUntil > now && job.craterDoneAt < 0L ? Math.max(1, TCConfig.FINALE_PAINT_PACE.get()) : 1;
+    }
+
+    /**
+     * The crater (everything within its farthest rim) is painted: rings 0 to {@code (int) (maxRim / 4)} have closed and no waiting chunk
+     * (not loaded when its ring passed) touches the disc of radius maxRim round the hex.
+     */
+    public static boolean craterDone(GrovePaintJob job, VesselCrater crater) {
+        if (Double.isNaN(job.craterRim)) {
+            job.craterRim = maxRim(crater);
+        }
+        double rim = job.craterRim;
+        if (job.ring <= (int) (rim / 4.0) && job.ring < job.ringCount()) {
+            return false;
+        }
+        for (long chunk : job.waiting) {
+            int[] cp = chunkOf(chunk);
+            double dx = Math.max(Math.max(cp[0] * 16 - (job.centre.getX() + 0.5), (job.centre.getX() + 0.5) - (cp[0] * 16 + 16)), 0.0);
+            double dz = Math.max(Math.max(cp[1] * 16 - (job.centre.getZ() + 0.5), (job.centre.getZ() + 0.5) - (cp[1] * 16 + 16)), 0.0);
+            if (dx * dx + dz * dz <= rim * rim) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // ---------------------------------------------------------------- the driver's entry points
@@ -182,7 +210,8 @@ public final class GrovePainter {
         long deadline = t0 + TCConfig.PAINT_BUDGET_MS.get() * 1_000_000L;
         VesselCrater crater = new VesselCrater(job.centre, job.craterRadius, job.craterSeed);
         int rings = job.ringCount();
-        if (job.ring < rings) {
+        int pace = pace(job, level.getGameTime());
+        for (int n = 0; n < pace && job.ring < rings; n++) {
             List<Group> groups = groups(job, job.ring);
             while (job.cursor >= groups.size()) {
                 job.ring++;
@@ -199,6 +228,12 @@ public final class GrovePainter {
             }
         }
         resolveWaiting(level, job, crater, deadline);
+        if (job.darkUntil >= 0L && job.craterDoneAt < 0L && craterDone(job, crater)) {
+            job.craterDoneAt = level.getGameTime();
+        }
+        if (job.craterDoneAt >= 0L && !job.pondPlaced) {
+            GrovePond.placeEarly(level, job); // the finale: the pond stands under the swell, before the light rises from it
+        }
         processDecor(level, job, deadline);
         if (job.ring >= rings) {
             if (!job.seedDone) {
@@ -275,15 +310,18 @@ public final class GrovePainter {
         }
     }
 
-    /** The last ring is closed: the doomed seed dies, then its own column is decayed and painted, last of all. */
+    /**
+     * The last ring is closed: the doomed seed dies (cycle 4b: over the twelve seconds of {@link GroveSeedDeath}, during which this
+     * waits), then its own column is decayed and painted, last of all.
+     */
     private static void finishSeed(ServerLevel level, GrovePaintJob job, VesselCrater crater, long deadline) {
         if (job.seed != null) {
             Entity e = level.getEntity(job.seed);
             if (e == null && !level.areEntitiesLoaded(ChunkPos.asLong(job.centre))) {
                 return; // its chunk is not loaded: it may still be there, wait
             }
-            if (e != null && e.isAlive()) {
-                e.kill();
+            if (!GroveSeedDeath.step(level, job, e)) {
+                return; // the grove is still killing it
             }
         }
         job.seedDone = true;
@@ -366,6 +404,7 @@ public final class GrovePainter {
         if (grove.full() && before != GroveColumns.ALL) {
             hooks().onChunkPainted(level, job, chunk, deadline);
         }
+        SeedRoots.reach(level, job, chunk, columns); // cycle 4f: a Taint Seed standing in a column the rings have reached rolls for roots
         return todo.size();
     }
 

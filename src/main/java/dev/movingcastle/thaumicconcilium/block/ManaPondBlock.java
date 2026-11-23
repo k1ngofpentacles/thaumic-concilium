@@ -34,6 +34,21 @@ public final class ManaPondBlock extends LiquidBlock {
     protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos from, boolean moved) {
     }
 
+    /** Set by the client (cycle 4b): draws one glint over the pond block at {@code pos}. */
+    @javax.annotation.Nullable
+    public static java.util.function.BiConsumer<Level, BlockPos> clientGlint;
+
+    /**
+     * The pond's sparkle, on vanilla's random display tick (nothing runs with no player near), only under open air. Cycle 4d: the client
+     * turns these calls into rare events (a few glints from one spot, then a long pause), so every call is passed on.
+     */
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, net.minecraft.util.RandomSource random) {
+        if (clientGlint != null && level.getBlockState(pos.above()).isAir()) {
+            clientGlint.accept(level, pos);
+        }
+    }
+
     @Override
     public ItemStack pickupBlock(Player player, LevelAccessor level, BlockPos pos, BlockState state) {
         return ItemStack.EMPTY;

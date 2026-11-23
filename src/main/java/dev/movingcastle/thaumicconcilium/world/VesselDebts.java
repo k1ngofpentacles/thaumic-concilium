@@ -32,6 +32,8 @@ public final class VesselDebts extends SavedData {
     /** Phase 5c cycle 4: Primordial Motes owed to participants who were offline when the Vessel was subdued (paid on their next login). */
     private final Map<UUID, Integer> motes = new LinkedHashMap<>();
     private final Map<UUID, Integer> warpRemovals = new LinkedHashMap<>();
+    /** Phase 5d cycle 4: participants of a tier 3 or 4 ending who were offline; The Glade note is granted on their next login. */
+    private final java.util.Set<UUID> glades = new java.util.LinkedHashSet<>();
 
     public static SavedData.Factory<VesselDebts> factory() {
         return new SavedData.Factory<>(VesselDebts::new, VesselDebts::load, null);
@@ -96,6 +98,26 @@ public final class VesselDebts extends SavedData {
         return n == null ? 0 : n;
     }
 
+    /** Participants still owed The Glade note. */
+    public java.util.Set<UUID> glades() {
+        return this.glades;
+    }
+
+    public void oweGlade(UUID id) {
+        if (this.glades.add(id)) {
+            this.setDirty();
+        }
+    }
+
+    /** Takes and clears the glade note owed to a player; returns whether one was owed. */
+    public boolean takeGlade(UUID id) {
+        boolean owed = this.glades.remove(id);
+        if (owed) {
+            this.setDirty();
+        }
+        return owed;
+    }
+
     private static VesselDebts load(CompoundTag tag, HolderLookup.Provider registries) {
         VesselDebts data = new VesselDebts();
         ListTag list = tag.getList("debts", 10);
@@ -118,6 +140,10 @@ public final class VesselDebts extends SavedData {
         for (int i = 0; i < removals.size(); i++) {
             CompoundTag c = removals.getCompound(i);
             data.warpRemovals.put(c.getUUID("id"), c.getInt("n"));
+        }
+        ListTag gl = tag.getList("glades", 10);
+        for (int i = 0; i < gl.size(); i++) {
+            data.glades.add(gl.getCompound(i).getUUID("id"));
         }
         return data;
     }
@@ -152,6 +178,13 @@ public final class VesselDebts extends SavedData {
             removals.add(c);
         });
         tag.put("warpRemovals", removals);
+        ListTag gl = new ListTag();
+        this.glades.forEach(id -> {
+            CompoundTag c = new CompoundTag();
+            c.putUUID("id", id);
+            gl.add(c);
+        });
+        tag.put("glades", gl);
         return tag;
     }
 }

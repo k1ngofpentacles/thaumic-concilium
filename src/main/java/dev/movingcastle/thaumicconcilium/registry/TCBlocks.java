@@ -89,7 +89,7 @@ public final class TCBlocks {
     /** Phase 5d: placed on a subdued Vessel's anchor shard, feeds it Botania mana. Registered always, inert without Botania (no class of Botania's is touched here). */
     public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlock> VERDANT_CAPITAL = BLOCKS.register("verdant_capital",
             () -> new dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
-                    .strength(3.0F, 12.0F).sound(SoundType.WOOD)));
+                    .strength(3.0F, 12.0F).sound(SoundType.WOOD).noOcclusion())); // cycle 4b: the model is a collar, an axle and a turning rotor
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlockEntity>> VERDANT_CAPITAL_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("verdant_capital", () -> BlockEntityType.Builder.of(

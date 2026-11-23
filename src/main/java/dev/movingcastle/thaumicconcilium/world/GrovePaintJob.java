@@ -49,10 +49,30 @@ public final class GrovePaintJob {
     public long visDrained;
     /** Per-job cache of the grove's node positions (see {@link GrovePond}); never saved. */
     public transient GrovePond.NodeCache nodeCache;
+    /** Per-job cache of the livingrock mound's block columns (see {@link GrovePond#moundColumns}); never saved. */
+    public transient java.util.Set<Long> moundColumns;
     public int ring;
     public int cursor;
+    /** Phase 5d cycle 4e (the finale): while the game time is before this, the painter takes {@code finale.paintPace} chunk groups a step; -1 = never. */
+    public long darkUntil = -1L;
+    /** Game time the crater's rings were done under the swell ({@link GrovePainter#craterDone}); -1 before. */
+    public long craterDoneAt = -1L;
+    /** Game time sight returns (the swell's collapse ends); the seed's death waits {@code finale.seedGap} after it. -1 = no gate. */
+    public long sightAt = -1L;
+    /**
+     * Cycle 4e: the trees still growing on screen ({@link GroveGrowth}), one {@code long[]} each: {@code {kind, pos, done, target, packed, nextAt}}. A
+     * landmark's {@code pos} is its soil block, a sapling's the sapling block; saved with the job.
+     */
+    public final List<long[]> growth = new ArrayList<>();
+    /** Never saved: the earliest {@code nextAt} among the entries (0 = look), and where the round robin goes on. */
+    public transient long growthWake;
+    public transient int growthCursor;
+    /** Cache of the crater's farthest rim (never saved); NaN before it is worked out. */
+    public transient double craterRim = Double.NaN;
     /** Whether the doomed seed has been killed and its own column handled (the last thing the painter does). */
     public boolean seedDone;
+    /** Game time at which the seed's death sequence began ({@link GroveSeedDeath}); -1 before it has. */
+    public long seedDeathStart = -1L;
     /** Quart columns newly painted by this job. */
     public int painted;
     public int steps;
@@ -102,9 +122,18 @@ public final class GrovePaintJob {
         c.putInt("breaks", this.breaks);
         c.putLong("drawn", this.drawn);
         c.putLong("visDrained", this.visDrained);
+        ListTag growthList = new ListTag();
+        for (long[] g : this.growth) {
+            growthList.add(new LongArrayTag(g));
+        }
+        c.put("growth", growthList);
         c.putInt("ring", this.ring);
+        c.putLong("darkUntil", this.darkUntil);
+        c.putLong("craterDoneAt", this.craterDoneAt);
+        c.putLong("sightAt", this.sightAt);
         c.putInt("cursor", this.cursor);
         c.putBoolean("seedDone", this.seedDone);
+        c.putLong("seedDeathStart", this.seedDeathStart);
         c.putInt("painted", this.painted);
         c.putInt("steps", this.steps);
         c.putLong("totalNanos", this.totalNanos);
@@ -133,9 +162,17 @@ public final class GrovePaintJob {
         j.breaks = c.getInt("breaks");
         j.drawn = c.getLong("drawn");
         j.visDrained = c.getLong("visDrained");
+        ListTag growthList = c.getList("growth", net.minecraft.nbt.Tag.TAG_LONG_ARRAY);
+        for (int i = 0; i < growthList.size(); i++) {
+            j.growth.add(((LongArrayTag) growthList.get(i)).getAsLongArray());
+        }
         j.ring = c.getInt("ring");
+        j.darkUntil = c.contains("darkUntil") ? c.getLong("darkUntil") : -1L;
+        j.craterDoneAt = c.contains("craterDoneAt") ? c.getLong("craterDoneAt") : -1L;
+        j.sightAt = c.contains("sightAt") ? c.getLong("sightAt") : -1L;
         j.cursor = c.getInt("cursor");
         j.seedDone = c.getBoolean("seedDone");
+        j.seedDeathStart = c.contains("seedDeathStart") ? c.getLong("seedDeathStart") : -1L;
         j.painted = c.getInt("painted");
         j.steps = c.getInt("steps");
         j.totalNanos = c.getLong("totalNanos");

@@ -110,6 +110,12 @@ public final class TCEntities {
                     .sized(3.0F, 3.0F).clientTrackingRange(10).updateInterval(20).fireImmune().build("vessel"));
 
     /** A clot the Vessel throws at a tethered player: not saved, ticks every tick, small and hittable. */
+    /** Phase 5d cycle 4b: the grove's roots and leaves round a dying Taint Seed; lives for the twelve seconds of that sequence. */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.GroveBind>> GROVE_BIND =
+            ENTITY_TYPES.register("grove_bind", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.GroveBind>of(
+                    dev.movingcastle.thaumicconcilium.entity.GroveBind::new, MobCategory.MISC)
+                    .sized(3.0F, 3.0F).clientTrackingRange(8).updateInterval(20).fireImmune().noSummon().build("grove_bind"));
+
     public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.VesselClot>> VESSEL_CLOT =
             ENTITY_TYPES.register("vessel_clot", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.VesselClot>of(
                     dev.movingcastle.thaumicconcilium.entity.VesselClot::new, MobCategory.MISC)

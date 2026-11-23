@@ -8,6 +8,7 @@ import dev.movingcastle.thaumicconcilium.TCConfig;
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.entity.Vessel;
 import dev.movingcastle.thaumicconcilium.entity.VesselBreak;
+import dev.movingcastle.thaumicconcilium.entity.VesselDeath;
 import dev.movingcastle.thaumicconcilium.entity.VesselPull;
 import java.util.Optional;
 import java.util.UUID;
@@ -95,6 +96,10 @@ public class VesselRenderer extends EntityRenderer<Vessel> {
         float flashScale;
         float flashInt;
         boolean disc;
+        /** The finale: its age, and whether this eye is in the black (then it is drawn {@link VesselFinaleDraw#inside}, not the disc). */
+        float dyingAge;
+        boolean within;
+        float shell;
         boolean stagger;
         float hazeSpeed = 1.0F;
         float hazeAlpha = 1.0F;
@@ -114,7 +119,25 @@ public class VesselRenderer extends EntityRenderer<Vessel> {
         float s = swell ? Mth.clamp((l.time - e.fxSwellStart) / 60.0F, 0.0F, 1.0F) : 0.0F;
         l.core = shown;
         l.disc = active;
-        if (st == Vessel.SUBDUED) {
+        if (st == Vessel.DYING) {
+            // phase 5d cycle 4, the finale (VesselFinale): the black swells to the crater rim by VesselDeath's numbers (the same the
+            // server blinds by), its horizon ring riding the black's edge and, where a grove is painted, turning from violet to the mana
+            // beam's cyan. The white light that ends it is VesselFinaleDraw's. An eye in the black is not drawn the disc at all.
+            float t = VesselFinale.pinnedAge >= 0.0F ? VesselFinale.pinnedAge : l.time - e.dyingStart();
+            int c = VesselFinale.collapse(e.dyingC());
+            float rs = e.dyingRs();
+            l.core = VesselDeath.radius(t, rs, c);
+            l.dyingAge = t;
+            float dist = (float) Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().distanceTo(e.getPosition(pt));
+            l.within = VesselFinale.within(dist, t, rs, c);
+            l.shell = c >= 0 && t >= c ? rs : l.core;
+            float grown = Math.min(1.0F, l.core / VesselDeath.START_RADIUS);
+            l.ringColor = e.dyingGrove() ? lerpColor(VIOLET, CapitalStar.SPHERE_CYAN, VesselFinale.shift(t)) : VIOLET;
+            l.ringInt = VesselFinale.RING_INT * grown;
+            l.ringHalf = l.core * 4.0F / HORIZON; // the ring texture peaks at the horizon when its half-size is 4
+            l.haloA = VesselFinale.HALO_ALPHA * grown;
+            l.haloHalf = l.core + VesselFinale.HALO_EXTRA;
+        } else if (st == Vessel.SUBDUED) {
             l.core = 0.6F;
             l.ringColor = DEEP;
             l.ringInt = 0.45F;
@@ -187,7 +210,7 @@ public class VesselRenderer extends EntityRenderer<Vessel> {
         pose.translate(l.jx, l.jy, 0.0F);
         VertexConsumer vc = buffers.getBuffer(RenderType.entityCutoutNoCull(BLACK));
         Matrix4f m = pose.last().pose();
-        int n = l.core > 0.001F ? 48 : 0;
+        int n = l.core > 0.001F && !l.within ? 48 : 0;
         for (int k = 0; k < n; k += 2) {
             float a0 = Mth.TWO_PI * k / n;
             float a1 = Mth.TWO_PI * (k + 1) / n;
@@ -207,7 +230,11 @@ public class VesselRenderer extends EntityRenderer<Vessel> {
         if (breakAge >= 0.0F) {
             this.breaking(e, breakAge, pose, buffers, light, origin);
         }
-        LateWorldRenderQueue.enqueue(origin, (lp, lb) -> this.late(e, l, lp, lb, origin, pt));
+        if (l.within) { // an eye in the black: its shell must also cover the clouds and the weather, which are drawn after the late queue
+            LateWorldRenderQueue.enqueueBlockEntityAfterTranslucent(origin, (lp, lb) -> this.late(e, l, lp, lb, origin, pt));
+        } else {
+            LateWorldRenderQueue.enqueue(origin, (lp, lb) -> this.late(e, l, lp, lb, origin, pt));
+        }
     }
 
     private static void coreVertex(VertexConsumer vc, PoseStack pose, Matrix4f m, float x, float y, int light) {
@@ -460,6 +487,10 @@ public class VesselRenderer extends EntityRenderer<Vessel> {
 
     // ---------------------------------------------------------------- the late layers
     private void late(Vessel e, Look l, PoseStack pose, MultiBufferSource b, Vec3 origin, float pt) {
+        if (l.within) {
+            VesselFinaleDraw.inside(e, l.dyingAge, l.shell, pose, b, origin);
+            return;
+        }
         RenderType halo = TTRenderTypes.fxTranslucent(DARK);
         VesselDraw.billboard(b, pose, halo, l.haloHalf, 0.0F, 0xFFFFFF, 1.0F, l.haloA);
         VesselDraw.flush(b, halo);

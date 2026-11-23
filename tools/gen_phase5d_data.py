@@ -11,8 +11,7 @@ BOTANIA = [{'type': 'neoforge:mod_loaded', 'modid': 'botania'}]
 
 # ---------------------------------------------------------------- the block (placeholder look)
 w(f'assets/{NS}/blockstates/verdant_capital.json', {'variants': {'': {'model': f'{NS}:block/verdant_capital'}}})
-w(f'assets/{NS}/models/block/verdant_capital.json', {'parent': 'minecraft:block/cube_all', 'textures': {'all': f'{NS}:block/verdant_capital'}})
-w(f'assets/{NS}/models/item/verdant_capital.json', {'parent': f'{NS}:block/verdant_capital'})
+# the block and item models are cycle 4b's (gen_phase5d_look.py)
 drop_self_loot('verdant_capital')
 
 
@@ -40,25 +39,66 @@ write_png(f'{A}/textures/block/verdant_capital.png', 16, 16, _px)
 add_item_aspects('verdant_capital', [('herba', 20), ('praecantatio', 10), ('ordo', 5)])
 
 # ---------------------------------------------------------------- the infusion (user's decision, 2026-11-22)
-# catalyst livingwood; rune of spring, rune of mana, terrasteel, a silverwood sapling; herba 48, praecantatio 32, ordo 16; instability 4
-# (TC4-scale 10 / 2.5 = 4 through genlib's instab).
-infusion('verdant_capital', 'the_green_translation', [('herba', 48), ('praecantatio', 32), ('ordo', 16)],
-         it('botania:livingwood'),
-         [it('botania:rune_spring'), it('botania:rune_mana'), it('botania:terrasteel_ingot'), it('thaumaturge:sapling_silverwood')],
-         10, 'verdant_capital')
+# Revised by the user 2026-11-22 (replaces livingwood / terrasteel): a captured node (Thaumaturge's jarred node) at the centre;
+# rune of spring, rune of mana, silverwood and greatwood saplings, a gold ingot, quicksilver, a mana diamond; instability 3
+# (TC4-scale 7.5 / 2.5). Aspects as the user gave them, with potentia for tempestas (no weather aspect exists in the pack; user's pick).
+infusion('verdant_capital', 'the_green_translation',
+         [('victus', 28), ('permutatio', 28), ('lux', 40), ('tenebrae', 40), ('potentia', 28), ('motus', 28), ('herba', 40),
+          ('praecantatio', 33)],
+         it('thaumaturge:jar_node'),
+         [it('botania:rune_spring'), it('botania:rune_mana'), it('thaumaturge:sapling_silverwood'), it('thaumaturge:sapling_greatwood'),
+          it('minecraft:gold_ingot'), it('thaumaturge:quicksilver'), it('botania:mana_diamond')],
+         7.5, 'verdant_capital')
 _p = f'data/{NS}/recipe/infusion/verdant_capital.json'
 _o = r(_p)
 w(_p, {'neoforge:conditions': BOTANIA} | _o)
 
 # ---------------------------------------------------------------- research 5: The Green Translation
-# Hidden until The Vessel (entry 3) is known; stage 0 also asks for a terrasteel ingot and a rune (crafted, or held), then theory.
+# Hidden until The Vessel (entry 3) is known; stage 0 also asks for a jarred node and a rune (crafted, or held), then theory
+# (the user replaced terrasteel with the jarred node, 2026-11-22).
 entry('the_green_translation', -10, 2, f'{NS}:verdant_capital', [f'{NS}:the_vessel'],
       [('herba', 12), ('praecantatio', 10), ('ordo', 8)], recipes=[f'{NS}:infusion/verdant_capital'], warp=1,
       meta=['hidden', 'spiky'], complexity=3)
 _p = f'data/{NS}/thaumaturge/research_entry/the_green_translation.json'
 _o = r(_p)
 _o['stages'][0]['craft'] = [
-    {'items': ['botania:terrasteel_ingot'], 'amount': 1},
+    {'items': ['thaumaturge:jar_node'], 'amount': 1},
     {'items': ['botania:rune_spring', 'botania:rune_mana'], 'amount': 1},
 ]
 w(_p, {'neoforge:conditions': BOTANIA} | _o)
+
+# ---------------------------------------------------------------- research 7: The Glade (cycle 4a)
+# A field note granted by code to every participant of a tier 3 or 4 ending (VesselEndings.grantGlade), Botania only, like entry 5.
+entry('the_glade', -10, 3, f'{NS}:verdant_capital', [f'{NS}:the_green_translation'],
+      [('herba', 8), ('victus', 8), ('auram', 8)], warp=0, meta=['hidden', 'round'], complexity=1, stages=2, autounlock=True)
+_p = f'data/{NS}/thaumaturge/research_entry/the_glade.json'
+_o = r(_p)
+_o['meta'] = [m for m in _o.get('meta', []) if m != 'autounlock']
+w(_p, {'neoforge:conditions': BOTANIA} | _o)
+
+# ---------------------------------------------------------------- X2: one entry in Botania's lexicon (Patchouli book botania:lexicon, use_resource_pack)
+# Our jar ships it under assets/botania/ (category botania:misc, where the other mod-compat entries sit). The Verdant Capital only exists
+# with Botania, so no flag is needed. Text goes in assets/botania/lang/en_us.json (the book is i18n: true); resource packs merge lang files.
+_LEX = f'assets/botania/patchouli_books/lexicon/en_us/entries/misc/{NS}_verdant_capital.json'
+w(_LEX, {
+    'name': f'{NS}.lexicon.verdant_capital.name',
+    'category': 'botania:misc',
+    'icon': f'{NS}:verdant_capital',
+    'sortnum': 90,
+    'pages': [
+        {'type': 'text', 'text': f'{NS}.lexicon.verdant_capital.0'},
+        {'type': 'text', 'text': f'{NS}.lexicon.verdant_capital.1'},
+    ],
+})
+w('assets/botania/lang/en_us.json', {
+    f'{NS}.lexicon.verdant_capital.name': 'The Verdant Capital',
+    f'{NS}.lexicon.verdant_capital.0': 'Thaumic Concilium adds a block that speaks $(thing)mana$() to something that is not a pool.$(p)'
+        'The $(item)Verdant Capital$() is infused about a captured node in its jar, with a rune of spring, a rune of mana, silverwood and '
+        'greatwood saplings, gold, quicksilver and a mana diamond, and set on top of an anchor shard of a quiet Vessel. It takes mana from bursts and sparks as a pool does, '
+        'and spends it on the rite in place of a hand.',
+    f'{NS}.lexicon.verdant_capital.1': 'Its research, $(thing)The Green Translation$(), is in the Thaumic Concilium tab of the Thaumaturge '
+        'research book, and is only revealed to one who has met the Vessel.$(p)What it leaves behind is a grove, with a still pond '
+        'of mana at its centre that a spreader may draw from. The pond is not bottomless.$(p)Each capital in place also raises the chance, '
+        'a quarter at a time, that roots rise and strangle a Taint Seed: the ones the Vessel\'s blight brings during the fight, and the ones '
+        'left in the grove at the end. With four, none escape.',
+})

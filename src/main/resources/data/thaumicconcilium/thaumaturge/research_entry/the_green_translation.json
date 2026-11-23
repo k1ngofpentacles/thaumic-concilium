@@ -29,7 +29,7 @@
       "craft": [
         {
           "items": [
-            "botania:terrasteel_ingot"
+            "thaumaturge:jar_node"
           ],
           "amount": 1
         },

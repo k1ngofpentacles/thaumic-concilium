@@ -171,6 +171,9 @@ public final class VesselFx {
                 if (live && s == Vessel.SUBDUED && v.fxLastState != Vessel.SUBDUED) {
                     VesselSounds.play(v, "subdued", 4.0F);
                 }
+                if (live && s == Vessel.DYING && v.fxLastState != Vessel.DYING) {
+                    VesselSounds.play(v, "swell", 4.0F); // the finale's swell
+                }
                 v.fxLastState = s;
             }
             case "swell" -> {

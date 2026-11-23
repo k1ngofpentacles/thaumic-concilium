@@ -1,0 +1,5 @@
+{
+  "thaumicconcilium.lexicon.verdant_capital.name": "The Verdant Capital",
+  "thaumicconcilium.lexicon.verdant_capital.0": "Thaumic Concilium adds a block that speaks $(thing)mana$() to something that is not a pool.$(p)The $(item)Verdant Capital$() is infused about a captured node in its jar, with a rune of spring, a rune of mana, silverwood and greatwood saplings, gold, quicksilver and a mana diamond, and set on top of an anchor shard of a quiet Vessel. It takes mana from bursts and sparks as a pool does, and spends it on the rite in place of a hand.",
+  "thaumicconcilium.lexicon.verdant_capital.1": "Its research, $(thing)The Green Translation$(), is in the Thaumic Concilium tab of the Thaumaturge research book, and is only revealed to one who has met the Vessel.$(p)What it leaves behind is a grove, with a still pond of mana at its centre that a spreader may draw from. The pond is not bottomless.$(p)Each capital in place also raises the chance, a quarter at a time, that roots rise and strangle a Taint Seed: the ones the Vessel's blight brings during the fight, and the ones left in the grove at the end. With four, none escape."
+}

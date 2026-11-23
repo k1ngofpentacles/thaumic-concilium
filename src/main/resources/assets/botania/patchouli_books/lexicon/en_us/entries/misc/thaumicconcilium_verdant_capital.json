@@ -1,0 +1,16 @@
+{
+  "name": "thaumicconcilium.lexicon.verdant_capital.name",
+  "category": "botania:misc",
+  "icon": "thaumicconcilium:verdant_capital",
+  "sortnum": 90,
+  "pages": [
+    {
+      "type": "text",
+      "text": "thaumicconcilium.lexicon.verdant_capital.0"
+    },
+    {
+      "type": "text",
+      "text": "thaumicconcilium.lexicon.verdant_capital.1"
+    }
+  ]
+}

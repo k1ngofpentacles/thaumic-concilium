@@ -44,6 +44,30 @@ public class VerdantCapitalBlockEntity extends BlockEntity {
     private Direction lastFeedSide;
     private long lastFeedGameTime = Long.MIN_VALUE / 2;
     private long lastFeedSynced = Long.MIN_VALUE / 2;
+    /** Game time at which the drive last became STARVED: the client reads how long the capital has gone hungry from it (its anger). */
+    private long starvedSince;
+    /** The starve grace as the server has it, sent with every update (the client's own config may differ in multiplayer). */
+    private int starveGrace = -1;
+
+    // ---- client-only animation state (cycle 4b): written by the renderer as it draws, never saved or synced; the block entity still never ticks
+    /** The upper half's angle in degrees (forward = clockwise from above; the lower half mirrors it) and its speed in degrees a tick. */
+    public float clientAngle;
+    public float clientOmega;
+    /** How far every small tetrahedron stands out from its closed place, in blocks. */
+    public float clientSep;
+    /** How dark the sphere is: 0 with mana, 1 leaking. */
+    public float clientDark;
+    /** The ray's alpha (0 to 1) and how far it has turned to the unwinding colours (0 to 1). */
+    public float clientRay;
+    public float clientUnwind;
+    /** The rest of the client's animation state (client.CapitalMotion: the breath, the crossing, the pose). */
+    @Nullable
+    public Object clientMotion;
+    /** Game time (with the partial tick) of the last frame drawn; NaN before the first. */
+    public double clientTime = Double.NaN;
+    /** Set by the client: told when a capital on the client loads, changes or is removed (the crackles keep their list from it). */
+    @Nullable
+    public static java.util.function.Consumer<VerdantCapitalBlockEntity> clientState;
 
     public VerdantCapitalBlockEntity(BlockPos pos, BlockState state) {
         super(TCBlocks.VERDANT_CAPITAL_BLOCK_ENTITY.get(), pos, state);
@@ -115,6 +139,9 @@ public class VerdantCapitalBlockEntity extends BlockEntity {
     public void setDrive(Drive drive) {
         if (drive != this.drive) {
             this.drive = drive;
+            if (drive == Drive.STARVED && this.level != null) {
+                this.starvedSince = this.level.getGameTime();
+            }
             this.setChanged();
             this.sync();
         }
@@ -127,6 +154,16 @@ public class VerdantCapitalBlockEntity extends BlockEntity {
 
     public long lastFeedGameTime() {
         return this.lastFeedGameTime;
+    }
+
+    /** Game time at which the capital last began to starve (meaningful while the drive is STARVED). */
+    public long starvedSince() {
+        return this.starvedSince;
+    }
+
+    /** Ticks a capital may starve before it unwinds: the server's value where it was sent, else this side's config. */
+    public int starveGrace() {
+        return this.starveGrace >= 0 ? this.starveGrace : TCConfig.RITE_STARVE_GRACE.get();
     }
 
     private void sync() {
@@ -149,6 +186,7 @@ public class VerdantCapitalBlockEntity extends BlockEntity {
             tag.putByte("feedSide", (byte) this.lastFeedSide.get3DDataValue());
         }
         tag.putLong("feedTime", this.lastFeedGameTime);
+        tag.putLong("starvedSince", this.starvedSince);
     }
 
     @Override
@@ -159,11 +197,34 @@ public class VerdantCapitalBlockEntity extends BlockEntity {
         this.drive = Drive.of(tag.getByte("drive"));
         this.lastFeedSide = tag.contains("feedSide") ? Direction.from3DDataValue(tag.getByte("feedSide")) : null;
         this.lastFeedGameTime = tag.contains("feedTime") ? tag.getLong("feedTime") : Long.MIN_VALUE / 2;
+        this.starvedSince = tag.getLong("starvedSince");
+        this.starveGrace = tag.contains("starveGrace") ? tag.getInt("starveGrace") : -1;
+        this.tellClient();
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        this.tellClient();
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+        this.tellClient();
+    }
+
+    private void tellClient() {
+        if (clientState != null && this.level != null && this.level.isClientSide) {
+            clientState.accept(this);
+        }
     }
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return this.saveWithoutMetadata(registries);
+        CompoundTag tag = this.saveWithoutMetadata(registries);
+        tag.putInt("starveGrace", TCConfig.RITE_STARVE_GRACE.get());
+        return tag;
     }
 
     @Override

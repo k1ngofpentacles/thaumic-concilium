@@ -12,12 +12,24 @@ import dev.movingcastle.thaumicconcilium.registry.TCBlocks;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
+import dev.movingcastle.thaumicconcilium.entity.VesselCrater;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
+import java.util.HashSet;
+import java.util.Set;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Half;
 
 /**
  * Phase 5d cycle 3: the grove's mana pond, with no Botania types (those are in {@code compat/BotaniaPond}). The pond blocks are placed when a
@@ -89,39 +101,346 @@ public final class GrovePond {
      * pond), once the pond stands otherwise (a pond whose chunk is not loaded waits for a later beat).
      */
     public static boolean finish(ServerLevel level, GrovePaintJob job) {
-        if (job.pondPlaced || job.tier < 3 || !GroveLife.botania()) {
+        if (job.tier < 3 || !GroveLife.botania()) {
             return true;
         }
-        for (long l : job.pond) {
-            if (!level.hasChunkAt(BlockPos.of(l))) {
-                return false;
-            }
+        if (job.pondPlaced) {
+            initLedger(level, job); // placed early (the finale): only the ledger waits for the whole grove
+            return true;
+        }
+        if (!chunksLoaded(level, job)) {
+            return false;
         }
         place(level, job);
         return true;
     }
 
-    /** Fills the 13 reserved columns with the pond (one block deep, on the crater floor) and sets up the ledger. */
+    /** The pond's and the mound's chunks are all loaded. */
+    private static boolean chunksLoaded(ServerLevel level, GrovePaintJob job) {
+        for (long l : job.pond) {
+            if (!level.hasChunkAt(BlockPos.of(l))) {
+                return false;
+            }
+        }
+        for (long column : moundColumns(job)) {
+            if (!level.hasChunkAt(new BlockPos(ChunkPos.getX(column), job.centre.getY(), ChunkPos.getZ(column)))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Cycle 4e (the finale): the painter calls this as soon as the crater's rings are done, so the pond (and its mound) stand under the swell before
+     * the light rises from it. Only the blocks: the ledger is sized at the job's end, when the grove's chunks and nodes are known, and until then
+     * yields nothing. False when it is not time or a chunk is not loaded (tried again next step).
+     */
+    public static boolean placeEarly(ServerLevel level, GrovePaintJob job) {
+        if (job.pondPlaced || job.tier < 3 || !GroveLife.botania() || !chunksLoaded(level, job)) {
+            return false;
+        }
+        placePondAndMound(level, job);
+        return true;
+    }
+
+    /** Blocks the last pond placement changed besides the pond blocks themselves: beds filled, columns cut down, banks raised (for the tests and the log). */
+    public static int lastFilled;
+    public static int lastCut;
+    public static int lastBanked;
+
+    /**
+     * Sets the 13 pond blocks, all at one height (cycle 4d: the pool lies IN the crater floor, see {@link PondShape}), and sets up the ledger.
+     * Only what a level pool needs is changed: the pond block takes the place of the floor block; a column whose floor is lower gets a bed
+     * of dirt under it; a column whose floor is higher loses the blocks above the pond block (up to where the crater left its floor); and a
+     * neighbour column that would leave a side of the pool open is raised to the pool's level with the ground it already has. Block
+     * entities, anchors and blast-proof blocks are never touched (a pond block that would replace one is skipped).
+     */
     public static void place(ServerLevel level, GrovePaintJob job) {
+        placePondAndMound(level, job);
+        initLedger(level, job);
+    }
+
+    /**
+     * The one place the pond's water, its basin and its livingrock mound are set (a swap point: a later round of the mound rule replaces what this
+     * calls, {@code placeMound}). Does not touch the ledger.
+     */
+    public static void placePondAndMound(ServerLevel level, GrovePaintJob job) {
         BlockState pond = TCBlocks.MANA_POND.get().defaultBlockState();
         int placed = 0;
+        lastFilled = 0;
+        lastCut = 0;
+        lastBanked = 0;
+        VesselCrater crater = new VesselCrater(job.centre, job.craterRadius, job.craterSeed);
+        Block rock = mounded(job) ? botaniaBlock("livingrock") : null;
+        lastMound = rock == null ? 0 : placeMound(level, job, crater, rock);
         for (long l : job.pond) {
-            BlockPos at = BlockPos.of(l).above();
+            BlockPos bed = BlockPos.of(l);
+            BlockPos at = bed.above();
             BlockState old = level.getBlockState(at);
-            if (!old.hasBlockEntity() && (old.isAir() || old.canBeReplaced() || old.getCollisionShape(level, at).isEmpty())) {
+            if (!fixed(level, at, old)) {
                 level.setBlock(at, pond, 18);
                 placed++;
             }
+            BlockState under = level.getBlockState(bed);
+            if (rock != null) {
+                // the basin: livingrock under the water, and whatever lies under that made solid
+                if (!under.is(rock) && !fixed(level, bed, under)) {
+                    lastFilled += under.isCollisionShapeFullBlock(level, bed) ? 0 : 1;
+                    level.setBlock(bed, rock.defaultBlockState(), 18);
+                }
+                BlockPos floor = bed.below();
+                BlockState ground = level.getBlockState(floor);
+                if (!ground.isCollisionShapeFullBlock(level, floor) && !fixed(level, floor, ground)) {
+                    level.setBlock(floor, Blocks.DIRT.defaultBlockState(), 18);
+                    lastFilled++;
+                } else if (ground.is(Blocks.GRASS_BLOCK)) {
+                    level.setBlock(floor, Blocks.DIRT.defaultBlockState(), 18);
+                }
+            } else if (!under.isCollisionShapeFullBlock(level, bed) && !fixed(level, bed, under)) {
+                level.setBlock(bed, Blocks.DIRT.defaultBlockState(), 18);
+                lastFilled++;
+            }
+            // a shallower column: open the pool to the sky, up to the floor the crater left there
+            int floor = job.centre.getY() - crater.cut(bed.getX() - job.centre.getX(), bed.getZ() - job.centre.getZ());
+            for (int y = at.getY() + 1; y <= floor; y++) {
+                BlockPos p = new BlockPos(at.getX(), y, at.getZ());
+                BlockState s = level.getBlockState(p);
+                if (!s.isAir() && !fixed(level, p, s)) {
+                    level.setBlock(p, Blocks.AIR.defaultBlockState(), 18);
+                    lastCut++;
+                }
+            }
+        }
+        // the banks: every column beside the pool holds it in
+        for (long l : job.pond) {
+            BlockPos at = BlockPos.of(l).above();
+            for (Direction d : Direction.Plane.HORIZONTAL) {
+                BlockPos bank = at.relative(d);
+                BlockState s = level.getBlockState(bank);
+                if (isPondColumn(job, bank.getX(), bank.getZ()) || s.isCollisionShapeFullBlock(level, bank) || fixed(level, bank, s)) {
+                    continue;
+                }
+                BlockPos below = bank.below();
+                BlockState ground = level.getBlockState(below);
+                BlockState with = ground.isCollisionShapeFullBlock(level, below) && !ground.hasBlockEntity() ? ground : Blocks.DIRT.defaultBlockState();
+                level.setBlock(bank, with, 18);
+                if (with.is(Blocks.GRASS_BLOCK)) {
+                    level.setBlock(below, Blocks.DIRT.defaultBlockState(), 18); // the turf moves up a block
+                }
+                BlockPos over = bank.above();
+                BlockState plant = level.getBlockState(over);
+                if (!plant.isAir() && !plant.canSurvive(level, over)) {
+                    level.setBlock(over, Blocks.AIR.defaultBlockState(), 18); // whatever stood half in the fill (a double plant's top)
+                }
+                lastBanked++;
+            }
         }
         job.pondPlaced = true;
+        ThaumicConcilium.LOG.info("Grove pond at {}: {} of {} blocks placed ({} mound blocks, {} bed blocks filled, {} cut away, {} bank blocks raised)",
+                job.centre, placed, job.pond.size(), lastMound, lastFilled, lastCut, lastBanked);
+        dirty(level);
+    }
+
+    /** Sizes the pond's ledger (once): the grove's chunks and nodes are known only when the job finishes. Until then {@code ledgerReady} is false and nothing is drawn. */
+    public static void initLedger(ServerLevel level, GrovePaintJob job) {
         if (!job.ledgerReady) {
             int nodes = nodes(level, job, true).size();
             job.residual = initialResidual(chunksOf(job), nodes);
             job.overdrawn = 0;
             job.ledgerReady = true;
+            ThaumicConcilium.LOG.info("Grove pond ledger at {}: residual {} mana", job.centre, job.residual);
+            dirty(level);
         }
-        ThaumicConcilium.LOG.info("Grove pond at {}: {} of {} blocks placed, residual {} mana", job.centre, placed, job.pond.size(), job.residual);
-        dirty(level);
+    }
+
+    // ---------------------------------------------------------------- the livingrock mound (cycle 4e)
+    /** Blocks the last placement set for the mound (rock, bricks, slabs, turf and its fill; not the flora on it). */
+    public static int lastMound;
+
+    /** Whether a job's pond gets the mound: the pond's own gate (tier 3 or 4, Botania). */
+    public static boolean mounded(GrovePaintJob job) {
+        return job.tier >= 3 && GroveLife.botania();
+    }
+
+    /** The pool and the mound of a job, from its crater alone (nothing is saved: the rule is pure). */
+    public static PondShape poolOf(VesselCrater crater) {
+        return PondShape.choose(crater::cut, crater.seed());
+    }
+
+    public static List<PondMound.Cell> moundOf(VesselCrater crater) {
+        return PondMound.plan(crater::cut, crater.seed(), poolOf(crater));
+    }
+
+    /**
+     * The mound's block columns, packed as {@code ChunkPos.asLong(x, z)} like {@code GrovePainter.pondColumns}; empty when the job gets no
+     * mound. Cached on the job. Saplings and trees keep off them as they keep off the pond.
+     */
+    public static Set<Long> moundColumns(GrovePaintJob job) {
+        if (job.moundColumns == null) {
+            Set<Long> set = new HashSet<>();
+            if (mounded(job)) {
+                for (PondMound.Cell c : moundOf(new VesselCrater(job.centre, job.craterRadius, job.craterSeed))) {
+                    set.add(ChunkPos.asLong(job.centre.getX() + c.dx(), job.centre.getZ() + c.dz()));
+                }
+            }
+            job.moundColumns = set;
+        }
+        return job.moundColumns;
+    }
+
+    @Nullable
+    private static Block botaniaBlock(String path) {
+        return BuiltInRegistries.BLOCK.getOptional(ResourceLocation.fromNamespaceAndPath("botania", path)).orElse(null);
+    }
+
+    /**
+     * Builds the mound, once, before the pond blocks are set (no ticker; about 50 blocks). The pond's bed is the layer under the mound's
+     * top, so the top layer is the pond blocks' own. A column buried under solid ground is skipped (the ground holds the water there), and
+     * block entities, anchors and blast-proof blocks are never replaced. Returns the blocks set.
+     */
+    private static int placeMound(ServerLevel level, GrovePaintJob job, VesselCrater crater, Block rock) {
+        if (job.pond.isEmpty()) {
+            return 0;
+        }
+        int floorY = BlockPos.of(job.pond.get(0)).getY() - (PondMound.TOP - 1); // F: the bed is F (PondMound.TOP = 1), the pond blocks and the mound's top layer F+1
+        Block mossy = botaniaBlock("mossy_livingrock_bricks");
+        Block cracked = botaniaBlock("cracked_livingrock_bricks");
+        Block slab = botaniaBlock("livingrock_slab");
+        Block stairs = botaniaBlock("livingrock_stairs");
+        long seed = crater.seed();
+        int set = 0;
+        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        for (PondMound.Cell c : moundOf(crater)) {
+            int x = job.centre.getX() + c.dx();
+            int z = job.centre.getZ() + c.dz();
+            if (c.kind() == PondMound.Kind.MOSS || c.kind() == PondMound.Kind.FLORA) {
+                set += placeApron(level, job, crater, c, x, z);
+                continue;
+            }
+            int topY = floorY + c.top();
+            if (!level.hasChunkAt(p.set(x, topY, z))) {
+                continue;
+            }
+            BlockState over = level.getBlockState(p.set(x, topY + 1, z));
+            if (over.isCollisionShapeFullBlock(level, p)) {
+                continue; // buried: the ground stands higher here than the crater's rule says
+            }
+            BlockState top = switch (c.kind()) {
+                case MOSSY -> (mossy == null ? rock : mossy).defaultBlockState();
+                case CRACKED -> (cracked == null ? rock : cracked).defaultBlockState();
+                case SLAB -> (slab == null ? rock : slab).defaultBlockState();
+                case STAIR -> stairs == null ? rock.defaultBlockState() : stairState(stairs, c.low());
+                case TURF -> Blocks.GRASS_BLOCK.defaultBlockState();
+                default -> rock.defaultBlockState();
+            };
+            BlockState fill = c.kind() == PondMound.Kind.TURF ? Blocks.DIRT.defaultBlockState() : rock.defaultBlockState();
+            BlockState old = level.getBlockState(p.set(x, topY, z));
+            if (fixed(level, p, old)) {
+                continue;
+            }
+            level.setBlock(p, top, 18);
+            set++;
+            // under the top: the ring beside the water is rock down to the bed's layer whatever was there; the rest is filled down to the ground
+            for (int y = topY - 1; y >= floorY - 3; y--) {
+                BlockState s = level.getBlockState(p.set(x, y, z));
+                if (fixed(level, p, s)) {
+                    break;
+                }
+                boolean ring = c.touches() && y > floorY;
+                if (!ring && s.isCollisionShapeFullBlock(level, p)) {
+                    if (s.is(Blocks.GRASS_BLOCK)) {
+                        level.setBlock(p, Blocks.DIRT.defaultBlockState(), 18); // turf under rock
+                    }
+                    break;
+                }
+                if (!s.is(fill.getBlock())) {
+                    level.setBlock(p, fill, 18);
+                    set++;
+                }
+            }
+            // what grows on it; a plant the rock cut in half goes
+            p.set(x, topY + 1, z);
+            if (!over.isAir() && (!over.canSurvive(level, p) || over.canBeReplaced())) {
+                level.setBlock(p, Blocks.AIR.defaultBlockState(), 18);
+                over = Blocks.AIR.defaultBlockState();
+            }
+            if (!over.isAir()) {
+                continue;
+            }
+            if (c.carpet()) {
+                level.setBlock(p, Blocks.MOSS_CARPET.defaultBlockState(), 18);
+            } else if (c.flora()) {
+                plant(level, p, seed, c);
+            }
+        }
+        return set;
+    }
+
+    /** A stair of the mound: its low step points {@code low} (e, w, s, n), away from the pool; the block's facing is the opposite. */
+    public static BlockState stairState(Block stairs, char low) {
+        Direction lowDir = switch (low) {
+            case 'e' -> Direction.EAST;
+            case 'w' -> Direction.WEST;
+            case 's' -> Direction.SOUTH;
+            default -> Direction.NORTH;
+        };
+        return stairs.defaultBlockState().setValue(StairBlock.FACING, lowDir.getOpposite()).setValue(StairBlock.HALF, Half.BOTTOM);
+    }
+
+    /** A small plant at {@code p} if it is air and the block under will carry it: short grass, a fern or a small flower, by the column's seeded roll. */
+    private static void plant(ServerLevel level, BlockPos.MutableBlockPos p, long seed, PondMound.Cell c) {
+        if (!level.getBlockState(p).isAir()) {
+            return;
+        }
+        double roll = PondMound.unit(c.dx(), c.dz(), seed, 18);
+        Block b = roll < 0.35 ? Blocks.SHORT_GRASS : roll < 0.55 ? Blocks.FERN : roll < 0.7 ? Blocks.DANDELION : roll < 0.82 ? Blocks.POPPY
+                : roll < 0.92 ? Blocks.AZURE_BLUET : Blocks.CORNFLOWER;
+        BlockState s = b.defaultBlockState();
+        if (s.canSurvive(level, p)) {
+            level.setBlock(p, s, 18);
+        }
+    }
+
+    /**
+     * The apron beside the stone (a MOSS or FLORA cell): finds the column's real top soil (grass, dirt, moss: the {@code dirt} tag) within two
+     * blocks of where the crater's rule puts the ground, and turns it to a moss block (MOSS) and/or plants a small plant on it. Block entities
+     * and anchors are left alone; a column of the pond or the mound's own plan is never touched. Returns blocks set (the moss block).
+     */
+    private static int placeApron(ServerLevel level, GrovePaintJob job, VesselCrater crater, PondMound.Cell c, int x, int z) {
+        int groundY = job.centre.getY() - crater.cut(c.dx(), c.dz());
+        BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
+        if (!level.hasChunkAt(p.set(x, groundY, z)) || isPondColumn(job, x, z)) {
+            return 0;
+        }
+        for (int y = groundY + 2; y >= groundY - 2; y--) {
+            BlockState s = level.getBlockState(p.set(x, y, z));
+            if (!s.is(BlockTags.DIRT) || fixed(level, p, s)) {
+                continue;
+            }
+            BlockState over = level.getBlockState(p.set(x, y + 1, z));
+            if (!over.isAir() && !over.canBeReplaced()) {
+                return 0; // something solid or a tree stands on it
+            }
+            int set = 0;
+            if (c.kind() == PondMound.Kind.MOSS) {
+                level.setBlock(p.set(x, y, z), Blocks.MOSS_BLOCK.defaultBlockState(), 18);
+                set = 1;
+            }
+            if (c.flora()) {
+                p.set(x, y + 1, z);
+                if (over.canBeReplaced() && !over.isAir() && !over.is(Blocks.MOSS_CARPET)) {
+                    level.setBlock(p, Blocks.AIR.defaultBlockState(), 18); // the painter's own small plant makes room for this one
+                }
+                plant(level, p, crater.seed(), c);
+            }
+            return set;
+        }
+        return 0;
+    }
+
+    /** What the pond never replaces: a block entity, an anchor shard, anything blast-proof (the crater's own rule). */
+    private static boolean fixed(ServerLevel level, BlockPos pos, BlockState state) {
+        return state.hasBlockEntity() || (!state.isAir() && VesselCrater.spared(state));
     }
 
     private static void dirty(ServerLevel level) {

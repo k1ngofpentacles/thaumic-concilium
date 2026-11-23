@@ -282,6 +282,36 @@ public final class TCConfig {
     public static final ModConfigSpec.DoubleValue PAINT_BURDEN_SPAN = rd("grove.burdenSpan", 0.65, 0.01, 10.0, "Tier 4: how many thresholds of burden above the low point it takes to reach the largest radius.");
     public static final ModConfigSpec.IntValue PAINT_WAITING_CHECKS = ri("grove.waitingChecks", 4, 1, 64, "Chunks that were not loaded when their ring passed, re-checked per step.");
     public static final ModConfigSpec.IntValue PAINT_BUDGET_MS = ri("grove.stepBudgetMs", 4, 1, 50, "Milliseconds after which a painter step stops adding decoration (flora, in cycle 2c) and leaves the rest to the next step.");
+    // ---------------------------------------------------------------- phase 5d cycle 4e: the finale (swell and blindness)
+    public static final ModConfigSpec.IntValue FINALE_MIN_HOLD = ri("finale.minHold", 90, 30, 1200, "Ticks after the last unit before the swell may collapse (5.5 s with no grove to paint).");
+    // ---------------------------------------------------------------- phase 5d cycle 4f: roots by capitals
+    public static final ModConfigSpec.ConfigValue<java.util.List<? extends Double>> RITE_ROOT_CHANCES = B
+            .comment("Chance that strangling roots (the grove's variant C sequence) come up on a Taint Seed, by number of Verdant Capitals (0 to 4 entries, in order). Rolled once per seed: during the fight for seeds the Vessel's taint brings, and at the ending for every seed the grove's painting reaches (tier 4 is all of them).")
+            .defineList("vessel.rite.rootChanceByCapitals", java.util.List.of(0.0, 0.25, 0.5, 0.75, 1.0), () -> 0.0,
+                    o -> o instanceof Double d && d >= 0.0 && d <= 1.0);
+    public static final ModConfigSpec.IntValue RITE_ROOT_OVERLAP = ri("rootOverlap", 3, 1, 32, "Most root sequences that may play at once within 24 blocks of each other; a seed rooted beyond that waits for the earliest to end.");
+
+    public static final ModConfigSpec.IntValue FINALE_FIXED_HOLD = ri("finale.fixedHold", 140, 30, 1200, "Tiers 0-2 (no grove to paint): ticks of full blindness while the taint is laid, before the collapse (140 + 20 fade is about 8 s).");
+    public static final ModConfigSpec.IntValue FINALE_LIGHT_TICKS = ri("finale.lightTicks", 80, 20, 1200, "Tiers 3-4: ticks of the light stage (reduced shadow, the wisp rises, pulses and bursts) between the crater being painted and the collapse.");
+    public static final ModConfigSpec.BooleanValue FINALE_LIGHT_DARKNESS = B.comment("Tiers 3-4: also refresh vanilla Darkness for those inside during the light stage. Off: the client's own shadow veil carries the shadow (with Darkness stacked on it the stage reads near black).")
+            .define("vessel.rite.finale.lightStageDarkness", false);
+    public static final ModConfigSpec.IntValue FINALE_LIGHT_BURST = ri("finale.lightBurst", 70, 5, 1200, "Tiers 3-4: ticks into the light stage at which the wisp bursts (the approved mockup: it appears at 10, rises for 30, pulses for 30).");
+    public static final ModConfigSpec.IntValue FINALE_TIMEOUT = ri("finale.timeout", 400, 60, 6000, "Ticks after which the swell collapses whatever the painter has done.");
+    public static final ModConfigSpec.IntValue FINALE_BLIND_TICKS = ri("finale.blindTicks", 40, 10, 400, "Blindness and darkness given to each player inside the swell, refreshed every 10 ticks.");
+    public static final ModConfigSpec.IntValue FINALE_PAINT_PACE = ri("finale.paintPace", 3, 1, 16, "Chunk groups the painter takes a beat while the swell hides the crater (1 = the normal pace).");
+    public static final ModConfigSpec.IntValue FINALE_SEED_GAP = ri("finale.seedGap", 400, 0, 12000, "Ticks after sight returns before the grove may begin to kill the seed.");
+    public static final ModConfigSpec.IntValue FINALE_FLASH_RANGE = ri("finale.flashRange", 192, 16, 1024, "Players this close to the collapse are told about the flash.");
+
+    // ---------------------------------------------------------------- phase 5d cycle 4e: trees grown on screen and the growth boost
+    public static final ModConfigSpec.DoubleValue GROW_FALLOFF = rd("growth.falloff", 2.5, 0.0, 20.0, "Growth target fraction g(d) = exp(-falloff * d / R), d the distance from the hex, R the grove's radius (1.00 / 0.54 / 0.29 / 0.15 / 0.08 at d/R 0 / .25 / .5 / .75 / 1).");
+    public static final ModConfigSpec.IntValue GROW_APEX_PULSES = ri("growth.apexPulses", 500, 1, 100000, "Growth pulses a Thaumaturge grove sapling at the hex is given (a sapling at distance d gets this x g(d)); measured: a sapling never uses its soil up (cells grow about 3 per 100 pulses to 2000 and beyond), so this is a choice: 500 pulses is 50 s for the tree at the hex and about a 37-block young tree.");
+    public static final ModConfigSpec.IntValue GROW_STAGE_TICKS = ri("growth.stageTicks", 40, 2, 24000, "Ticks between the stages of a landmark tree (8 stages).");
+    public static final ModConfigSpec.IntValue GROW_STEP_TICKS = ri("growth.stepTicks", 2, 1, 200, "Ticks between growth steps (one pulse per sapling per step, within the budget).");
+    public static final ModConfigSpec.IntValue GROW_BUDGET_MS = ri("growth.budgetMs", 2, 1, 50, "Milliseconds a growth step may take; the rest waits for the next step.");
+    public static final ModConfigSpec.IntValue GROW_START_DELAY = ri("growth.startDelay", 40, 0, 24000, "Ticks after sight returns before the grove's trees begin to grow.");
+    public static final ModConfigSpec.IntValue GROW_DAY_TICKS = ri("growth.dayTicks", 24000, 20, 10000000, "Ticks between the extra stages a landmark left young matures by, until whole.");
+    public static final ModConfigSpec.DoubleValue GROVE_BOOST = rd("growth.boost", 0.25, 0.0, 1.0, "Within the Concilium Grove, crops and trees get this chance of one extra growth step (0.25 = 25% faster; 0 = off).");
+
     public static final ModConfigSpec.DoubleValue GROVE_NODE_CHANCE = rd("grove.nodeChance", 0.15, 0.0, 1.0,
             "Chance that a fully painted grove chunk gets one wild aura node (at most one per chunk, no cap per grove; a chunk that already holds a node gets none).");
 

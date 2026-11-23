@@ -110,3 +110,7 @@ side = "BOTH"
 # Accessor for the private aspect list of Thaumaturge crucibles (Quicksilver Reactor).
 [[mixins]]
 config = "thaumicconcilium.mixins.json"
+
+# Cycle 4e: the grove growth boost for Dynamic Trees and vanilla saplings (optional: skipped if the targets are missing).
+[[mixins]]
+config = "thaumicconcilium.growth.mixins.json"

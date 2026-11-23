@@ -11,7 +11,7 @@ Template origin = original (x-2, y, z-7), size 11 x 12 x 11.
 import sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-sys.path.insert(0, os.path.join(HERE, '..', '..', '..', 'tools', 'structures'))
+sys.path.insert(0, os.environ.get('TC_STRUCTURES', os.path.join(HERE, '..', '..', '..', 'tools', 'structures')))
 from genlib import *
 import nbt
 

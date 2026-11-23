@@ -35,6 +35,7 @@ public final class TCClient {
         event.registerItem(new GildedHelmModel.Extensions(), TCItems.GILDED_CRIMSON_HELM.get());
         event.registerItem(new GemRenderer.Extensions(), TCItems.INERT_RIFT_GEM.get(), TCItems.RIFT_GEM.get(),
                 TCItems.INERT_TERRA_CAST_GEM.get(), TCItems.TERRA_CAST_GEM.get());
+        event.registerItem(new VerdantCapitalRenderer.Extensions(), TCItems.VERDANT_CAPITAL.get()); // phase 5d cycle 4b: the closed star
     }
 
     /** Phase 5d cycle 3: the mana pond fluid, drawn by the standard fluid path (see {@link ManaPondClient}). */
@@ -68,6 +69,10 @@ public final class TCClient {
             dev.movingcastle.thaumicconcilium.entity.Vessel.clientTick = VesselFx::tick;
             dev.movingcastle.thaumicconcilium.entity.Vessel.clientEvent = VesselFx::event;
             dev.movingcastle.thaumicconcilium.entity.VesselClot.clientTick = VesselFx::clotTick;
+            // Phase 5d cycle 4b: the capital's crackle list, the pond's sparkle, the particles of the seed's death
+            dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlockEntity.clientState = CapitalCrackles::update;
+            dev.movingcastle.thaumicconcilium.block.ManaPondBlock.clientGlint = GlintParticle::pond;
+            dev.movingcastle.thaumicconcilium.entity.GroveBind.clientTick = GroveBindRenderer::fx;
         });
     }
 
@@ -85,6 +90,7 @@ public final class TCClient {
     @SubscribeEvent
     public static void guiLayers(RegisterGuiLayersEvent event) {
         event.registerAboveAll(ThaumicConcilium.id("vessel_vignette"), new VesselVignette());
+        event.registerAboveAll(ThaumicConcilium.id("vessel_flash"), new VesselFlashClient());
         event.registerAboveAll(ThaumicConcilium.id("bracelet_hud"), new BraceletHud());
         event.registerAboveAll(ThaumicConcilium.id("bracelet_radial"), new BraceletRadial());
         event.registerAboveAll(ThaumicConcilium.id("lithograph_hud"), new LithographHud());
@@ -158,6 +164,9 @@ public final class TCClient {
         event.registerEntityRenderer(TCEntities.MATERIAL_PEELER.get(), MaterialPeelerRenderer::new);
         event.registerEntityRenderer(TCEntities.VESSEL.get(), VesselRenderer::new);
         event.registerEntityRenderer(TCEntities.VESSEL_CLOT.get(), VesselClotRenderer::new);
+        // Phase 5d cycle 4b: the Verdant Capital's star and ray, the grove's hold on a dying Taint Seed.
+        event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.VERDANT_CAPITAL_BLOCK_ENTITY.get(), VerdantCapitalRenderer::new);
+        event.registerEntityRenderer(TCEntities.GROVE_BIND.get(), GroveBindRenderer::new);
         // Phase 4 mobs.
         event.registerEntityRenderer(TCEntities.THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "thaumaturge"));
         event.registerEntityRenderer(TCEntities.MAD_THAUMATURGE.get(), ctx -> new ThaumaturgeRenderer<>(ctx, "mad_thaumaturge"));
