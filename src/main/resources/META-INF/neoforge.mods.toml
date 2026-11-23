@@ -70,6 +70,14 @@ versionRange = "[2.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
+# Phase 8: the Assistant seal jars creatures into Thaumic Horizons' critter jar; the Golem Bydlo is made in its vat.
+[[dependencies.thaumicconcilium]]
+modId = "thaumichorizons"
+type = "required"
+versionRange = "[0.2,)"
+ordering = "AFTER"
+side = "BOTH"
+
 [[dependencies.thaumicconcilium]]
     modId="botania"
     type="optional"

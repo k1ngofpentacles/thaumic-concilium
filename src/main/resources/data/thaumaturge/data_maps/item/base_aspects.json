@@ -210,6 +210,20 @@
         "amount": 5
       }
     ],
+    "thaumicconcilium:seal_assistant": [
+      {
+        "aspect": "thaumaturge:instrumentum",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:bestia",
+        "amount": 5
+      },
+      {
+        "aspect": "thaumaturge:vinculum",
+        "amount": 10
+      }
+    ],
     "thaumicconcilium:primal_arrow_aer": [
       {
         "aspect": "thaumaturge:aversio",

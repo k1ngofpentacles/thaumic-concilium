@@ -3,6 +3,8 @@ package dev.movingcastle.thaumicconcilium.item;
 import com.leclowndu93150.thaumaturge.api.aspect.IAspect;
 import com.leclowndu93150.thaumaturge.api.essentia.EssentiaCrystalAccess;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import net.minecraft.core.RegistryAccess;
@@ -13,8 +15,9 @@ import net.minecraft.world.item.Item;
 /**
  * The shards a Shard Mill grinds, in the original's order: the Greatwood mill takes Thaumaturge's primal crystals
  * (TC4 shard metadata 0-5: air, fire, water, earth, order, entropy), the Silverwood mill Forbidden Magic's deadly
- * shards (TC4 types 7-13: wrath, envy, taint, pride, lust, sloth, greed). The original's balanced shard (type 6) has
- * no Thaumaturge counterpart, and its gluttony shard (type 14) ground into powder that did nothing; both are left out.
+ * shards (TC4 types 7-13: wrath, envy, taint, pride, lust, sloth, greed). The original's balanced shard (type 6) is
+ * Thaumic Horizons' {@code thaumichorizons:balanced_shard} (tag {@code c:balanced_shards}); its powder does nothing, as
+ * in the original ({@code case 6: default: break}). The gluttony shard (type 14) is left out.
  * The powder takes its colour from the shard's aspect, as the original's renderer did.
  * <p>
  * Thaumaturge's primal shards are essentia crystals ({@code thaumaturge:essentia_crystal} with a crystal aspect),
@@ -33,10 +36,14 @@ public enum ShardKind {
     PRIDE("forbiddenmagic:pride_shard", "forbiddenmagic:superbia"),
     LUST("forbiddenmagic:lust_shard", "forbiddenmagic:luxuria"),
     SLOTH("forbiddenmagic:sloth_shard", "forbiddenmagic:desidia"),
-    GREED("forbiddenmagic:greed_shard", "thaumaturge:desiderium");
+    GREED("forbiddenmagic:greed_shard", "thaumaturge:desiderium"),
+    /** Appended last so saved mill state (shard ordinals) stays valid. Powder colour: auram. */
+    BALANCED("thaumichorizons:balanced_shard", "thaumaturge:auram");
 
-    public static final List<ShardKind> GREATWOOD = List.of(AER, IGNIS, AQUA, TERRA, ORDO, PERDITIO);
+    public static final List<ShardKind> GREATWOOD = List.of(AER, IGNIS, AQUA, TERRA, ORDO, PERDITIO, BALANCED);
     public static final List<ShardKind> SILVERWOOD = List.of(WRATH, ENVY, TAINT, PRIDE, LUST, SLOTH, GREED);
+
+    public static final TagKey<Item> BALANCED_TAG = TagKey.create(Registries.ITEM, ResourceLocation.parse("c:balanced_shards"));
 
     private final ResourceLocation item;
     private final ResourceLocation aspect;
@@ -51,6 +58,9 @@ public enum ShardKind {
     public boolean matches(ItemStack stack) {
         if (stack.isEmpty()) {
             return false;
+        }
+        if (this == BALANCED) {
+            return stack.is(BALANCED_TAG);
         }
         if (stack.is(this.item())) {
             return true;

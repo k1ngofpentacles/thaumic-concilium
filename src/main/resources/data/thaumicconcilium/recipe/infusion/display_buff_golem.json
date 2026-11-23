@@ -1,0 +1,101 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumichorizons:vat_dummy"
+  },
+  "components": [
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:golem",
+      "components": {
+        "thaumaturge:golem_properties": {
+          "material": "thaumaturge:thaumium",
+          "head": "thaumaturge:basic",
+          "arms": "thaumaturge:basic",
+          "legs": "thaumaturge:walker",
+          "addon": "thaumaturge:none"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:golem",
+      "components": {
+        "thaumaturge:golem_properties": {
+          "material": "thaumaturge:thaumium",
+          "head": "thaumaturge:basic",
+          "arms": "thaumaturge:basic",
+          "legs": "thaumaturge:walker",
+          "addon": "thaumaturge:none"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:golem",
+      "components": {
+        "thaumaturge:golem_properties": {
+          "material": "thaumaturge:thaumium",
+          "head": "thaumaturge:basic",
+          "arms": "thaumaturge:basic",
+          "legs": "thaumaturge:walker",
+          "addon": "thaumaturge:none"
+        }
+      }
+    },
+    {
+      "item": "thaumichorizons:golem_powder"
+    },
+    {
+      "item": "thaumichorizons:golem_powder"
+    },
+    {
+      "item": "thaumaturge:metal_thaumium"
+    },
+    {
+      "item": "thaumaturge:metal_thaumium"
+    },
+    {
+      "item": "thaumaturge:metal_thaumium"
+    },
+    {
+      "item": "thaumaturge:metal_thaumium"
+    },
+    {
+      "item": "thaumaturge:tallow_block"
+    },
+    {
+      "item": "thaumaturge:tallow_block"
+    },
+    {
+      "item": "thaumaturge:golem_fetter"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:metallum",
+      "amount": 128
+    },
+    {
+      "aspect": "forbiddenmagic:superbia",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 128
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:buff_golem",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:golem_bydlo_spawn_egg"
+  }
+}

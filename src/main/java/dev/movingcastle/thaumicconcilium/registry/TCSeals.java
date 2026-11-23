@@ -7,6 +7,7 @@ import com.leclowndu93150.thaumaturge.content.golem.seals.behavior.ItemMatchSett
 import com.leclowndu93150.thaumaturge.content.golem.seals.behavior.UseBehavior;
 import com.leclowndu93150.thaumaturge.registry.TTGolemTraits;
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
+import dev.movingcastle.thaumicconcilium.golem.AssistantBehavior;
 import dev.movingcastle.thaumicconcilium.golem.ValetBehavior;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -27,6 +28,19 @@ public final class TCSeals {
             .requires(TTGolemTraits.DEFT, TTGolemTraits.SMART)
             .placement(SealPlacements.ANYWHERE)
             .placer(TCItems.SEAL_VALET)
+            .build());
+
+    /**
+     * Assistant (original: Assistant golem core). An area seal: nine filter slots for blood samples (the species wanted), Order and
+     * Entropy as settings (the original's upgrades). Fighter and smart golems only, as the advanced Guard seal.
+     */
+    public static final DeferredHolder<SealType, SealType> ASSISTANT = SEALS.register("assistant", () -> SealType.builder(AssistantBehavior::new)
+            .filter(AssistantBehavior.FILTER_SLOTS, SealFilterMode.PLAIN)
+            .area()
+            .settings(AssistantBehavior.ORDER, AssistantBehavior.ENTROPY)
+            .showSettings()
+            .requires(TTGolemTraits.FIGHTER, TTGolemTraits.SMART)
+            .placer(TCItems.SEAL_ASSISTANT)
             .build());
 
     private TCSeals() {

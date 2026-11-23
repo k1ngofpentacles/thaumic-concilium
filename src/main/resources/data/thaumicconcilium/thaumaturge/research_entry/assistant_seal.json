@@ -1,0 +1,52 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.assistant_seal.title",
+  "parents": [
+    "thaumicconcilium:aura_core",
+    "~thaumaturge:seal_butcher",
+    "~thaumaturge:seal_provide",
+    "~thaumichorizons:focus_containment"
+  ],
+  "column": -7,
+  "row": 3,
+  "icons": [
+    "thaumicconcilium:seal_assistant"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.assistant_seal.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 1
+    },
+    {
+      "text": "research.thaumicconcilium.assistant_seal.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/seal_assistant"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:vinculum",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:bestia",
+      "amount": 3
+    }
+  ],
+  "complexity": 2,
+  "meta": [
+    "hidden"
+  ]
+}

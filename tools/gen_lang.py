@@ -769,6 +769,38 @@ for i in range(4):
     L[f'{NS}.golem.taunt.{i}'] = o(f'tc.golem.taunt.{i}')
 L[f'research.{NS}.fallen.vengeful'] = o('entry.thaumicconcilium.vengefulgolem1')
 
+# ---------------------------------------------------------------- phase 8 (first cycle): the Assistant seal, the Bydlo chain's research, the Golem Bydlo
+import re as _re
+def clean(k):
+    """Original page text without the TC4 page images and the section sign formatting."""
+    return _re.sub(r'\s+', ' ', _re.sub(r'<IMG>.*?</IMG>', '', o(k)).replace('§n', '').replace('§r', '')).strip()
+L[f'item.{NS}.seal_assistant'] = 'Control Seal: Assistant'
+L[f'gui.{NS}.seal.setting.only_weakened'] = 'Only weakened prey'
+L[f'gui.{NS}.seal.setting.hostile_too'] = 'Hostile creatures too'
+L[f'research.{NS}.assistant_seal.title'] = o('tc.research_name.ASSISTANCECORE')
+L[f'research.{NS}.assistant_seal.stage_0'] = o('tc.research_text.ASSISTANCECORE')
+L[f'research.{NS}.assistant_seal.stage_1'] = join(o('entry.assistancecore.first'),
+    "In the first filter slots (nine) put blood samples of the creatures you want: the golem then jars only those species. " + clean('entry.assistancecore.second'),
+    "Entropy Upgrade Unlocked: switch on <Hostile creatures too> and the golem will try to put aggressive creatures in the jar as well. " + clean('entry.assistancecore.third').split('Unlocked')[1].strip(),
+    "Order Upgrade Unlocked: switch on <Only weakened prey> and the golem will only put into jars creatures already weak enough to do so. " + clean('entry.assistancecore.fourth').split('Unlocked')[1].strip(),
+    "The seal is the golem's point of work, with an area as the Butcher's: the golem must carry an empty warded jar (a Provider seal on a chest of them will do), "
+    "hits its quarry until its next blow would finish it, puts the creature in the jar instead and drops the filled jar at its feet. Players, other golems and bosses "
+    "are never jarred.")
+L[f'research.{NS}.thaumic_horizons.title'] = o('tc.research_name.TCHORIZONS')
+L[f'research.{NS}.thaumic_horizons.stage_0'] = o('entry.tchorizons.first')
+L[f'research.{NS}.brain_littering.title'] = o('tc.research_name.BRAINLITTERING')
+L[f'research.{NS}.brain_littering.stage_0'] = o('tc.research_text.BRAINLITTERING')
+L[f'research.{NS}.brain_littering.stage_1'] = join(o('entry.brainlittering.first'), o('entry.brainlittering.second'))
+L[f'research.{NS}.buff_golem.title'] = o('tc.research_name.BUFFGOLEM')
+L[f'research.{NS}.buff_golem.stage_0'] = o('tc.research_text.BUFFGOLEM')
+L[f'research.{NS}.buff_golem.stage_1'] = join(o('entry.buffgolem.first'), o('entry.buffgolem.second'), o('entry.buffgolem.third'), o('entry.buffgolem.fourth'),
+    "Anyone can climb on the golem's shoulder (use it, not sneaking): you steer it, it walks at your look and only a little to the side. With a wand in your hand, "
+    "left-click to command its arms.")
+L[f'research.{NS}.buff_golem.addendum_0'] = "Wand Focus Control: " + clean('entry.buffgolem.fifth') + " Here the focus must hold the Break part; its Fortune and Silk Touch apply, and what the golem may not break (a protected block) it leaves."
+L[f'research.{NS}.buff_golem.addendum_1'] = "Wand Focus Control: " + clean('entry.buffgolem.sixth') + " It spares its rider, other players and tamed creatures."
+L[f'entity.{NS}.golem_bydlo'] = o('entity.ThaumicConcilium.GolemBydlo.name')
+L[f'item.{NS}.golem_bydlo_spawn_egg'] = o('entity.ThaumicConcilium.GolemBydlo.name') + ' Spawn Egg'
+
 # ---------------------------------------------------------------- per-cycle lang files (second builder lane)
 # tools/gen_<phase>_c<N>.py may define a module-level LANG dict; its keys are merged here, so two lanes never edit this
 # file's text at the same place. The cycle file is imported (not run as __main__): put its data generation under

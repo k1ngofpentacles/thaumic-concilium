@@ -176,6 +176,7 @@ public final class TCClient {
         event.registerEntityRenderer(TCEntities.NETHER_EXPLORER.get(),
                 ctx -> new CorpseRenderer<>(ctx, TCModelLayers.NETHER_EXPLORER, "nether_explorer"));
         event.registerEntityRenderer(TCEntities.VENGEFUL_GOLEM.get(), VengefulGolemRenderer::new);
+        event.registerEntityRenderer(TCEntities.GOLEM_BYDLO.get(), dev.movingcastle.thaumicconcilium.client.mob.GolemBydloRenderer::new);
         if (TCEntities.hasBotanist()) {
             event.registerEntityRenderer(TCEntities.WITHERED_BOTANIST.get(),
                     ctx -> new CorpseRenderer<>(ctx, TCModelLayers.WITHERED_BOTANIST, "withered_botanist"));
@@ -221,6 +222,7 @@ public final class TCClient {
     @SubscribeEvent
     public static void layers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(TCModelLayers.THAUMATURGE, TCModelLayers::biped);
+        event.registerLayerDefinition(dev.movingcastle.thaumicconcilium.client.mob.GolemBydloModel.LAYER, dev.movingcastle.thaumicconcilium.client.mob.GolemBydloModel::create);
         event.registerLayerDefinition(PontifexRobeModel.LAYER, PontifexRobeModelData::create);
         event.registerLayerDefinition(GildedHelmModel.LAYER, GildedHelmModel::create);
         event.registerLayerDefinition(CrimsonOverlayLayer.ARCHER, CrimsonOverlayLayer::archer);

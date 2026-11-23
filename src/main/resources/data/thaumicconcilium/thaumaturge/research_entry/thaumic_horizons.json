@@ -1,0 +1,39 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.thaumic_horizons.title",
+  "parents": [
+    "thaumicconcilium:thaumaturges",
+    "~thaumichorizons:healing_vat"
+  ],
+  "column": 7,
+  "row": -1,
+  "icons": [
+    "thaumichorizons:textures/misc/vat.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.thaumic_horizons.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "round"
+  ]
+}

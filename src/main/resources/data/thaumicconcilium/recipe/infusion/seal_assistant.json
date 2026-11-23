@@ -1,0 +1,65 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumaturge:seal_butcher"
+  },
+  "components": [
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:focus_1",
+      "components": {
+        "thaumaturge:spell": {
+          "style": "channeled",
+          "root": {
+            "part": "thaumaturge:origin",
+            "children": [
+              {
+                "part": "thaumaturge:beam",
+                "settings": {
+                  "range": 12
+                },
+                "children": [
+                  {
+                    "part": "thaumichorizons:containment"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "item": "thaumichorizons:blood_syringe"
+    },
+    {
+      "item": "thaumaturge:seal_provider"
+    },
+    {
+      "item": "thaumichorizons:blood_syringe"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:bestia",
+      "amount": 16
+    },
+    {
+      "aspect": "thaumaturge:vinculum",
+      "amount": 32
+    }
+  ],
+  "instability": 3,
+  "research": {
+    "entry": "thaumicconcilium:assistant_seal",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:seal_assistant"
+  }
+}

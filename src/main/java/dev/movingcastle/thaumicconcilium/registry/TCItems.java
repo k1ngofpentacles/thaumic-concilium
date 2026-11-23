@@ -244,6 +244,15 @@ public final class TCItems {
     public static final DeferredItem<com.leclowndu93150.thaumaturge.content.golem.ItemSealPlacer> SEAL_VALET = ITEMS.register("seal_valet",
             () -> new com.leclowndu93150.thaumaturge.content.golem.ItemSealPlacer(ThaumicConcilium.id("valet"), new Item.Properties()));
 
+    /** Control Seal: Assistant (original: the Assistant golem core). Places the seal registered as {@code thaumicconcilium:assistant}. */
+    public static final DeferredItem<com.leclowndu93150.thaumaturge.content.golem.ItemSealPlacer> SEAL_ASSISTANT = ITEMS.register("seal_assistant",
+            () -> new com.leclowndu93150.thaumaturge.content.golem.ItemSealPlacer(ThaumicConcilium.id("assistant"), new Item.Properties()));
+
+    /** Golem Bydlo's spawn egg (original colours 0x00FFFF / 0x555555). */
+    public static final DeferredItem<net.neoforged.neoforge.common.DeferredSpawnEggItem> GOLEM_BYDLO_SPAWN_EGG =
+            ITEMS.register("golem_bydlo_spawn_egg", () -> new net.neoforged.neoforge.common.DeferredSpawnEggItem(
+                    TCEntities.GOLEM_BYDLO, 0x00FFFF, 0x555555, new Item.Properties()));
+
     /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
     public static void defaultComponents(ModifyDefaultComponentsEvent event) {
         BRACELETS.forEach((kind, item) -> {

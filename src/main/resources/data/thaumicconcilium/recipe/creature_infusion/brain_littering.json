@@ -1,0 +1,46 @@
+{
+  "type": "thaumichorizons:creature_infusion",
+  "species": {
+    "input": "thaumicconcilium:thaumaturge",
+    "output": "thaumicconcilium:mad_thaumaturge"
+  },
+  "components": [
+    {
+      "item": "thaumichorizons:knowledge_fragment"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "thaumaturge:brain"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:vitium"
+        }
+      }
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 64
+    }
+  ],
+  "instability": 4,
+  "requires": {
+    "entry": "thaumicconcilium:brain_littering",
+    "stage": 1
+  }
+}

@@ -29,6 +29,7 @@ public final class TCNetwork {
         registrar.playToClient(DaggerFxPayload.TYPE, DaggerFxPayload.STREAM_CODEC, DaggerFxPayload::handle);
         registrar.playToServer(DaggerStabPayload.TYPE, DaggerStabPayload.STREAM_CODEC, DaggerStabPayload::handle);
         registrar.playToClient(VesselFlashPayload.TYPE, VesselFlashPayload.STREAM_CODEC, VesselFlashPayload::handle);
+        registrar.playToServer(BydloSwingPayload.TYPE, BydloSwingPayload.STREAM_CODEC, BydloSwingPayload::handle);
         registrar.playToClient(GuardFxPayload.TYPE, GuardFxPayload.STREAM_CODEC, GuardFxPayload::handle);
     }
 }

@@ -155,6 +155,12 @@ public final class TCEntities {
                     dev.movingcastle.thaumicconcilium.entity.mob.VengefulGolem::new, MobCategory.MONSTER)
                     .sized(0.6F, 1.8F).clientTrackingRange(8).build("vengeful_golem"));
 
+    /** Original: {@code setSize(2.0, 3.5)}, an iron golem (a vanilla {@code EntityGolem}); here an {@code AbstractGolem}. */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.GolemBydlo>> GOLEM_BYDLO =
+            ENTITY_TYPES.register("golem_bydlo", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.GolemBydlo>of(
+                    dev.movingcastle.thaumicconcilium.entity.GolemBydlo::new, MobCategory.MISC)
+                    .sized(2.0F, 3.5F).clientTrackingRange(10).build("golem_bydlo"));
+
     public static boolean hasBotanist() {
         return WITHERED_BOTANIST != null;
     }

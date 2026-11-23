@@ -5,7 +5,7 @@ Cycle 2 (Gem of Rifts, Terra-cast Gem, Causal Bouillon) is the second half of th
 Gadomancy 1.7.10 is LGPL (credit Makeo and the Gadomancy team, never monetise). Its art is copied from the extracted reference
 folder (reference/src/gadomancy-1.7.10-1.0.7.3, never committed except these three textures, credited in CREDITS.md).
 TC4 -> Thaumaturge: aura -> auram, magic -> praecantatio, eldritch -> alienis, void -> vacuos, water -> aqua, heal -> victus,
-balanced shard -> essentia crystal, thaumium ingot -> ingot_thaumium, primal charm -> primal_charm. Instability 6 / 2.5.
+balanced shard -> tag c:balanced_shards (Thaumic Horizons' balanced shard, phase 8-3), thaumium ingot -> ingot_thaumium, primal charm -> primal_charm. Instability 6 / 2.5.
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -18,7 +18,7 @@ TYPES = {'air': 'aer', 'fire': 'ignis', 'water': 'aqua', 'earth': 'terra', 'orde
 # RegisteredRecipes.recipeAuraCore: catalyst primal charm; 4 balanced shards and 8 thaumium ingots; aura 9, magic 19, eldritch 17, void 34.
 infusion('aura_core', 'aura_core',
          [('auram', 9), ('praecantatio', 19), ('alienis', 17), ('vacuos', 34)],
-         it('primal_charm'), [it('essentia_crystal')] * 4 + [it('ingot_thaumium')] * 8, 6, 'aura_core')
+         it('primal_charm'), [{'tag': 'c:balanced_shards'}] * 4 + [it('ingot_thaumium')] * 8, 6, 'aura_core')
 
 # recipesWashAuraCore: any attuned core + magic 12, water 12, heal 18 -> blank core (one recipe per type, as the original).
 for t in TYPES:

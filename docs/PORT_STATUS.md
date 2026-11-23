@@ -130,8 +130,10 @@ Every manual check is a QA quest in the FTB Quests book: **Foci ported 1:1** (`q
   Entries keep their original positions, which don't collide with phases 1-2.
 - Thick Taint: Thaumaturge has no taint biome, so the original's biome change becomes 0.04 ecological pressure per spot
   (a flux lightning strike's worth) plus an attempt at fibre growth.
-- Shard Mill: the shard is chosen with sneak + mouse wheel (the original used a radial menu). The balanced shard (no
-  Thaumaturge counterpart) and the gluttony shard (its powder did nothing) are left out. Pride powder keeps the
+- Shard Mill: the shard is chosen with sneak + mouse wheel (the original used a radial menu). The balanced shard is Thaumic
+  Horizons' `thaumichorizons:balanced_shard` (tag `c:balanced_shards`), a Greatwood mill choice whose powder does nothing, as
+  in the original (0.15.1); the gluttony shard (its powder did nothing) is left out. The Aura Core infusion takes four
+  balanced shards (the tag), not essentia crystals (0.15.1). Pride powder keeps the
   original's intent, flinging creatures away; the original's formula aimed them at the world origin.
 - Strong original numbers are kept for now and worth judging in play: Runic Windings' 200 charge each, entropy powder's
   Wither 51, wrath powder's 50000-second burn, pride and greed powders' speed of 3.

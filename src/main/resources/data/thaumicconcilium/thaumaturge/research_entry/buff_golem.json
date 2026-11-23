@@ -1,0 +1,70 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.buff_golem.title",
+  "parents": [
+    "thaumicconcilium:brain_littering",
+    "~thaumichorizons:golem_powder",
+    "~thaumaturge:golem_direct",
+    "~thaumaturge:golem_fetter"
+  ],
+  "column": 7,
+  "row": 5,
+  "icons": [
+    "thaumicconcilium:textures/research/golem_bydlo.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.buff_golem.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 5
+    },
+    {
+      "text": "research.thaumicconcilium.buff_golem.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/display_buff_golem"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:potentia",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:metallum",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden"
+  ],
+  "addenda": [
+    {
+      "text": "research.thaumicconcilium.buff_golem.addendum_0",
+      "required_research": [
+        "thaumaturge:focus_break"
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.buff_golem.addendum_1",
+      "required_research": [
+        "thaumicconcilium:wrath_attraction_focus"
+      ]
+    }
+  ]
+}

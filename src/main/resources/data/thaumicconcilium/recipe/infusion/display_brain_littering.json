@@ -1,0 +1,49 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumichorizons:vat_dummy"
+  },
+  "components": [
+    {
+      "item": "thaumichorizons:knowledge_fragment"
+    },
+    {
+      "item": "forbiddenmagic:taint_shard"
+    },
+    {
+      "item": "thaumaturge:brain"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:vitium"
+        }
+      }
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:perditio",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:cognitio",
+      "amount": 64
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:brain_littering",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:mad_thaumaturge_spawn_egg"
+  }
+}

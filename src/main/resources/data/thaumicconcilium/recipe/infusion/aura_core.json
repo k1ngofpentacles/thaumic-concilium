@@ -5,16 +5,16 @@
   },
   "components": [
     {
-      "item": "thaumaturge:essentia_crystal"
+      "tag": "c:balanced_shards"
     },
     {
-      "item": "thaumaturge:essentia_crystal"
+      "tag": "c:balanced_shards"
     },
     {
-      "item": "thaumaturge:essentia_crystal"
+      "tag": "c:balanced_shards"
     },
     {
-      "item": "thaumaturge:essentia_crystal"
+      "tag": "c:balanced_shards"
     },
     {
       "item": "thaumaturge:ingot_thaumium"
