@@ -66,6 +66,12 @@ public final class TCSpellBehaviors {
     public static final DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<dev.movingcastle.thaumicconcilium.spell.effect.CrimsonRaidEffect>> CRIMSON_RAID =
             register("crimson_raid", SpellPartKind.EFFECT, dev.movingcastle.thaumicconcilium.spell.effect.CrimsonRaidEffect.CODEC);
 
+    // Shield foci
+    public static final DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<dev.movingcastle.thaumicconcilium.spell.delivery.RiposteDelivery>> RIPOSTE =
+            register("riposte", SpellPartKind.DELIVERY, dev.movingcastle.thaumicconcilium.spell.delivery.RiposteDelivery.CODEC);
+    public static final DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<dev.movingcastle.thaumicconcilium.spell.effect.AegisEffect>> AEGIS =
+            register("aegis", SpellPartKind.EFFECT, dev.movingcastle.thaumicconcilium.spell.effect.AegisEffect.CODEC);
+
     private static <B extends SpellBehavior> DeferredHolder<SpellBehaviorType<?>, SpellBehaviorType<B>> register(
             String name, SpellPartKind kind, MapCodec<B> codec) {
         return BEHAVIORS.register(name, () -> new SpellBehaviorType<>(kind, codec));

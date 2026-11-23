@@ -1,0 +1,30 @@
+{
+  "aspect": "thaumaturge:praemunio",
+  "behavior": {
+    "type": "thaumicconcilium:aegis"
+  },
+  "color": 8368895,
+  "complexity": 6,
+  "vis": 3.0,
+  "cooldown_multiplier": 2.0,
+  "icon": "thaumicconcilium:textures/foci/aegis.png",
+  "research": {
+    "entry": "thaumicconcilium:aegis_focus"
+  },
+  "settings": [
+    {
+      "key": "duration",
+      "min": 1,
+      "max": 4,
+      "name": "spell.thaumicconcilium.setting.duration",
+      "default": 2,
+      "complexity": 1.0,
+      "labels": [
+        "spell.thaumicconcilium.value.aegis.duration.s5",
+        "spell.thaumicconcilium.value.aegis.duration.s10",
+        "spell.thaumicconcilium.value.aegis.duration.s15",
+        "spell.thaumicconcilium.value.aegis.duration.s20"
+      ]
+    }
+  ]
+}

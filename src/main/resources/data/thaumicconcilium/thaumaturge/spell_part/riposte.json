@@ -1,0 +1,29 @@
+{
+  "aspect": "thaumaturge:aversio",
+  "behavior": {
+    "type": "thaumicconcilium:riposte"
+  },
+  "color": 13227752,
+  "complexity": 5,
+  "icon": "thaumicconcilium:textures/foci/riposte.png",
+  "max_per_spell": 1,
+  "research": {
+    "entry": "thaumicconcilium:riposte_focus"
+  },
+  "settings": [
+    {
+      "key": "window",
+      "min": 1,
+      "max": 4,
+      "name": "spell.thaumicconcilium.setting.window",
+      "default": 2,
+      "complexity": 1.0,
+      "labels": [
+        "spell.thaumicconcilium.value.riposte.window.s5",
+        "spell.thaumicconcilium.value.riposte.window.s10",
+        "spell.thaumicconcilium.value.riposte.window.s15",
+        "spell.thaumicconcilium.value.riposte.window.s20"
+      ]
+    }
+  ]
+}

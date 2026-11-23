@@ -1,0 +1,44 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.riposte_focus.title",
+  "parents": [
+    "thaumicconcilium:casting_bracelets",
+    "~thaumaturge:thaumium_shield",
+    "thaumaturge:focus_mine"
+  ],
+  "column": 4,
+  "row": 1,
+  "icons": [
+    "focus:thaumicconcilium:riposte"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.riposte_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.riposte_focus.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 2
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

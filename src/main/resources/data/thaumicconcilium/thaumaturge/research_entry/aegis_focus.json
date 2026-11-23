@@ -1,0 +1,43 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.aegis_focus.title",
+  "parents": [
+    "thaumicconcilium:riposte_focus",
+    "thaumaturge:runic_shielding"
+  ],
+  "column": 3,
+  "row": 1,
+  "icons": [
+    "focus:thaumicconcilium:aegis"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.aegis_focus.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "text": "research.thaumicconcilium.aegis_focus.stage_1"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:praemunio",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:aversio",
+      "amount": 2
+    }
+  ],
+  "complexity": 2
+}

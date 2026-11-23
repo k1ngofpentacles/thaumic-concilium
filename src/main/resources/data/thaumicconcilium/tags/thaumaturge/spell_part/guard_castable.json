@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "thaumaturge:self",
+    "thaumaturge:aura",
+    "thaumaturge:cloud",
+    "thaumaturge:touch",
+    "thaumaturge:wall",
+    "thaumicconcilium:riposte"
+  ]
+}

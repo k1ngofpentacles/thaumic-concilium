@@ -62,6 +62,16 @@ public final class TCConfig {
                     "A drum held silent casts at the plain wand cost.")
             .defineInRange("drum.drumVisCostMultiplier", 1.5, 0.0, 10.0);
 
+    public static final ModConfigSpec.IntValue RIPOSTE_PARRY_TICKS = B
+            .comment("Riposte: an armed Riposte only fires on a hit blocked within this many ticks of raising the shield (the parry",
+                    "window; a shield blocks from tick 5). Held longer, the shield just blocks and the charges stay. Server-side.")
+            .defineInRange("riposte.parryTicks", 10, 5, 100);
+
+    public static final ModConfigSpec.DoubleValue RIPOSTE_RANGE = B
+            .comment("Riposte: how far away a projectile's shooter may be for the riposte to reach them, in blocks. Farther away, the",
+                    "shield just blocks and the charges stay. Melee attackers are always reached. Server-side.")
+            .defineInRange("riposte.range", 8.0, 1.0, 64.0);
+
     public static final ModConfigSpec.BooleanValue GENERATE_AVANPOSTS = B
             .comment("Whether Crimson Avanposts (cultist towers with their archers and loot chest) generate in newly made overworld chunks",
                     "(original: generateCrimsonAvanposts, true). Their rarity is the structure set's spacing (data), about one attempt per 289",

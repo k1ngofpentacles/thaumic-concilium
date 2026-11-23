@@ -124,9 +124,7 @@ entry('eldritch_bracelet', 6, 4, B('eldritch'), [f'{NS}:void_bracelet'],
       [f'{NS}:infusion/eldritch_bracelet'], warp=3)
 
 # ---------------------------------------------------------------- shield foci
-# Spell parts that a worn bracelet may cast while the off hand holds a shield (ShieldFoci). Empty until the shield foci
-# are designed (after phase 4).
-w(f'data/{NS}/tags/thaumaturge/spell_part/shield_foci.json', {'replace': False, 'values': []})
+# The shield_foci and guard_castable spell-part tags are written by gen_shield_foci_data.py.
 
 # ---------------------------------------------------------------- curios, item models
 KINDS = ['iron', 'thaumium', 'void', 'livingwood', 'dreamwood', 'terrasteel', 'infernal', 'tainted', 'eldritch']

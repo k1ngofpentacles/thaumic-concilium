@@ -185,7 +185,8 @@ L[f'item.{NS}.casting_bracelet.desc'] = 'Worn or in the shield slot: cast key (V
 L[f'item.{NS}.casting_bracelet.volley'] = 'Casts instant spells ten at once, at triple cooldown'
 L[f'message.{NS}.bracelet_no_focus'] = 'Your bracelet holds no focus'
 L[f'message.{NS}.bracelet_drum_undirected'] = "You cannot aim while drumming"
-L[f'message.{NS}.bracelet_shield_busy'] = 'Your shield arm is busy: only shield foci cast past a shield'
+L[f'message.{NS}.bracelet_shield_busy'] = 'You cannot aim past your shield'
+L[f'message.{NS}.riposte_needs_shield'] = 'Riposte needs a shield in your off hand'
 L[f'key.{NS}.bracelet_cast'] = 'Cast from bracelet'
 L[f'key.categories.{NS}'] = 'Thaumic Concilium'
 HOW = ("Worn on the wrist, it leaves both hands free: press the cast key (V unless I change it) to cast, hold it to "
@@ -218,6 +219,45 @@ for key, (title, sub, first, second) in P3B.items():
     L[f'research.{NS}.{key}.title'] = title
     L[f'research.{NS}.{key}.stage_0'] = join(sub, first)
     L[f'research.{NS}.{key}.stage_1'] = second or HOW
+# Shield foci: the guard stance page on the bracelet entry (docs/design/shield-foci-design.md section 1).
+GUARD_STANCE = ("With a shield in my off hand, a worn bracelet casts only what needs no aim past the shield: spells that act on me "
+                "or around me (Self, Aura, Cloud), what my hand can touch or build where I stand (Touch, Wall), and Riposte, "
+                "and any effect set straight on myself. Anything thrown or aimed refuses with nothing spent, and so do the effects "
+                "that read my gaze. A shield in the main hand does not stop it.")
+L[f'research.{NS}.casting_bracelets.stage_1'] = join(L[f'research.{NS}.casting_bracelets.stage_1'], GUARD_STANCE)
+
+# ---------------------------------------------------------------- shield foci (Riposte, Aegis)
+SHIELD_RESEARCH = {
+ 'riposte_focus': ('Riposte', 'A blow answered',
+    "A mine for the man who carries a shield: the spell is paid at once and waits in the shield. The next blow the shield stops, "
+    "if I raised it only an instant before, is answered on the one who struck it at half again its strength, and the shield "
+    "pays a little more for the privilege.",
+    "Build it in the focal manipulator as Riposte, then the effects: it arms the caster, so it needs a shield in the off hand "
+    "to cast. The window sets how long it waits, five to twenty seconds, then the vis is lost. A melee attacker is always "
+    "reached; an archer only within eight blocks. One answer for each raise of the shield, and a terrasteel bracelet's volley "
+    "of ten leaves ten answers waiting."),
+ 'aegis_focus': ('Aegis', 'A ward that wants a shield',
+    "The runes of a shield, made to answer for a while: with the shield raised, blows from the side and from behind count as "
+    "blocked, and so does magic.",
+    "As an effect, on myself or through an Aura on those around me (they need their own raised shields). Each blow it forces "
+    "wears the shield twice over. It never stops a fall, fire, drowning, hunger or the void, and it does nothing with the "
+    "shield lowered."),
+}
+for key, (title, sub, first, second) in SHIELD_RESEARCH.items():
+    L[f'research.{NS}.{key}.title'] = title
+    L[f'research.{NS}.{key}.stage_0'] = join(sub, first)
+    L[f'research.{NS}.{key}.stage_1'] = second
+L[f'spell.{NS}.riposte.name'] = 'Riposte'
+L[f'spell.{NS}.riposte.desc'] = 'Arms the spell in your shield. The next hit it blocks, just after you raise it, answers on the attacker at half again the power.'
+L[f'spell.{NS}.aegis.name'] = 'Aegis'
+L[f'spell.{NS}.aegis.desc'] = 'While their shield is raised, hits from any side and magic count as blocked, at double shield wear.'
+L[f'spell.{NS}.setting.window'] = 'Window'
+L[f'spell.{NS}.setting.duration'] = 'Duration'
+for part in ('riposte', 'aegis'):
+    key = 'window' if part == 'riposte' else 'duration'
+    for step, secs in (('s5', 5), ('s10', 10), ('s15', 15), ('s20', 20)):
+        L[f'spell.{NS}.value.{part}.{key}.{step}'] = f'{secs} seconds'
+L[f'effect.{NS}.aegis'] = 'Aegis'
 
 L[f'{NS}.focus.preset'] = 'Pre-inscribed: %s'
 

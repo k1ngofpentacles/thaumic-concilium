@@ -97,6 +97,14 @@ public final class TCCommands {
                                 .then(Commands.argument("tier", com.mojang.brigadier.arguments.IntegerArgumentType.integer(3, 4))
                                         .executes(TCCommands::finale)))
                         .then(Commands.literal("lithograph").executes(TCCommands::lithograph))
+                        // Shield foci look (render harness, QA): arm <charges> | release | aegis_block | clear. See Riposte.qa.
+                        .then(Commands.literal("guard")
+                                .then(Commands.literal("arm")
+                                        .then(Commands.argument("charges", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 10))
+                                                .executes(c -> guard(c, "arm", com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "charges")))))
+                                .then(Commands.literal("release").executes(c -> guard(c, "release", 0)))
+                                .then(Commands.literal("aegis_block").executes(c -> guard(c, "aegis_block", 0)))
+                                .then(Commands.literal("clear").executes(c -> guard(c, "clear", 0))))
                         // Phase 5d cycle 4b (render harness): a Taint Seed at pos and the grove killing it, without a painter job.
                         .then(Commands.literal("seeddeath")
                                 .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
@@ -156,6 +164,12 @@ public final class TCCommands {
             return drumAura();
         }
         return FocusPresets.ALL.stream().filter(p -> p.id().equals(id)).findFirst().map(FocusPresets.Preset::stack).orElse(ItemStack.EMPTY);
+    }
+
+    private static int guard(CommandContext<CommandSourceStack> ctx, String what, int n) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        dev.movingcastle.thaumicconcilium.spell.Riposte.qa(ctx.getSource().getPlayerOrException(), what, n);
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: guard " + what), false);
+        return 1;
     }
 
     private static int lithograph(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {

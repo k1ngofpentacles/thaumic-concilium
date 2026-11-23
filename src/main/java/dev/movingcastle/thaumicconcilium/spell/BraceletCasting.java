@@ -56,6 +56,13 @@ public final class BraceletCasting {
     private static final Map<UUID, Long> HELD = new HashMap<>();
     /** The bracelet whose cast is running on this thread, read by {@link #discount}. */
     private static final ThreadLocal<ItemStack> CASTING = new ThreadLocal<>();
+    /** One token per volley while its ten casts run, so a part can tell casts of one volley apart from separate casts (Riposte). */
+    private static final ThreadLocal<Object> VOLLEY_TOKEN = new ThreadLocal<>();
+
+    /** The running volley's token, or null outside a volley. */
+    public static Object volleyToken() {
+        return VOLLEY_TOKEN.get();
+    }
 
     private BraceletCasting() {
     }
@@ -188,9 +195,9 @@ public final class BraceletCasting {
                     com.leclowndu93150.thaumaturge.registry.TTSounds.WANDFAIL.get(), net.minecraft.sounds.SoundSource.PLAYERS, 0.8F, 1.0F);
             return;
         }
-        // A worn bracelet behind a shield only casts shield foci (ShieldFoci).
+        // A worn bracelet behind a shield only casts what needs no aim past it (the guard stance, ShieldFoci).
         if (bracelet != player.getOffhandItem() && ShieldFoci.holdsShield(player)
-                && !ShieldFoci.isShieldFocus(focus, player.registryAccess())) {
+                && !ShieldFoci.castableBehindShield(focus, player.registryAccess())) {
             player.displayClientMessage(Component.translatable("message.thaumicconcilium.bracelet_shield_busy")
                     .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.ITALIC), true);
             return;
@@ -272,15 +279,20 @@ public final class BraceletCasting {
 
     private static boolean volley(ServerPlayer player, ItemStack bracelet, CastingBracelet item, ItemStack focus, InteractionHand hand) {
         int first = 0;
-        for (int i = 0; i < VOLLEY; i++) {
-            CasterManager.setCooldown(player, 0);
-            int cooldown = castInstant(player, bracelet, item, focus, hand);
-            if (cooldown <= 0) {
-                break;
+        VOLLEY_TOKEN.set(new Object());
+        try {
+            for (int i = 0; i < VOLLEY; i++) {
+                CasterManager.setCooldown(player, 0);
+                int cooldown = castInstant(player, bracelet, item, focus, hand);
+                if (cooldown <= 0) {
+                    break;
+                }
+                if (first == 0) {
+                    first = cooldown;
+                }
             }
-            if (first == 0) {
-                first = cooldown;
-            }
+        } finally {
+            VOLLEY_TOKEN.remove();
         }
         setCooldown(player, bracelet, first * 3);
         return first > 0;

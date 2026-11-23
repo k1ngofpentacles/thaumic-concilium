@@ -35,27 +35,35 @@ public final class DrumCastable {
     }
 
     public static boolean isCastable(ItemStack focus, RegistryAccess registries) {
+        return isCastable(focus, registries, TAG);
+    }
+
+    /**
+     * The same walk against another delivery tag: the guard stance ({@link ShieldFoci#GUARD_CASTABLE}) reuses it, with the
+     * same aimed-effects refusal.
+     */
+    public static boolean isCastable(ItemStack focus, RegistryAccess registries, TagKey<SpellPart> deliveries) {
         Spell spell = Spells.spellOf(focus);
         if (spell == null || spell.root().children().isEmpty()) {
             return false;
         }
         var parts = registries.registryOrThrow(SpellPart.REGISTRY_KEY);
         for (SpellNode node : spell.root().children()) {
-            if (!deliveredUnaimed(node, parts) || !noAimedEffects(node, parts)) {
+            if (!deliveredUnaimed(node, parts, deliveries) || !noAimedEffects(node, parts)) {
                 return false;
             }
         }
         return true;
     }
 
-    private static boolean deliveredUnaimed(SpellNode node, net.minecraft.core.Registry<SpellPart> parts) {
+    private static boolean deliveredUnaimed(SpellNode node, net.minecraft.core.Registry<SpellPart> parts, TagKey<SpellPart> deliveries) {
         Holder<SpellPart> holder = parts.getHolder(node.part()).orElse(null);
         if (holder == null) {
             return false;
         }
         SpellPartKind kind = holder.value().kind();
         if (kind == SpellPartKind.DELIVERY) {
-            return holder.is(TAG);
+            return holder.is(deliveries);
         }
         if (kind == SpellPartKind.EFFECT) {
             return true;
@@ -64,7 +72,7 @@ public final class DrumCastable {
             return false;
         }
         for (SpellNode child : node.children()) {
-            if (!deliveredUnaimed(child, parts)) {
+            if (!deliveredUnaimed(child, parts, deliveries)) {
                 return false;
             }
         }

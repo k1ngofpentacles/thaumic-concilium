@@ -102,6 +102,7 @@ public final class TCClient {
         for (PlayerSkin.Model skin : event.getSkins()) {
             if (event.getSkin(skin) instanceof PlayerRenderer renderer) {
                 renderer.addLayer(new BraceletArmLayer(renderer));
+                renderer.addLayer(new GuardFx.Layer(renderer));   // the armed Riposte on the off-hand shield
             }
         }
     }

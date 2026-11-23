@@ -31,6 +31,13 @@ public final class TCEffects {
     public static final DeferredHolder<MobEffect, MobEffect> FLUNG = EFFECTS.register("flung",
             () -> new MobEffect(net.minecraft.world.effect.MobEffectCategory.NEUTRAL, 0xB0F0FF) { });
 
+    /**
+     * Shield foci: while its holder's shield is raised, hits from any side and magic damage count as blocked, at double shield wear
+     * (read by {@code spell.GuardEvents}; no tick). Beneficial, so it shows as the holder's own buff; the colour is the cycle 2 look's.
+     */
+    public static final DeferredHolder<MobEffect, MobEffect> AEGIS = EFFECTS.register("aegis",
+            () -> new MobEffect(net.minecraft.world.effect.MobEffectCategory.BENEFICIAL, 0x7FB2FF) { });
+
     private TCEffects() {
     }
 }

@@ -367,6 +367,29 @@ Pack test: 320 of 320 (two full runs at the close). New tests `Phase5dTreeTempla
 The QA chapter `qa_phase_5d`: checks `grove_trees`, `grove_ripple`, `grove_natural_growth`, `grove_lineage`, `grove_no_decay`,
 `grove_species_look`, and the updated `grove_biome`, `pond_mana_draw`, `teaser`.
 
+## Shield foci (0.13.0)
+
+New content (the original had no shield foci). Design `docs/design/shield-foci-design.md`, look `docs/design/shield-foci-look.md`
+(accepted by the user after round 4: runic amber wards; the spell parts keep their own steel and blue on purpose).
+
+**Built:**
+- Guard stance: a worn bracelet with a shield in the off hand casts only spells whose first-order deliveries are in
+  `thaumicconcilium:guard_castable` (self, aura, cloud, touch, wall, riposte); `DrumCastable` generalised over the tag.
+- Riposte (delivery): arms the caster; a blocked hit within `riposte.parryTicks` (10) of raising releases the spell at x1.5 on
+  the attacker (projectile owner within `riposte.range` 8); terrasteel volley gives 10 charges; window 5-20 s; vis lost on expiry.
+- Aegis (effect + mob effect): all-round and magic shield blocking at double wear, never fall or fire; shares through an aura.
+- One `LivingShieldBlockEvent` listener (`spell/GuardEvents`), sync payload (`GuardSync`, `client/GuardFx*`), art and data from
+  `tools/gen_shield_foci_data.py`; research `riposte_focus`, `aegis_focus`.
+- Pack test 331 of 331; render scenes `shield_foci.json` (`sf_*`). Bash (concept D) is later, with the animation agent.
+
+**Known caveats:** the real hurt path is untested (the GameTests post the block event directly); the first-person off-hand
+render takeover and the third-person batch end are untested with Iris and other off-hand mods; during a bracelet cast
+`BraceletFirstPerson` owns the off hand (no ward for those ticks); a first-person forced block from behind only brightens the band.
+
+### Needs in-game testing
+
+The QA chapter `qa_shield_foci` (spec `tools/qa-quests/specs/shield_foci.json`).
+
 ## Remaining phases (planned)
 
 Dependencies mirror the original's (`required-after: Thaumcraft, ForbiddenMagic, ThaumicTinkerer`):
