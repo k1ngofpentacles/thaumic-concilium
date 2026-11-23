@@ -13,6 +13,7 @@ import com.leclowndu93150.thaumaturge.registry.TTMobEffects;
 import dev.movingcastle.thaumicconcilium.TCConfig;
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.block.AnchorBlock;
+import dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlockEntity;
 import dev.movingcastle.thaumicconcilium.compat.SablePull;
 import dev.movingcastle.thaumicconcilium.registry.TCBlocks;
 import dev.movingcastle.thaumicconcilium.registry.TCEffects;
@@ -169,7 +170,16 @@ public class Vessel extends Entity implements ITaintOrigin {
     private int drained;
     private int spilled;
     private boolean motesGiven;
+    private final Map<UUID, Integer> subdueMotes = new java.util.LinkedHashMap<>();
     private boolean riteActive;
+    /** A tether is held: Thaumaturge sees a living taint origin and the pulses run (a capital alone gives neither). */
+    private boolean originOn;
+    /** Consecutive ticks each capped anchor has been without the mana for a tick of its unit. */
+    private final int[] starve = new int[4];
+    /** Capitals standing on the anchors when the last unit drained (cycle 2's ending reads it). */
+    private int capitalCount;
+    /** Uncapped anchors / 4, refreshed each drain tick: the share of the 5c pulses that still run. */
+    private float pulseScale = 1.0F;
     private float taintReserve;
 
     public Vessel(EntityType<? extends Vessel> type, Level level) {
@@ -332,6 +342,11 @@ public class Vessel extends Entity implements ITaintOrigin {
         return this.motesGiven;
     }
 
+    /** Phase 5d: what each participant was given (or is owed) at the subdue, for the ending's top-up roll. */
+    public Map<UUID, Integer> subdueMotes() {
+        return this.subdueMotes;
+    }
+
     /** Whether a drain is under way (somebody holds a tether on the subdued Vessel). */
     public boolean riteActive() {
         return this.riteActive;
@@ -342,6 +357,25 @@ public class Vessel extends Entity implements ITaintOrigin {
         return this.tetherProgress[anchor];
     }
 
+    /** Ticks a capped anchor has been starved in a row. */
+    public int starveTicks(int anchor) {
+        return this.starve[anchor];
+    }
+
+    public void setStarveTicks(int anchor, int ticks) {
+        this.starve[anchor] = ticks;
+    }
+
+    /** Capitals standing when the last unit drained (0 until then). */
+    public int capitalCount() {
+        return this.capitalCount;
+    }
+
+    /** The share of the 5c pulses that run: uncapped anchors / 4 as of the last drain tick. */
+    public float pulseScale() {
+        return this.pulseScale;
+    }
+
     /** Test hook: sets one anchor's progress toward the next unit. */
     public void setRiteProgress(int anchor, int ticks) {
         this.tetherProgress[anchor] = ticks;
@@ -350,7 +384,7 @@ public class Vessel extends Entity implements ITaintOrigin {
     /** A living taint origin only while a drain is under way: Thaumaturge sustains taint around it, and lets it wither once it stops. */
     @Override
     public boolean isLiveTaintOrigin() {
-        return this.riteActive && this.state() == SUBDUED && !this.isRemoved();
+        return this.originOn && this.state() == SUBDUED && !this.isRemoved();
     }
 
     @Override
@@ -962,6 +996,8 @@ public class Vessel extends Entity implements ITaintOrigin {
         this.drained = 0;
         this.spilled = 0;
         java.util.Arrays.fill(this.tetherProgress, 0);
+        java.util.Arrays.fill(this.starve, 0);
+        this.capitalCount = 0;
         if (!this.motesGiven) {
             this.motesGiven = true;
             VesselRite.onSubdued(level, this);
@@ -1049,9 +1085,9 @@ public class Vessel extends Entity implements ITaintOrigin {
             }
         }
         this.syncAnchor(level, i);
-        if (this.riteActive && this.tetherOwner[0] == null && this.tetherOwner[1] == null && this.tetherOwner[2] == null
+        if (this.originOn && this.tetherOwner[0] == null && this.tetherOwner[1] == null && this.tetherOwner[2] == null
                 && this.tetherOwner[3] == null) {
-            this.riteActive = false; // a pause: no origin, no pulses
+            this.originOn = false; // no drawer: no origin, no pulses (a fed capital may still advance; riteTick decides riteActive)
             TaintApi.removeTaintSeed(level, this.blockPosition());
         }
     }
@@ -1064,6 +1100,10 @@ public class Vessel extends Entity implements ITaintOrigin {
                 || player.hasEffect(TCEffects.FLUNG) || !player.isAlive()) {
             return false;
         }
+        if (this.capital(level, i) != null) {
+            player.displayClientMessage(Component.translatable("message.thaumicconcilium.capital_draws"), true);
+            return false;
+        }
         if (!VesselResearch.mayDrain(player)) {
             player.displayClientMessage(Component.translatable("message.thaumicconcilium.rite_locked"), true);
             return false;
@@ -1073,22 +1113,50 @@ public class Vessel extends Entity implements ITaintOrigin {
         this.entityData.set(TETHER[i], Optional.of(player.getUUID()));
         player.addEffect(new MobEffectInstance(TCEffects.TETHERED, 30, 0, false, false, true));
         this.riteActive = true;
-        TaintApi.addTaintSeed(level, this.blockPosition());
+        if (!this.originOn) {
+            this.originOn = true;
+            TaintApi.addTaintSeed(level, this.blockPosition());
+        }
         this.syncAnchor(level, i);
         return true;
     }
 
     /** Work only while somebody drains; a subdued Vessel nobody draws from costs a boolean test a tick. */
     private void riteTick(ServerLevel level) {
-        if (!this.riteActive || this.frozen) {
+        if (this.frozen) {
             return;
         }
+        if (!this.riteActive) {
+            // idle: once a second, see whether a capital has mana or progress to resume (4 block entity lookups; nothing else)
+            if (this.charge() > 0 && this.tickCount % 20 == 0 && this.cappedWake(level)) {
+                this.riteActive = true;
+            } else {
+                return;
+            }
+        }
         int unit = TCConfig.RITE_UNIT_TICKS.get();
+        int need = manaPerTick();
+        int capped = 0;
+        boolean busy = false;
         for (int i = 0; i < 4 && i < this.anchors.size(); i++) {
+            VerdantCapitalBlockEntity cap = this.capital(level, i);
+            if (cap != null) {
+                capped++;
+                if (this.tetherOwner[i] != null) {
+                    this.releaseTether(level, i); // a capital drains this anchor by itself: no drawer
+                }
+                if (this.cappedTick(level, i, cap, need, unit)) {
+                    return; // the last unit: finish() ran
+                }
+                busy |= cap.drive() == VerdantCapitalBlockEntity.Drive.FED || this.tetherProgress[i] > 0;
+                continue;
+            }
+            this.starve[i] = 0;
             UUID id = this.tetherOwner[i];
             if (id == null) {
                 continue;
             }
+            busy = true;
             ServerPlayer p = playerById(level, id);
             if (p == null || !this.holds(level, p, i)) {
                 this.releaseTether(level, i);
@@ -1110,9 +1178,120 @@ public class Vessel extends Entity implements ITaintOrigin {
                 }
             }
         }
-        if (this.riteActive && this.tickCount % TCConfig.RITE_PULSE_TICKS.get() == 0) {
-            VesselRite.pulse(level, this);
+        this.pulseScale = VesselRite.pulseScale(Math.min(4, this.anchors.size()) - capped, 4);
+        if (this.originOn && this.tickCount % TCConfig.RITE_PULSE_TICKS.get() == 0) {
+            VesselRite.pulse(level, this, this.pulseScale);
         }
+        if (!this.originOn && !busy) {
+            this.riteActive = false; // a pause: no tether and no capital with mana or progress
+        }
+    }
+
+    /** Mana a capped anchor spends each tick: its unit's mana over the unit's ticks, rounded up. */
+    public static int manaPerTick() {
+        return VesselRite.manaPerTick(TCConfig.RITE_MANA_PER_UNIT.get(), TCConfig.RITE_UNIT_TICKS.get());
+    }
+
+    /** The capital standing on anchor {@code i}, or null (no capital, or its chunk is not loaded). */
+    @Nullable
+    public VerdantCapitalBlockEntity capital(ServerLevel level, int i) {
+        if (i < 0 || i >= this.anchors.size() || i >= 4) {
+            return null;
+        }
+        BlockPos pos = this.anchors.get(i).above();
+        if (!level.hasChunkAt(pos)) {
+            return null;
+        }
+        return level.getBlockEntity(pos) instanceof VerdantCapitalBlockEntity cap ? cap : null;
+    }
+
+    /** How many anchors have a capital. */
+    public int cappedCount(ServerLevel level) {
+        int n = 0;
+        for (int i = 0; i < 4 && i < this.anchors.size(); i++) {
+            if (this.capital(level, i) != null) {
+                n++;
+            }
+        }
+        return n;
+    }
+
+    /** Idle check: does any capital have a tick of mana or progress in hand? Capitals that do not are shown idle. */
+    private boolean cappedWake(ServerLevel level) {
+        int need = manaPerTick();
+        boolean wake = false;
+        for (int i = 0; i < 4 && i < this.anchors.size(); i++) {
+            VerdantCapitalBlockEntity cap = this.capital(level, i);
+            if (cap == null) {
+                continue;
+            }
+            if (cap.mana() >= need || this.tetherProgress[i] > 0) {
+                wake = true;
+            } else {
+                cap.setDrive(VerdantCapitalBlockEntity.Drive.IDLE);
+            }
+        }
+        return wake;
+    }
+
+    /**
+     * One tick of a capped anchor. Fed (a tick's mana in the buffer): spends it and advances. Otherwise it pauses with its progress kept;
+     * after the grace it unwinds one a tick, and a unit that unwinds to zero gives one unit of charge back (up to full), the anchor
+     * carrying on from a full unit while it stays starved. Returns true if the last unit drained (the Vessel is finished).
+     */
+    private boolean cappedTick(ServerLevel level, int i, VerdantCapitalBlockEntity cap, int need, int unit) {
+        if (cap.mana() >= need && this.charge() > 0 && cap.consume(need)) {
+            this.starve[i] = 0;
+            cap.setDrive(VerdantCapitalBlockEntity.Drive.FED);
+            if (++this.tetherProgress[i] >= unit) {
+                this.tetherProgress[i] = 0;
+                this.cappedUnitDrained(level, cap);
+                if (this.charge() <= 0) {
+                    VesselRite.finish(level, this);
+                    return true;
+                }
+            }
+            return false;
+        }
+        this.starve[i]++;
+        if (this.starve[i] > TCConfig.RITE_STARVE_GRACE.get() && this.tetherProgress[i] > 0) {
+            cap.setDrive(VerdantCapitalBlockEntity.Drive.UNWINDING);
+            if (--this.tetherProgress[i] <= 0) {
+                if (this.charge() < TCConfig.RITE_CHARGE.get()) {
+                    this.entityData.set(CHARGE, this.charge() + 1);
+                    this.tetherProgress[i] = unit; // the next unit unwinds from full while the anchor stays starved
+                } else {
+                    this.tetherProgress[i] = 0;
+                }
+            }
+        } else {
+            cap.setDrive(VerdantCapitalBlockEntity.Drive.STARVED);
+        }
+        return false;
+    }
+
+    /** One unit drained by a capital: no warp, no spill. The placer, and their Heartstone partner, count as participants. */
+    private void cappedUnitDrained(ServerLevel level, VerdantCapitalBlockEntity cap) {
+        this.entityData.set(CHARGE, Math.max(0, this.charge() - 1));
+        this.drained++;
+        UUID placer = cap.placer();
+        if (placer != null) {
+            this.participants.add(placer);
+            ServerPlayer p = playerById(level, placer);
+            // online: Heartstone itself (then the registry); offline: the registry alone
+            UUID partner = p != null ? dev.movingcastle.thaumicconcilium.compat.HeartstoneCompat.partnerOf(p)
+                    : dev.movingcastle.thaumicconcilium.compat.HeartstoneCompat.partnerOfOffline(level.getServer(), placer);
+            if (partner != null) {
+                this.participants.add(partner);
+            }
+        }
+    }
+
+    /** Called by {@code VesselRite.finish}: counts the capitals standing as the last unit drains and keeps the number. */
+    public int recordCapitals(ServerLevel level) {
+        this.capitalCount = this.cappedCount(level);
+        ThaumicConcilium.LOG.info("Vessel rite finished at {} with {} Verdant Capitals", this.hexPos(), this.capitalCount);
+        return this.capitalCount;
     }
 
     /** One unit drawn through a player: 1 temporary warp, and 1 normal warp at every fifth unit. */
@@ -1130,6 +1309,7 @@ public class Vessel extends Entity implements ITaintOrigin {
     public void endRite(ServerLevel level) {
         this.releaseAllTethers(level);
         this.riteActive = false;
+        this.originOn = false;
         TaintApi.removeTaintSeed(level, this.blockPosition());
     }
 
@@ -1600,11 +1780,23 @@ public class Vessel extends Entity implements ITaintOrigin {
         this.drained = tag.getInt("drained");
         this.spilled = tag.getInt("spilled");
         this.motesGiven = tag.getBoolean("motesGiven");
-        this.riteActive = false; // tethers are not kept, so a loaded Vessel is paused
+        this.subdueMotes.clear();
+        ListTag given = tag.getList("subdueMotes", 10);
+        for (int i = 0; i < given.size(); i++) {
+            CompoundTag c = given.getCompound(i);
+            this.subdueMotes.put(c.getUUID("id"), c.getInt("n"));
+        }
+        this.riteActive = false; // tethers are not kept, so a loaded Vessel is paused (a capital with mana or progress re-arms it, see riteTick)
+        this.originOn = false;
+        this.capitalCount = tag.getInt("capitalCount");
         if (this.state() == SUBDUED) {
             int[] rp = tag.getIntArray("riteProgress");
+            int[] sv = tag.getIntArray("starve");
             for (int i = 0; i < 4 && i < rp.length; i++) {
                 this.tetherProgress[i] = rp[i];
+            }
+            for (int i = 0; i < 4 && i < sv.length; i++) {
+                this.starve[i] = sv[i];
             }
         }
         this.anchorsDirty = true;
@@ -1677,6 +1869,16 @@ public class Vessel extends Entity implements ITaintOrigin {
         tag.putInt("drained", this.drained);
         tag.putInt("spilled", this.spilled);
         tag.putBoolean("motesGiven", this.motesGiven);
+        ListTag given = new ListTag();
+        this.subdueMotes.forEach((id, n) -> {
+            CompoundTag c = new CompoundTag();
+            c.putUUID("id", id);
+            c.putInt("n", n);
+            given.add(c);
+        });
+        tag.put("subdueMotes", given);
         tag.putIntArray("riteProgress", this.tetherProgress);
+        tag.putIntArray("starve", this.starve);
+        tag.putInt("capitalCount", this.capitalCount);
     }
 }

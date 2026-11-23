@@ -1,0 +1,49 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    }
+  ],
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "botania:livingwood"
+  },
+  "components": [
+    {
+      "item": "botania:rune_spring"
+    },
+    {
+      "item": "botania:rune_mana"
+    },
+    {
+      "item": "botania:terrasteel_ingot"
+    },
+    {
+      "item": "thaumaturge:sapling_silverwood"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:herba",
+      "amount": 48
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:ordo",
+      "amount": 16
+    }
+  ],
+  "instability": 4,
+  "research": {
+    "entry": "thaumicconcilium:the_green_translation",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:verdant_capital"
+  }
+}

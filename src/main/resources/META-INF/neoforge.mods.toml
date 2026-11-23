@@ -77,6 +77,21 @@ side = "BOTH"
     ordering="AFTER"
     side="BOTH"
 
+# Heartstone: a Verdant Capital's placer and their bound partner both take part in the rite.
+[[dependencies.thaumicconcilium]]
+    modId="dynamictrees"
+    type="optional"
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.thaumicconcilium]]
+    modId="heartstone"
+    type="optional"
+    versionRange="*"
+    ordering="AFTER"
+    side="BOTH"
+
 # Crimson Dagger: the self-cut gives LP to a Neo Vitae altar; its hits use Enchanted's sacrifice damage type.
 [[dependencies.thaumicconcilium]]
     modId="neovitae"

@@ -86,6 +86,21 @@ public final class TCBlocks {
             BLOCK_ENTITIES.register("arcane_levitator", () -> BlockEntityType.Builder.of(
                     dev.movingcastle.thaumicconcilium.block.ArcaneLevitatorBlockEntity::new, ARCANE_LEVITATOR.get()).build(null));
 
+    /** Phase 5d: placed on a subdued Vessel's anchor shard, feeds it Botania mana. Registered always, inert without Botania (no class of Botania's is touched here). */
+    public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlock> VERDANT_CAPITAL = BLOCKS.register("verdant_capital",
+            () -> new dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN)
+                    .strength(3.0F, 12.0F).sound(SoundType.WOOD)));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlockEntity>> VERDANT_CAPITAL_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("verdant_capital", () -> BlockEntityType.Builder.of(
+                    dev.movingcastle.thaumicconcilium.block.VerdantCapitalBlockEntity::new, VERDANT_CAPITAL.get()).build(null));
+
+    /** Phase 5d cycle 3: the grove's mana pond (still source-only fluid, no bucket, light 12). Fluids register before blocks, so the fluid is ready here. */
+    public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.ManaPondBlock> MANA_POND = BLOCKS.register("mana_pond",
+            () -> new dev.movingcastle.thaumicconcilium.block.ManaPondBlock(TCFluids.MANA_POND.get(),
+                    BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().strength(100.0F).noLootTable()
+                            .lightLevel(s -> TCFluids.LIGHT).liquid().pushReaction(net.minecraft.world.level.material.PushReaction.DESTROY)));
+
     private TCBlocks() {
     }
 }

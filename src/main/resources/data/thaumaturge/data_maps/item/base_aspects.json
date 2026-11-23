@@ -563,6 +563,20 @@
         "aspect": "thaumaturge:alienis",
         "amount": 10
       }
+    ],
+    "thaumicconcilium:verdant_capital": [
+      {
+        "aspect": "thaumaturge:herba",
+        "amount": 20
+      },
+      {
+        "aspect": "thaumaturge:praecantatio",
+        "amount": 10
+      },
+      {
+        "aspect": "thaumaturge:ordo",
+        "amount": 5
+      }
     ]
   }
 }

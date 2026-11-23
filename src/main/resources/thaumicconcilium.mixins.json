@@ -3,6 +3,6 @@
   "minVersion": "0.8",
   "package": "dev.movingcastle.thaumicconcilium.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["CrucibleAccessor", "InfusionMatrixMixin", "RiftSweepMixin"],
+  "mixins": ["CrucibleAccessor", "InfusionMatrixMixin", "RiftSweepMixin", "NodeDriftMixin", "NodePurifyMixin", "TaintRestoreMixin"],
   "injectors": { "defaultRequire": 1 }
 }

@@ -33,6 +33,7 @@ public final class ThaumicConcilium {
         TCDataComponents.COMPONENTS.register(modBus);
         dev.movingcastle.thaumicconcilium.lithograph.Lithograph.ATTACHMENTS.register(modBus);
         dev.movingcastle.thaumicconcilium.world.CrimsonState.ATTACHMENTS.register(modBus);
+        dev.movingcastle.thaumicconcilium.world.GroveColumns.ATTACHMENTS.register(modBus);
         TCWandParts.RODS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCEffects.EFFECTS.register(modBus);
         TCItems.ITEMS.register(modBus);
@@ -44,13 +45,25 @@ public final class ThaumicConcilium {
         dev.movingcastle.thaumicconcilium.registry.TCMenus.MENUS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCRecipes.SERIALIZERS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCRecipes.TYPES.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCFluids.FLUID_TYPES.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCFluids.FLUIDS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCBlocks.BLOCKS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCBlocks.BLOCK_ENTITIES.register(modBus);
         dev.movingcastle.thaumicconcilium.world.TCStructures.STRUCTURE_TYPES.register(modBus);
         dev.movingcastle.thaumicconcilium.world.TCStructures.STRUCTURE_PIECES.register(modBus);
         modBus.addListener(TCNetwork::register);
-        modBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent e) -> e.enqueueWork(() ->
-                TCItems.PRIMAL_ARROWS.values().forEach(i -> net.minecraft.world.level.block.DispenserBlock.registerProjectileBehavior(i.get()))));
+        // the Verdant Capital's mana receiver and spark socket: Botania's types are loaded only when Botania is
+        modBus.addListener((net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent e) -> {
+            if (net.neoforged.fml.ModList.get().isLoaded("botania")) {
+                dev.movingcastle.thaumicconcilium.compat.BotaniaCapital.register(e);
+                dev.movingcastle.thaumicconcilium.compat.BotaniaPond.register(e);
+            }
+        });
+        modBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent e) -> e.enqueueWork(() -> {
+            TCItems.PRIMAL_ARROWS.values().forEach(i -> net.minecraft.world.level.block.DispenserBlock.registerProjectileBehavior(i.get()));
+            // what grows in a painted grove (phase 5d cycle 2c)
+            dev.movingcastle.thaumicconcilium.world.GrovePainter.setHooks(dev.movingcastle.thaumicconcilium.world.GroveLife.INSTANCE);
+        }));
         container.registerConfig(ModConfig.Type.COMMON, TCConfig.SPEC);
     }
 

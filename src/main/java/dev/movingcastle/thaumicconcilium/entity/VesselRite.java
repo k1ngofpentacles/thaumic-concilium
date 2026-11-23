@@ -1,6 +1,8 @@
 package dev.movingcastle.thaumicconcilium.entity;
 
 import com.leclowndu93150.thaumaturge.api.taint.TaintApi;
+import com.leclowndu93150.thaumaturge.api.warp.WarpHelper;
+import com.leclowndu93150.thaumaturge.api.warp.WarpType;
 import com.leclowndu93150.thaumaturge.content.entity.AbstractTaintSeed;
 import com.leclowndu93150.thaumaturge.content.taint.spread.TaintFeeding;
 import com.leclowndu93150.thaumaturge.registry.TTEntities;
@@ -72,6 +74,21 @@ public final class VesselRite {
         return drainedAfter > 0 && drainedAfter % Math.max(1, every) == 0;
     }
 
+    /** Phase 5d: the share of the 5c pulses that still run: uncapped anchors over {@code total} (0 capitals = 1, all capped = 0). */
+    public static float pulseScale(int uncapped, int total) {
+        return Mth.clamp(uncapped / (float) Math.max(1, total), 0.0F, 1.0F);
+    }
+
+    /** Pulses per beat after scaling: rounded, and at least one while any share remains. */
+    public static int scaledPulses(int base, float scale) {
+        return scale <= 0.0F ? 0 : Math.max(1, Math.round(base * scale));
+    }
+
+    /** Mana per tick for a capped anchor: its unit's mana over the unit's ticks, rounded up (250,000 / 1200 = 209). */
+    public static int manaPerTick(int manaPerUnit, int unitTicks) {
+        return (int) Math.max(1L, (manaPerUnit + (long) Math.max(1, unitTicks) - 1L) / Math.max(1, unitTicks));
+    }
+
     /** Motes one participant receives: one, and a second at {@code chance}. */
     public static int motesFor(RandomSource random, double chance) {
         return 1 + (random.nextDouble() < chance ? 1 : 0);
@@ -79,14 +96,15 @@ public final class VesselRite {
 
     // ---------------------------------------------------------------- the subdue: motes and the field note
     /** Mass 0: every participant gets motes (offline ones on their next login), and the Vessel field note completes for them. */
-    static void onSubdued(ServerLevel level, Vessel vessel) {
+    public static void onSubdued(ServerLevel level, Vessel vessel) {
         for (UUID id : vessel.participants()) {
             ServerPlayer p = Vessel.playerById(level, id);
             if (p != null) {
                 VesselResearch.grantNote(p, VesselResearch.THE_VESSEL, 0);
             }
         }
-        awardMotes(level, vessel, level.random);
+        vessel.subdueMotes().clear();
+        vessel.subdueMotes().putAll(awardMotes(level, vessel, level.random)); // the ending's top-up roll reads what each was given
     }
 
     /** Rolls and hands out the motes. Returns what each participant was given or is owed (for the tests). */
@@ -115,11 +133,38 @@ public final class VesselRite {
         VesselResearch.grantNote(player, VesselResearch.MOTE, 0);
     }
 
+    /**
+     * Phase 5d (cycle 2's tier-4 ending calls this): removes {@code amount} permanent warp from a participant now if they are online, otherwise
+     * queues it in {@link VesselDebts} for their next login. Returns whether it was applied at once.
+     */
+    public static boolean removePermanentWarp(ServerLevel level, UUID id, int amount) {
+        if (amount <= 0) {
+            return true;
+        }
+        ServerPlayer p = Vessel.playerById(level, id);
+        if (p != null) {
+            WarpHelper.addWarp(p, -amount, WarpType.PERMANENT);
+            return true;
+        }
+        VesselDebts.get(level.getServer()).queueWarpRemoval(id, amount);
+        return false;
+    }
+
+    /** Applies (and clears) the permanent-warp removal queued for a player. Returns how much was owed. */
+    public static int applyWarpRemoval(ServerPlayer player, VesselDebts data) {
+        int owed = data.takeWarpRemoval(player.getUUID());
+        if (owed > 0) {
+            WarpHelper.addWarp(player, -owed, WarpType.PERMANENT); // Thaumaturge clamps at what they have
+        }
+        return owed;
+    }
+
     /** A participant who was away when the Vessel was subdued gets what they are owed. */
     @SubscribeEvent
     public static void onLogin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player && player.getServer() != null) {
             VesselDebts data = VesselDebts.get(player.getServer());
+            applyWarpRemoval(player, data);
             if (data.motes().containsKey(player.getUUID())) {
                 int owed = data.takeMotes(player.getUUID());
                 if (owed > 0) {
@@ -136,9 +181,15 @@ public final class VesselRite {
      * the units drained. Only chunks that are loaded are touched; a pause (no tether) never reaches here.
      */
     static void pulse(ServerLevel level, Vessel vessel) {
+        pulse(level, vessel, 1.0F);
+    }
+
+    /** As {@link #pulse(ServerLevel, Vessel)}, with the count and the pressure multiplied by {@code scale} (phase 5d: uncapped anchors / 4). */
+    static void pulse(ServerLevel level, Vessel vessel, float scale) {
         BlockPos centre = vessel.hexPos();
         double radius = ringRadius(vessel.drained(), TCConfig.RITE_CHARGE.get(), TCConfig.RITE_RING_MIN.get(), TCConfig.RITE_RING_MAX.get());
-        for (int k = 0; k < TCConfig.RITE_PULSES.get(); k++) {
+        float pressure = (float) (TCConfig.RITE_PRESSURE.get() * scale);
+        for (int k = 0; k < scaledPulses(TCConfig.RITE_PULSES.get(), scale); k++) {
             double angle = level.random.nextDouble() * Math.PI * 2.0;
             double dist = Math.max(2.0, radius - level.random.nextDouble() * 4.0);
             int x = centre.getX() + (int) Math.round(Math.cos(angle) * dist);
@@ -149,16 +200,18 @@ public final class VesselRite {
             int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
             BlockPos at = new BlockPos(x, y, z);
             TaintApi.spreadFibres(level, at, true);
-            TaintApi.addEcologicalPressure(level, at, TCConfig.RITE_PRESSURE.get().floatValue());
+            TaintApi.addEcologicalPressure(level, at, pressure);
         }
     }
 
     // ---------------------------------------------------------------- the end: the scar
     /** The last unit is drained: the Vessel is gone and a Taint Seed stands where it hung. */
-    static void finish(ServerLevel level, Vessel vessel) {
+    public static void finish(ServerLevel level, Vessel vessel) {
+        int tier = vessel.recordCapitals(level); // before the shards crumble
         vessel.endRite(level);
         crumbleAnchors(level, vessel);
-        spawnSeed(level, vessel.hexPos(), vessel.missedClots(), vessel.spilled());
+        // phase 5d: the seed, its scar, the extra motes and the warp, by the number of capitals
+        VesselEndings.apply(level, vessel, tier, VesselEndings.craterOf(vessel));
         for (ServerPlayer p : Vessel.players(level)) {
             if (p.distanceToSqr(vessel) <= 64.0 * 64.0) {
                 p.displayClientMessage(Component.translatable("message.thaumicconcilium.rite_done"), true);
@@ -173,6 +226,9 @@ public final class VesselRite {
             net.minecraft.world.level.block.state.BlockState state = level.getBlockState(pos);
             if (!state.is(dev.movingcastle.thaumicconcilium.registry.TCBlocks.ANCHOR.get())) {
                 continue;
+            }
+            if (level.getBlockState(pos.above()).is(dev.movingcastle.thaumicconcilium.registry.TCBlocks.VERDANT_CAPITAL.get())) {
+                level.destroyBlock(pos.above(), true); // the capital drops back as an item
             }
             level.removeBlock(pos, false);
             level.sendParticles(new net.minecraft.core.particles.BlockParticleOption(net.minecraft.core.particles.ParticleTypes.BLOCK, state),

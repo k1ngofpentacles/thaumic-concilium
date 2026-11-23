@@ -37,6 +37,22 @@ public final class TCClient {
                 TCItems.INERT_TERRA_CAST_GEM.get(), TCItems.TERRA_CAST_GEM.get());
     }
 
+    /** Phase 5d cycle 3: the mana pond fluid, drawn by the standard fluid path (see {@link ManaPondClient}). */
+    @SubscribeEvent
+    public static void fluidExtensions(RegisterClientExtensionsEvent event) {
+        event.registerFluidType(new ManaPondClient(), dev.movingcastle.thaumicconcilium.registry.TCFluids.MANA_POND_TYPE.get());
+    }
+
+    @SubscribeEvent
+    public static void fluidRenderTypes(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(dev.movingcastle.thaumicconcilium.registry.TCFluids.MANA_POND.get(),
+                    net.minecraft.client.renderer.RenderType.translucent());
+            net.minecraft.client.renderer.ItemBlockRenderTypes.setRenderLayer(dev.movingcastle.thaumicconcilium.registry.TCFluids.MANA_POND_FLOWING.get(),
+                    net.minecraft.client.renderer.RenderType.translucent());
+        });
+    }
+
     /** The Shard Mill's body and crank models, drawn by {@link MillRenderer}. */
     @SubscribeEvent
     public static void extraModels(ModelEvent.RegisterAdditional event) {

@@ -1,0 +1,9 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "thaumicconcilium:block/mana_pond"
+      }
+    }
+  ]
+}

@@ -31,6 +31,7 @@ public final class VesselDebts extends SavedData {
     private final Map<UUID, Debt> debts = new LinkedHashMap<>();
     /** Phase 5c cycle 4: Primordial Motes owed to participants who were offline when the Vessel was subdued (paid on their next login). */
     private final Map<UUID, Integer> motes = new LinkedHashMap<>();
+    private final Map<UUID, Integer> warpRemovals = new LinkedHashMap<>();
 
     public static SavedData.Factory<VesselDebts> factory() {
         return new SavedData.Factory<>(VesselDebts::new, VesselDebts::load, null);
@@ -74,6 +75,27 @@ public final class VesselDebts extends SavedData {
         return n == null ? 0 : n;
     }
 
+    /** Phase 5d: permanent warp to remove from participants who were offline at the ending (applied on their next login). */
+    public Map<UUID, Integer> warpRemovals() {
+        return this.warpRemovals;
+    }
+
+    public void queueWarpRemoval(UUID id, int amount) {
+        if (amount > 0) {
+            this.warpRemovals.merge(id, amount, Integer::sum);
+            this.setDirty();
+        }
+    }
+
+    /** Takes and clears the permanent warp still to be removed from a player. */
+    public int takeWarpRemoval(UUID id) {
+        Integer n = this.warpRemovals.remove(id);
+        if (n != null) {
+            this.setDirty();
+        }
+        return n == null ? 0 : n;
+    }
+
     private static VesselDebts load(CompoundTag tag, HolderLookup.Provider registries) {
         VesselDebts data = new VesselDebts();
         ListTag list = tag.getList("debts", 10);
@@ -91,6 +113,11 @@ public final class VesselDebts extends SavedData {
         for (int i = 0; i < owed.size(); i++) {
             CompoundTag c = owed.getCompound(i);
             data.motes.put(c.getUUID("id"), c.getInt("n"));
+        }
+        ListTag removals = tag.getList("warpRemovals", 10);
+        for (int i = 0; i < removals.size(); i++) {
+            CompoundTag c = removals.getCompound(i);
+            data.warpRemovals.put(c.getUUID("id"), c.getInt("n"));
         }
         return data;
     }
@@ -117,6 +144,14 @@ public final class VesselDebts extends SavedData {
             owed.add(c);
         });
         tag.put("motes", owed);
+        ListTag removals = new ListTag();
+        this.warpRemovals.forEach((id, n) -> {
+            CompoundTag c = new CompoundTag();
+            c.putUUID("id", id);
+            c.putInt("n", n);
+            removals.add(c);
+        });
+        tag.put("warpRemovals", removals);
         return tag;
     }
 }

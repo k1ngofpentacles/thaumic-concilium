@@ -80,6 +80,18 @@ public final class TCCommands {
                                                 .then(Commands.argument("amount", com.mojang.brigadier.arguments.IntegerArgumentType.integer(1, 1000))
                                                         .executes(TCCommands::crystal)))))
                         // Phase 6b: lithograph the player, watching themselves (the HUD without the bed operation).
+                        // Phase 5d (render harness): a crater and a painted grove at your feet, as the real ending starts one (tier 3 or 4, radius in blocks).
+                        .then(Commands.literal("grove")
+                                .then(Commands.argument("tier", com.mojang.brigadier.arguments.IntegerArgumentType.integer(3, 4))
+                                        .then(Commands.argument("radius", com.mojang.brigadier.arguments.IntegerArgumentType.integer(4, 128))
+                                                .executes(TCCommands::grove))))
+                        // Phase 5d cycle 2d (render harness): one landmark tree variant on the soil block at pos (species greatwood or silverwood, variant 0-3, facing 0-3).
+                        .then(Commands.literal("landmark")
+                                .then(Commands.argument("silver", com.mojang.brigadier.arguments.BoolArgumentType.bool())
+                                        .then(Commands.argument("variant", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 3))
+                                                .then(Commands.argument("facing", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 3))
+                                                        .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+                                                                .executes(TCCommands::landmark))))))
                         .then(Commands.literal("lithograph").executes(TCCommands::lithograph))
                         // Phase 5b: the crimson state (flesh amount, the ethereal state).
                         .then(Commands.literal("flesh")
@@ -197,6 +209,33 @@ public final class TCCommands {
         ctx.getSource().sendSuccess(() -> Component.literal("QA: a hex with a tamed rift; its threshold is about "
                 + hex.threshold() + " burden"), false);
         return 1;
+    }
+
+    private static int landmark(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        if (!net.neoforged.fml.ModList.get().isLoaded("dynamictrees")) {
+            ctx.getSource().sendFailure(Component.literal("QA: Dynamic Trees is not loaded"));
+            return 0;
+        }
+        boolean silver = com.mojang.brigadier.arguments.BoolArgumentType.getBool(ctx, "silver");
+        var shapes = dev.movingcastle.thaumicconcilium.world.LandmarkShapes.shapes(silver);
+        int variant = Math.min(com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "variant"), shapes.size() - 1);
+        var facing = net.minecraft.core.Direction.from2DDataValue(com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "facing"));
+        var soil = net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(ctx, "pos");
+        boolean ok = dev.movingcastle.thaumicconcilium.compat.DynamicTreesLandmarks.grow(ctx.getSource().getLevel(), soil, silver, shapes.get(variant).code(), facing);
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: landmark " + (silver ? "silverwood " : "greatwood ") + variant + (ok ? " grown" : " did not grow")), false);
+        return ok ? 1 : 0;
+    }
+
+    private static int grove(CommandContext<CommandSourceStack> ctx) {
+        var level = ctx.getSource().getLevel();
+        int tier = com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "tier");
+        int radius = com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(ctx, "radius");
+        net.minecraft.core.BlockPos hex = net.minecraft.core.BlockPos.containing(ctx.getSource().getPosition()).below();
+        var crater = new dev.movingcastle.thaumicconcilium.entity.VesselCrater(hex, 10.0, level.random.nextLong());
+        crater.finish(level);
+        var job = dev.movingcastle.thaumicconcilium.world.GrovePainter.openWithRadius(level, hex, crater, tier, radius, null);
+        ctx.getSource().sendSuccess(() -> Component.literal(job == null ? "QA: no grove (plot chunk)" : "QA: a tier " + tier + " grove of radius " + radius), false);
+        return job == null ? 0 : 1;
     }
 
     private static int vesselBreak(CommandContext<CommandSourceStack> ctx, boolean standIn) throws com.mojang.brigadier.exceptions.CommandSyntaxException {

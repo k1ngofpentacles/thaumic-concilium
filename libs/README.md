@@ -12,6 +12,10 @@ Optional integrations (compiled against, soft-loaded at runtime):
   `sable-neoforge-1.21.1-2.0.6.jar` from the pack, and `sable-companion-common-1.21.1-1.6.0.jar` (its `Pose3d` and `BoundingBox3d`), which is
   inside Sable's jar at `META-INF/jarjar/`: `unzip -j sable-neoforge-1.21.1-2.0.6.jar "META-INF/jarjar/sable-companion-common-*.jar"`. The pack
   test's build also reads the companion jar from here.
+- Heartstone (phase 5d: the Verdant Capital's placer and their bound partner both count as participants; Supplementaries Team License, compiled
+  against only, never copied or shipped, soft-loaded through `compat/HeartstoneCompat`): `heartstone-1.21.1-1.4.2-neoforge.jar`, and its
+  dependency `moonlight-1.21.1-3.8.3-neoforge.jar` (Moonlight Lib, same licence rule).
+- Dynamic Trees (phase 5d cycle 2c: the grove's greatwood and silverwood saplings, compiled against through `compat/DynamicTreesSaplings` only, never shipped; `dynamictrees-neoforge-1.21.1-1.7.2.jar`)
 - Botania Revived 2.0.4 (`Botania-Revived-1.21.1-2.0.4-NeoForge.jar`: mana API for the Botania bracelets)
 
 All of them are already in the moving castle pack's `mods` folder: copy them across.

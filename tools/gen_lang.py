@@ -642,6 +642,33 @@ L[f'research.{NS}.primordial_mote.stage_1'] = join(
     'Everyone who took part in the fight receives a Primordial Mote when the Vessel is subdued, and one in ten receives a second. A mote '
     'you are away for waits for you when you next come back. Three are needed for the Flesh Crucible.')
 
+# ---------------------------------------------------------------- phase 5d cycle 1: the Verdant Capital and the green translation (our own text)
+L[f'block.{NS}.verdant_capital'] = 'Verdant Capital'
+L[f'biome.{NS}.concilium_grove'] = 'Concilium Grove'  # phase 5d cycle 2b (the painted grove biome)
+L[f'block.{NS}.mana_pond'] = 'Mana Pond'  # phase 5d cycle 3 (the grove's mana pond fluid)
+L[f'fluid_type.{NS}.mana_pond'] = 'Mana Pond'
+L[f'message.{NS}.capital_draws'] = 'A capital stands on this anchor and draws for it'
+L[f'research.{NS}.the_green_translation.title'] = 'The Green Translation'
+L[f'research.{NS}.the_green_translation.stage_0'] = join(
+    'Field note, the fifth',
+    'I have been thinking about the hand. Every unit of it goes through a person, and a person is the wrong shape for the work: too '
+    'slow, too warm, and it keeps what it carries. The green people do the same sums with a different currency. A terrasteel ingot '
+    'does not care who holds it. A rune of mana, set beside it, begins to hum at the pitch of the hole. I think the hole can be '
+    'asked in their language, if one knows the grammar.')
+L[f'research.{NS}.the_green_translation.stage_1'] = join(
+    'The grammar is a block. A Verdant Capital is infused with livingwood, a rune of spring, a rune of mana, a terrasteel ingot and a '
+    'silverwood sapling. It will only be set on top of an anchor of a quiet Vessel, and nowhere else. It is a mana receiver: bursts '
+    'land in it, and a spark sits on it as on a pool. It holds ten thousand. An anchor with a capital needs no drawer. Each tick it '
+    'has about two hundred and ten mana to spend it spends them, and the unit advances; a unit is a minute, so a unit costs a quarter '
+    'of a million, and the whole Vessel five million. Mana alone, then: the capital gives no warp to anyone and spills no goo. '
+    'Whoever placed it counts as having taken part, and so does whoever they are bound to by a heartstone. If the feed stops, the '
+    'unit waits where it was. Wait five minutes and it begins to unwind, a tick for a tick, and a unit that unwinds to nothing '
+    'goes back into the Vessel. When the rite ends the capitals come loose and can be used again, and you may set or lift one at any '
+    'time. The unwatched anchors still need a hand, and the hand still pays, but the pulses of living taint thin as more anchors are '
+    'capped, and with all four there are none. What is left standing at the end follows the count: none, and the seed runs wild; one, '
+    'and it is held at the edge; two, and it starves; three, and the green kills it, inside the crater only; four, and it spreads, '
+    'and something is lifted from the ones who stood by it. I cannot yet say how. This is the translation, not the ending.')
+
 # ---------------------------------------------------------------- phase 6b (third cycle): polished infusions
 # Thaumaturge's book has no page type for the original's "Polished Infusion" page, so the recipe stage says it in words.
 # Polishment files are named after their research entry (gen_phase6b_data.py).

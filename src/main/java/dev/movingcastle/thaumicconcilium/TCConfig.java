@@ -241,6 +241,67 @@ public final class TCConfig {
     public static final ModConfigSpec.IntValue RITE_SEED_RESERVE_SCORE = ri("seedReserveScore", 24, 1, 1000, "The score at which the seed starts with a full taint reserve (linear below).");
     public static final ModConfigSpec.DoubleValue RITE_MOTE_SECOND = rd("moteSecondChance", 0.10, 0.0, 1.0, "Chance each participant also receives a second Primordial Mote.");
 
+    // ---------------------------------------------------------------- phase 5d cycle 1: the Verdant Capital and the mixed drain
+    public static final ModConfigSpec.IntValue RITE_MANA_PER_UNIT = ri("manaPerUnit", 250000, 1, 100000000,
+            "Botania mana a Verdant Capital spends to drain one unit (20 units = 5,000,000 for a whole Vessel by capitals alone).");
+    public static final ModConfigSpec.IntValue RITE_CAPITAL_BUFFER = ri("capitalBuffer", 10000, 1, 100000000, "Mana a Verdant Capital holds.");
+    public static final ModConfigSpec.IntValue RITE_STARVE_GRACE = ri("starveGraceTicks", 6000, 0, 10000000,
+            "Ticks a capital may stay without enough mana before its unit's progress starts to unwind (1 a tick, a unit that unwinds to zero gives one unit of charge back).");
+
+    // ---------------------------------------------------------------- phase 5d cycle 2a: the endings
+    public static final ModConfigSpec.ConfigValue<java.util.List<? extends Double>> RITE_MOTE_TIER_CHANCES = B
+            .comment("Total chance of a second Primordial Mote by number of Verdant Capitals (0 to 4 entries, in order). A participant who got one at the subdue rolls a top-up at the ending to reach the tier's chance; one absent at the subdue rolls the tier's chance for one mote.")
+            .defineList("vessel.rite.moteChanceByTier", java.util.List.of(0.10, 0.16, 0.23, 0.29, 0.35), () -> 0.1,
+                    o -> o instanceof Double d && d >= 0.0 && d <= 1.0);
+    public static final ModConfigSpec.IntValue RITE_WARP_SOLO = ri("warpRemovedSolo", 3, 0, 1000,
+            "Tier 4 (four Verdant Capitals): permanent warp removed from a participant with no Heartstone partner among the participants.");
+    public static final ModConfigSpec.IntValue RITE_WARP_PAIR = ri("warpRemovedPair", 1, 0, 1000,
+            "Tier 4: permanent warp removed from each of a Heartstone-bound pair of participants.");
+    public static final ModConfigSpec.IntValue RITE_BOUND_SPREAD_TICKS = ri("boundSpreadTicks", 6000, 20, 10000000,
+            "Tier 1 (one capital): ticks the bound seed's fibres take to spread from the hex out to the crater rim (a first guess; they never go further).");
+    public static final ModConfigSpec.IntValue RITE_BOUND_SPREAD_PER_BEAT = ri("boundSpreadPerBeat", 1, 1, 64,
+            "Tier 1: fibre spreads per beat (20 ticks) at random points inside the widening disc.");
+    public static final ModConfigSpec.DoubleValue RITE_BOUND_RESERVE = rd("boundReserveFraction", 0.3, 0.0, 1.0,
+            "Tier 1: the bound seed's taint reserve is held at most this share of the cap, so it grows once a beat, not up to four times.");
+    public static final ModConfigSpec.IntValue RITE_ACCEL_TICKS = ri("acceleratedTicks", 6000, 20, 10000000,
+            "Tier 0 (no capitals, Botania loaded): ticks the accelerated seed's fibre storm lasts.");
+    public static final ModConfigSpec.IntValue RITE_ACCEL_SPREADS = ri("acceleratedSpreadsPerBeat", 6, 1, 64,
+            "Tier 0: fibre spreads per beat inside a disc growing from the crater rim to rim plus acceleratedReach.");
+    public static final ModConfigSpec.IntValue RITE_ACCEL_REACH = ri("acceleratedReach", 16, 0, 128, "Tier 0: blocks beyond the rim the fibre disc reaches at the end.");
+    public static final ModConfigSpec.IntValue RITE_ACCEL_CHILD_FIRST = ri("acceleratedChildFirstTick", 2000, 0, 10000000, "Tier 0: tick of the first child seed.");
+    public static final ModConfigSpec.IntValue RITE_ACCEL_CHILD_EVERY = ri("acceleratedChildEvery", 1000, 1, 10000000, "Tier 0: ticks between child seeds (three in all, 120 degrees apart just outside the rim).");
+    public static final ModConfigSpec.DoubleValue RITE_ACCEL_CHILD_MARGIN = rd("acceleratedChildMargin", 2.0, 0.0, 64.0,
+            "Tier 0: blocks added to Thaumaturge's own seed spacing (0.8 x taintSpreadArea, read live) for a child seed's distance from the hex; never closer than rim + 2.");
+    public static final ModConfigSpec.IntValue RITE_BOUND_HOLD_TICKS = ri("boundHoldEvery", 40, 20, 100000,
+            "Tier 1: ticks between the line-holding passes (taint beyond the crater rim, within the seed's reach, is decayed). A first guess.");
+    public static final ModConfigSpec.IntValue RITE_BOUND_HOLD_COLUMNS = ri("boundHoldColumns", 16, 1, 1024, "Tier 1: random 4x4 columns of the annulus rim..claim radius decayed per pass.");
+    public static final ModConfigSpec.IntValue RITE_BOUND_HOLD_DEPTH = ri("boundHoldDepth", 6, 1, 32, "Tier 1: blocks above and below the surface searched for taint blocks in each held column.");
+    public static final ModConfigSpec.IntValue PAINT_RADIUS_MIN = ri("grove.radiusMin", 24, 4, 128, "Tier 4: the grove's radius in blocks at the lowest burden (rounded to 4-block rings).");
+    public static final ModConfigSpec.IntValue PAINT_RADIUS_MAX = ri("grove.radiusMax", 48, 4, 128, "Tier 4: the grove's radius in blocks at the highest burden.");
+    public static final ModConfigSpec.DoubleValue PAINT_BURDEN_LOW = rd("grove.burdenLow", 0.85, 0.0, 10.0, "Tier 4: burden, as a multiple of the hex threshold, at which the grove has its smallest radius.");
+    public static final ModConfigSpec.DoubleValue PAINT_BURDEN_SPAN = rd("grove.burdenSpan", 0.65, 0.01, 10.0, "Tier 4: how many thresholds of burden above the low point it takes to reach the largest radius.");
+    public static final ModConfigSpec.IntValue PAINT_WAITING_CHECKS = ri("grove.waitingChecks", 4, 1, 64, "Chunks that were not loaded when their ring passed, re-checked per step.");
+    public static final ModConfigSpec.IntValue PAINT_BUDGET_MS = ri("grove.stepBudgetMs", 4, 1, 50, "Milliseconds after which a painter step stops adding decoration (flora, in cycle 2c) and leaves the rest to the next step.");
+    public static final ModConfigSpec.DoubleValue GROVE_NODE_CHANCE = rd("grove.nodeChance", 0.15, 0.0, 1.0,
+            "Chance that a fully painted grove chunk gets one wild aura node (at most one per chunk, no cap per grove; a chunk that already holds a node gets none).");
+
+    // ---------------------------------------------------------------- phase 5d cycle 3: the mana pond (first guesses, all config)
+    private static ModConfigSpec.IntValue pi(String path, int def, int min, int max, String comment) {
+        return B.comment(comment).defineInRange("grove.pond." + path, def, min, max);
+    }
+
+    public static final ModConfigSpec.IntValue POND_MANA_PER_CHUNK = pi("manaPerChunk", 10000, 0, 100000000, "Residual mana the pond starts with, per painted grove chunk (16 painted quart columns).");
+    public static final ModConfigSpec.IntValue POND_MANA_PER_NODE = pi("manaPerNode", 50000, 0, 100000000, "Residual mana the pond starts with, per aura node inside the grove when the pond is made.");
+    public static final ModConfigSpec.IntValue POND_MANA_PER_VIS = pi("manaPerVis", 1000, 1, 100000000, "Mana one vis drained from a grove node refills the residual with.");
+    public static final ModConfigSpec.IntValue POND_OVERDRAW_STEP = pi("overdrawStep", 50000, 1, 1000000000, "With every grove node empty, each this much mana drawn breaks the weakest node into a flux rift.");
+    public static final ModConfigSpec.IntValue POND_OVERDRAW_OFFER = pi("overdrawOffer", 1000, 1, 1000000, "Mana the pond offers a spreader per draw while it is running on overdraw (every node empty).");
+    public static final ModConfigSpec.IntValue POND_NODE_REFRESH_SECONDS = pi("nodeRefreshSeconds", 30, 0, 100000, "At most this often (seconds, on a draw) the pond re-reads the list of aura nodes inside the grove.");
+    public static final ModConfigSpec.DoubleValue POND_RIFT_PER_CAPACITY = B.comment("Size of the flux rift a broken node becomes, per point of the node's capacity (the total of its base aspects), before the clamp.",
+            "Thaumaturge's default wild node (base aura 100) has a total of about 50 to 99, median about 75, so 1/3 gives it 25.")
+            .defineInRange("grove.pond.riftSizePerCapacity", 1.0 / 3.0, 0.0, 10.0);
+    public static final ModConfigSpec.IntValue POND_RIFT_MIN = pi("riftSizeMin", 10, 5, 100, "Smallest flux rift a broken node becomes.");
+    public static final ModConfigSpec.IntValue POND_RIFT_MAX = pi("riftSizeMax", 50, 5, 200, "Largest flux rift a broken node becomes.");
+
     public static final ModConfigSpec SPEC = B.build();
 
     private TCConfig() {

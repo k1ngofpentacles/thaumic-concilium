@@ -48,7 +48,7 @@ public final class VesselCrater {
     private static final double RAGGED = 0.12;
     /** The mound stands from this far inside the rim to this far outside it. */
     private static final double MOUND_IN = 0.5;
-    private static final double MOUND_OUT = 2.2;
+    public static final double MOUND_OUT = 2.2;
 
     private final BlockPos centre;
     private final double radius;
@@ -67,6 +67,10 @@ public final class VesselCrater {
 
     public double radius() {
         return this.radius;
+    }
+
+    public long seed() {
+        return this.seed;
     }
 
     public boolean done() {
