@@ -24,6 +24,8 @@ import net.minecraft.world.phys.AABB;
 public final class GroveGrowth {
     public static final int LANDMARK = 0;
     public static final int SAPLING = 1;
+    /** 5d trees C: one of the grove's own trees (a hero or a finale tree) grown on its template in small steps. */
+    public static final int TEMPLATE = 2;
     /** Entry fields. */
     public static final int KIND = 0;
     public static final int POS = 1;
@@ -39,6 +41,9 @@ public final class GroveGrowth {
     public static long stepsRun;
     public static long stagesApplied;
     public static long pulsesApplied;
+    public static long templatesPlanted;
+    public static long templateSteps;
+    public static long templateNanos;
 
     private GroveGrowth() {
     }
@@ -85,6 +90,161 @@ public final class GroveGrowth {
         return true;
     }
 
+    // ---------------------------------------------------------------- 5d trees C: the grove's own trees, small steps
+    /** Template entry PACKED: kind (0 hero, 1 finale) | silver << 2 | yLimit << 3 (7 bits) | step depth << 10 (4 bits) | interval << 14 (26 bits) | wave started << 40. */
+    static long packTemplate(GroveHill.Kind kind, boolean silver, int yLimit, int stepDepth, int interval) {
+        return (kind == GroveHill.Kind.HERO ? 0L : 1L) | (silver ? 4L : 0L) | ((long) (yLimit & 127) << 3) | ((long) (stepDepth & 15) << 10) | ((long) interval << 14);
+    }
+
+    /**
+     * Plants one of the grove's own trees on {@code soil} (the block under the trunk): its template is {@code DynamicTreesGrove.pick} at this
+     * column (the same one natural growth follows), cut at the canopy {@code canopy}. The first small step is grown at once (so the spacing
+     * rules see wood here); the rest follow every {@code interval} ticks from when sight returns, all finishing in {@code growth.finaleSeconds}.
+     * Heroes step one path length at a time, the rest two. False when the first branch did not stand (nothing is listed).
+     */
+    public static boolean plantTemplate(ServerLevel level, GrovePaintJob job, BlockPos soil, GroveHill.Kind kind, boolean silver, int canopy) {
+        dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.Pick pick = dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.pick(kind, silver, soil.getX(), soil.getZ());
+        if (pick == null) {
+            return false;
+        }
+        int yLimit = GroveHill.branchLimit(canopy);
+        int target = LandmarkShapes.depthUnder(LandmarkShapes.decode(pick.code()), yLimit);
+        int stepDepth = kind == GroveHill.Kind.HERO ? 1 : 2;
+        int steps = Math.max(1, (target + stepDepth - 1) / stepDepth);
+        int interval = Math.max(TCConfig.GROW_STEP_TICKS.get(), TCConfig.FINALE_GROW_SECONDS.get() * 20 / steps);
+        if (kind != GroveHill.Kind.HERO) {
+            // a finale tree's first step waits for the growth driver (its time budget), not the painter's step: listed with nothing grown yet
+            templatesPlanted++;
+            job.growth.add(new long[] {TEMPLATE, soil.asLong(), 0L, target, packTemplate(kind, silver, yLimit, stepDepth, interval), level.getGameTime()});
+            job.growthWake = 0L;
+            return true;
+        }
+        int first = Math.min(target, stepDepth);
+        if (!DynamicTreesLandmarks.growCut(level, soil, dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.species(kind, silver), silver, pick.code(),
+                pick.facing(), pick.trunkCap(), first, yLimit, true, first >= target)) {
+            return false;
+        }
+        templatesPlanted++;
+        if (first >= target) {
+            DynamicTreesLandmarks.setFertility(level, soil, 15);
+            return true;
+        }
+        job.growth.add(new long[] {TEMPLATE, soil.asLong(), first, target, packTemplate(kind, silver, yLimit, stepDepth, interval), level.getGameTime() + interval});
+        job.growthWake = 0L;
+        return true;
+    }
+
+    private static final long WAVE_STARTED = 1L << 40;
+
+    /**
+     * Ticks after the wave's clock (sight returning) a tree starts: heroes and the crater's inside at once; beyond the heroes' ring, the
+     * meadow's ripple time to its ring ({@code grove.ringSeconds} per 4 blocks) plus {@code growth.waveLagSeconds}.
+     */
+    public static int waveDelay(GrovePaintJob job, BlockPos soil, GroveHill.Kind kind) {
+        if (kind == GroveHill.Kind.HERO) {
+            return 0;
+        }
+        double past = distance(job, soil.getX(), soil.getZ()) - GroveHill.params(job).ring();
+        if (past <= 0) {
+            return 0;
+        }
+        return (int) Math.round(past / 4.0 * TCConfig.RING_SECONDS.get() * 20) + TCConfig.WAVE_LAG_SECONDS.get() * 20;
+    }
+
+    /** Tests: null = look for players; true or false = every tree is (not) watched. */
+    public static Boolean watchOverride;
+
+    /** Whether any player is near enough to watch this tree grow ({@code growth.watchRange}, 0 = always). */
+    static boolean watched(ServerLevel level, BlockPos soil) {
+        if (watchOverride != null) {
+            return watchOverride;
+        }
+        int range = TCConfig.WATCH_RANGE.get();
+        if (range == 0) {
+            return true;
+        }
+        if (range < 0) {
+            range = level.getServer().getPlayerList().getViewDistance() * 16; // whatever a player could see
+        }
+        for (ServerPlayer p : level.players()) {
+            double dx = p.getX() - soil.getX();
+            double dz = p.getZ() - soil.getZ();
+            if (!p.isSpectator() && dx * dx + dz * dz <= (double) range * range) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Whether a tree listed on this job but not grown yet stands within {@code reach} of {@code at} (the spacing rules must see it). */
+    public static boolean plannedNear(GrovePaintJob job, BlockPos at, int reach) {
+        for (long[] e : job.growth) {
+            if (e[KIND] == TEMPLATE && e[DONE] == 0) {
+                BlockPos p = BlockPos.of(e[POS]);
+                int dx = p.getX() - at.getX();
+                int dz = p.getZ() - at.getZ();
+                if (dx * dx + dz * dz <= reach * reach) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /** One template visit: the next small step. Returns -1 to drop the entry. */
+    private static int template(ServerLevel level, GrovePaintJob job, long[] e, long now) {
+        BlockPos soil = BlockPos.of(e[POS]);
+        long packed = e[PACKED];
+        GroveHill.Kind kind = (packed & 3) == 0 ? GroveHill.Kind.HERO : GroveHill.Kind.FINALE;
+        boolean silver = (packed & 4) != 0;
+        int yLimit = (int) ((packed >> 3) & 127);
+        int stepDepth = (int) ((packed >> 10) & 15);
+        int interval = (int) ((packed >> 14) & ((1L << 26) - 1)); // bits 14-39 only: bit 40 is WAVE_STARTED
+        if (!loaded(level, soil, 13)) {
+            e[NEXT] = now + 200;
+            return 0;
+        }
+        if ((packed & WAVE_STARTED) == 0) {
+            // the ripple (user, 2026-11-23): one clock from sight returning; a tree starts a fixed lag behind the meadow's ring at its distance
+            e[PACKED] = packed | WAVE_STARTED;
+            long base = job.sightAt >= 0L ? job.sightAt + TCConfig.GROW_START_DELAY.get() : (job.waveStart < 0L ? (job.waveStart = now) : job.waveStart);
+            long start = base + waveDelay(job, soil, kind);
+            if (start > now) {
+                e[NEXT] = start;
+                return 0;
+            }
+        }
+        dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.Pick pick = dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.pick(kind, silver, soil.getX(), soil.getZ());
+        var species = dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.species(kind, silver);
+        boolean first = e[DONE] == 0;
+        if (pick == null || !first && !DynamicTreesLandmarks.stands(level, soil, species)) {
+            return -1; // cut down or never stood
+        }
+        if (first && !level.getBlockState(soil.above()).canBeReplaced()) {
+            return -1; // something took the spot before the tree's first step
+        }
+        if (playerInTrunk(level, soil)) {
+            e[NEXT] = now + 10;
+            return 0;
+        }
+        // nobody near: nothing to animate, so the tree takes its height in one step (the add-on the user chose with the ripple)
+        int limit = watched(level, soil) ? (int) Math.min(e[TARGET], e[DONE] + stepDepth) : (int) e[TARGET];
+        boolean last = limit >= e[TARGET];
+        long t0 = System.nanoTime();
+        if (!DynamicTreesLandmarks.growCut(level, soil, species, silver, pick.code(), pick.facing(), pick.trunkCap(), limit, yLimit, first, last)) {
+            return -1;
+        }
+        templateNanos += System.nanoTime() - t0;
+        templateSteps++;
+        e[DONE] = limit;
+        if (last) {
+            DynamicTreesLandmarks.setFertility(level, soil, 15); // natural growth (TemplateGrowthLogic) takes it on to its cap
+            return -1;
+        }
+        e[NEXT] = now + interval;
+        return 0;
+    }
+
     /** Lists a Dynamic Trees sapling the grove planted for its pulses. */
     public static void addSapling(ServerLevel level, GrovePaintJob job, BlockPos pos, boolean silver) {
         double g = g(distance(job, pos.getX(), pos.getZ()), job.radius);
@@ -120,7 +280,14 @@ public final class GroveGrowth {
             return false;
         }
         stepsRun++;
-        long deadline = System.nanoTime() + TCConfig.GROW_BUDGET_MS.get() * 1_000_000L;
+        int budget = TCConfig.GROW_BUDGET_MS.get();
+        for (long[] e : job.growth) {
+            if (e[KIND] == TEMPLATE) {
+                budget = Math.max(budget, TCConfig.FINALE_BUDGET_MS.get());
+                break;
+            }
+        }
+        long deadline = System.nanoTime() + budget * 1_000_000L;
         int n = job.growth.size();
         int start = Math.floorMod(job.growthCursor, n);
         List<long[]> gone = new ArrayList<>();
@@ -140,7 +307,7 @@ public final class GroveGrowth {
                     wake = now;
                     continue;
                 }
-                int result = e[KIND] == LANDMARK ? landmark(level, job, e, now) : sapling(level, job, e, now);
+                int result = e[KIND] == LANDMARK ? landmark(level, job, e, now) : e[KIND] == TEMPLATE ? template(level, job, e, now) : sapling(level, job, e, now);
                 changed = true;
                 if (result < 0) {
                     gone.add(e);
@@ -170,7 +337,7 @@ public final class GroveGrowth {
 
     /** A player stands in the trunk's column (where the next wood goes): the stage waits for them to step out. */
     private static boolean playerInTrunk(ServerLevel level, BlockPos soil) {
-        AABB box = new AABB(soil.getX() - 1.5, soil.getY(), soil.getZ() - 1.5, soil.getX() + 2.5, soil.getY() + 32.0, soil.getZ() + 2.5);
+        AABB box = new AABB(soil.getX() - 1.5, soil.getY(), soil.getZ() - 1.5, soil.getX() + 2.5, soil.getY() + 44.0, soil.getZ() + 2.5);
         for (ServerPlayer p : level.players()) {
             if (!p.isSpectator() && p.getBoundingBox().intersects(box)) {
                 return true;

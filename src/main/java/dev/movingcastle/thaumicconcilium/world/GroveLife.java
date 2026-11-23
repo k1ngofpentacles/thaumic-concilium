@@ -178,13 +178,15 @@ public final class GroveLife implements GrovePainter.Hooks {
                 add(plan, (int) Math.floor(cx + Math.cos(a) * dist), (int) Math.floor(cz + Math.sin(a) * dist), SAPLING, k == 2 ? 1 : 0);
             }
         } else {
-            int n = Math.max(1, Math.round(job.radius / 8.0f));
+            int n = TCConfig.HEROES.get(); // always three heroes, whatever the radius (user, 2026-11-23)
+            VesselCrater heroCrater = new VesselCrater(job.centre, job.craterRadius, job.craterSeed);
             int silver = Math.min(n - 1, (int) (roll(seed, 2, 2, 32) * n));
             double phase = roll(seed, 3, 3, 33) * Mth.TWO_PI;
             for (int i = 0; i < n; i++) {
                 double jitter = (roll(seed, i, 4, 34) - 0.5) * 0.5;
                 double a = phase + Mth.TWO_PI * (i + jitter) / n;
-                double dist = job.radius * (0.55 + 0.25 * roll(seed, i, 5, 35));
+                // near the crater, at the heart of the hill (user, 2026-11-23): a few blocks past the lip in the hero's own direction
+                double dist = heroCrater.rimAt(a) + TCConfig.HERO_PAST_LIP.get() * (1.0 + roll(seed, i, 5, 35));
                 add(plan, (int) Math.floor(cx + Math.cos(a) * dist), (int) Math.floor(cz + Math.sin(a) * dist), TREE, i == silver ? 1 : 0);
             }
         }
@@ -331,7 +333,7 @@ public final class GroveLife implements GrovePainter.Hooks {
         } else {
             return false;
         }
-        if (nearSapling(level, at)) {
+        if (nearSapling(level, at) || GroveGrowth.plannedNear(job, at, SAPLING_SPACING)) {
             return false;
         }
         return plantSapling(level, job, at, silver);
@@ -385,6 +387,22 @@ public final class GroveLife implements GrovePainter.Hooks {
 
     /** As {@link #plantSapling(ServerLevel, BlockPos, boolean)}, and a Dynamic Trees sapling is listed for the job's accelerated growth (cycle 4e). */
     public static boolean plantSapling(ServerLevel level, GrovePaintJob job, BlockPos at, boolean silver) {
+        if (dynamicTreesAllowed && DynamicTreesSaplings.available() && level.getBlockState(at).isAir()) {
+            // 5d trees C: the finale's trees are our grove species on the hill: grown on screen to their canopy, or a sapling at the edge
+            int canopy = GroveHill.finaleCanopy(GroveHill.hillAt(job, at.getX(), at.getZ()));
+            // the edge stays saplings; so does a tree beside the pond, whose crown would hang over the pond (kept bare through the finale)
+            if (canopy < TCConfig.SAPLING_BELOW.get() || nearPond(job, at, POND_CLEAR)) {
+                if (dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.plantSapling(level, at, GroveHill.Kind.FINALE, silver)) {
+                    finaleTrees[silver ? 1 : 0]++;
+                    return true;
+                }
+                return false;
+            }
+            if (GroveGrowth.plantTemplate(level, job, at.below(), GroveHill.Kind.FINALE, silver, canopy)) {
+                finaleTrees[silver ? 1 : 0]++;
+                return true;
+            }
+        }
         if (!plantSapling(level, at, silver)) {
             return false;
         }
@@ -493,6 +511,7 @@ public final class GroveLife implements GrovePainter.Hooks {
             return false;
         }
         // our own shapes (veteran oak, ghost gum) as living Dynamic Trees trees; Thaumaturge's feature stays as the fallback
+        // 5d trees C: the hero is our elder species on its template (picked at the trunk's own column, as natural growth picks it)
         LandmarkShapes.Pick pick = dynamicTreesAllowed && DynamicTreesSaplings.available() ? LandmarkShapes.pick(job.craterSeed, x, z, silver) : null;
         int[] why = new int[3]; // offsets turned down: not grove grass or pond, footprint not free, the tree did not stand
         if (pick != null) {
@@ -509,7 +528,7 @@ public final class GroveLife implements GrovePainter.Hooks {
                     why[1]++;
                     continue;
                 }
-                if (GroveGrowth.plantLandmark(level, job, origin.below(), silver, pick)) {
+                if (GroveGrowth.plantTemplate(level, job, origin.below(), GroveHill.Kind.HERO, silver, TCConfig.HERO_FINALE.get())) {
                     landmarkShapes++;
                     queueFixedSaplings(job);
                     return true;
@@ -567,6 +586,23 @@ public final class GroveLife implements GrovePainter.Hooks {
                 job.decor.add(new long[] {SAPLING, spot[0], spot[1], spot[3]});
             }
         }
+    }
+
+    /** Horizontal blocks a finale tree keeps from the pond's columns to be grown on screen (closer, it is planted as a sapling). */
+    public static final int POND_CLEAR = 4;
+    /** Tests: the finale's own trees planted (grown or as saplings), greatwood and silverwood. */
+    public static final int[] finaleTrees = new int[2];
+
+    private static boolean nearPond(GrovePaintJob job, BlockPos at, int reach) {
+        for (long l : job.pond) {
+            BlockPos p = BlockPos.of(l);
+            int dx = p.getX() - at.getX();
+            int dz = p.getZ() - at.getZ();
+            if (dx * dx + dz * dz <= reach * reach) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /** A pond column, or one of its livingrock mound: nothing woody is planted there (the mound is built last and would bury it). */

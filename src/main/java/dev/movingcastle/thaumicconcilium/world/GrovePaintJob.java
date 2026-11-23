@@ -34,6 +34,8 @@ public final class GrovePaintJob {
     public final List<long[]> decor = new ArrayList<>();
     /** Per-job cache of the life hooks' plan (landmark and sapling spots); never saved, recomputed from the seed. */
     public transient Object plan;
+    /** The hill's cached numbers ({@link GroveHill#params}). */
+    public transient Object hill;
     /** Phase 5d cycle 3, the mana pond: its blocks stand (set once the job finishes, only with Botania). */
     public boolean pondPlaced;
     /** The pond's ledger is set up ({@code residual} holds the starting mana). The residual never refills by itself, only from node vis. */
@@ -59,6 +61,13 @@ public final class GrovePaintJob {
     public long craterDoneAt = -1L;
     /** Game time sight returns (the swell's collapse ends); the seed's death waits {@code finale.seedGap} after it. -1 = no gate. */
     public long sightAt = -1L;
+    /** The rite's burden this grove was opened with (-1: opened with a given radius, the QA command); tier 4 sizes its pond by it. */
+    public int burden = -1;
+    /** 5d trees: the wave's clock when sight never left (the QA command): the first tree visit. */
+    public transient long waveStart = -1L;
+    /** 5d trees: the current ring's chunk groups, cached (the ripple paints many a step). */
+    public transient int groupsRing = -1;
+    public transient Object groupsCache;
     /**
      * Cycle 4e: the trees still growing on screen ({@link GroveGrowth}), one {@code long[]} each: {@code {kind, pos, done, target, packed, nextAt}}. A
      * landmark's {@code pos} is its soil block, a sapling's the sapling block; saved with the job.
@@ -131,6 +140,7 @@ public final class GrovePaintJob {
         c.putLong("darkUntil", this.darkUntil);
         c.putLong("craterDoneAt", this.craterDoneAt);
         c.putLong("sightAt", this.sightAt);
+        c.putInt("burden", this.burden);
         c.putInt("cursor", this.cursor);
         c.putBoolean("seedDone", this.seedDone);
         c.putLong("seedDeathStart", this.seedDeathStart);
@@ -170,6 +180,7 @@ public final class GrovePaintJob {
         j.darkUntil = c.contains("darkUntil") ? c.getLong("darkUntil") : -1L;
         j.craterDoneAt = c.contains("craterDoneAt") ? c.getLong("craterDoneAt") : -1L;
         j.sightAt = c.contains("sightAt") ? c.getLong("sightAt") : -1L;
+        j.burden = c.contains("burden") ? c.getInt("burden") : -1;
         j.cursor = c.getInt("cursor");
         j.seedDone = c.getBoolean("seedDone");
         j.seedDeathStart = c.contains("seedDeathStart") ? c.getLong("seedDeathStart") : -1L;

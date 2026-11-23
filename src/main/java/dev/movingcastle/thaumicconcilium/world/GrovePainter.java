@@ -11,7 +11,6 @@ import it.unimi.dsi.fastutil.longs.LongSet;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,10 +58,11 @@ public final class GrovePainter {
         }
         int lo = TCConfig.PAINT_RADIUS_MIN.get();
         int hi = Math.max(lo, TCConfig.PAINT_RADIUS_MAX.get());
-        int steps = (hi - lo) / 4;
         double span = TCConfig.PAINT_BURDEN_SPAN.get() * threshold;
         double frac = Mth.clamp((burden - TCConfig.PAINT_BURDEN_LOW.get() * threshold) / span, 0.0, 1.0);
-        return lo + 4 * (int) Math.round(steps * frac);
+        // 5d trees C: the hill reaches at least growth.hill.pastLip past the widest lip (user, 2026-11-23)
+        int byBurden = Math.min(hi, lo + 4 * (int) Math.round((hi - lo) * frac / 4.0)); // 4-block steps from lo, reaching hi exactly
+        return Math.max(byBurden, GroveHill.minRadiusForRim(maxRim));
     }
 
     /** The farthest the rim reaches in any direction. */
@@ -91,7 +91,18 @@ public final class GrovePainter {
     }
 
     /** The ring's columns grouped by chunk, chunks in angle order around the hex (deterministic, so a cursor can resume). */
+    @SuppressWarnings("unchecked")
     public static List<Group> groups(GrovePaintJob job, int ring) {
+        if (job.groupsRing == ring && job.groupsCache instanceof List<?> cached) {
+            return (List<Group>) cached;
+        }
+        List<Group> built = buildGroups(job, ring);
+        job.groupsRing = ring;
+        job.groupsCache = built;
+        return built;
+    }
+
+    private static List<Group> buildGroups(GrovePaintJob job, int ring) {
         int reach = job.radius / 4 + 2;
         int qx0 = job.centre.getX() >> 2;
         int qz0 = job.centre.getZ() >> 2;
@@ -136,7 +147,11 @@ public final class GrovePainter {
             ThaumicConcilium.LOG.warn("Grove painter: the hex at {} is in a sub-level plot, no grove is painted", centre);
             return null;
         }
-        return openWithRadius(level, centre, crater, tier, radiusFor(tier, maxRim(crater), burden, TCConfig.VESSEL_THRESHOLD.get()), seed);
+        GrovePaintJob job = openWithRadius(level, centre, crater, tier, radiusFor(tier, maxRim(crater), burden, TCConfig.VESSEL_THRESHOLD.get()), seed);
+        if (job != null) {
+            job.burden = burden;
+        }
+        return job;
     }
 
     /** As above with the radius given (the QA command's grove). */
@@ -159,7 +174,11 @@ public final class GrovePainter {
     // ---------------------------------------------------------------- the finale (cycle 4e)
     /** Chunk groups one step takes: {@code finale.paintPace} while the swell hides the crater and it is not yet done, else one. */
     public static int pace(GrovePaintJob job, long now) {
-        return job.darkUntil > now && job.craterDoneAt < 0L ? Math.max(1, TCConfig.FINALE_PAINT_PACE.get()) : 1;
+        int swell = job.darkUntil > now && job.craterDoneAt < 0L ? Math.max(1, TCConfig.FINALE_PAINT_PACE.get()) : 1;
+        // the ripple (user, 2026-11-23): every ring in grove.ringSeconds, so the meadow spreads at one speed however wide the ring
+        int groups = job.ring < job.ringCount() ? groups(job, job.ring).size() : 1;
+        int ripple = (int) Math.ceil(groups * (double) VesselAftermath.BEAT / (TCConfig.RING_SECONDS.get() * 20.0));
+        return Math.max(swell, Math.max(1, ripple));
     }
 
     /**
@@ -211,6 +230,7 @@ public final class GrovePainter {
         VesselCrater crater = new VesselCrater(job.centre, job.craterRadius, job.craterSeed);
         int rings = job.ringCount();
         int pace = pace(job, level.getGameTime());
+        long tPaint = System.nanoTime();
         for (int n = 0; n < pace && job.ring < rings; n++) {
             List<Group> groups = groups(job, job.ring);
             while (job.cursor >= groups.size()) {
@@ -227,14 +247,18 @@ public final class GrovePainter {
                 paintOrWait(level, job, crater, g.chunk(), g.columns(), deadline, true);
             }
         }
+        long tWait = System.nanoTime();
         resolveWaiting(level, job, crater, deadline);
+        long tAfterWait = System.nanoTime();
         if (job.darkUntil >= 0L && job.craterDoneAt < 0L && craterDone(job, crater)) {
             job.craterDoneAt = level.getGameTime();
         }
         if (job.craterDoneAt >= 0L && !job.pondPlaced) {
             GrovePond.placeEarly(level, job); // the finale: the pond stands under the swell, before the light rises from it
         }
+        long tDecor = System.nanoTime();
         processDecor(level, job, deadline);
+        long tTail = System.nanoTime();
         if (job.ring >= rings) {
             if (!job.seedDone) {
                 finishSeed(level, job, crater, deadline);
@@ -248,7 +272,21 @@ public final class GrovePainter {
         job.steps++;
         job.totalNanos += took;
         job.maxStepNanos = Math.max(job.maxStepNanos, took);
+        if (took > slowestStep) { // tests and tuning: where the slowest step's time went
+            slowestStep = took;
+            slowestParts = new long[] {tWait - tPaint, tAfterWait - tWait, tTail - tDecor, System.nanoTime() - tTail, tDecor - tAfterWait};
+            slowestRing = job.ring;
+        }
     }
+
+    /** Tests: the slowest painter step since the counters were last cleared, in nanoseconds: total, and {paint, waiting, decor, tail, pond}. */
+    public static long slowestStep;
+    public static long[] slowestParts = new long[5];
+    public static int slowestRing;
+    /** Tests: the slowest decor item of each kind (the hooks' item[0]), in nanoseconds. */
+    public static final long[] DECOR_MAX = new long[8];
+    public static final long[] DECOR_SUM = new long[8];
+    public static final long[] DECOR_COUNT = new long[8];
 
     private static void paintOrWait(ServerLevel level, GrovePaintJob job, VesselCrater crater, long chunkLong, List<int[]> columns, long deadline,
             boolean mayWait) {
@@ -268,15 +306,23 @@ public final class GrovePainter {
 
     /** Up to a few chunks that were not loaded when their ring passed: painted now if they have loaded, up to the current ring. */
     private static void resolveWaiting(ServerLevel level, GrovePaintJob job, VesselCrater crater, long deadline) {
-        int checks = TCConfig.PAINT_WAITING_CHECKS.get();
-        Iterator<Long> it = job.waiting.iterator();
-        while (it.hasNext() && checks-- > 0) {
-            long chunkLong = it.next();
+        // 5d trees (Fable consult, 2026-11-23): look at up to waitingChecks entries, rotating unloaded ones to the back so they never block
+        // a loaded chunk behind them, and paint at most one waiting chunk a step, none once the step's budget is spent (a whole chunk is
+        // 4 to 16 times a normal group)
+        int checks = Math.min(TCConfig.PAINT_WAITING_CHECKS.get(), job.waiting.size());
+        boolean painted = false;
+        for (int k = 0; k < checks && !job.waiting.isEmpty(); k++) {
+            if (painted || System.nanoTime() > deadline) {
+                return;
+            }
+            long chunkLong = job.waiting.remove(0);
             int[] cp = chunkOf(chunkLong);
             LevelChunk chunk = level.getChunkSource().getChunkNow(cp[0], cp[1]);
             if (chunk == null) {
+                job.waiting.add(chunkLong); // still unloaded: to the back
                 continue;
             }
+            painted = true;
             List<int[]> due = new ArrayList<>();
             for (int lx = 0; lx < 4; lx++) {
                 for (int lz = 0; lz < 4; lz++) {
@@ -289,7 +335,6 @@ public final class GrovePainter {
                 }
             }
             job.painted += paintColumns(level, job, crater, chunk, due, deadline);
-            it.remove();
         }
     }
 
@@ -299,14 +344,21 @@ public final class GrovePainter {
      */
     private static void processDecor(ServerLevel level, GrovePaintJob job, long deadline) {
         int n = job.decor.size();
+        // 5d trees: one item is guaranteed only every second step when the painting already spent the budget, so the queue still moves
+        boolean guaranteed = System.nanoTime() <= deadline || (job.steps & 1) == 0;
         for (int i = 0; i < n && !job.decor.isEmpty(); i++) {
-            if (i > 0 && System.nanoTime() > deadline) {
+            if ((i > 0 || !guaranteed) && System.nanoTime() > deadline) {
                 break;
             }
             long[] item = job.decor.remove(0);
+            long t = System.nanoTime();
             if (!hooks().onDecor(level, job, item)) {
                 job.decor.add(item);
             }
+            int kind = (int) Math.max(0, Math.min(DECOR_MAX.length - 1, item[0]));
+            DECOR_MAX[kind] = Math.max(DECOR_MAX[kind], System.nanoTime() - t);
+            DECOR_SUM[kind] += System.nanoTime() - t;
+            DECOR_COUNT[kind]++;
         }
     }
 

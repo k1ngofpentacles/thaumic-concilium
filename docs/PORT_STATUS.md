@@ -333,7 +333,39 @@ Deviations: the fidelity review, "Phase 5d". Pack test: `Phase5dCapitalTests`, `
 
 ### Needs in-game testing
 
-Draft checks are in `docs/agents/retro/5d-qa-checks.md` (to become the QA chapter `qa_phase_5d`; `tools/qa-quests/specs/phase_5d_look.json` already holds five look checks). Not covered by any test or shot: Botania bursts and sparks feeding a real capital (the buffer lasts 2.4 s at 209 mana a tick, so one spreader will not keep it fed), the feel of the breath and tremble, the finale from outside and inside, the grove's growth over real days, shader packs (BSL, Bliss) on the pond and capital, a real fight with roots, Heartstone partners, Sable airships over the grove, and multiplayer over LAN.
+The QA chapter `qa_phase_5d` (`tools/qa-quests/specs/phase_5d.json`).
+
+## 5d follow-up: the grove's own trees on a hill (0.12.1)
+
+The Concilium Grove grows trees of its own (`docs/design/5d-grove-trees.md`, every user decision; notes
+`docs/agents/retro/5d-trees-a-notes.md` and `5d-trees-c-notes.md`; Fable consult `docs/consults/5d-grove-options.md`):
+
+- **Species:** our own Dynamic Trees families and six species (heroes `elder_`, the finale's lineage `grove_`, regular grove trees
+  `glade_`, greatwood and silverwood), on our template shapes (heroes 38-40 tall, grove trees 24-26), with Thaumaturge's wood, bark,
+  textures and seeds. Natural growth follows each tree's template to its cap (`TemplateGrowthLogic`): heroes 40; finale trees on the
+  hill, 26 beside the heroes and never under 19; regular grove trees 19. Self-seeded saplings keep the lineage; a seed a player picks up
+  is a plain Thaumaturge seed; a Thaumaturge sapling that becomes a tree in a grove becomes a regular grove tree.
+- **The hill:** tier 4 groves are 70 to 120 blocks across (by burden; config keys renamed `grove.radius.min/max`); always three heroes a
+  few blocks past the crater's lip; after the finale the forest slopes from them (heroes 30, neighbours 26) to saplings at the edge and
+  down toward the pond.
+- **Growth on screen:** small steps (no tree pops in whole); the meadow ripples outward at a ring every 4 s and the trees follow on one
+  clock from sight returning: a radius-70 forest stands about 2 minutes after sight. Trees no player can see grow in one step.
+- **No decay** in a grove that is still growing or whose pond still gives mana (two optional Dynamic Trees mixins): no leaf death,
+  twig rot or disease; felled trees still clear.
+- **The pond** at tier 4 starts with 1,000 mana per point of burden (about 0.34-0.6 M), sized when it is placed.
+- **Painter:** waiting chunks rotate (an unloaded one no longer blocks the rest); decor stays within the step budget. A one-time
+  warm-up hitch (first node or hero of a session, 30-40 ms) remains.
+- Executive calls (mechanical): our own families (signal depth 64); our leaves `light_requirement` 8 and `smother` 6 (fuller crowns
+  than Thaumaturge's own); `soil_longevity` 32/40/64; finale trees within 4 of the pond, and the edge band, are saplings.
+
+Pack test: 320 of 320 (two full runs at the close). New tests `Phase5dTreeTemplateTests`, `Phase5dGroveSpeciesTests`,
+`Phase5dFinaleTreesTests`, `a_living_grove_keeps_its_leaves_and_twigs`. Render harness: `tools/render-harness/scenes/phase5d_trees.json`
+(needs render distance 12). Known flakes (pass alone): `shade_mushrooms_...`, `tier4_flora_counts_...`, `sable_break_holds_the_hex_...`.
+
+### Needs in-game testing
+
+The QA chapter `qa_phase_5d`: checks `grove_trees`, `grove_ripple`, `grove_natural_growth`, `grove_lineage`, `grove_no_decay`,
+`grove_species_look`, and the updated `grove_biome`, `pond_mana_draw`, `teaser`.
 
 ## Remaining phases (planned)
 

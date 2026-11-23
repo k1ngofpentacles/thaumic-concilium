@@ -45,7 +45,7 @@ public final class VesselCrater {
     /** How fast the ring spreads, blocks per tick: a 14-block crater is cut in about a second and a half, its rim's mound just after. */
     public static final double SPEED = 0.5;
     /** The rim swells out by up to this share of the radius, never in: the crater is at least its radius everywhere. */
-    private static final double RAGGED = 0.12;
+    public static final double RAGGED = 0.12;
     /** The mound stands from this far inside the rim to this far outside it. */
     private static final double MOUND_IN = 0.5;
     public static final double MOUND_OUT = 2.2;

@@ -3,6 +3,6 @@
   "minVersion": "0.8",
   "package": "dev.movingcastle.thaumicconcilium.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": ["SoilGrowthBoostMixin", "SaplingGrowthBoostMixin"],
+  "mixins": ["SoilGrowthBoostMixin", "SaplingGrowthBoostMixin", "GroveLeavesNoDecayMixin", "GroveSpeciesNoDecayMixin"],
   "injectors": { "defaultRequire": 0 }
 }

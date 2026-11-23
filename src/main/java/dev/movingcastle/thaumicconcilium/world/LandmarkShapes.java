@@ -18,8 +18,6 @@ import net.minecraft.core.Direction;
  * so it is safe to load without that mod. The codes are never registered with Dynamic Trees or Thaumaturge's own worldgen.
  */
 public final class LandmarkShapes {
-    private static final String RESOURCE = "/data/" + ThaumicConcilium.MODID + "/grove_trees/landmarks.json";
-
     /** One shape: its JoCode and what the generator measured (the tests compare the world with these). */
     public record Shape(String code, int cells, int tips, int widthX, int widthZ, int top, int lowLeaf, int firstLimb, int trunkTop, String family, int trunkCap) {
     }
@@ -28,31 +26,43 @@ public final class LandmarkShapes {
     public record Pick(int variant, Direction facing, Shape shape) {
     }
 
-    private static List<Shape> greatwood;
-    private static List<Shape> silverwood;
+    /** The shape sets (phase 5d trees A): today's landmarks, the heroes (4 + 4, canopy 38-40) and the grove trees (8 + 8, canopy 24-26). */
+    public static final String LANDMARKS = "landmarks";
+    public static final String ELDERS = "elders";
+    public static final String GROVE = "grove";
+
+    private static final java.util.Map<String, List<List<Shape>>> SETS = new java.util.HashMap<>();
 
     private LandmarkShapes() {
     }
 
-    private static synchronized void load() {
-        if (greatwood != null) {
-            return;
+    private static synchronized List<List<Shape>> load(String set) {
+        List<List<Shape>> have = SETS.get(set);
+        if (have != null) {
+            return have;
         }
+        String resource = "/data/" + ThaumicConcilium.MODID + "/grove_trees/" + set + ".json";
         List<Shape> g = new ArrayList<>();
         List<Shape> s = new ArrayList<>();
-        try (InputStream in = LandmarkShapes.class.getResourceAsStream(RESOURCE)) {
+        try (InputStream in = LandmarkShapes.class.getResourceAsStream(resource)) {
             if (in == null) {
-                ThaumicConcilium.LOG.warn("Landmark trees: {} is missing, the grove falls back to Thaumaturge's own trees", RESOURCE);
+                ThaumicConcilium.LOG.warn("Landmark trees: {} is missing, the grove falls back to Thaumaturge's own trees", resource);
             } else {
                 JsonObject root = new Gson().fromJson(new InputStreamReader(in, StandardCharsets.UTF_8), JsonObject.class);
                 read(root.getAsJsonArray("greatwood"), g);
                 read(root.getAsJsonArray("silverwood"), s);
             }
         } catch (Exception e) {
-            ThaumicConcilium.LOG.warn("Landmark trees: could not read {}: {}", RESOURCE, e.toString());
+            ThaumicConcilium.LOG.warn("Landmark trees: could not read {}: {}", resource, e.toString());
         }
-        silverwood = s;
-        greatwood = g;
+        have = List.of(g, s);
+        SETS.put(set, have);
+        return have;
+    }
+
+    /** The shapes of one set and wood (greatwood false, silverwood true); empty when the data is missing. */
+    public static List<Shape> shapes(String set, boolean silver) {
+        return load(set).get(silver ? 1 : 0);
     }
 
     private static void read(JsonArray array, List<Shape> into) {
@@ -69,8 +79,7 @@ public final class LandmarkShapes {
 
     /** All the shapes of a species (8 oak greatwoods, 10 silverwoods in six families; each carries its own trunk cap; empty when the data is missing). */
     public static List<Shape> shapes(boolean silver) {
-        load();
-        return silver ? silverwood : greatwood;
+        return shapes(LANDMARKS, silver);
     }
 
     // ---------------------------------------------------------------- stages (cycle 4e, memo section 2): pure, on the raw instruction bytes
@@ -111,6 +120,46 @@ public final class LandmarkShapes {
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         walk(code, new int[1], 0, limit(code, stage), out, true);
         return out.toByteArray();
+    }
+
+    /**
+     * 5d trees C, small steps: the code cut to the cells of path length {@code <= pathLimit} whose height above the soil is {@code <= yLimit};
+     * a cell over either limit cuts its whole subtree, so the result is parent-closed (a tree). Heights do not depend on the facing.
+     */
+    public static byte[] cut(byte[] code, int pathLimit, int yLimit) {
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        cutWalk(code, new int[1], 0, 0, pathLimit, yLimit, out, true);
+        return out.toByteArray();
+    }
+
+    /** The deepest path length among the cells at or under {@code yLimit} (parent-closed): where a tree with this canopy limit is whole. */
+    public static int depthUnder(byte[] code, int yLimit) {
+        return maxDepth(cut(code, Integer.MAX_VALUE, yLimit));
+    }
+
+    private static void cutWalk(byte[] in, int[] idx, int depth, int y, int pathLimit, int yLimit, java.io.ByteArrayOutputStream out, boolean emit) {
+        while (idx[0] < in.length) {
+            byte c = in[idx[0]++];
+            if (c == 6) {
+                if (emit) {
+                    out.write(6);
+                }
+                cutWalk(in, idx, depth, y, pathLimit, yLimit, out, emit);
+                if (emit) {
+                    out.write(7);
+                }
+            } else if (c == 7) {
+                return;
+            } else {
+                depth++;
+                y += c == 1 ? 1 : c == 0 ? -1 : 0;
+                if (emit && depth <= pathLimit && y <= yLimit) {
+                    out.write(c);
+                } else {
+                    emit = false;
+                }
+            }
+        }
     }
 
     /** The cells (steps) an instruction stream places: the count of its step instructions. */

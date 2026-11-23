@@ -282,10 +282,13 @@ def slim(tree, step=0.5, column_cap=13):
     return stored
 
 
+LEAF_TOP = 32  # leaf map height: 32 for Thaumaturge's own species; the grove's species set world_gen_leaf_map_height 48 (main() raises this for the new sets)
+
+
 def leaves_of(leaf, strict=False):
-    """JoCode.smother (max 3) and the leaf cells (value & 15 != 0), clipped to the 23 x 32 x 23 leaf map."""
+    """JoCode.smother (max 3) and the leaf cells (value & 15 != 0), clipped to the 23 x LEAF_TOP x 23 leaf map."""
     m = smothered(leaf)
-    return {k for k, v in m.items() if (v & 15) > (1 if strict else 0) and abs(k[0]) <= 11 and abs(k[2]) <= 11 and 1 <= k[1] <= 32}
+    return {k for k, v in m.items() if (v & 15) > (1 if strict else 0) and abs(k[0]) <= 11 and abs(k[2]) <= 11 and 1 <= k[1] <= LEAF_TOP}
 
 
 def smothered(leaf):
@@ -970,7 +973,7 @@ def _inbox(sp, a, y):
     return bool(rows) and min(rows) <= y <= max(rows) and min(cols) <= a <= max(cols)
 
 
-def fill(t, rng, tapering, goal, limit, min_gain=3, mode='box'):
+def fill(t, rng, tapering, goal, limit, min_gain=3, mode='box', ymax=26, ring=False):
     """Twig fill: attach one-block twigs to interior branch cells where their leaf cluster closes the most gaps inside the crown silhouette, until
     the silhouette sky share is <= goal in both side views or `limit` twigs are added. A twig is an ordinary Dynamic Trees branch tip, so its leaves
     are the species' own cluster and Dynamic Trees sustains them like any other (nothing is placed that is not carried by a branch)."""
@@ -996,7 +999,7 @@ def fill(t, rng, tapering, goal, limit, min_gain=3, mode='box'):
                 continue
             for d in D[1:]:
                 q = add(c, d)
-                if q in t.parent or q in banned or q[1] < 4 or q[1] > 26 or max(abs(q[0]), abs(q[2])) > 8:
+                if q in t.parent or q in banned or (ring and abs(q[0]) <= 1 and abs(q[2]) <= 1) or q[1] < 4 or q[1] > ymax or max(abs(q[0]), abs(q[2])) > 8:
                     continue
                 if any(add(q, e) in t.parent and add(q, e) != c for e in D):
                     continue
@@ -1090,7 +1093,231 @@ NEW_KINDS = [('twin', [68]), ('lean', [366]), ('sprawl', [59]), ('narrow', [8215
 NEW_SEED = 31
 
 
+# ---------------------------------------------------------------- the grove's own trees (phase 5d trees A): elders (heroes) and grove trees
+# The accepted veteran oak and round-2 gum, stretched in height. A tree is stretched edge by edge: a horizontal edge stays one cell, a vertical
+# edge becomes as many cells as the heights' new gap (y -> f(y) is strictly increasing). Two cells face-adjacent after the stretch were on one
+# level before, so a clear tree stays clear. The twig fill is run again on the stretched wood (the leaf coverage changed), then the new range
+# checks decide. Branching, widths and tip reach are the accepted shapes'; only the heights change.
+LEAF_TOP_GROVE = 47      # the grove species' world_gen_leaf_map_height is 48 (indices 0..47 above the first trunk block)
+MAX_PATH = 60            # families of ours: max_signal_depth 64, and the walk needs two cells of slack
+OAK_SOURCES = [(11, 17, None), (11, 261, None), (11, 453, None), (11, 511, None)] + [(seed, known[0], var) for seed, var, known in OAK_VARS]
+GUM_SOURCES = KNOWN_GUM_R2 + [137922, 188363, 216478, 217877, 223507]   # seed 23, build_gum(always_droop=False), check_gum(style='r2')
+ELDER_SOURCES = [0, 2, 4, 6]                                          # the other source of each class is used mirrored, so no two trees are twins
+ELDER_TOPS = {'greatwood': [39, 40, 38, 39], 'silverwood': [39, 40, 38, 39]}   # canopy: top of leaves above the soil block, class range 38-40
+GROVE_TOPS = {'greatwood': [25, 26, 24, 25, 26, 24, 25, 25], 'silverwood': [25, 26, 24, 25, 26, 24, 25, 25]}   # class range 24-26
+FILL_SALTS = 8   # twig fills tried per oak shape: the one with the fewest tips held by a single leaf wins (Phase5dTreeTemplateTests found a tip rotting in some)
+TALL_CLASS = {'elders': (38, 40), 'grove': (24, 26)}
+
+
+def source_tree(kind, i):
+    """The accepted shape number i of a wood, before its twig fill (rebuilt from its search seed, and re-checked)."""
+    if kind == 'greatwood':
+        seed, attempt, var = OAK_SOURCES[i]
+        t = build_oak(random.Random(seed * 1000003 + attempt), var=var)
+        info = {}
+        if t is None or not t.clear() or not check_oak(t, info):
+            sys.exit(f'oak source {i} ({seed}, {attempt}) no longer passes')
+    else:
+        t = build_gum(random.Random(23 * 1000003 + GUM_SOURCES[i]), always_droop=False)
+        info = {}
+        if t is None or not t.clear() or not check_gum(t, info, style='r2'):
+            sys.exit(f'gum source {i} ({GUM_SOURCES[i]}) no longer passes')
+    return t
+
+
+def mirrored(t):
+    """x -> -x (the same tree, the other way round)."""
+    n = Tree()
+
+    def m(c):
+        return (-c[0], c[1], c[2])
+
+    def visit(c):
+        for k in t.kids[c]:
+            n.attach_path(m(c), [m(k)])
+            visit(k)
+
+    visit(t.root)
+    return n
+
+
+def stretched(t, anchors):
+    """The tree with its heights moved by a piecewise linear map: anchors = [(old y, new y), ...] ascending; y below the first anchor stays, between two
+    anchors it is interpolated (rounded), so every slope is >= 1 and the map is strictly increasing. Returns the tree and the last slope."""
+    assert anchors[0][0] == anchors[0][1]
+    slopes = [(nb - na) / (b - a) for (a, na), (b, nb) in zip(anchors, anchors[1:])]
+    assert all(x >= 1.0 for x in slopes)
+    s = slopes[-1]
+
+    def f(y):
+        if y <= anchors[0][0]:
+            return y
+        for (a, na), (b, nb) in zip(anchors, anchors[1:]):
+            if y <= b:
+                return na + round((y - a) * (nb - na) / (b - a))
+        return anchors[-1][1]
+
+    n = Tree()
+
+    def visit(c):
+        a = (c[0], f(c[1]), c[2])
+        for k in t.kids[c]:
+            b = (k[0], f(k[1]), k[2])
+            if k[1] == c[1]:
+                path = [b]
+            else:
+                step = 1 if k[1] > c[1] else -1
+                path = [(k[0], y, k[2]) for y in range(a[1] + step, b[1] + step, step)]
+            if not n.attach_path(a, path):
+                sys.exit('stretch: a path loops')
+            visit(k)
+
+    visit(t.root)
+    return n, s
+
+
+def check_tall(t, info, kind, cls, top):
+    """Range checks of the new sets (cls 'elders' or 'grove'); info gets the measurements. Returns the list of failed checks."""
+    lo, hi = TALL_CLASS[cls]
+    tips = t.tips()
+    mind, nn = tip_stats(tips)
+    br = set(t.parent)
+    silver = kind == 'silverwood'
+    stored, leaf = inflate(t, 0.8 if silver else 0.55)
+    lv = leaves_of(leaf)
+    lvs = leaves_of(leaf, True)
+    w = [max(p[a] for p in lv) - min(p[a] for p in lv) + 1 for a in (0, 2)]
+    topy = max(p[1] for p in lv)
+    low = min(p[1] for p in lv)
+    column_top = 0
+    while (0, column_top + 1, 0) in br:
+        column_top += 1
+    # Dynamic Trees' rot test (checkForRot) drops a tip whose face neighbours hold too little leaf: the weakest tip's support (strict model)
+    sm = smothered(leaf)
+    supports = sorted(sum((sm.get(add(c, d), 0) & 15) if (sm.get(add(c, d), 0) & 15) > 1 else 0 for d in D) for c in tips)
+    info['minTipSupport'] = supports[0]
+    info['weakTips'] = sum(1 for c in tips if sum(1 for d in D if (sm.get(add(c, d), 0) & 15) > 1) < 2)
+    info['lowTips'] = sum(1 for s in supports if s <= 6)
+    skyx, skyz = sky_fraction(lv, br, 'z'), sky_fraction(lv, br, 'x')
+    rsx, rsz = row_sky(lvs, br, 'z'), row_sky(lvs, br, 'x')
+    fails = []
+
+    def need(name, ok):
+        if not ok:
+            fails.append(name)
+
+    need('top', lo <= topy <= hi)
+    need('reach', all(max(abs(c[0]), abs(c[2])) <= 8 for c in tips))
+    need('depth', t.depth() <= MAX_PATH)
+    need('ring', silver or not any(abs(c[0]) == 1 and abs(c[2]) == 1 for c in br))   # a diagonal cell beside the column is taken by the thick trunk's shell (lost in game)
+    need('leafMap', all(p[1] <= LEAF_TOP for p in lv))
+    if silver:
+        slim_r = slim(t, 0.5, 14)
+        off_max = max((r for c, r in slim_r.items() if not (c[0] == 0 and c[2] == 0 and c[1] <= column_top)), default=0)
+        need('width', 15 <= max(w) <= 19 and min(w) >= 12)
+        need('tips', len(tips) >= 7 and mind >= 2.0)
+        need('lowLeaf', low >= 8)
+        need('crownDepth', topy - low + 1 >= 0.5 * topy)
+        need('sky', skyx >= 0.35 and skyz >= 0.35)
+        need('trunk', 13 <= slim_r[(0, 1, 0)] <= 16 and off_max <= 8)
+        info.update(slimR1=slim_r[(0, 1, 0)], colTopR=slim_r[(0, column_top, 0)], offColumnMaxR=off_max)
+    else:
+        need('width', min(w) >= 19 and max(w) <= 23)
+        need('tips', len(tips) >= 14 and mind >= 2.0)
+        need('lowLeaf', low >= 3)
+        need('trunk', stored[(0, 1, 0)] >= 20 and stored[(0, 4, 0)] >= 12)
+        need('sky', max(rsx, rsz) <= 0.15)
+        info.update(r1=stored[(0, 1, 0)], r4=stored[(0, 4, 0)])
+    info.update(tips=len(tips), cells=len(br), depth=t.depth(), minTip=round(mind, 1), widthX=w[0], widthZ=w[1], top=topy, lowLeaf=low, leaves=len(lv),
+                skyX=round(skyx, 2), skyZ=round(skyz, 2), rowSkyX=round(rsx, 2), rowSkyZ=round(rsz, 2), maxTipY=max(c[1] for c in tips),
+                firstLimb=min(c[1] for c in br if (c[0], c[2]) != (0, 0)), trunkTop=column_top)
+    info['fails'] = fails
+    return fails
+
+
+def make_tall_with(kind, cls, index, source, top, mirror, salt):
+    t = source_tree(kind, source)
+    if mirror:
+        t = mirrored(t)
+    silver = kind == 'silverwood'
+    pivot = 3 if silver else 4
+    anchors = [(pivot, pivot)]
+    if silver:
+        # the gum keeps its crown deep: its lowest tip is lifted to 40% of the canopy only, and the leaders above it do the rest of the climb
+        low_old = min(c[1] for c in t.tips())
+        low_new = round(0.40 * top)
+        if low_old > pivot and low_new > low_old:
+            anchors.append((low_old, low_new))
+    anchors.append((max(c[1] for c in t.parent), top - 3))
+    t, s = stretched(t, anchors)
+    if not t.clear():
+        sys.exit(f'{cls} {kind} {index}: the stretched tree touches itself')
+    rng = random.Random(7000 + 100 * index + source + (500 if cls == 'grove' else 0) + (1 if silver else 0) + 10000 * salt)
+    if silver:
+        twigs = fill(t, rng, 0.8, 0.04, 6, min_gain=6, mode='sil', ymax=top - 3, ring=True)
+    else:
+        twigs = fill(t, rng, 0.55, 0.15, 120, mode='box', ymax=top - 3, ring=True)
+    info = {}
+    fails = check_tall(t, info, kind, cls, top)
+    if not t.clear():
+        fails.append('clear')
+    code = encode(t)
+    if decode(code) != set(t.parent):
+        sys.exit(f'{cls} {kind} {index}: decode(encode) differs')
+    info.update(code=code, twigs=twigs, source=source, mirrored=mirror, stretch=round(s, 2))
+    if silver:
+        info.update(family='gum_r2', trunkCap=14)
+    return info
+
+
+def make_tall(kind, cls, index, source, top, mirror):
+    best = None
+    for salt in range(FILL_SALTS if kind == 'greatwood' else 1):
+        info = make_tall_with(kind, cls, index, source, top, mirror, salt)
+        key = (len(info['fails']), info['weakTips'])
+        if best is None or key < best[0]:
+            best = (key, info)
+            best[1]['salt'] = salt
+    return best[1]
+
+
+def make_tall_set(cls):
+    global LEAF_TOP
+    LEAF_TOP = LEAF_TOP_GROVE
+    out = {'greatwood': [], 'silverwood': []}
+    bad = 0
+    for kind in ('greatwood', 'silverwood'):
+        n = 4 if cls == 'elders' else 8
+        for i in range(n):
+            if cls == 'elders':
+                source, top, mirror = ELDER_SOURCES[i], ELDER_TOPS[kind][i], False
+            else:
+                source, top, mirror = i, GROVE_TOPS[kind][i], i in ELDER_SOURCES
+            info = make_tall(kind, cls, i, source, top, mirror)
+            print(cls, kind, i, {k: v for k, v in info.items() if k != 'code'})
+            if info['fails']:
+                bad += 1
+            info.pop('fails')
+            out[kind].append(info)
+    LEAF_TOP = 32
+    if bad:
+        sys.exit(f'{cls}: {bad} shapes left their ranges')
+    return out
+
+
+def write_set(name, data):
+    path = os.path.join(os.path.dirname(OUT), name)
+    with open(path, 'w', encoding='utf-8', newline='\n') as f:
+        json.dump(data, f, indent=1)
+        f.write('\n')
+    print('wrote', os.path.relpath(path))
+
+
 def main():
+    elders = make_tall_set('elders')
+    grove = make_tall_set('grove')
+    write_set('elders.json', elders)
+    write_set('grove.json', grove)
     oaks = make('greatwood', build_oak, check_oak, 4, 11, oak_post)
     for seed, var, known in OAK_VARS:
         oaks += make('greatwood', functools.partial(build_oak, var=var), check_oak, 1, seed, oak_post, known=known)

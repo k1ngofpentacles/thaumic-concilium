@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "dynamictrees:grove_greatwood_branch",
+      "required": false
+    },
+    {
+      "id": "dynamictrees:grove_silverwood_branch",
+      "required": false
+    }
+  ]
+}

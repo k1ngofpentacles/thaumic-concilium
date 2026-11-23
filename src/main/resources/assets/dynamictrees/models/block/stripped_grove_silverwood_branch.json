@@ -1,0 +1,8 @@
+{
+  "loader": "dynamictrees:thick_branch",
+  "family": "thaumicconcilium:grove_silverwood",
+  "textures": {
+    "bark": "thaumaturge:block/stripped_log_silverwood",
+    "rings": "thaumaturge:block/stripped_log_silverwood_top"
+  }
+}

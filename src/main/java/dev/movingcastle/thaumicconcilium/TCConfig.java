@@ -276,8 +276,12 @@ public final class TCConfig {
             "Tier 1: ticks between the line-holding passes (taint beyond the crater rim, within the seed's reach, is decayed). A first guess.");
     public static final ModConfigSpec.IntValue RITE_BOUND_HOLD_COLUMNS = ri("boundHoldColumns", 16, 1, 1024, "Tier 1: random 4x4 columns of the annulus rim..claim radius decayed per pass.");
     public static final ModConfigSpec.IntValue RITE_BOUND_HOLD_DEPTH = ri("boundHoldDepth", 6, 1, 32, "Tier 1: blocks above and below the surface searched for taint blocks in each held column.");
-    public static final ModConfigSpec.IntValue PAINT_RADIUS_MIN = ri("grove.radiusMin", 24, 4, 128, "Tier 4: the grove's radius in blocks at the lowest burden (rounded to 4-block rings).");
-    public static final ModConfigSpec.IntValue PAINT_RADIUS_MAX = ri("grove.radiusMax", 48, 4, 128, "Tier 4: the grove's radius in blocks at the highest burden.");
+    public static final ModConfigSpec.IntValue PAINT_RADIUS_MIN = ri("grove.radius.min", 70, 4, 256, "Tier 4: the grove's radius in blocks at the lowest burden (rounded to 4-block rings). 70 since 5d trees (was grove.radiusMin 24).");
+    public static final ModConfigSpec.IntValue PAINT_RADIUS_MAX = ri("grove.radius.max", 120, 4, 256, "Tier 4: the grove's radius in blocks at the highest burden. 120 since 5d trees (was grove.radiusMax 48).");
+    public static final ModConfigSpec.IntValue HERO_PAST_LIP = ri("growth.heroPastLip", 4, 0, 32, "Tier 4: the heroes stand this many blocks past the crater's lip, plus up to as many again (seeded).");
+    public static final ModConfigSpec.IntValue RING_SECONDS = ri("grove.ringSeconds", 4, 1, 120, "The ripple: every 4-block ring of the grove is painted in this many seconds, so the meadow spreads at one speed (a ring may take longer while chunks wait or the step budget is spent).");
+    public static final ModConfigSpec.IntValue WAVE_LAG_SECONDS = ri("growth.waveLagSeconds", 2, 0, 600, "The trees' wave runs on one clock from sight returning, this many seconds behind the meadow's ripple.");
+    public static final ModConfigSpec.IntValue WATCH_RANGE = ri("growth.watchRange", -1, -1, 1024, "A growing tree with no player within this many blocks grows to its height in one step (nobody can see it): -1 = the server's view distance, 0 = always in small steps.");
     public static final ModConfigSpec.DoubleValue PAINT_BURDEN_LOW = rd("grove.burdenLow", 0.85, 0.0, 10.0, "Tier 4: burden, as a multiple of the hex threshold, at which the grove has its smallest radius.");
     public static final ModConfigSpec.DoubleValue PAINT_BURDEN_SPAN = rd("grove.burdenSpan", 0.65, 0.01, 10.0, "Tier 4: how many thresholds of burden above the low point it takes to reach the largest radius.");
     public static final ModConfigSpec.IntValue PAINT_WAITING_CHECKS = ri("grove.waitingChecks", 4, 1, 64, "Chunks that were not loaded when their ring passed, re-checked per step.");
@@ -310,6 +314,21 @@ public final class TCConfig {
     public static final ModConfigSpec.IntValue GROW_BUDGET_MS = ri("growth.budgetMs", 2, 1, 50, "Milliseconds a growth step may take; the rest waits for the next step.");
     public static final ModConfigSpec.IntValue GROW_START_DELAY = ri("growth.startDelay", 40, 0, 24000, "Ticks after sight returns before the grove's trees begin to grow.");
     public static final ModConfigSpec.IntValue GROW_DAY_TICKS = ri("growth.dayTicks", 24000, 20, 10000000, "Ticks between the extra stages a landmark left young matures by, until whole.");
+    // the grove's own trees and the hill (user decisions 2026-11-23, docs/design/5d-grove-trees.md)
+    public static final ModConfigSpec.IntValue HILL_PAST_LIP = ri("growth.hill.pastLip", 12, 0, 64, "Tier 4: the grove reaches at least this many blocks past the crater's widest lip (its radius is raised to it, in 4-block rings).");
+    public static final ModConfigSpec.IntValue HILL_TOP = ri("growth.hill.top", 26, 4, 64, "Canopy height (above the soil) of the finale's trees beside the heroes, after the finale and as their cap: the top of the hill.");
+    public static final ModConfigSpec.IntValue HILL_EDGE = ri("growth.hill.edge", 2, 1, 32, "Canopy height of the finale's trees at the grove's edge right after the finale (young saplings).");
+    public static final ModConfigSpec.DoubleValue HILL_POND_SHARE = rd("growth.hill.pondShare", 0.3, 0.0, 1.0, "The hill's height at the pond's edge as a share of its top (inside the crater the forest slopes down toward the pond).");
+    public static final ModConfigSpec.IntValue GLADE_CAP = ri("growth.gladeCap", 19, 4, 64, "Cap of regular grove trees (a greatwood or silverwood planted in a grove other than by the finale), and the floor of the finale trees' hill cap.");
+    public static final ModConfigSpec.IntValue HERO_FINALE = ri("growth.heroFinale", 30, 4, 64, "Canopy height of the three heroes right after the finale.");
+    public static final ModConfigSpec.IntValue HERO_CAP = ri("growth.heroCap", 40, 4, 64, "Cap of the three heroes (the only trees that reach it).");
+    public static final ModConfigSpec.IntValue FINALE_GROW_SECONDS = ri("growth.finaleSeconds", 30, 2, 600, "Seconds the finale's trees take to grow to their height on screen, in small steps (they start when sight returns).");
+    public static final ModConfigSpec.IntValue FINALE_BUDGET_MS = ri("growth.finaleBudgetMs", 4, 1, 50, "Milliseconds a growth step may take while a grove has trees growing in small steps (the larger of this and growth.budgetMs).");
+    public static final ModConfigSpec.IntValue SAPLING_BELOW = ri("growth.saplingBelow", 6, 1, 32, "A finale tree whose target canopy is under this stays a sapling (the grove's edge) and grows on naturally.");
+    public static final ModConfigSpec.IntValue HEROES = ri("growth.heroes", 3, 1, 12, "Tier 4: hero trees per grove, whatever its radius.");
+    public static final ModConfigSpec.BooleanValue GROVE_NO_DECAY = B
+            .comment("Within a Concilium Grove whose job is still running or whose mana pond still gives mana, Dynamic Trees' leaves never die (hydration or light) and its branches never rot or catch disease. A tree that is cut down is still cleaned up.")
+            .define("vessel.rite.growth.noDecay", true);
     public static final ModConfigSpec.DoubleValue GROVE_BOOST = rd("growth.boost", 0.25, 0.0, 1.0, "Within the Concilium Grove, crops and trees get this chance of one extra growth step (0.25 = 25% faster; 0 = off).");
 
     public static final ModConfigSpec.DoubleValue GROVE_NODE_CHANCE = rd("grove.nodeChance", 0.15, 0.0, 1.0,
@@ -321,6 +340,7 @@ public final class TCConfig {
     }
 
     public static final ModConfigSpec.IntValue POND_MANA_PER_CHUNK = pi("manaPerChunk", 10000, 0, 100000000, "Residual mana the pond starts with, per painted grove chunk (16 painted quart columns).");
+    public static final ModConfigSpec.IntValue POND_MANA_PER_BURDEN = pi("manaPerBurden", 1000, 0, 100000000, "Tier 4: residual mana the pond starts with, per point of the rite's burden (user, 2026-11-23: what the Vessel swallowed comes back as mana; about 0.34-0.6 M). Tier 3 keeps the per-chunk and per-node rule.");
     public static final ModConfigSpec.IntValue POND_MANA_PER_NODE = pi("manaPerNode", 50000, 0, 100000000, "Residual mana the pond starts with, per aura node inside the grove when the pond is made.");
     public static final ModConfigSpec.IntValue POND_MANA_PER_VIS = pi("manaPerVis", 1000, 1, 100000000, "Mana one vis drained from a grove node refills the residual with.");
     public static final ModConfigSpec.IntValue POND_OVERDRAW_STEP = pi("overdrawStep", 50000, 1, 1000000000, "With every grove node empty, each this much mana drawn breaks the weakest node into a flux rift.");

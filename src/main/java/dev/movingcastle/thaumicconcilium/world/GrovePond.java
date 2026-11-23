@@ -140,7 +140,15 @@ public final class GrovePond {
             return false;
         }
         placePondAndMound(level, job);
+        if (byBurden(job)) {
+            initLedger(level, job); // sized now, not when the last chunk is painted: an unloaded corner never holds the mana back
+        }
         return true;
+    }
+
+    /** Tier 4 with a known burden: the ledger is sized by the burden (and so can be sized as soon as the pond stands). */
+    public static boolean byBurden(GrovePaintJob job) {
+        return job.tier >= 4 && job.burden >= 0;
     }
 
     /** Blocks the last pond placement changed besides the pond blocks themselves: beds filled, columns cut down, banks raised (for the tests and the log). */
@@ -244,8 +252,12 @@ public final class GrovePond {
     /** Sizes the pond's ledger (once): the grove's chunks and nodes are known only when the job finishes. Until then {@code ledgerReady} is false and nothing is drawn. */
     public static void initLedger(ServerLevel level, GrovePaintJob job) {
         if (!job.ledgerReady) {
-            int nodes = nodes(level, job, true).size();
-            job.residual = initialResidual(chunksOf(job), nodes);
+            if (byBurden(job)) {
+                job.residual = (long) job.burden * TCConfig.POND_MANA_PER_BURDEN.get(); // tier 4 (user, 2026-11-23): sized by the burden
+            } else {
+                int nodes = nodes(level, job, true).size();
+                job.residual = initialResidual(chunksOf(job), nodes);
+            }
             job.overdrawn = 0;
             job.ledgerReady = true;
             ThaumicConcilium.LOG.info("Grove pond ledger at {}: residual {} mana", job.centre, job.residual);

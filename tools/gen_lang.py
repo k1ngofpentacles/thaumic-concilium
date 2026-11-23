@@ -647,6 +647,13 @@ L[f'block.{NS}.verdant_capital'] = 'Verdant Capital'
 L[f'biome.{NS}.concilium_grove'] = 'Concilium Grove'  # phase 5d cycle 2b (the painted grove biome)
 L[f'block.{NS}.mana_pond'] = 'Mana Pond'  # phase 5d cycle 3 (the grove's mana pond fluid)
 L[f'fluid_type.{NS}.mana_pond'] = 'Mana Pond'
+for _w in ('greatwood', 'silverwood'):  # the grove's own Dynamic Trees blocks (gen_grove_species.py), named as Thaumaturge's
+    L[f'block.dynamictrees.grove_{_w}_branch'] = f'{_w.capitalize()} Tree'
+    L[f'item.dynamictrees.grove_{_w}_branch'] = f'{_w.capitalize()} Tree'
+    L[f'block.dynamictrees.stripped_grove_{_w}_branch'] = f'Stripped {_w.capitalize()} Tree'
+    L[f'block.dynamictrees.grove_{_w}_leaves'] = f'{_w.capitalize()} Leaves'
+    for _c in ('elder', 'grove', 'glade'):
+        L[f'block.dynamictrees.{_c}_{_w}_sapling'] = f'{_w.capitalize()} Sapling'
 L[f'message.{NS}.capital_draws'] = 'A capital stands on this anchor and draws for it'
 L[f'research.{NS}.the_green_translation.title'] = 'The Green Translation'
 L[f'research.{NS}.the_green_translation.stage_0'] = join(

@@ -1,0 +1,16 @@
+{
+  "family": "thaumicconcilium:grove_greatwood",
+  "tapering": 0.55,
+  "signal_energy": 44.0,
+  "max_branch_radius": 24,
+  "lowest_branch_height": 6,
+  "growth_rate": 0.7,
+  "leaves_properties": "thaumicconcilium:grove_greatwood",
+  "world_gen_leaf_map_height": 48,
+  "preferred_climate": "temperate",
+  "climate_tolerance": 0.5,
+  "growth_logic_kit": "thaumicconcilium:template",
+  "seed": "dynamictrees:greatwood_seed",
+  "generate_sapling": true,
+  "soil_longevity": 64
+}

@@ -154,8 +154,17 @@ public final class DynamicTreesLandmarks {
 
     /** The first branch of the landmark at {@code soil} still stands, of the right family. */
     public static boolean stands(ServerLevel level, BlockPos soil, boolean silver) {
-        Species sp = species(silver);
+        return stands(level, soil, species(silver));
+    }
+
+    public static boolean stands(ServerLevel level, BlockPos soil, Species sp) {
         return sp != null && TreeHelper.getBranchOpt(level.getBlockState(soil.above())).filter(b -> b.getFamily() == sp.getFamily()).isPresent();
+    }
+
+    /** A species by id (null when it is not registered, e.g. Dynamic Trees' data did not load). */
+    public static Species species(ResourceLocation id) {
+        Species sp = Species.REGISTRY.get(id);
+        return sp != null && sp.isValid() ? sp : null;
     }
 
     /**
@@ -164,11 +173,46 @@ public final class DynamicTreesLandmarks {
      * the silverwood's trunk is slimmed after every stage. False when the first branch does not stand afterwards.
      */
     public static boolean growStage(ServerLevel level, BlockPos soil, boolean silver, String code, Direction facing, int trunkCap, int stage) {
-        Species sp = species(silver);
+        return growStage(level, soil, species(silver), silver, code, facing, trunkCap, stage);
+    }
+
+    /**
+     * As above for any species (the grove's own elder, grove and glade species too); {@code slimTrunk} applies the gum's trunk slimming (every
+     * silverwood shape). The species' family must be the one the shape's wood belongs to.
+     */
+    public static boolean growStage(ServerLevel level, BlockPos soil, ResourceLocation speciesId, boolean slimTrunk, String code, Direction facing, int trunkCap, int stage) {
+        return growStage(level, soil, species(speciesId), slimTrunk, code, facing, trunkCap, stage);
+    }
+
+    public static boolean growStage(ServerLevel level, BlockPos soil, Species sp, boolean silver, String code, Direction facing, int trunkCap, int stage) {
+        byte[] ins = dev.movingcastle.thaumicconcilium.world.LandmarkShapes.stage(dev.movingcastle.thaumicconcilium.world.LandmarkShapes.decode(code), stage);
+        return grow(level, soil, sp, silver, ins, facing, trunkCap, stage <= 1, stage >= dev.movingcastle.thaumicconcilium.world.LandmarkShapes.STAGES);
+    }
+
+    /**
+     * 5d trees C, small steps: grows the cells of {@code code} within path length {@code pathLimit} and height {@code yLimit} above the soil
+     * ({@link dev.movingcastle.thaumicconcilium.world.LandmarkShapes#cut}); {@code first} clears the plants round the trunk, {@code last} runs
+     * the rot test and post-generation features. False when the first branch does not stand afterwards.
+     */
+    public static boolean growCut(ServerLevel level, BlockPos soil, Species sp, boolean slimTrunk, String code, Direction facing, int trunkCap, int pathLimit,
+            int yLimit, boolean first, boolean last) {
+        byte[] ins = dev.movingcastle.thaumicconcilium.world.LandmarkShapes.cut(dev.movingcastle.thaumicconcilium.world.LandmarkShapes.decode(code), pathLimit, yLimit);
+        return grow(level, soil, sp, slimTrunk, ins, facing, trunkCap, first, last);
+    }
+
+    /** Sets the fertility of the tree's rooty soil (the stage grower leaves it at 0, and Dynamic Trees never grows a tree on 0). */
+    public static void setFertility(ServerLevel level, BlockPos soil, int fertility) {
+        if (level.getBlockState(soil).getBlock() instanceof com.dtteam.dynamictrees.block.soil.SoilBlock rooty) {
+            rooty.setFertility(level, soil, fertility);
+        }
+    }
+
+    private static boolean grow(ServerLevel level, BlockPos soil, Species sp, boolean silver, byte[] instructions, Direction facing, int trunkCap, boolean first,
+            boolean last) {
         if (sp == null || !sp.isValid()) {
             return false;
         }
-        if (stage <= 1) {
+        if (first) {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dz = -1; dz <= 1; dz++) {
                     for (int dy = 1; dy <= 4; dy++) {
@@ -183,11 +227,11 @@ public final class DynamicTreesLandmarks {
             }
         }
         StageCode jo = new StageCode();
-        jo.instructions = dev.movingcastle.thaumicconcilium.world.LandmarkShapes.stage(dev.movingcastle.thaumicconcilium.world.LandmarkShapes.decode(code), stage);
+        jo.instructions = instructions;
         jo.setCareful(true);
         jo.generateStage(new DynamicTreeGenerationContext(LevelContext.create(level), sp, soil.above(), soil.mutable(), level.getBiome(soil), facing, RADIUS, true),
-                stage >= dev.movingcastle.thaumicconcilium.world.LandmarkShapes.STAGES);
-        if (!stands(level, soil, silver)) {
+                last);
+        if (!stands(level, soil, sp)) {
             return false;
         }
         if (silver) {
@@ -240,7 +284,7 @@ public final class DynamicTreesLandmarks {
     /** Leaves are placed with flag 16 during worldgen mode (no client update): tell the chunk source about every block of the tree's box. */
     private static void resend(ServerLevel level, BlockPos soil) {
         BlockPos.MutableBlockPos p = new BlockPos.MutableBlockPos();
-        for (int dy = 0; dy <= 33; dy++) {
+        for (int dy = 0; dy <= 52; dy++) {   // the elders' canopy reaches 40 and the leaf map 47
             for (int dx = -11; dx <= 11; dx++) {
                 for (int dz = -11; dz <= 11; dz++) {
                     p.set(soil.getX() + dx, soil.getY() + dy, soil.getZ() + dz);

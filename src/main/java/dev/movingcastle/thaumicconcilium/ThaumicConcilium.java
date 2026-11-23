@@ -52,6 +52,10 @@ public final class ThaumicConcilium {
         dev.movingcastle.thaumicconcilium.world.TCStructures.STRUCTURE_TYPES.register(modBus);
         dev.movingcastle.thaumicconcilium.world.TCStructures.STRUCTURE_PIECES.register(modBus);
         modBus.addListener(TCNetwork::register);
+        // the grove's own trees: the template growth logic and lineage (only with Dynamic Trees)
+        if (net.neoforged.fml.ModList.get().isLoaded("dynamictrees")) {
+            dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.init(modBus);
+        }
         // the Verdant Capital's mana receiver and spark socket: Botania's types are loaded only when Botania is
         modBus.addListener((net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent e) -> {
             if (net.neoforged.fml.ModList.get().isLoaded("botania")) {

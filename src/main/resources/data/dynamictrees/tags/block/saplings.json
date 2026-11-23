@@ -1,0 +1,28 @@
+{
+  "values": [
+    {
+      "id": "dynamictrees:elder_greatwood_sapling",
+      "required": false
+    },
+    {
+      "id": "dynamictrees:grove_greatwood_sapling",
+      "required": false
+    },
+    {
+      "id": "dynamictrees:glade_greatwood_sapling",
+      "required": false
+    },
+    {
+      "id": "dynamictrees:elder_silverwood_sapling",
+      "required": false
+    },
+    {
+      "id": "dynamictrees:grove_silverwood_sapling",
+      "required": false
+    },
+    {
+      "id": "dynamictrees:glade_silverwood_sapling",
+      "required": false
+    }
+  ]
+}

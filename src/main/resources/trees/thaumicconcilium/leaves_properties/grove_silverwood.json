@@ -1,0 +1,6 @@
+{
+  "primitive_leaves": "thaumaturge:leaves_silverwood",
+  "cell_kit": "dynamictrees:dark_oak",
+  "smother": 6,
+  "light_requirement": 8
+}
