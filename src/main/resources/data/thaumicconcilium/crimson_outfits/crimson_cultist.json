@@ -1,0 +1,36 @@
+{
+  "outfits": [
+    {
+      "source": "host",
+      "weight": 25,
+      "head": "thaumaturge:crimson_robe_helm",
+      "chest": "thaumaturge:crimson_robe_chest",
+      "legs": "thaumaturge:crimson_robe_legs",
+      "feet": "thaumaturge:crimson_boots"
+    },
+    {
+      "source": "host",
+      "weight": 25,
+      "head": "thaumaturge:crimson_plate_helm",
+      "chest": "thaumaturge:crimson_plate_chest",
+      "legs": "thaumaturge:crimson_plate_legs",
+      "feet": "thaumaturge:crimson_boots"
+    },
+    {
+      "source": "armor_series",
+      "weight": 25,
+      "head": "armor_series__crimson_cult_:crimson_cultist_robes_helmet",
+      "chest": "armor_series__crimson_cult_:crimson_cultist_robes_chestplate",
+      "legs": "armor_series__crimson_cult_:crimson_cultist_robes_leggings",
+      "feet": ""
+    },
+    {
+      "source": "armor_series",
+      "weight": 25,
+      "head": "armor_series__crimson_cult_:crimson_knight_helmet",
+      "chest": "armor_series__crimson_cult_:crimson_knight_chestplate",
+      "legs": "armor_series__crimson_cult_:crimson_knight_leggings",
+      "feet": ""
+    }
+  ]
+}

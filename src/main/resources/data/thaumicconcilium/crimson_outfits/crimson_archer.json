@@ -1,0 +1,20 @@
+{
+  "outfits": [
+    {
+      "source": "host",
+      "weight": 50,
+      "head": "thaumaturge:crimson_robe_helm",
+      "chest": "thaumaturge:crimson_robe_chest",
+      "legs": "thaumaturge:crimson_robe_legs",
+      "feet": "thaumaturge:crimson_boots"
+    },
+    {
+      "source": "armor_series",
+      "weight": 50,
+      "head": "armor_series__crimson_cult_:crimson_crossbowman_helmet",
+      "chest": "armor_series__crimson_cult_:crimson_crossbowman_chestplate",
+      "legs": "armor_series__crimson_cult_:crimson_crossbowman_leggings",
+      "feet": ""
+    }
+  ]
+}

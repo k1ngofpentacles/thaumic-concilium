@@ -109,16 +109,17 @@ public final class TCClient {
         }
     }
 
+    private static final net.minecraft.resources.ResourceLocation HOST_CULTIST_SKIN =
+            net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("thaumaturge", "textures/entity/cultist.png");
+
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(TCEntities.PRIMAL_ARROW.get(), PrimalArrowRenderer::new);
         event.registerEntityRenderer(TCEntities.CRIMSON_PALADIN.get(), ctx -> new CrimsonCultistRenderer<>(ctx, ThaumicConcilium.id("textures/entity/crimson_paladin.png")));
-        event.registerEntityRenderer(TCEntities.CRIMSON_ARCHER.get(), ctx -> new CrimsonCultistRenderer<>(ctx, ThaumicConcilium.id("textures/entity/crimson_archer.png"),
+        event.registerEntityRenderer(TCEntities.CRIMSON_ARCHER.get(), ctx -> new CrimsonCultistRenderer<>(ctx, HOST_CULTIST_SKIN,
                 CrimsonOverlayLayer.ARCHER, ThaumicConcilium.id("textures/entity/overlay/crimson_archer.png")));
-        // Original: the Ranger wears Thaumcraft's own cultist texture, which Thaumaturge also ships.
-        event.registerEntityRenderer(TCEntities.CRIMSON_RANGER.get(), ctx -> new CrimsonCultistRenderer<>(ctx,
-                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("thaumaturge", "textures/entity/cultist.png"),
-                CrimsonOverlayLayer.RANGER, ThaumicConcilium.id("textures/entity/overlay/crimson_ranger.png")));
+        // 0.16.0: the Ranger and Archer take the host cultist skin by reference; their armour comes from data (crimson_outfits).
+        event.registerEntityRenderer(TCEntities.CRIMSON_RANGER.get(), ctx -> new CrimsonCultistRenderer<>(ctx, HOST_CULTIST_SKIN));
         event.registerEntityRenderer(TCEntities.LESSER_CRIMSON_PORTAL.get(), LesserPortalRenderer::new);
         // Original: the Pontifex wears Thaumcraft's cultist texture (Thaumaturge ships it); its own look is the overlay cycle's.
         event.registerEntityRenderer(TCEntities.CRIMSON_PONTIFEX.get(), ctx -> new CrimsonCultistRenderer<>(ctx,
@@ -209,6 +210,8 @@ public final class TCClient {
             }
             return type.fallbackColor();
         }, TCItems.AURA_CORE.get());
+        // The Nether Membrane is the vanilla phantom membrane tinted nether pink (referenced art, no copy).
+        event.register((stack, tint) -> tint == 0 ? 0xFFC8405A : 0xFFFFFFFF, TCItems.NETHER_MEMBRANE.get());
     }
 
     /** Selects the blank model (animated blank core art) from the item model's overrides. */
@@ -226,7 +229,6 @@ public final class TCClient {
         event.registerLayerDefinition(PontifexRobeModel.LAYER, PontifexRobeModelData::create);
         event.registerLayerDefinition(GildedHelmModel.LAYER, GildedHelmModel::create);
         event.registerLayerDefinition(CrimsonOverlayLayer.ARCHER, CrimsonOverlayLayer::archer);
-        event.registerLayerDefinition(CrimsonOverlayLayer.RANGER, CrimsonOverlayLayer::ranger);
         event.registerLayerDefinition(TCModelLayers.NETHER_EXPLORER, TCModelLayers::explorer);
         event.registerLayerDefinition(TCModelLayers.WITHERED_BOTANIST, TCModelLayers::botanist);
         event.registerLayerDefinition(TCModelLayers.VENGEFUL_GOLEM, VengefulGolemModel::body);

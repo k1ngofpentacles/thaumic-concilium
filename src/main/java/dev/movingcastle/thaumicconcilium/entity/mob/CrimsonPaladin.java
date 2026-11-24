@@ -93,15 +93,8 @@ public class CrimsonPaladin extends CrimsonCultist implements RangedAttackMob {
         if (!staff.isEmpty()) {
             setItemSlot(EquipmentSlot.MAINHAND, staff);
         }
-        if (gilded(random)) {
-            setItemSlot(EquipmentSlot.HEAD, new ItemStack(TCItems.GILDED_CRIMSON_HELM.get()));
-        }
+        // armour: a weighted outfit from data (crimson_outfits/crimson_paladin.json), the Gilded Crimson Helm among them
         return data;
-    }
-
-    /** Half of the Paladins wear the Gilded Crimson Helm in place of the hood (the head slot keeps the cultist's 5% drop chance). */
-    public static boolean gilded(net.minecraft.util.RandomSource random) {
-        return random.nextBoolean();
     }
 
     public static ItemStack staff() {

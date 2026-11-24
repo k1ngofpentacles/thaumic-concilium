@@ -78,6 +78,12 @@ public class CrimsonPontifex extends CrimsonCultist {
         addTargetGoals();
     }
 
+    /** The Pontifex keeps its own robe: no outfit table. */
+    @Override
+    protected String outfitTable() {
+        return null;
+    }
+
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason,

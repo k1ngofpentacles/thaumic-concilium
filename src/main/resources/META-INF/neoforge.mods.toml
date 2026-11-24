@@ -78,6 +78,14 @@ versionRange = "[0.2,)"
 ordering = "AFTER"
 side = "BOTH"
 
+# Crimson outfits (0.16.0): our cult mobs wear Armor Series - Crimson Cult gear (Enderghast), referenced by item id only.
+[[dependencies.thaumicconcilium]]
+modId = "armor_series__crimson_cult_"
+type = "required"
+versionRange = "[1.2.1,)"
+ordering = "AFTER"
+side = "BOTH"
+
 [[dependencies.thaumicconcilium]]
     modId="botania"
     type="optional"

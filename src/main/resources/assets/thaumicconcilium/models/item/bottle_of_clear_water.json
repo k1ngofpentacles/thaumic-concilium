@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "thaumicconcilium:item/bottle_of_clear_water"
+    "layer0": "thaumaturge:item/phial",
+    "layer1": "thaumicconcilium:item/bottle_of_clear_water"
   }
 }

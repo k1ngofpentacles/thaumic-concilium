@@ -1,0 +1,44 @@
+{
+  "outfits": [
+    {
+      "source": "host",
+      "weight": 25,
+      "head": "thaumicconcilium:gilded_crimson_helm",
+      "chest": "thaumaturge:crimson_plate_chest",
+      "legs": "thaumaturge:crimson_robe_legs",
+      "feet": "thaumaturge:crimson_boots"
+    },
+    {
+      "source": "host",
+      "weight": 25,
+      "head": "thaumaturge:crimson_praetor_helm",
+      "chest": "thaumaturge:crimson_praetor_chest",
+      "legs": "thaumaturge:crimson_praetor_legs",
+      "feet": "thaumaturge:crimson_boots"
+    },
+    {
+      "source": "armor_series",
+      "weight": 20,
+      "head": "armor_series__crimson_cult_:paladin_helm_helmet",
+      "chest": "armor_series__crimson_cult_:crimson_knight_chestplate",
+      "legs": "armor_series__crimson_cult_:crimson_knight_leggings",
+      "feet": ""
+    },
+    {
+      "source": "armor_series",
+      "weight": 15,
+      "head": "armor_series__crimson_cult_:crimson_knight_helmet",
+      "chest": "armor_series__crimson_cult_:crimson_knight_chestplate",
+      "legs": "armor_series__crimson_cult_:crimson_knight_leggings",
+      "feet": ""
+    },
+    {
+      "source": "armor_series",
+      "weight": 15,
+      "head": "armor_series__crimson_cult_:crimson_praetor_helmet",
+      "chest": "armor_series__crimson_cult_:crimson_praetor_chestplate",
+      "legs": "armor_series__crimson_cult_:crimson_praetor_leggings",
+      "feet": "armor_series__crimson_cult_:crimson_praetor_boots"
+    }
+  ]
+}

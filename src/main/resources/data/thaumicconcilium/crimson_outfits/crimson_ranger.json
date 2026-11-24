@@ -1,0 +1,28 @@
+{
+  "outfits": [
+    {
+      "source": "host",
+      "weight": 50,
+      "head": "thaumaturge:crimson_ranger_helm",
+      "chest": "thaumaturge:crimson_ranger_chest",
+      "legs": "thaumaturge:crimson_ranger_legs",
+      "feet": "thaumaturge:crimson_boots"
+    },
+    {
+      "source": "armor_series",
+      "weight": 25,
+      "head": "armor_series__crimson_cult_:crimson_ranger_helmet",
+      "chest": "armor_series__crimson_cult_:crimson_ranger_chestplate",
+      "legs": "armor_series__crimson_cult_:crimson_ranger_leggings",
+      "feet": ""
+    },
+    {
+      "source": "armor_series",
+      "weight": 25,
+      "head": "armor_series__crimson_cult_:crimson_madcap_helmet",
+      "chest": "armor_series__crimson_cult_:crimson_madcap_chestplate",
+      "legs": "armor_series__crimson_cult_:crimson_madcap_leggings",
+      "feet": "armor_series__crimson_cult_:crimson_madcap_boots"
+    }
+  ]
+}

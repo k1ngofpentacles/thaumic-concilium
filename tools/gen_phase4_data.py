@@ -111,7 +111,7 @@ w(f'data/{NS}/recipe/nether_membrane.json', {'type': f'{NS}:nether_membrane', 'c
 def gen(name, tex=None):
     w(f'assets/{NS}/models/item/{name}.json', {'parent': 'minecraft:item/generated',
                                               'textures': {'layer0': f'{NS}:item/{tex or name}'}})
-gen('nether_membrane'); gen('research_hint')
+gen('research_hint')  # nether_membrane's model is written by gen_art_redraw.py
 for e in ['thaumaturge', 'mad_thaumaturge', 'nether_explorer', 'withered_botanist']:
     w(f'assets/{NS}/models/item/{e}_spawn_egg.json', {'parent': 'minecraft:item/template_spawn_egg'})
 
@@ -126,7 +126,6 @@ COPY = {
     'textures/gui/withered_botanist.png': 'textures/gui/withered_botanist.png',
     'textures/items/iconThaumaturge.png': 'textures/item/icon_thaumaturge.png',
     'textures/items/iconMadThaumaturge.png': 'textures/item/icon_mad_thaumaturge.png',
-    'textures/items/nether_membrane.png': 'textures/item/nether_membrane.png',
 }
 if os.path.exists(JAR):
     z = zipfile.ZipFile(JAR)

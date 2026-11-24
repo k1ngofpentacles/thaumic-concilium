@@ -152,8 +152,7 @@ add_entity_aspects('crimson_ranger', [('humanus', 10), ('motus', 10), ('victus',
 for m in MOBS:
     spawn_egg_model(m)
 # Original body textures (WTFPL); the Ranger uses Thaumaturge's cultist texture by reference, not a copy.
-copy_from_jar({'textures/entity/crimson_paladin.png': 'entity/crimson_paladin.png',
-               'textures/entity/crimson_archer.png': 'entity/crimson_archer.png'})
+copy_from_jar({'textures/entity/crimson_paladin.png': 'entity/crimson_paladin.png'})  # archer and ranger: the host cultist skin by reference (0.16.0)
 
 # ================================================================ cycle 3: Lesser Crimson Portal and Crimson Pontifex
 # Loot (CrimsonPontifex.dropFewItems): a Thaumcraft loot bag, meta 2 (the rare one), guaranteed. The research notes, the Pontifex hammer
@@ -326,19 +325,7 @@ for fx in (17, 21):                              # front u17-20 v9-12 and back u
         t.put(fx + k, 9, FLETCH); t.put(fx + k, 10, FLETCH); t.put(fx + k, 11, RED)
 t.save('assets/thaumicconcilium/textures/entity/overlay/crimson_archer.png')
 
-# --- Ranger: spike (right_arm, 0,0, 1x6x1), collar (spike, 4,0, 2x1x2), cuff (arm, 0,8, 5x4x5)
-t = Tex()
-t.rect(0, 0, 4, 7, STEEL)
-t.put(1, 0, LIGHT); t.put(1, 1, LIGHT)
-t.rect(4, 0, 12, 3, LIGHT)
-t.put(6, 2, (70, 20, 20, 255)); t.put(10, 2, (70, 20, 20, 255))
-CUFF, CLIGHT, CDARK = (120, 70, 30, 255), (150, 95, 45, 255), (80, 42, 18, 255)
-t.rect(0, 8, 20, 17, CUFF)
-t.rect(5, 8, 15, 13, CLIGHT)                     # top and bottom faces
-for y in (14, 16):
-    t.rect(0, y, 20, y + 1, CLIGHT)              # horizontal banding on the side faces
-t.rect(0, 13, 20, 14, CDARK)                     # darker top row, a rolled edge
-t.save('assets/thaumicconcilium/textures/entity/overlay/crimson_ranger.png')
+# (0.16.0: the Ranger overlay of spikes and cuffs is gone; it clashed with the worn armour sets)
 
 # --- Gilded helm armour layer (shell 0,0 8x8x8; fin 0,16 1x3x6; fin tip 16,16 1x2x4). Layer file name follows the armour material.
 t = Tex()

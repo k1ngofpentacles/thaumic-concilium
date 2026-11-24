@@ -24,7 +24,7 @@ def copy(src, dst):
 ITEMS = {
     'burdening_amulet': 'burdening_amulet', 'tight_belt': 'tight_belt', 'dump_jackboots': 'dump_jackboots',
     'chest_windings_icon': 'runic_body_windings', 'legs_windings_icon': 'runic_legs_windings',
-    'thicc_bottle': 'bottle_of_thick_taint', 'water_bottle': 'bottle_of_clear_water',
+    'thicc_bottle': 'bottle_of_thick_taint',  # bottle_of_clear_water is our own redraw (gen_art_redraw.py)
 }
 for src, dst in ITEMS.items():
     copy(f'textures/items/{src}.png', f'textures/item/{dst}.png')

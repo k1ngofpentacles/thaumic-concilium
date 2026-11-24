@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "thaumicconcilium:item/nether_membrane"
+    "layer0": "minecraft:item/phantom_membrane"
   }
 }
