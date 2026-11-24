@@ -253,6 +253,14 @@ public final class TCItems {
             ITEMS.register("golem_bydlo_spawn_egg", () -> new net.neoforged.neoforge.common.DeferredSpawnEggItem(
                     TCEntities.GOLEM_BYDLO, 0x00FFFF, 0x555555, new Item.Properties()));
 
+    // ---------------------------------------------------------------- phase 8-4 (Protobody, Solid Void)
+    /** Original: stack 1, rare, no use. Dropped below the void line it shatters into six Protolimbs. */
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.Protobody> PROTOBODY = ITEMS.register("protobody",
+            () -> new dev.movingcastle.thaumicconcilium.item.Protobody(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));
+
+    public static final DeferredItem<net.minecraft.world.item.BlockItem> SOLID_VOID = ITEMS.registerSimpleBlockItem(
+            "solid_void", TCBlocks.SOLID_VOID, new Item.Properties());
+
     /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
     public static void defaultComponents(ModifyDefaultComponentsEvent event) {
         BRACELETS.forEach((kind, item) -> {

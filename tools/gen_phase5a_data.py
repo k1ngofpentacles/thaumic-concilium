@@ -258,10 +258,10 @@ infusion('pontifex_hammer', 'pontifex_hammer',
           it('thaumaturge:ingot_thaumium'), it('thaumaturge:void_seed'), it('thaumaturge:ingot_thaumium'), it('thaumaturge:ingot_void'),
           it('thaumaturge:ingot_void'), it('minecraft:gold_block')], 7, 'pontifex_hammer')
 # The robe: a rift recipe per piece (original: addChainedRiftRecipe, catalyst Thaumcraft's cultist robe piece): life 128, void 128, armor 256,
-# exchange 64, flesh 256 (no flesh aspect: victus).
+# exchange 64, flesh 256 (flesh -> Forbidden Magic's corpus; life -> victus).
 for piece, cat in zip(PIECES, ['crimson_robe_helm', 'crimson_robe_chest', 'crimson_robe_legs', 'crimson_boots']):
     rift_recipe(f'pontifex_{piece}', it(f'thaumaturge:{cat}'),
-                [('victus', 384), ('vacuos', 128), ('praemunio', 256), ('permutatio', 64)], 'pontifex_robe', f'pontifex_{piece}')
+                [('victus', 128), ('forbiddenmagic:corpus', 256), ('vacuos', 128), ('praemunio', 256), ('permutatio', 64)], 'pontifex_robe', f'pontifex_{piece}')
 
 # Research (-6,10), (-7,11), (-6,12). Lost entries: the Pontifex's research note (a hint note, the first stage's obtain item) opens them.
 # PONTIFEXHAMMER: man, life, pride, weapon, hunger 8, warp 2. PONTIFEXROBE: man, life, pride, armor, craft 8, warp 2. CRIMSONINITIATION: man, life,

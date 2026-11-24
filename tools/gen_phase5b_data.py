@@ -1,7 +1,7 @@
 """Generates phase-5b data. Cycle 2: the Peeler of Matter (research entry, hint-note gate, entity aspects, research icon).
 Run after gen_phase5a_*.py (reads the hint-note pattern they use) and before gen_lang.py.
 
-TC4 -> Thaumaturge: man -> humanus, void -> vacuos, flesh -> victus, exchange -> permutatio, order -> ordo.
+TC4 -> Thaumaturge: man -> humanus, void -> vacuos, flesh -> forbiddenmagic:corpus, exchange -> permutatio, order -> ordo.
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -13,20 +13,20 @@ copy_from_jar({'textures/misc/peeler.png': 'research/peeler.png'})
 # MATERIALPEELER (Thaumonomicon.java:1017-1033): man, void, flesh, exchange, order 8; (-8, 10); complexity 1; warp 4; lost (found by the
 # Pontifex's research note) and round; parent CRIMSONPONTIFEX (the hidden parent CREATION has no counterpart here).
 entry('material_peeler', -8, 10, f'{NS}:textures/research/peeler.png', [f'{NS}:crimson_pontifex'],
-      [('humanus', 8), ('vacuos', 8), ('victus', 8), ('permutatio', 8), ('ordo', 8)], warp=4, meta=['hidden', 'round'], complexity=1)
+      [('humanus', 8), ('vacuos', 8), ('forbiddenmagic:corpus', 8), ('permutatio', 8), ('ordo', 8)], warp=4, meta=['hidden', 'round'], complexity=1)
 _path = f'data/{NS}/thaumaturge/research_entry/material_peeler.json'
 _obj = r(_path)
 _obj['stages'][0]['obtain'] = [{'items': f'{NS}:research_hint', 'amount': 1, 'components': {f'{NS}:hint': f'{NS}:material_peeler'}}]
 w(_path, _obj)
 
 # Entity tags (TCEntityRegistry:232-236, x2.5): eldritch 16, void 16, magic 16, flesh 32.
-add_entity_aspects('material_peeler', [('alienis', 40), ('vacuos', 40), ('praecantatio', 40), ('victus', 80)])
+add_entity_aspects('material_peeler', [('alienis', 40), ('vacuos', 40), ('praecantatio', 40), ('forbiddenmagic:corpus', 80)])
 
 # ================================================================ cycle 3: the Flesh Crucible
-# PROVISIONAL (user decision pending): FLESH_ASPECT is the aspect the crucible stores (the module maps TC4 FLESH to victus; the
+# PROVISIONAL (user decision pending): FLESH_ASPECT is the aspect the crucible stores (TC4 FLESH is Forbidden Magic's corpus; the
 # Java side, FleshCrucibleBlockEntity, is aspect-free: it holds one number, and this only names it in the recipe and notes).
 # PLATING and MOTE are our Crimson Plating and Primordial Mote (trunk T1; Tainted Magic's plating was ItemMaterial meta 7).
-FLESH_ASPECT = 'victus'
+FLESH_ASPECT = 'forbiddenmagic:corpus'
 PLATING = f'{NS}:crimson_plating'      # T1: ours now (was the plate_void stand-in)
 MOTE = f'{NS}:primordial_mote'          # T1: ours now, no source until 5c
 copy_from_jar({f'textures/blocks/flesh_crucible{i}.png': f'block/flesh_crucible{i}.png' for i in range(1, 7)}

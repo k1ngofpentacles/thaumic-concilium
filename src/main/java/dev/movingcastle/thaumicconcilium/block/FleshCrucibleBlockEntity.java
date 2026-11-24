@@ -23,8 +23,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * Flesh Crucible state (original: {@code FleshCrucibleTile}): up to 64 of one aspect (the original's FLESH, Thaumaturge's
- * victus; the pack has no flesh aspect). It never ticks: everything happens in {@code entityInside}. A creature standing in it
+ * Flesh Crucible state (original: {@code FleshCrucibleTile}): up to 64 of one aspect (the original's FLESH, Forbidden Magic's
+ * corpus; the block holds a number, not the aspect). It never ticks: everything happens in {@code entityInside}. A creature standing in it
  * is hurt at most once per 10 ticks (the original's invulnerability frames); a player sips every tick.
  */
 public class FleshCrucibleBlockEntity extends BlockEntity {

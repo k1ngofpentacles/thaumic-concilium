@@ -31,7 +31,7 @@
   ],
   "aspects": [
     {
-      "aspect": "thaumaturge:victus",
+      "aspect": "forbiddenmagic:corpus",
       "amount": 256
     },
     {

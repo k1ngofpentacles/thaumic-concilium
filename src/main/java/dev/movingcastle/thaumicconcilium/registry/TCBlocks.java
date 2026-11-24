@@ -101,6 +101,15 @@ public final class TCBlocks {
                     BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().strength(100.0F).noLootTable()
                             .lightLevel(s -> TCFluids.LIGHT).liquid().pushReaction(net.minecraft.world.level.material.PushReaction.DESTROY)));
 
+    /** Phase 8-4: original hardness 0, resistance 6000, stone sounds; drops itself. */
+    public static final DeferredBlock<dev.movingcastle.thaumicconcilium.block.SolidVoidBlock> SOLID_VOID = BLOCKS.register("solid_void",
+            () -> new dev.movingcastle.thaumicconcilium.block.SolidVoidBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                    .strength(0.0F, 6000.0F).sound(SoundType.STONE)));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<dev.movingcastle.thaumicconcilium.block.SolidVoidBlockEntity>> SOLID_VOID_BLOCK_ENTITY =
+            BLOCK_ENTITIES.register("solid_void", () -> BlockEntityType.Builder.of(
+                    dev.movingcastle.thaumicconcilium.block.SolidVoidBlockEntity::new, SOLID_VOID.get()).build(null));
+
     private TCBlocks() {
     }
 }

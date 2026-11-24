@@ -131,6 +131,9 @@ public final class TCCommands {
                         .then(Commands.literal("flesh")
                                 .then(Commands.argument("n", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 200))
                                         .executes(c -> flesh(c, com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "n")))))
+                        .then(Commands.literal("protolimbs")
+                                .then(Commands.argument("n", com.mojang.brigadier.arguments.IntegerArgumentType.integer(0, 20))
+                                        .executes(c -> protolimbs(c, com.mojang.brigadier.arguments.IntegerArgumentType.getInteger(c, "n")))))
                         .then(Commands.literal("ethereal")
                                 .then(Commands.literal("on").executes(c -> ethereal(c, true)))
                                 .then(Commands.literal("off").executes(c -> ethereal(c, false))))));
@@ -141,6 +144,15 @@ public final class TCCommands {
         var s = dev.movingcastle.thaumicconcilium.world.CrimsonState.get(player);
         dev.movingcastle.thaumicconcilium.world.CrimsonState.set(player, s.withFlesh(n));
         ctx.getSource().sendSuccess(() -> Component.literal("QA: flesh " + n), false);
+        return 1;
+    }
+
+    /** Phase 8-4 QA: sets the absorbed Protolimb count (6 lets the wand gather Solid Void) without the research. */
+    private static int protolimbs(CommandContext<CommandSourceStack> ctx, int n) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        ServerPlayer player = ctx.getSource().getPlayerOrException();
+        var s = dev.movingcastle.thaumicconcilium.world.CrimsonState.get(player);
+        dev.movingcastle.thaumicconcilium.world.CrimsonState.set(player, s.withProtolimbs(n));
+        ctx.getSource().sendSuccess(() -> Component.literal("QA: protolimbs " + n), false);
         return 1;
     }
 

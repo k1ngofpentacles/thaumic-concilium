@@ -89,7 +89,7 @@ Every manual check is a QA quest in the FTB Quests book: **Foci ported 1:1** (`q
 | Bottle of Thick Taint | ✅ | Crucible (bottle of taint + vitium, aqua, vitreus). Thrown: Flux Taint around, fibres, flux gas, ecological pressure |
 | Shard Mill, Silverwood Shard Mill | 🟡 | Arcane / infusion recipes; all thirteen powders. Static OBJ model: the first-person cranking animation isn't ported yet |
 | Casting bracelets | ✅ 0.4.1 | Worn (Curios bracelet slot) or in the shield slot, V to cast, F radial. Livingwood, dreamwood and terrasteel need Botania (Revived). Band model on the wrist in first and third person; the casting arm rises (synced) with particles. Checked in the render harness and by `BraceletTests`; feel untested in game |
-| Polishment (and the Polishment Device) | ✅ 0.7.0 | The gate on the infusion and the creative-only device: see "Phase 6b". Protobody waits for phase 8 |
+| Polishment (and the Polishment Device) | ✅ 0.7.0 | The gate on the infusion and the creative-only device: see "Phase 6b". The Protobody's polishment is in "Phase 8-4" |
 | Coagulating Eye Drops, Astral Monitor | ✅ 0.7.0 | See "Phase 6b" |
 | Thaumaturge and Warped Drums | ✅ 0.7.0, off hand 0.7.3 | See "Phase 6b". 0.7.3: the drum plays from either hand (main hand empty or a casting bracelet); the drum stance (main-hand bracelet + off-hand drum) casts with V on plain wand terms; you cannot aim while drumming, so only spells whose root delivery is an area around the caster or the caster are cast (`drum_castable`: aura, self, cloud; effect-only spells too), refused if an effect reads the look (`drum_aimed_effects`: alchemist_spree, ethereal_manipulator, vis_conductor, warp_extraction). While the drum is played the cast's area radius and vis cost are x1.5 (config `drum.drumRadiusMultiplier`, `drum.drumVisCostMultiplier`; `spell/DrumStance`, no mixin). Taint Animation is castable and unaimed in the stance; Positive Burst (0.7.4) releases its orbs straight up there. Ready-made foci: Reflection, Wrath Attraction, Taint Animation, Positive Burst. Left-handed mirroring untested |
 
@@ -229,7 +229,7 @@ Every manual check is a QA quest in the FTB Quests book: **Monitors and machines
 | Causal Bouillon, Void Reality | ✅ | Flat void dimension with a Void Reality floor, fixed noon, no beds; crossing keeps x and z in, scales x10 or /10 out, safe landing, Nether pocket exit |
 | The Brightest One | ✅ | Summoned by a charged wisp (Wisp Launcher) from a researched player into a chained rift; immune to damage, short-circuited by charged wisps (1 of 15 health each); four attack sets by aspect; pink boss bar and darkened sky; despawns on peaceful |
 | Primordial Life | ✅ | Now obtainable: the Brightest One drops it once |
-| Solid Void | moved | To phase 8 (needs the Protobody and six protolimbs) |
+| Solid Void | ✅ 0.17.0 | Phase 8-4: gathered with a wand below the world after six Protolimbs |
 | Burning Site | moved | To phase 10 (the Witchery re-imagining) |
 
 Deviations: the fidelity review, "Phase 6c". Added a `wisp_launcher` focus preset (`/thaumicconcilium qa focus wisp_launcher`) for testing. QA chapter: **The Brightest One and subspace (6c)** (`qa_phase_6c`). Pack test: `Phase6cTests`, `Phase6cGemTests`, `Phase6cBossTests`.
@@ -416,6 +416,29 @@ Thaumaturge's silver bell model; the Valet GUI shows only Thaumaturge's generic 
 
 The QA chapter `qa_phase_7` (spec `tools/qa-quests/specs/phase_7.json`).
 
+## Phase 8-4: Protobody, Protolimbs, Solid Void (0.17.0)
+
+Original: `Protobody`, `EntityItemProtobody`, `Protolimb`, `SolidVoidBlock`, `TCEntityEventHandler:272-275`, Thaumonomicon 1123-1146, TCRecipeRegistry 885-912 and 1460-1462.
+Needs Thaumic Horizons 0.11.0 (Corpse Effigy, Void Putty, Wisp Essence, the clone villager research); compiled against it from `libs/`.
+
+| Area | Status | Notes |
+|---|---|---|
+| Protobody (item) | done | Stack 1, rare, no use. Dropped it becomes a `ProtobodyItemEntity` (pickup delay 40); below `minBuildHeight - 16` it breaks into six Protolimbs and is gone. Drawn as a vanilla humanoid in the end portal starfield (builtin/entity, `client/VoidItemRenderer`) |
+| Protolimb (mob) | done | Flying mob, 0.6 x 0.5, 1 health, `MISC`, not an Enemy, never despawns. Drifts and flees a player within 4 blocks; touching it counts on `crimson_state.protolimbs`, the sixth grants `solid_void` research once. In `thaumichorizons:creature_infusion_banned` |
+| Solid Void (block) | done | Hardness 0, resistance 6000, drops itself. A non-ticking block entity hosts a renderer (the starfield cannot be a static model) |
+| Wand trick | done | Wand right-clicked in the air below `minBuildHeight - 1` with six limbs puts a Solid Void in the inventory (event only) |
+| Infusion, polishment, research | done | Corpse Effigy centre; putty and wisp essences of vacuos, victus, auram, humanus; humanus 128, vacuos 256, alienis 64, auram 128; instability 4; polishment corpus 64. Research `protobody` (-8,13) and the code-granted `solid_void` (-8,14) |
+
+Deviations are in `docs/agents/retro/phase8-4-notes.md` (workspace root): gates dropped (Horizons required; Tainted Magic and Thaumic Dyes not needed), void depths per dimension, limb pivot and initial target, wisp essence in the infusion, a port-only hint line in the Protobody's recipe page.
+
+### Needs in-game testing
+
+The QA chapter `qa_phase_8_4` (spec `tools/qa-quests/specs/phase_8_4.json`); `/thaumicconcilium qa protolimbs <n>` sets the absorbed count for it.
+
+### Flesh is Corpus (0.17.0)
+
+TC4 FLESH is now `forbiddenmagic:corpus` (Forbidden Magic 0.2.0; Horizons 0.11.1 compiled against). Switched where the original says FLESH: Nether Membrane research note and item aspects, Pontifex Robe rift recipes (victus 128 + corpus 256 of the original LIFE 128 + FLESH 256), Material Peeler research and entity aspects, Flesh Crucible infusion and research, Quicksilver Crucible research, Taint Animation infusion (victus 96 + corpus 64) and research note, Protobody (wisp essence, polishment, research). LIFE/HEAL stay victus.
+
 ## QA staging (0.16.1)
 
 Testing tools only (op commands, nothing runs unless called): `world/QaStaging`, driven by the generated QA chapters
@@ -479,7 +502,7 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 | 5 | ✅ 5a, 5b, 5c, 5d done (0.9.0, 0.10.0, 0.11.0, 0.12.0): Crimson forces, flesh and Peeler, The Vessel pure half, the Botania half and the grove |
 | 6 | ✅ 6a, 6b, 6c done (0.6.0, 0.7.0, 0.8.0): Brightest One, Gem of Rifts, Causal Bouillon dimension |
 | 7 | ✅ (0.14.0) Valet seal and Vengeful Golem. The Assistant core and Golem Bydlo moved to after the Horizons port; Burlak not ported |
-| 8 | Thaumic Horizons is now its own LGPL mod, ported whole; Gadomancy its own LGPL mod, with the aura cores moving there; then the Assistant core and Golem Bydlo, Thaumic Bases picks, Solid Void |
+| 8 | Thaumic Horizons is now its own LGPL mod, ported whole; Gadomancy its own LGPL mod, with the aura cores moving there; then the Assistant core, Golem Bydlo and the Protobody with Solid Void (8-4, 0.17.0), Thaumic Bases picks |
 | 10 | Neo Vitae and Enchanted integrations, the Burning Site |
 
 Phase 9 (a Tinkerer KAMI module) is dropped: Thaumaturge Tinker already ports KAMI.

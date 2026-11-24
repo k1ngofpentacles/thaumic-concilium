@@ -84,7 +84,7 @@ entry('ethereal_manipulator_focus', -3, 2, f'focus:{NS}:ethereal_manipulator', [
 entry('wrath_attraction_focus', 2, 6, f'focus:{NS}:wrath_attraction', [C, f'{T}:focus_curse'],
       [(f'{FM}:ira', 3), (f'{T}:bestia', 2), (f'{T}:sensus', 2), (f'{T}:desiderium', 3)], 3, rec('wrath_attraction_focus'), warp=3)
 entry('taint_animation_focus', 4, 6, f'focus:{NS}:taint_animation', [C, f'{T}:flux', f'{T}:focus_hellbat'],
-      [(f'{T}:vitium', 3), (f'{T}:victus', 3), (f'{T}:aversio', 2)], 3, rec('taint_animation_focus'), warp=4)
+      [(f'{T}:vitium', 3), (f'{T}:victus', 3), ('forbiddenmagic:corpus', 3), (f'{T}:aversio', 2)], 3, rec('taint_animation_focus'), warp=4)
 entry('reflection_focus', -2, 6, f'focus:{NS}:reflection', [C, f'{T}:warp', f'{T}:sane_soap', '~thaumaturgetinker:focus_xp_drain'],
       [(f'{T}:alienis', 2), (f'{T}:cognitio', 3), (f'{T}:instrumentum', 2), (f'{T}:vitium', 2), (f'{T}:permutatio', 3)], 3,
       rec('reflection_focus'), warp=5)
@@ -163,7 +163,7 @@ infusion('scribing_focus', [('praemunio', 256), ('potentia', 128), ('praecantati
 infusion('wrath_attraction_focus', [(f'{FM}:ira', 128), ('bestia', 64), ('sensus', 64), ('desiderium', 96), ('thaumadditions:infernum', 128)],
          BLANK, times(it('minecraft:diamond'), 3) + times(SHARD('wrath'), 3) + times(DARK_QUARTZ, 3) + times(SHARD('wrath'), 3),
          6, focus_result('wrath_attraction_focus'))
-infusion('taint_animation_focus', [('vitium', 256), ('aversio', 64), ('victus', 160), ('instrumentum', 32)],
+infusion('taint_animation_focus', [('vitium', 256), ('aversio', 64), ('victus', 96), ('forbiddenmagic:corpus', 64), ('instrumentum', 32)],
          BLANK, [SHARD('taint'), SHARD('taint'), crystal('vitium'), it('primal_charm'), it('taint_tendril'), it('taint_tendril'),
                  it('taint_tendril'), it('primal_charm'), crystal('vitium'), SHARD('taint'), SHARD('taint'), SHARD('taint'),
                  crystal('vitium'), it('primal_charm'), it('tainted_goo'), it('tainted_goo'), it('tainted_goo'), it('primal_charm'), crystal('vitium'),

@@ -41,6 +41,10 @@
       "amount": 3
     },
     {
+      "aspect": "forbiddenmagic:corpus",
+      "amount": 3
+    },
+    {
       "aspect": "thaumaturge:aversio",
       "amount": 2
     }

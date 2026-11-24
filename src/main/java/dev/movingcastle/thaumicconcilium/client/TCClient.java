@@ -38,6 +38,7 @@ public final class TCClient {
         event.registerItem(new GemRenderer.Extensions(), TCItems.INERT_RIFT_GEM.get(), TCItems.RIFT_GEM.get(),
                 TCItems.INERT_TERRA_CAST_GEM.get(), TCItems.TERRA_CAST_GEM.get());
         event.registerItem(new VerdantCapitalRenderer.Extensions(), TCItems.VERDANT_CAPITAL.get()); // phase 5d cycle 4b: the closed star
+        event.registerItem(new VoidItemRenderer.Extensions(), TCItems.PROTOBODY.get(), TCItems.SOLID_VOID.get()); // phase 8-4
     }
 
     /** Phase 5d cycle 3: the mana pond fluid, drawn by the standard fluid path (see {@link ManaPondClient}). */
@@ -178,6 +179,10 @@ public final class TCClient {
                 ctx -> new CorpseRenderer<>(ctx, TCModelLayers.NETHER_EXPLORER, "nether_explorer"));
         event.registerEntityRenderer(TCEntities.VENGEFUL_GOLEM.get(), VengefulGolemRenderer::new);
         event.registerEntityRenderer(TCEntities.GOLEM_BYDLO.get(), dev.movingcastle.thaumicconcilium.client.mob.GolemBydloRenderer::new);
+        // Phase 8-4: the dropped Protobody is an ordinary item entity drawn by its builtin/entity model, its limbs and the Solid Void.
+        event.registerEntityRenderer(TCEntities.PROTOBODY_ITEM.get(), net.minecraft.client.renderer.entity.ItemEntityRenderer::new);
+        event.registerEntityRenderer(TCEntities.PROTOLIMB.get(), ProtolimbRenderer::new);
+        event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.SOLID_VOID_BLOCK_ENTITY.get(), SolidVoidRenderer::new);
         if (TCEntities.hasBotanist()) {
             event.registerEntityRenderer(TCEntities.WITHERED_BOTANIST.get(),
                     ctx -> new CorpseRenderer<>(ctx, TCModelLayers.WITHERED_BOTANIST, "withered_botanist"));

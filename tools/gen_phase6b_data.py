@@ -94,7 +94,7 @@ entry('xylography', -2, -3, f'{T}:wand', [CAT], [('instrumentum', 1), ('cognitio
 # QUICKSILVERCRUCIBLE (-14,3): hidden until the elemental is seen (scanned); completed by one dying in a crucible; 3 warp.
 entry('quicksilver_crucible', -14, 3, f'{NS}:quicksilver_reactor',
       [f'{T}:scanned/entity/{NS}/quicksilver_elemental'],
-      [('humanus', 10), ('permutatio', 10), ('metallum', 10), ('praecantatio', 10), ('victus', 10)], warp=3, meta=['hidden'])
+      [('humanus', 10), ('permutatio', 10), ('metallum', 10), ('praecantatio', 10), ('forbiddenmagic:corpus', 10)], warp=3, meta=['hidden'])
 
 # ---------------------------------------------------------------- aspects (scanning)
 ea = r(f'data/{T}/data_maps/entity_type/entity_aspects.json')

@@ -6,7 +6,11 @@
   "aspects": [
     {
       "aspect": "thaumaturge:victus",
-      "amount": 384
+      "amount": 128
+    },
+    {
+      "aspect": "forbiddenmagic:corpus",
+      "amount": 256
     },
     {
       "aspect": "thaumaturge:vacuos",

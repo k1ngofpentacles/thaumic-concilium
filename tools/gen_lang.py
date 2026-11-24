@@ -736,6 +736,21 @@ L[f'research.{NS}.the_glade.stage_1'] = join(
     'For every fifty thousand drawn beyond that, the weakest node breaks open into a rift, and the rift stains the grove back to '
     'blight. With no node left the pond runs dry. Take what you need and leave it to fill.')
 
+# ---------------------------------------------------------------- phase 8-4: Protobody, Protolimb, Solid Void
+# (before the polishment block below, which reads the Protobody's stage_1). The original's first page opens with a stray capital Pe (an
+# encoding slip); dropped. The second sentence of stage_1 is port-only: the original book never said how the Protobody is used.
+L[f'item.{NS}.protobody'] = o('item.Protobody.name')
+L[f'block.{NS}.solid_void'] = o('tile.SolidVoid.name')
+L[f'entity.{NS}.protolimb'] = o('entity.ThaumicConcilium.Protolimb.name')
+L[f'entity.{NS}.protobody_item'] = o('item.Protobody.name')
+L[f'research.{NS}.protobody.title'] = o('tc.research_name.PROTOBODY')
+L[f'research.{NS}.protobody.stage_0'] = join(o('tc.research_text.PROTOBODY'), o('entry.protobody.first').lstrip('П'))
+L[f'research.{NS}.protobody.stage_1'] = join(o('entry.protobody.second'),
+    "Let the Protobody fall into the Void, far below the world's floor: it shatters into six Protolimbs, which drift about and shy away from you. "
+    "Let each touch you and it is absorbed.")
+L[f'research.{NS}.solid_void.title'] = o('tc.research_name.SOLIDVOID')
+L[f'research.{NS}.solid_void.stage_0'] = join(o('tc.research_text.SOLIDVOID'), o('entry.solidvoid.first'))
+
 # ---------------------------------------------------------------- phase 6b (third cycle): polished infusions
 # Thaumaturge's book has no page type for the original's "Polished Infusion" page, so the recipe stage says it in words.
 # Polishment files are named after their research entry (gen_phase6b_data.py).

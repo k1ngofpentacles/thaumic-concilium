@@ -57,9 +57,9 @@ entry('fallen', -3, -3, f'{NS}:textures/category.png', [f'{NS}:thaumaturges', f'
 w(f'data/{NS}/thaumaturge/scan/fallen.json', {'entities': [f'{NS}:nether_explorer', f'{NS}:withered_botanist', f'{NS}:vengeful_golem'],
                                               'key': f'{NS}:scanned/fallen'})
 # NETHER_MEMBRANE: secondary, lost, triggered by the membrane; a Nether Explorer grants it outright.
-# FLESH, NETHER, ARMOR, CLOTH 4 each (no flesh or cloth aspect in Thaumaturge: victus, fabrico).
+# FLESH, NETHER, ARMOR, CLOTH 4 each (flesh -> Forbidden Magic's corpus; no cloth aspect in Thaumaturge: fabrico).
 entry('nether_membrane', 3, -2, f'{NS}:nether_membrane', [scanned('item', f'{NS}:nether_membrane')],
-      [('victus', 4), (INFERNUM, 4), ('praemunio', 4), ('fabrico', 4)], meta=['hidden'], complexity=1)
+      [('forbiddenmagic:corpus', 4), (INFERNUM, 4), ('praemunio', 4), ('fabrico', 4)], meta=['hidden'], complexity=1)
 
 # Hint notes gate their entries (agreed 2026-11-21): the note is an obtain requirement on the first stage, consumed when
 # that stage is bought. The Vis Conductor and Destabilized Crystal hints wait for phase 6.
@@ -79,7 +79,7 @@ w(f'data/{T}/data_maps/entity_type/entity_aspects.json', {'values': {
     f'{NS}:withered_botanist': aspects([('humanus', 10), ('herba', 10), ('mortuus', 10), ('permutatio', 10)]),
 }})
 w(f'data/{T}/data_maps/item/base_aspects.json', {'values': {
-    f'{NS}:nether_membrane': aspects([('victus', 5), (INFERNUM, 5), ('praemunio', 5), ('fabrico', 5)]),
+    f'{NS}:nether_membrane': aspects([('forbiddenmagic:corpus', 5), (INFERNUM, 5), ('praemunio', 5), ('fabrico', 5)]),
     f'{NS}:research_hint': aspects([('cognitio', 5), ('humanus', 3)]),
 }})
 

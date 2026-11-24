@@ -1,0 +1,40 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.solid_void.title",
+  "parents": [
+    "thaumicconcilium:protobody"
+  ],
+  "column": -8,
+  "row": 14,
+  "icons": [
+    "thaumicconcilium:solid_void"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.solid_void.stage_0"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:vitreus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:fabrico",
+      "amount": 3
+    }
+  ],
+  "complexity": 3,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

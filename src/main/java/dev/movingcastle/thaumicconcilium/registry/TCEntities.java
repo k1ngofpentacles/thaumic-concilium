@@ -161,6 +161,19 @@ public final class TCEntities {
                     dev.movingcastle.thaumicconcilium.entity.GolemBydlo::new, MobCategory.MISC)
                     .sized(2.0F, 3.5F).clientTrackingRange(10).build("golem_bydlo"));
 
+    // ---------------------------------------------------------------- phase 8-4
+    /** The dropped Protobody: an item entity of the vanilla size and tracking. */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.ProtobodyItemEntity>> PROTOBODY_ITEM =
+            ENTITY_TYPES.register("protobody_item", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.ProtobodyItemEntity>of(
+                    dev.movingcastle.thaumicconcilium.entity.ProtobodyItemEntity::new, MobCategory.MISC)
+                    .sized(0.25F, 0.25F).eyeHeight(0.2125F).clientTrackingRange(6).updateInterval(20).build("protobody_item"));
+
+    /** Original: 0.6 x 0.5, fire-immune, a flying mob that was not hostile ({@code MISC}, no {@code Enemy}). */
+    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.mob.Protolimb>> PROTOLIMB =
+            ENTITY_TYPES.register("protolimb", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.mob.Protolimb>of(
+                    dev.movingcastle.thaumicconcilium.entity.mob.Protolimb::new, MobCategory.MISC)
+                    .sized(0.6F, 0.5F).fireImmune().clientTrackingRange(8).updateInterval(1).build("protolimb"));
+
     public static boolean hasBotanist() {
         return WITHERED_BOTANIST != null;
     }

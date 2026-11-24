@@ -11,7 +11,11 @@
     },
     {
       "aspect": "thaumaturge:victus",
-      "amount": 160
+      "amount": 96
+    },
+    {
+      "aspect": "forbiddenmagic:corpus",
+      "amount": 64
     },
     {
       "aspect": "thaumaturge:instrumentum",

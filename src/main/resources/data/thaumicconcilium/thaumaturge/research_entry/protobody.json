@@ -1,0 +1,58 @@
+{
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.protobody.title",
+  "parents": [
+    "thaumicconcilium:flesh_crucible",
+    "~thaumichorizons:clone_villager"
+  ],
+  "column": -8,
+  "row": 13,
+  "icons": [
+    "thaumicconcilium:protobody"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.protobody.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 4
+    },
+    {
+      "text": "research.thaumicconcilium.protobody.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/protobody"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 3
+    },
+    {
+      "aspect": "forbiddenmagic:corpus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:alienis",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:fabrico",
+      "amount": 3
+    }
+  ],
+  "complexity": 3,
+  "meta": [
+    "hidden"
+  ]
+}

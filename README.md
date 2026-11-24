@@ -41,6 +41,10 @@ foci, the Ring of Blustering Light, Dump Jackboots, Tight Belt, Burdening Amulet
 the listed aspect from a Destabilized Crystal with the Vis Conductor as it completes. The list is a datapack registry
 (`data/<namespace>/thaumicconcilium/polishment/*.json`).
 
+New in 0.17.0: the **Protobody** (infused from a Thaumic Horizons Corpse Effigy), which shatters into six **Protolimbs** when
+dropped far below the world floor; absorbing all six teaches the **Solid Void** research, and a wand raised in the void
+gathers the block (the end portal's starfield, drawn with the vanilla end portal render type).
+
 ## Licence
 
 Port code: MIT. Original Concilium and Forbidden Magic material: WTFPL. Credits are in `CREDITS.md`.

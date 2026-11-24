@@ -64,6 +64,7 @@ public final class TCSpawns {
         event.put(TCEntities.NETHER_EXPLORER.get(), Corpse.createAttributes().build());
         event.put(TCEntities.GOLEM_BYDLO.get(), dev.movingcastle.thaumicconcilium.entity.GolemBydlo.createAttributes().build());
         event.put(TCEntities.VENGEFUL_GOLEM.get(), dev.movingcastle.thaumicconcilium.entity.mob.VengefulGolem.createAttributes().build());
+        event.put(TCEntities.PROTOLIMB.get(), dev.movingcastle.thaumicconcilium.entity.mob.Protolimb.createAttributes().build());
         if (TCEntities.hasBotanist()) {
             event.put(TCEntities.WITHERED_BOTANIST.get(), Corpse.createAttributes().build());
         }

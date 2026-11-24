@@ -2,7 +2,7 @@
   "values": {
     "thaumicconcilium:nether_membrane": [
       {
-        "aspect": "thaumaturge:victus",
+        "aspect": "forbiddenmagic:corpus",
         "amount": 5
       },
       {
@@ -222,6 +222,30 @@
       {
         "aspect": "thaumaturge:vinculum",
         "amount": 10
+      }
+    ],
+    "thaumicconcilium:protobody": [
+      {
+        "aspect": "thaumaturge:humanus",
+        "amount": 4
+      },
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 4
+      },
+      {
+        "aspect": "thaumaturge:alienis",
+        "amount": 4
+      },
+      {
+        "aspect": "thaumaturge:perditio",
+        "amount": 4
+      }
+    ],
+    "thaumicconcilium:solid_void": [
+      {
+        "aspect": "thaumaturge:vacuos",
+        "amount": 2
       }
     ],
     "thaumicconcilium:primal_arrow_aer": [
