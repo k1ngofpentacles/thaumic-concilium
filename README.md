@@ -48,3 +48,8 @@ gathers the block (the end portal's starfield, drawn with the vanilla end portal
 ## Licence
 
 Port code: MIT. Original Concilium and Forbidden Magic material: WTFPL. Credits are in `CREDITS.md`.
+
+**Exception, LGPL-3.0-or-later:** the Aura Core is adapted from Gadomancy (LGPL; its author asks that it never be
+monetised), so these files stay under the LGPL (`licenses/LGPL-3.0.txt`, with the GPL 3.0 it builds on in
+`licenses/GPL-3.0.txt`): `aura/AuraCores.java`, `item/AuraCore.java`, `entity/AuraCoreEntity.java` and the textures
+`assets/thaumicconcilium/textures/item/aura_core_*`. They move to a separate LGPL Gadomancy mod in a later release.
