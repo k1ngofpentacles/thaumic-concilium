@@ -42,6 +42,20 @@ public final class TCCommands {
         event.getDispatcher().register(Commands.literal(ThaumicConcilium.MODID).requires(s -> s.hasPermission(2))
                 .then(Commands.literal("qa")
                         .then(Commands.literal("research").executes(TCCommands::research))
+                        // one-click staging of a QA check (world/QaStaging, tools/qa-quests): a fresh far-away site, the kit, the build
+                        .then(Commands.literal("stage")
+                                .then(Commands.argument("key", StringArgumentType.word())
+                                        .executes(c -> dev.movingcastle.thaumicconcilium.world.QaStaging.stage(c.getSource(), c.getSource().getPlayerOrException(), StringArgumentType.getString(c, "key")))))
+                        .then(Commands.literal("wear").executes(c -> dev.movingcastle.thaumicconcilium.world.QaStaging.wear(c.getSource(), c.getSource().getPlayerOrException())))
+                        .then(Commands.literal("jars")
+                                .then(Commands.argument("pos", net.minecraft.commands.arguments.coordinates.BlockPosArgument.blockPos())
+                                        .executes(c -> dev.movingcastle.thaumicconcilium.world.QaStaging.jars(c.getSource().getLevel(),
+                                                net.minecraft.commands.arguments.coordinates.BlockPosArgument.getLoadedBlockPos(c, "pos")))))
+                        .then(Commands.literal("verdict")
+                                .then(Commands.argument("key", StringArgumentType.word())
+                                        .then(Commands.literal("pass").executes(c -> verdict(c, "pass")))
+                                        .then(Commands.literal("fail").executes(c -> verdict(c, "fail")))
+                                        .then(Commands.literal("skip").executes(c -> verdict(c, "skip")))))
                         .then(Commands.literal("focus")
                                 .then(Commands.argument("preset", StringArgumentType.word()).suggests(TCCommands::presets)
                                         .executes(TCCommands::focus)))
@@ -292,6 +306,10 @@ public final class TCCommands {
         var job = dev.movingcastle.thaumicconcilium.world.GrovePainter.openWithRadius(level, hex, crater, tier, radius, null);
         ctx.getSource().sendSuccess(() -> Component.literal(job == null ? "QA: no grove (plot chunk)" : "QA: a tier " + tier + " grove of radius " + radius), false);
         return job == null ? 0 : 1;
+    }
+
+    private static int verdict(CommandContext<CommandSourceStack> ctx, String verdict) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+        return dev.movingcastle.thaumicconcilium.world.QaStaging.verdict(ctx.getSource(), ctx.getSource().getPlayerOrException(), StringArgumentType.getString(ctx, "key"), verdict);
     }
 
     private static int finale(CommandContext<CommandSourceStack> ctx) throws com.mojang.brigadier.exceptions.CommandSyntaxException {

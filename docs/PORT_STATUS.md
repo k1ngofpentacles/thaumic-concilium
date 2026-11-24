@@ -416,6 +416,20 @@ Thaumaturge's silver bell model; the Valet GUI shows only Thaumaturge's generic 
 
 The QA chapter `qa_phase_7` (spec `tools/qa-quests/specs/phase_7.json`).
 
+## QA staging (0.16.1)
+
+Testing tools only (op commands, nothing runs unless called): `world/QaStaging`, driven by the generated QA chapters
+(`tools/qa-quests`, see `.claude/skills/qa-quests/SKILL.md`).
+- `qa stage <spec>.<check>`: the check's own far slot (x/z from 48000, 96 apart, y 120), chunks generated on the spot,
+  a 31x28x31 box cleared (golem seals and entities too), grass pad with a glass rim; the player emptied (Curios too),
+  healed, hotbar slot 1 selected, research reset to the check's list (`ResearchProgression.grant`, parents included), all
+  aspects at 100, warp cleared; the kit as the player; the build 5 ticks later at the pad centre (chunks entity-ticking
+  by then); then a chat card with the steps and [Pass, next] [Fail, next] [Again] [Skip].
+- `qa verdict <key> pass|fail|skip`: appends to `qa_verdicts.log` in the game folder, a pass completes the quest
+  (`ftbquests change_progress`), then stages the next check.
+- `qa wear`: main-hand item into the first free Curios slot that takes it. `qa jars <pos>`: creative jars of every
+  aspect, 9 wide, for infusion altars (the matrix drains jars within 12).
+
 ## Crimson outfits (0.16.0)
 
 Our crimson mobs (Paladin, Archer, Ranger; also the tower guards, Offertory and binding raids, the Lesser Crimson Portal and
