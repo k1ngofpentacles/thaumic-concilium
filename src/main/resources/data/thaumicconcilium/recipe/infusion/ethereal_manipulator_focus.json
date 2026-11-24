@@ -24,9 +24,9 @@
   "components": [
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:auram"
         }
       }
@@ -36,18 +36,18 @@
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:auram"
         }
       }
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:aer"
         }
       }
@@ -57,18 +57,18 @@
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:aer"
         }
       }
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:motus"
         }
       }
@@ -78,36 +78,36 @@
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:motus"
         }
       }
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:volatus"
         }
       }
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:aer"
         }
       }
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:volatus"
         }
       }
@@ -135,5 +135,11 @@
       },
       "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.ethereal_manipulator_focus.title\"}]}"
     }
-  }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumichorizons"
+    }
+  ]
 }

@@ -1,0 +1,104 @@
+{
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "minecraft:note_block"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "minecraft:leather"
+    },
+    {
+      "item": "thaumaturge:fabric"
+    },
+    {
+      "item": "thaumaturge:crystal_vitium"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:victus"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:ingot_thaumium"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:auram"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:fabric"
+    },
+    {
+      "item": "minecraft:string"
+    },
+    {
+      "item": "thaumaturge:stone_arcane"
+    },
+    {
+      "item": "minecraft:string"
+    },
+    {
+      "item": "thaumaturge:fabric"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:praecantatio"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:ingot_thaumium"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:sensus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 96
+    },
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    }
+  ],
+  "instability": 4,
+  "research": {
+    "entry": "thaumicconcilium:thaumdrum",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:thaumaturge_drum"
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "thaumichorizons"
+      }
+    }
+  ]
+}

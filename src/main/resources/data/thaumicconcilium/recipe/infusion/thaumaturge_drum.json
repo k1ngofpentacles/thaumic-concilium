@@ -18,9 +18,9 @@
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:victus"
         }
       }
@@ -30,9 +30,9 @@
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:auram"
         }
       }
@@ -54,9 +54,9 @@
     },
     {
       "type": "neoforge:components",
-      "items": "thaumaturge:essentia_crystal",
+      "items": "thaumichorizons:wisp_essence",
       "components": {
-        "thaumaturge:crystal_aspect": {
+        "thaumichorizons:wisp_aspect": {
           "aspect": "thaumaturge:praecantatio"
         }
       }
@@ -91,5 +91,11 @@
   "result": {
     "count": 1,
     "id": "thaumicconcilium:thaumaturge_drum"
-  }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumichorizons"
+    }
+  ]
 }

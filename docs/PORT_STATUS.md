@@ -435,3 +435,5 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 | 10 | Neo Vitae and Enchanted integrations, the Burning Site |
 
 Phase 9 (a Tinkerer KAMI module) is dropped: Thaumaturge Tinker already ports KAMI.
+
+- Wisp essence (0.15.2): Taint Animation, Ring of Blustering Light, Thaumdrum and Ethereal Manipulator infusions (the original wisp-essence recipes) take Thaumic Horizons wisp essence when it is loaded (`<id>`), else the crystal stand-in (`<id>_no_horizons`); `tools/gen_wisp_variants.py`, research pages list both. Wrath Attraction keeps its blank-focus catalyst. Protobody not built.

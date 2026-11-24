@@ -1,0 +1,148 @@
+{
+  "type": "thaumaturge:infusion",
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:motus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:auram",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:volatus",
+      "amount": 64
+    }
+  ],
+  "catalyst": {
+    "item": "thaumaturgetinker:focus_telekinesis"
+  },
+  "components": [
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:auram"
+        }
+      }
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:auram"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:aer"
+        }
+      }
+    },
+    {
+      "item": "thaumaturge:alumentum"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:aer"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:motus"
+        }
+      }
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:motus"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:volatus"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:aer"
+        }
+      }
+    },
+    {
+      "type": "neoforge:components",
+      "items": "thaumaturge:essentia_crystal",
+      "components": {
+        "thaumaturge:crystal_aspect": {
+          "aspect": "thaumaturge:volatus"
+        }
+      }
+    }
+  ],
+  "instability": 4,
+  "research": {
+    "entry": "thaumicconcilium:ethereal_manipulator_focus",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumaturge:focus_1",
+    "components": {
+      "thaumaturge:spell": {
+        "style": "channeled",
+        "root": {
+          "part": "thaumaturge:origin",
+          "children": [
+            {
+              "part": "thaumicconcilium:ethereal_manipulator"
+            }
+          ]
+        }
+      },
+      "minecraft:custom_name": "{\"translate\": \"thaumicconcilium.focus.preset\", \"with\": [{\"translate\": \"research.thaumicconcilium.ethereal_manipulator_focus.title\"}]}"
+    }
+  },
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "thaumichorizons"
+      }
+    }
+  ]
+}

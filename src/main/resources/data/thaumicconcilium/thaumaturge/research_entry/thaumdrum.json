@@ -24,7 +24,8 @@
     {
       "text": "research.thaumicconcilium.thaumdrum.stage_1",
       "recipes": [
-        "thaumicconcilium:infusion/thaumaturge_drum"
+        "thaumicconcilium:infusion/thaumaturge_drum",
+        "thaumicconcilium:infusion/thaumaturge_drum_no_horizons"
       ]
     }
   ],

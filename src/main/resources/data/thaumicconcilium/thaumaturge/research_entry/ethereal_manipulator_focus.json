@@ -25,7 +25,8 @@
     {
       "text": "research.thaumicconcilium.ethereal_manipulator_focus.stage_1",
       "recipes": [
-        "thaumicconcilium:infusion/ethereal_manipulator_focus"
+        "thaumicconcilium:infusion/ethereal_manipulator_focus",
+        "thaumicconcilium:infusion/ethereal_manipulator_focus_no_horizons"
       ]
     }
   ],

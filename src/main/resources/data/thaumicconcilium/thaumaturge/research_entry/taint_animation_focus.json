@@ -26,7 +26,8 @@
     {
       "text": "research.thaumicconcilium.taint_animation_focus.stage_1",
       "recipes": [
-        "thaumicconcilium:infusion/taint_animation_focus"
+        "thaumicconcilium:infusion/taint_animation_focus",
+        "thaumicconcilium:infusion/taint_animation_focus_no_horizons"
       ]
     }
   ],

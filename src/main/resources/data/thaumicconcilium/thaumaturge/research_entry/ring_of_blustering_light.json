@@ -27,7 +27,8 @@
     {
       "text": "research.thaumicconcilium.ring_of_blustering_light.stage_1",
       "recipes": [
-        "thaumicconcilium:infusion/ring_of_blustering_light"
+        "thaumicconcilium:infusion/ring_of_blustering_light",
+        "thaumicconcilium:infusion/ring_of_blustering_light_no_horizons"
       ]
     }
   ],
