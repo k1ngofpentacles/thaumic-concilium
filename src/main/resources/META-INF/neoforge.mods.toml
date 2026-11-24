@@ -21,7 +21,7 @@ flux rifts and subspace, flesh alchemy, and thirteen foci rebuilt as Thaumaturge
 [[dependencies.thaumicconcilium]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.1,)"
+versionRange = "[21.1.265,)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -35,14 +35,14 @@ side = "BOTH"
 [[dependencies.thaumicconcilium]]
 modId = "thaumaturge"
 type = "required"
-versionRange = "[1.1,)"
+versionRange = "[1.1.0,1.2)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.thaumicconcilium]]
 modId = "curios"
 type = "required"
-versionRange = "[9.5,)"
+versionRange = "[9.5.1,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -66,7 +66,7 @@ side = "BOTH"
 [[dependencies.thaumicconcilium]]
 modId = "forbiddenmagic"
 type = "required"
-versionRange = "[2.0,)"
+versionRange = "[2.0.3-thaumaturge.0.2.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
@@ -74,7 +74,7 @@ side = "BOTH"
 [[dependencies.thaumicconcilium]]
 modId = "thaumichorizons"
 type = "required"
-versionRange = "[0.2,)"
+versionRange = "[0.11.1,)"
 ordering = "AFTER"
 side = "BOTH"
 
