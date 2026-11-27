@@ -83,10 +83,10 @@ w(_p, _m)
 
 # Drops (R8, original func_70628_a): j = nextInt(3) + 1 stacks; each stack picks one of five items with equal chance and drops
 # nextInt(3) copies (+ nextInt(looting + 1)). Pool: Items.field_151065_br = blaze powder, field_151073_bk = ghast tear, and the Witchery
-# GENERIC metas 28 foulFume, 30 oilOfVitriol, 35 reekOfMisfortune -> the remake's items of the same names. Looting uses the loot
-# function's L * uniform(0, 1), which matches the original at level I and is an approximation above it (noted for the executive).
-_looting = {'function': 'minecraft:enchanted_count_increase', 'enchantment': 'minecraft:looting',
-            'count': {'type': 'minecraft:uniform', 'min': 0.0, 'max': 1.0}}
+# GENERIC metas 28 foulFume, 30 oilOfVitriol, 35 reekOfMisfortune -> the remake's items of the same names. Looting is exact at every
+# level (user, 2026-11-27): our thaumicconcilium:uniform_enchant_bonus adds nextInt(L + 1) (registry/TCLootFunctions); vanilla's
+# enchanted_count_increase (round(L * uniform(0, 1))) matched only at 0 and I.
+_looting = {'function': f'{NS}:uniform_enchant_bonus', 'enchantment': 'minecraft:looting'}
 _witch_drops = ['minecraft:blaze_powder', 'minecraft:ghast_tear', 'witchery:foul_fume', 'witchery:oil_of_vitriol', 'witchery:reek_of_misfortune']
 w(f'data/{NS}/loot_table/entities/burned_witch.json', {
     'neoforge:conditions': WITCHERY,

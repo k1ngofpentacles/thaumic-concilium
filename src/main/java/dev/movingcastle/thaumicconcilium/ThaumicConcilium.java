@@ -31,6 +31,7 @@ public final class ThaumicConcilium {
     public ThaumicConcilium(IEventBus modBus, ModContainer container) {
         TCArmorMaterials.MATERIALS.register(modBus);
         TCDataComponents.COMPONENTS.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCLootFunctions.FUNCTIONS.register(modBus);
         dev.movingcastle.thaumicconcilium.lithograph.Lithograph.ATTACHMENTS.register(modBus);
         dev.movingcastle.thaumicconcilium.world.CrimsonState.ATTACHMENTS.register(modBus);
         dev.movingcastle.thaumicconcilium.world.GroveColumns.ATTACHMENTS.register(modBus);
