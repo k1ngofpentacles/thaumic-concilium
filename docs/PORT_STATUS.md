@@ -503,7 +503,7 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 | 6 | ✅ 6a, 6b, 6c done (0.6.0, 0.7.0, 0.8.0): Brightest One, Gem of Rifts, Causal Bouillon dimension |
 | 7 | ✅ (0.14.0) Valet seal and Vengeful Golem. The Assistant core and Golem Bydlo moved to after the Horizons port; Burlak not ported |
 | 8 | Thaumic Horizons is now its own LGPL mod, ported whole; Gadomancy its own LGPL mod, with the aura cores moving there; then the Assistant core, Golem Bydlo and the Protobody with Solid Void (8-4, 0.17.0), Thaumic Bases picks |
-| 10 | Neo Vitae integrations, the Burning Site (Enchanted: Witchcraft is no longer a target: the pack uses Witchery) |
+| 10 | ✅ (0.21.0) Just Another Witchery Remake and Neo Vitae hooks: Nether pair, Burned Witch, Crimson Spells, Burning Site, Earmuffs, Blood Bracelet, Drainage Syringe |
 
 Phase 9 (a Tinkerer KAMI module) is dropped: Thaumaturge Tinker already ports KAMI.
 
@@ -543,6 +543,29 @@ Needs in-game testing: a Bloom clearing taint inside the grove; the ring and the
 wand; a channelled focus on the cast key as **another player** sees it (beam ends on release). Not fixed, from source
 reading: Thaumaturge 1.1.1's client stops a channel beam at once for the caster when no item is in use
 (`BeamInstance.tick`), so the caster's own view of a keyed channel may flicker.
+
+## Phase 10: Witchery and Blood Magic hooks on Just Another Witchery Remake and Neo Vitae (0.21.0, closed 2026-11-27)
+
+Decisions `docs/design/phase10-decisions.md` (workspace; S1, Q6, R1-R12 answered); every change from the original in
+`docs/design/concilium-fidelity-review.md`, "Phase 10". Builder notes `docs/agents/retro/phase10-*-notes.md`.
+
+- **10-1b:** Chort and Sloppy Alchemist renderers (seated Chort, all-fours alchemist when ridden); hidden research entry `sloppy_alchemist`.
+- **10-2:** the Burned Witch (`entity/mob/BurnedWitch`, Nether, flies and orbits, throws the remake's Brew of Webs / Wasting, Sun Grenade
+  at vampires, wolfsbane at werewolves; immune to brews by impact stamp; the remake's broom); hidden entry `burned_witch`.
+- **10-3:** six Crimson Spells in the remake's symbology registry (`compat/witchery/CrimsonSpells`), learned from research
+  `crimson_spells` (the Pontifex's 40% note); cost 600, the long anti-undead stroke 1200 at level 2 through the optional client mixin
+  `SymbologyGridWidenMixin`.
+- **10-4:** the Burning Site village piece (`world/BurningSiteElement`, `compat/witchery/BurningSites`) in all five village types, one per
+  village, a guard `witchery:hunter` with the original's target rule (`compat/witchery/SiteHunter`), our own Stockade and Burning Stake
+  blocks (`compat/witchery/SiteBlocks`, a deliberate redesign).
+- **10-5:** Earmuffs (in `muffles_bells`); Blood Bracelet (`BraceletKind.BLOOD`, refills while worn on Neo Vitae); Drainage Syringe
+  (only with Horizons, Botania and Neo Vitae; held rendering `client/DrainageSyringe{FirstPerson,Renderer}`); party HUD and Astral Monitor
+  blood from Neo Vitae (`BloodCeiling`). Fix: `/summon` of a Sloppy Alchemist failed on a duplicate Chort UUID (0.20.0).
+- **Close (0.21.0):** review fix: a fresh syringe writes its state on first use, so its cap shows from then on (as the original).
+  Full pack test 2026-11-27: without the remake 745/745; with it see the lane file. QA checks added: `burned_witch`, `crimson_spells`.
+
+Needs in-game testing: the QA chapter `qa_concilium` (`requires: witchery` / `neovitae` checks): a real village with a Burning Site, a
+real cast and the long stroke on the remake's draw screen, a brew hit on the witch, the syringe on a player, the syringe's sway.
 
 ## Phase 10-1: the Chort, the Sloppy Alchemist and the imp pact (0.20.0)
 

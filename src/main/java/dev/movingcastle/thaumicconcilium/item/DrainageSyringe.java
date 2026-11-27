@@ -109,6 +109,8 @@ public class DrainageSyringe extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         State state = state(stack);
+        // The original's first use wrote its tag, so a fresh syringe shows its cap from then on (the renderer draws none untagged).
+        if (!stack.has(TCDataComponents.SYRINGE.get())) stack.set(TCDataComponents.SYRINGE.get(), state);
         if (player.isShiftKeyDown()) {
             stack.set(TCDataComponents.SYRINGE.get(), state.withOpen(!state.open()));
             return InteractionResultHolder.consume(stack);   // consume: no arm swing, which would also cycle the type
