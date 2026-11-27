@@ -207,6 +207,58 @@
         "aspect": "forbiddenmagic:corpus",
         "amount": 80
       }
-    ]
+    ],
+    "thaumicconcilium:chort": {
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "witchery"
+        }
+      ],
+      "value": [
+        {
+          "aspect": "thaumaturge:bestia",
+          "amount": 10
+        },
+        {
+          "aspect": "thaumaturge:desiderium",
+          "amount": 10
+        },
+        {
+          "aspect": "thaumaturge:praecantatio",
+          "amount": 10
+        },
+        {
+          "aspect": "thaumadditions:infernum",
+          "amount": 10
+        }
+      ]
+    },
+    "thaumicconcilium:sloppy_alchemist": {
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "witchery"
+        }
+      ],
+      "value": [
+        {
+          "aspect": "thaumaturge:humanus",
+          "amount": 10
+        },
+        {
+          "aspect": "thaumaturge:vinculum",
+          "amount": 10
+        },
+        {
+          "aspect": "thaumaturge:permutatio",
+          "amount": 10
+        },
+        {
+          "aspect": "thaumadditions:infernum",
+          "amount": 10
+        }
+      ]
+    }
   }
 }

@@ -55,6 +55,10 @@ public final class ThaumicConcilium {
         dev.movingcastle.thaumicconcilium.world.TCStructures.STRUCTURE_TYPES.register(modBus);
         dev.movingcastle.thaumicconcilium.world.TCStructures.STRUCTURE_PIECES.register(modBus);
         modBus.addListener(TCNetwork::register);
+        // phase 10: the Chort, the Sloppy Alchemist and the imp pact exist only with Just Another Witchery Remake (R1)
+        if (dev.movingcastle.thaumicconcilium.compat.witchery.WitcheryGate.loaded()) {
+            dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.init(modBus);
+        }
         // the grove's own trees: the template growth logic and lineage (only with Dynamic Trees)
         if (net.neoforged.fml.ModList.get().isLoaded("dynamictrees")) {
             dev.movingcastle.thaumicconcilium.compat.DynamicTreesGrove.init(modBus);

@@ -12,6 +12,7 @@ Required:
 - Thaumaturge Tinker and Forbidden Magic (Thaumaturge) are referenced by id only (no jar needed).
 
 Optional integrations (compiled against, soft-loaded at runtime):
+- Just Another Witchery Remake (`witchery-0.5.41-mc1.21.1.jar`, All Rights Reserved: phase 10, only `compat/witchery/ImpPact` names its `ImpEvents`; loaded only when it is installed)
 - Neo Vitae (`neovitae-1.21.1-1.1.54.jar`: the Crimson Dagger's self-cut) and, to compile against its altar class, `geckolib-neoforge-1.21.1-4.9.3.jar`
 - Thaumic Additions CE (only for its `infernum` aspect; we fall back to our own when it is absent)
 - Sable (phase 5c, the Vessel's pull on ships; PolyForm Shield, compiled against, never shipped, soft-loaded through `compat/SablePull`):

@@ -68,6 +68,9 @@ public final class TCSpawns {
         if (TCEntities.hasBotanist()) {
             event.put(TCEntities.WITHERED_BOTANIST.get(), Corpse.createAttributes().build());
         }
+        if (dev.movingcastle.thaumicconcilium.compat.witchery.WitcheryGate.loaded()) {
+            dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.attributes(event);
+        }
     }
 
     @SubscribeEvent
@@ -91,6 +94,9 @@ public final class TCSpawns {
                 Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(TCEntities.NETHER_EXPLORER.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
                 (type, level, reason, pos, random) -> true, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        if (dev.movingcastle.thaumicconcilium.compat.witchery.WitcheryGate.loaded()) {
+            dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.placements(event);
+        }
         if (TCEntities.hasBotanist()) {
             event.register(TCEntities.WITHERED_BOTANIST.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                     TCSpawns::botanistRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);

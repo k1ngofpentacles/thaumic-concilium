@@ -1,0 +1,39 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "witchery"
+    }
+  ],
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.sloppy_alchemist.title",
+  "parents": [
+    "thaumicconcilium:fallen",
+    "thaumaturge:scanned/entity/thaumicconcilium/sloppy_alchemist"
+  ],
+  "column": -4,
+  "row": -4,
+  "icons": [
+    "thaumicconcilium:textures/gui/sloppy_alchemist.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.sloppy_alchemist.stage_0"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:permutatio",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "autounlock"
+  ]
+}

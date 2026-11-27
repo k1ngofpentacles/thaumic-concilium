@@ -41,14 +41,25 @@ public record ConfiguredSpawns(HolderSet<Biome> biomes, List<SpawnerData> spawne
         if (type == TCEntities.VENGEFUL_GOLEM.get()) {
             return TCConfig.vengefulGolemSpawnWeight();
         }
+        if (isAlchemist(type)) {
+            return TCConfig.sloppyAlchemistSpawnWeight();
+        }
         return -1;
     }
 
+    /** The Sloppy Alchemist exists only with Witchery, so it is matched by id (this class must load without it). */
+    private static boolean isAlchemist(EntityType<?> type) {
+        return net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(type).equals(ThaumicConcilium.id("sloppy_alchemist"));
+    }
+
     private static boolean blacklisted(EntityType<?> type, Holder<Biome> biome) {
-        if (type != TCEntities.VENGEFUL_GOLEM.get()) {
-            return false;
+        if (type == TCEntities.VENGEFUL_GOLEM.get()) {
+            return biome.unwrapKey().map(k -> TCConfig.vengefulGolemBiomeBlacklist().contains(k.location().toString())).orElse(false);
         }
-        return biome.unwrapKey().map(k -> TCConfig.vengefulGolemBiomeBlacklist().contains(k.location().toString())).orElse(false);
+        if (isAlchemist(type)) {
+            return biome.unwrapKey().map(k -> TCConfig.sloppyAlchemistBiomeBlacklist().contains(k.location().toString())).orElse(false);
+        }
+        return false;
     }
 
     @Override

@@ -182,6 +182,15 @@ public final class TCClient {
         event.registerEntityRenderer(TCEntities.PROTOBODY_ITEM.get(), net.minecraft.client.renderer.entity.ItemEntityRenderer::new);
         event.registerEntityRenderer(TCEntities.PROTOLIMB.get(), ProtolimbRenderer::new);
         event.registerBlockEntityRenderer(dev.movingcastle.thaumicconcilium.registry.TCBlocks.SOLID_VOID_BLOCK_ENTITY.get(), SolidVoidRenderer::new);
+        if (dev.movingcastle.thaumicconcilium.compat.witchery.WitcheryGate.loaded()) {
+            // 10-1b: the original models (docs/design/phase10-look-prebrief.md).
+            event.registerEntityRenderer(dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.CHORT.get(),
+                    dev.movingcastle.thaumicconcilium.client.mob.ChortRenderer::new);
+            event.registerEntityRenderer(dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.SLOPPY_ALCHEMIST.get(),
+                    dev.movingcastle.thaumicconcilium.client.mob.SloppyAlchemistRenderer::new);
+            event.registerEntityRenderer(dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.CHORT_SPIT.get(),
+                    net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
+        }
         if (TCEntities.hasBotanist()) {
             event.registerEntityRenderer(TCEntities.WITHERED_BOTANIST.get(),
                     ctx -> new CorpseRenderer<>(ctx, TCModelLayers.WITHERED_BOTANIST, "withered_botanist"));
@@ -217,6 +226,12 @@ public final class TCClient {
         event.registerLayerDefinition(TCModelLayers.WITHERED_BOTANIST, TCModelLayers::botanist);
         event.registerLayerDefinition(TCModelLayers.VENGEFUL_GOLEM, VengefulGolemModel::body);
         event.registerLayerDefinition(TCModelLayers.VENGEFUL_DECORATION, TCModelLayers::vengefulDecoration);
+        if (dev.movingcastle.thaumicconcilium.compat.witchery.WitcheryGate.loaded()) {
+            event.registerLayerDefinition(TCModelLayers.CHORT, dev.movingcastle.thaumicconcilium.client.mob.ChortModel::create);
+            event.registerLayerDefinition(TCModelLayers.SLOPPY_ALCHEMIST, TCModelLayers::inflatedBiped);
+            event.registerLayerDefinition(TCModelLayers.SLOPPY_ALCHEMIST_RIDDEN,
+                    dev.movingcastle.thaumicconcilium.client.mob.RiddenAlchemistModel::create);
+        }
     }
 
     @SubscribeEvent

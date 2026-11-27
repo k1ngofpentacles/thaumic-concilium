@@ -1,0 +1,11 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "witchery"
+    }
+  ],
+  "type": "minecraft:entity",
+  "random_sequence": "thaumicconcilium:entities/sloppy_alchemist",
+  "pools": []
+}

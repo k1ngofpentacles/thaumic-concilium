@@ -544,6 +544,10 @@ wand; a channelled focus on the cast key as **another player** sees it (beam end
 reading: Thaumaturge 1.1.1's client stops a channel beam at once for the caster when no item is in use
 (`BeamInstance.tick`), so the caster's own view of a keyed channel may flicker.
 
+## Phase 10-1: the Chort, the Sloppy Alchemist and the imp pact (0.20.0)
+
+Only with Just Another Witchery Remake (`witchery`): their own registers (`compat/witchery/NetherPair`) go on the mod bus only when it is loaded; data files carry `mod_loaded witchery`. The Sloppy Alchemist (Nether monster, weight and biome blacklist in the config) spawns with a Chort on his back that spits three globs every 40 ticks; while ridden he evades and rams. Killing the Chort frees him: right-click for 1-3 demon's blood or bottles of blood. Right-clicking a Witchery imp starts a pact (`witchery.impPactTime`, 72000 ticks) during which neither mob targets you. Placeholder renderers until 10-1b. Needs in-game testing: the pair in the Nether, the ram and its knockback, the freed reward, the pact line, an imp's soul trading still opening. Notes: `docs/agents/retro/phase10-1-notes.md`.
+
 ## Phase 10-0: off Enchanted: Witchcraft (0.19.2)
 
 The pack replaced Enchanted: Witchcraft with Just Another Witchery Remake (`witchery`). Concilium no longer references Enchanted:

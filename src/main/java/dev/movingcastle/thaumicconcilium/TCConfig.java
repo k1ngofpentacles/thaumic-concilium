@@ -391,6 +391,49 @@ public final class TCConfig {
         }
     }
 
+    // ---------------------------------------------------------------- phase 10-1 (the Nether pair; only with Just Another Witchery Remake)
+    public static final ModConfigSpec.IntValue IMP_PACT_TIME = B
+            .comment("Ticks a pact with a Witchery imp lasts (right-click an imp: the Sloppy Alchemist and the Chort leave you alone",
+                    "meanwhile; original: impPactTime, which the original declared and never read, hard-coding 72000). 0 turns the pact off.",
+                    "Only used with Just Another Witchery Remake.")
+            .defineInRange("witchery.impPactTime", 72000, 0, Integer.MAX_VALUE);
+
+    public static final ModConfigSpec.IntValue SLOPPY_ALCHEMIST_SPAWN_WEIGHT = B
+            .comment("Spawn weight of the Sloppy Alchemist (monster category, alone, every Nether biome; he comes with a Chort on his back;",
+                    "original: sloppyAlchemistSpawnChance, 5). 0 disables its natural spawning. Read as the server starts. Only with",
+                    "Just Another Witchery Remake.")
+            .defineInRange("witchery.sloppyAlchemistSpawnChance", 5, 0, 1000);
+
+    public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> SLOPPY_ALCHEMIST_BIOME_BLACKLIST = B
+            .comment("Biome ids (for example \"minecraft:basalt_deltas\") where the Sloppy Alchemist does not spawn naturally",
+                    "(original: sloppyAlchemistBiomeBlacklist). Read as the server starts.")
+            .defineListAllowEmpty("witchery.sloppyAlchemistBiomeBlacklist", java.util.List.of(), () -> "minecraft:basalt_deltas",
+                    o -> o instanceof String);
+
+    public static int impPactTime() {
+        try {
+            return IMP_PACT_TIME.get();
+        } catch (IllegalStateException e) {
+            return 72000;
+        }
+    }
+
+    public static int sloppyAlchemistSpawnWeight() {
+        try {
+            return SLOPPY_ALCHEMIST_SPAWN_WEIGHT.get();
+        } catch (IllegalStateException e) {
+            return 5;
+        }
+    }
+
+    public static java.util.List<? extends String> sloppyAlchemistBiomeBlacklist() {
+        try {
+            return SLOPPY_ALCHEMIST_BIOME_BLACKLIST.get();
+        } catch (IllegalStateException e) {
+            return java.util.List.of();
+        }
+    }
+
     public static final ModConfigSpec SPEC = B.build();
 
     private TCConfig() {
