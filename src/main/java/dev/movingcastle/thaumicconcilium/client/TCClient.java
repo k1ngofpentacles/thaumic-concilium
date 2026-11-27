@@ -202,6 +202,8 @@ public final class TCClient {
     public static void itemColors(net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Item event) {
         // The Nether Membrane is the vanilla phantom membrane tinted nether pink (referenced art, no copy).
         event.register((stack, tint) -> tint == 0 ? 0xFFC8405A : 0xFFFFFFFF, TCItems.NETHER_MEMBRANE.get());
+        // Crimson Plating is the host's iron plate tinted cult crimson (referenced art, no copy).
+        event.register((stack, tint) -> tint == 0 ? 0xFFB83040 : 0xFFFFFFFF, TCItems.CRIMSON_PLATING.get());
     }
 
     @SubscribeEvent

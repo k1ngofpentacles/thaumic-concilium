@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "thaumicconcilium:item/crimson_plating"
+    "layer0": "thaumaturge:item/plate_iron"
   }
 }

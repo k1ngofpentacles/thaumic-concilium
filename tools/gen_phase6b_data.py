@@ -392,19 +392,7 @@ if os.path.exists(JAR):
 else:
     print('original jar not found, art not refreshed:', JAR)
 
-# Polishment Device (original art, drawn here): a brass-ringed lens on a short handle, violet glass.
-px = [(0, 0, 0, 0)] * 256
-def put(x, y, c): px[y * 16 + x] = c + (255,)
-brass, dark, glass, shine = (200, 160, 70), (120, 90, 40), (110, 60, 170), (220, 190, 255)
-for i in range(8):                      # handle, bottom-left to the lens
-    put(2 + i, 13 - i, dark); put(3 + i, 13 - i, brass)
-cx, cy = 9, 6
-for y in range(16):
-    for x in range(16):
-        d2 = (x - cx) ** 2 + (y - cy) ** 2
-        if d2 <= 20: put(x, y, brass if d2 > 12 else glass)
-put(8, 5, shine); put(9, 4, shine); put(8, 4, shine)
-write_png(f'{A}/textures/item/polishment_device.png', 16, 16, px)
+# item/polishment_device.png: drawn with the art kit in gen_art_redraw.py (art pass 2026-11-27).
 
 # Astral Monitor screen: a dark field with sparse blue stars (the original's end-sky shader, as a flat texture).
 import random

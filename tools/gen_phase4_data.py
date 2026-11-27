@@ -145,25 +145,6 @@ def png(path, size, pixels):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     open(path, 'wb').write(data)
 
-# Research hint: a crumpled, dog-eared sheet with hurried violet scrawl and a blot (original art, drawn here).
-px = {}
-paper, edge, ink, blot = (226, 214, 180, 255), (150, 128, 92, 255), (92, 52, 140, 255), (60, 30, 90, 255)
-for y in range(2, 15):
-    for x in range(3, 13):
-        if (x, y) in ((12, 2), (11, 2), (12, 3)):   # dog-ear
-            continue
-        shade = 1.0 - 0.06 * ((x + 2 * y) % 3 == 0)
-        px[(x, y)] = tuple(round(c * shade) for c in paper[:3]) + (255,)
-for (x, y) in list(px):
-    if any((nx, ny) not in px for nx, ny in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1))):
-        px[(x, y)] = edge
-px[(11, 3)] = edge
-for y, (a, b) in zip((4, 6, 8, 10, 12), ((5, 10), (5, 9), (6, 11), (5, 8), (5, 10))):
-    for x in range(a, b + 1):
-        if (x * 7 + y) % 5 != 0:
-            px[(x, y)] = ink
-for p in ((9, 9), (10, 9), (9, 10), (10, 10), (11, 10)):
-    px[p] = blot
-png(os.path.join(ROOT, f'assets/{NS}/textures/item/research_hint.png'), 16, px)
+# item/research_hint.png: drawn with the art kit in gen_art_redraw.py (art pass 2026-11-27).
 
 print('phase 4 generated')

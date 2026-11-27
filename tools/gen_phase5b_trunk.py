@@ -112,7 +112,7 @@ for _grip, _tp, _fp in (
         _disp[_k + '_righthand'] = {'rotation': _v[0], 'translation': _v[1], 'scale': [_v[2]] * 3}
         _disp[_k + '_lefthand'] = {'rotation': [_v[0][0], (_v[0][1] + 360) % 360 - 180, -_v[0][2]], 'translation': _v[1], 'scale': [_v[2]] * 3}
     w(f'assets/{NS}/models/item/crimson_dagger_{_grip}.json', {'parent': 'minecraft:item/handheld', 'textures': _dag_tex, 'display': _disp})
-for _n in ('crimson_blood', 'crimson_plating', 'primordial_mote'):
+for _n in ('crimson_blood', 'primordial_mote'):   # crimson_plating's model is written by gen_art_redraw.py (host plate, tinted)
     gen(_n)
 
 
@@ -138,37 +138,8 @@ for _i in (1, 2, 3):                          # grip
 _put(_px, 16, 0, 15, (200, 160, 50))
 _save(f'assets/{NS}/textures/item/crimson_dagger.png', 16, _px)
 
-# Crimson Blood: a drop.
-_px = _canvas(16)
-for _y in range(16):
-    for _x in range(16):
-        _dx, _dy = _x - 7.5, _y - 9.5
-        if _dx * _dx + _dy * _dy <= 20 or (_y < 9 and abs(_dx) <= (_y - 1) * 0.6 and _y >= 2):
-            _put(_px, 16, _x, _y, (150, 10, 25) if (_dx * _dx + _dy * _dy > 12 or _y < 6) else (200, 30, 45))
-for _x, _y in ((6, 9), (6, 10), (7, 8)):
-    _put(_px, 16, _x, _y, (245, 150, 160))
-_save(f'assets/{NS}/textures/item/crimson_blood.png', 16, _px)
-
-# Crimson Plating: a dark red plate with a gold rim and two rivets.
-_px = _canvas(16)
-for _y in range(3, 13):
-    for _x in range(2, 14):
-        _edge = _y in (3, 12) or _x in (2, 13)
-        _put(_px, 16, _x, _y, (205, 160, 55) if _edge else ((140, 20, 30) if (_x + _y) % 5 else (115, 12, 24)))
-for _x, _y in ((4, 5), (11, 5), (4, 10), (11, 10)):
-    _put(_px, 16, _x, _y, (240, 215, 110))
-_save(f'assets/{NS}/textures/item/crimson_plating.png', 16, _px)
-
-# Primordial Mote: a pale speck inside a violet halo.
-_px = _canvas(16)
-for _y in range(16):
-    for _x in range(16):
-        _d = abs(_x - 7.5) + abs(_y - 7.5)
-        if _d <= 6.5:
-            _put(_px, 16, _x, _y, (130, 80, 190, max(40, int(255 * (1 - _d / 7)) // 2)))
-        if _d <= 3.5:
-            _put(_px, 16, _x, _y, (235, 215, 255) if _d <= 2.0 else (185, 140, 235))
-_save(f'assets/{NS}/textures/item/primordial_mote.png', 16, _px)
+# Crimson Blood and Primordial Mote icons: drawn with the art kit in gen_art_redraw.py (art pass 2026-11-27).
+# Crimson Plating is the host iron plate, referenced and tinted (gen_art_redraw.py, TCClient.itemColors).
 
 # Mob effect icons (18 x 18): Bleed is a red drop, Stunned a violet ring with a bar.
 _px = _canvas(18)

@@ -66,23 +66,7 @@ for mesh_name in ('gem_base', 'gem_top'):
         f.write(jar_read(f'models/{mesh_name}.obj'))
 copy_from_jar({'textures/models/gem_base.png': 'entity/gem/gem_base.png', 'textures/models/gem_top.png': 'entity/gem/gem_top.png'})
 
-def gem_png(name, body, edge, shine):
-    px = [(0, 0, 0, 0)] * 256
-    def put(x, y, c):
-        px[y * 16 + x] = c + (255,)
-    for y in range(16):
-        for x in range(16):
-            d = abs(x - 7.5) + abs(y - 7.5)
-            if d <= 6.5:
-                put(x, y, edge if d > 5.0 else body)
-    for x, y in ((6, 4), (7, 3), (5, 5), (6, 5), (5, 6)):
-        put(x, y, shine)
-    write_png(f'{A}/textures/item/{name}.png', 16, 16, px)
-
-gem_png('inert_rift_gem', (96, 96, 128), (60, 60, 90), (170, 170, 200))
-gem_png('rift_gem', (150, 70, 200), (90, 30, 130), (230, 190, 255))
-gem_png('inert_terra_cast_gem', (96, 120, 96), (60, 80, 60), (170, 200, 170))
-gem_png('terra_cast_gem', (70, 170, 80), (30, 110, 40), (190, 255, 190))
+# the four gem particle textures: drawn with the art kit in gen_art_redraw.py (art pass 2026-11-27).
 
 # Void Reality: the Causal Bouillon's floor. Original art (textures/blocks/void.png, WTFPL).
 block_state_simple('void_reality')
