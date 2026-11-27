@@ -23,7 +23,8 @@ public final class TCModelLayers {
     public static final ModelLayerLocation VENGEFUL_DECORATION = new ModelLayerLocation(ThaumicConcilium.id("vengeful_golem"), "decoration");
 
     public static final ModelLayerLocation CHORT = new ModelLayerLocation(ThaumicConcilium.id("chort"), "main");
-    public static final ModelLayerLocation SLOPPY_ALCHEMIST = new ModelLayerLocation(ThaumicConcilium.id("sloppy_alchemist"), "main");
+    public static final ModelLayerLocation BURNED_WITCH = new ModelLayerLocation(ThaumicConcilium.id("burned_witch"), "main");
+    public static final ModelLayerLocation SLOPPY_ALCHEMIST =new ModelLayerLocation(ThaumicConcilium.id("sloppy_alchemist"), "main");
     public static final ModelLayerLocation SLOPPY_ALCHEMIST_RIDDEN = new ModelLayerLocation(ThaumicConcilium.id("sloppy_alchemist"), "ridden");
 
     private TCModelLayers() {

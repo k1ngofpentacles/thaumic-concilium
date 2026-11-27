@@ -1,0 +1,9 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "dev.movingcastle.thaumicconcilium.mixin.witchery",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "dev.movingcastle.thaumicconcilium.compat.witchery.WitcheryMixinPlugin",
+  "client": ["SymbologyGridWidenMixin"],
+  "injectors": { "defaultRequire": 0 }
+}

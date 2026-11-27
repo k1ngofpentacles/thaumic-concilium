@@ -1,0 +1,16 @@
+{
+ "variants": {
+  "part=foot": {
+   "model": "thaumicconcilium:block/burning_stake_foot"
+  },
+  "part=shackle": {
+   "model": "thaumicconcilium:block/burning_stake_shackle"
+  },
+  "part=shaft": {
+   "model": "thaumicconcilium:block/burning_stake_shaft"
+  },
+  "part=top": {
+   "model": "thaumicconcilium:block/burning_stake_top"
+  }
+ }
+}

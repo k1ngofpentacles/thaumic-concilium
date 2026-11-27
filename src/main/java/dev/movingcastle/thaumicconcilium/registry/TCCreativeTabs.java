@@ -21,6 +21,7 @@ public final class TCCreativeTabs {
                 TCItems.ITEMS.getEntries().forEach(item -> out.accept(item.get()));
                 if (dev.movingcastle.thaumicconcilium.compat.witchery.WitcheryGate.loaded()) {
                     dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.ITEMS.getEntries().forEach(item -> out.accept(item.get()));
+                    dev.movingcastle.thaumicconcilium.compat.witchery.SiteBlocks.ITEMS.getEntries().forEach(item -> out.accept(item.get()));
                 }
             })
             .build());

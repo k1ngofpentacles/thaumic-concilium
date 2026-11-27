@@ -44,7 +44,15 @@ public record ConfiguredSpawns(HolderSet<Biome> biomes, List<SpawnerData> spawne
         if (isAlchemist(type)) {
             return TCConfig.sloppyAlchemistSpawnWeight();
         }
+        if (isWitch(type)) {
+            return TCConfig.burnedWitchSpawnWeight();
+        }
         return -1;
+    }
+
+    /** The Burned Witch exists only with Witchery too. */
+    private static boolean isWitch(EntityType<?> type) {
+        return net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(type).equals(ThaumicConcilium.id("burned_witch"));
     }
 
     /** The Sloppy Alchemist exists only with Witchery, so it is matched by id (this class must load without it). */
@@ -58,6 +66,9 @@ public record ConfiguredSpawns(HolderSet<Biome> biomes, List<SpawnerData> spawne
         }
         if (isAlchemist(type)) {
             return biome.unwrapKey().map(k -> TCConfig.sloppyAlchemistBiomeBlacklist().contains(k.location().toString())).orElse(false);
+        }
+        if (isWitch(type)) {
+            return biome.unwrapKey().map(k -> TCConfig.burnedWitchBiomeBlacklist().contains(k.location().toString())).orElse(false);
         }
         return false;
     }

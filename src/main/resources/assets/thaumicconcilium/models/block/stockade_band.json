@@ -1,0 +1,79 @@
+{
+ "textures": {
+  "bark": "minecraft:block/oak_log",
+  "rings": "minecraft:block/oak_log_top",
+  "point": "thaumicconcilium:block/stockade_point",
+  "rope": "thaumicconcilium:block/stockade_rope",
+  "particle": "minecraft:block/oak_log"
+ },
+ "elements": [
+  {
+   "from": [
+    4.1,
+    4.0,
+    4.1
+   ],
+   "to": [
+    11.9,
+    6.0,
+    11.9
+   ],
+   "faces": {
+    "north": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      0,
+      7.8,
+      2
+     ]
+    },
+    "south": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      4,
+      7.8,
+      6
+     ]
+    },
+    "east": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      8,
+      7.8,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      12,
+      7.8,
+      14
+     ]
+    },
+    "up": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      0,
+      7.8,
+      7.8
+     ]
+    },
+    "down": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      0,
+      7.8,
+      7.8
+     ]
+    }
+   }
+  }
+ ]
+}

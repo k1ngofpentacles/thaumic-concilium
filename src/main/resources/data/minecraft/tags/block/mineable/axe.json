@@ -1,6 +1,14 @@
 {
   "replace": false,
   "values": [
-    "thaumicconcilium:arcane_levitator"
+    "thaumicconcilium:arcane_levitator",
+    {
+      "id": "thaumicconcilium:stockade",
+      "required": false
+    },
+    {
+      "id": "thaumicconcilium:burning_stake",
+      "required": false
+    }
   ]
 }

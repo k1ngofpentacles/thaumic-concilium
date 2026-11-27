@@ -70,4 +70,58 @@ w(_p, {'neoforge:conditions': WITCHERY, **_e})
 # Scanning either opens the same 'fallen' key as the others, from a scan file of their own that is skipped without Witchery
 # (the shared scan/fallen.json fails to load with an entity type that is not registered).
 w(f'data/{NS}/thaumaturge/scan/witchery_fallen.json', {
-    'neoforge:conditions': WITCHERY, 'entities': [f'{NS}:chort', f'{NS}:sloppy_alchemist'], 'key': f'{NS}:scanned/fallen'})
+    'neoforge:conditions': WITCHERY, 'entities': [f'{NS}:chort', f'{NS}:sloppy_alchemist', f'{NS}:burned_witch'], 'key': f'{NS}:scanned/fallen'})
+
+# ================================================================ phase 10-2: the Burned Witch (original BurnedWitch.java, TCEntityRegistry.java 90-94,
+# 448-462, Thaumonomicon.java 227-228). Same gate as the pair.
+# Aspects (original MAN 4, MAGIC 4, DEATH 4, NETHER 4 -> x2.5): humanus, praecantatio, mortuus, infernum (as the Nether Explorer).
+_p = f'data/{T}/data_maps/entity_type/entity_aspects.json'
+_m = r(_p)
+_m['values'][f'{NS}:burned_witch'] = {'neoforge:conditions': WITCHERY,
+    'value': aspects([('humanus', 10), ('praecantatio', 10), ('mortuus', 10), (INFERNUM, 10)])}
+w(_p, _m)
+
+# Drops (R8, original func_70628_a): j = nextInt(3) + 1 stacks; each stack picks one of five items with equal chance and drops
+# nextInt(3) copies (+ nextInt(looting + 1)). Pool: Items.field_151065_br = blaze powder, field_151073_bk = ghast tear, and the Witchery
+# GENERIC metas 28 foulFume, 30 oilOfVitriol, 35 reekOfMisfortune -> the remake's items of the same names. Looting uses the loot
+# function's L * uniform(0, 1), which matches the original at level I and is an approximation above it (noted for the executive).
+_looting = {'function': 'minecraft:enchanted_count_increase', 'enchantment': 'minecraft:looting',
+            'count': {'type': 'minecraft:uniform', 'min': 0.0, 'max': 1.0}}
+_witch_drops = ['minecraft:blaze_powder', 'minecraft:ghast_tear', 'witchery:foul_fume', 'witchery:oil_of_vitriol', 'witchery:reek_of_misfortune']
+w(f'data/{NS}/loot_table/entities/burned_witch.json', {
+    'neoforge:conditions': WITCHERY,
+    'type': 'minecraft:entity', 'random_sequence': f'{NS}:entities/burned_witch',
+    'pools': [{'rolls': {'type': 'minecraft:uniform', 'min': 1.0, 'max': 3.0}, 'bonus_rolls': 0.0, 'entries': [
+        {'type': 'minecraft:item', 'name': _n, 'weight': 1, 'functions': count(0, 2) + [_looting]} for _n in _witch_drops]}]})
+
+# Spawn: monster, weight 5 (config), group 1-1, every Nether biome minus the config blacklist.
+w(f'data/{NS}/neoforge/biome_modifier/burned_witch.json', {
+    'neoforge:conditions': WITCHERY,
+    'type': f'{NS}:configured_spawns', 'biomes': '#minecraft:is_nether',
+    'spawners': [{'type': f'{NS}:burned_witch', 'weight': 5, 'minCount': 1, 'maxCount': 1}]})
+
+spawn_egg_model('burned_witch')
+if not os.path.exists(os.path.join(A, 'textures', 'entity/burned_witch.png')):
+    copy_from_jar({'textures/entity/burned_witch.png': 'entity/burned_witch.png'})
+
+# Research: the original's TCWITCHERY pages burnedwitch1/2 as a hidden entry beside the alchemist's (like 10-1b), child of 'fallen',
+# unlocked by scanning her. Icon: the original's page picture gui/burned_witch.png (WTFPL), also shown on the page.
+copy_from_jar({'textures/gui/burned_witch.png': 'gui/burned_witch.png'})
+entry('burned_witch', -3, -4, f'{NS}:textures/gui/burned_witch.png',
+      [f'{NS}:fallen', f'{T}:scanned/entity/{NS}/burned_witch'],
+      [('humanus', 8), ('praecantatio', 8)], stages=1, autounlock=True, meta=['hidden'], complexity=1)
+_p = f'data/{NS}/thaumaturge/research_entry/burned_witch.json'
+_e = r(_p)
+w(_p, {'neoforge:conditions': WITCHERY, **_e})
+
+# ================================================================ phase 10-3: the Crimson Spells (original CRIMSONSPELLS, Thaumonomicon.java:1108-1121).
+# MAN, LIFE, MIND, MAGIC, WEAPON 8 -> humanus, victus, cognitio, praecantatio, aversio; warp 1; "lost" (found through the Pontifex's note) and
+# round, parent the Pontifex. Original (-5, 9); ours (-9, 9), a free cell beside the Pontifex's others. Icon: the original used TC4's jar label;
+# Thaumaturge has none, so the page picture (WTFPL) serves, as for the other Witchery entries. Only with witchery.
+copy_from_jar({'textures/gui/crimson_spells.png': 'gui/crimson_spells.png'})
+entry('crimson_spells', -9, 9, f'{NS}:textures/gui/crimson_spells.png', [f'{NS}:crimson_pontifex'],
+      [('humanus', 8), ('victus', 8), ('cognitio', 8), ('praecantatio', 8), ('aversio', 8)], warp=1, meta=['hidden', 'round'], complexity=1)
+_p = f'data/{NS}/thaumaturge/research_entry/crimson_spells.json'
+_e = r(_p)
+_e['stages'][0]['obtain'] = [{'items': f'{NS}:research_hint', 'amount': 1, 'components': {f'{NS}:hint': f'{NS}:crimson_spells'}}]
+w(_p, {'neoforge:conditions': WITCHERY, **_e})

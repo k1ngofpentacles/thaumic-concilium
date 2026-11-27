@@ -188,6 +188,8 @@ public final class TCClient {
                     dev.movingcastle.thaumicconcilium.client.mob.ChortRenderer::new);
             event.registerEntityRenderer(dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.SLOPPY_ALCHEMIST.get(),
                     dev.movingcastle.thaumicconcilium.client.mob.SloppyAlchemistRenderer::new);
+            event.registerEntityRenderer(dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.BURNED_WITCH.get(),
+                    dev.movingcastle.thaumicconcilium.client.mob.BurnedWitchRenderer::new);
             event.registerEntityRenderer(dev.movingcastle.thaumicconcilium.compat.witchery.NetherPair.CHORT_SPIT.get(),
                     net.minecraft.client.renderer.entity.ThrownItemRenderer::new);
         }
@@ -228,6 +230,7 @@ public final class TCClient {
         event.registerLayerDefinition(TCModelLayers.VENGEFUL_DECORATION, TCModelLayers::vengefulDecoration);
         if (dev.movingcastle.thaumicconcilium.compat.witchery.WitcheryGate.loaded()) {
             event.registerLayerDefinition(TCModelLayers.CHORT, dev.movingcastle.thaumicconcilium.client.mob.ChortModel::create);
+            event.registerLayerDefinition(TCModelLayers.BURNED_WITCH, TCModelLayers::biped);
             event.registerLayerDefinition(TCModelLayers.SLOPPY_ALCHEMIST, TCModelLayers::inflatedBiped);
             event.registerLayerDefinition(TCModelLayers.SLOPPY_ALCHEMIST_RIDDEN,
                     dev.movingcastle.thaumicconcilium.client.mob.RiddenAlchemistModel::create);

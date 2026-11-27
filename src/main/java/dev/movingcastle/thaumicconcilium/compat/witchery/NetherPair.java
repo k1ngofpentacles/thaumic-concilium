@@ -2,6 +2,7 @@ package dev.movingcastle.thaumicconcilium.compat.witchery;
 
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.entity.ChortSpit;
+import dev.movingcastle.thaumicconcilium.entity.mob.BurnedWitch;
 import dev.movingcastle.thaumicconcilium.entity.mob.Chort;
 import dev.movingcastle.thaumicconcilium.entity.mob.SloppyAlchemist;
 import net.minecraft.core.registries.Registries;
@@ -43,7 +44,15 @@ public final class NetherPair {
             () -> EntityType.Builder.<ChortSpit>of(ChortSpit::new, MobCategory.MISC)
                     .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build("chort_spit"));
 
-    // Original egg colours: 65535 / 139 for both.
+    /** Phase 10-2: the Burned Witch (original 1.0 x 2.0, fire-immune, tracked at 64). Registered here with the pair: same gate. */
+    public static final DeferredHolder<EntityType<?>, EntityType<BurnedWitch>> BURNED_WITCH = ENTITY_TYPES.register("burned_witch",
+            () -> EntityType.Builder.<BurnedWitch>of(BurnedWitch::new, MobCategory.MONSTER)
+                    .sized(1.0F, 2.0F).fireImmune().clientTrackingRange(8).build("burned_witch"));
+
+    public static final DeferredItem<DeferredSpawnEggItem> BURNED_WITCH_SPAWN_EGG = ITEMS.register("burned_witch_spawn_egg",
+            () -> new DeferredSpawnEggItem(BURNED_WITCH, 0x00FFFF, 0x00008B, new Item.Properties()));
+
+    // Original egg colours: 65535 / 139 for all.
     public static final DeferredItem<DeferredSpawnEggItem> CHORT_SPAWN_EGG = ITEMS.register("chort_spawn_egg",
             () -> new DeferredSpawnEggItem(CHORT, 0x00FFFF, 0x00008B, new Item.Properties()));
     public static final DeferredItem<DeferredSpawnEggItem> SLOPPY_ALCHEMIST_SPAWN_EGG = ITEMS.register("sloppy_alchemist_spawn_egg",
@@ -57,14 +66,19 @@ public final class NetherPair {
         ITEMS.register(modBus);
         ImpPact.ATTACHMENTS.register(modBus);
         ImpPact.registerListeners();
+        WitchBrews.registerListeners();
     }
 
     public static void attributes(EntityAttributeCreationEvent event) {
+        event.put(BURNED_WITCH.get(), BurnedWitch.createAttributes().build());
         event.put(CHORT.get(), Chort.createAttributes().build());
         event.put(SLOPPY_ALCHEMIST.get(), SloppyAlchemist.createAttributes().build());
     }
 
     public static void placements(RegisterSpawnPlacementsEvent event) {
+        // Original: EntityFlying has no spawn rule of its own, so only the spawner's own checks (no light, no ground): she appears in the air.
+        event.register(BURNED_WITCH.get(), SpawnPlacementTypes.NO_RESTRICTIONS, Heightmap.Types.MOTION_BLOCKING,
+                (type, level, reason, pos, random) -> true, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         // Original: EntityMob's rule (the Nether's dimension type lets any block light through). The Chort never spawns alone.
         event.register(SLOPPY_ALCHEMIST.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.REPLACE);

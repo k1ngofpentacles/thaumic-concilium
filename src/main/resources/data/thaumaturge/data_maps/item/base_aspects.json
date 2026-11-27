@@ -615,6 +615,46 @@
         "aspect": "thaumaturge:ordo",
         "amount": 5
       }
-    ]
+    ],
+    "thaumicconcilium:stockade": {
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "witchery"
+        }
+      ],
+      "value": [
+        {
+          "aspect": "thaumaturge:herba",
+          "amount": 5
+        },
+        {
+          "aspect": "thaumaturge:aversio",
+          "amount": 2
+        }
+      ]
+    },
+    "thaumicconcilium:burning_stake": {
+      "neoforge:conditions": [
+        {
+          "type": "neoforge:mod_loaded",
+          "modid": "witchery"
+        }
+      ],
+      "value": [
+        {
+          "aspect": "thaumaturge:herba",
+          "amount": 5
+        },
+        {
+          "aspect": "thaumaturge:ignis",
+          "amount": 2
+        },
+        {
+          "aspect": "thaumaturge:vinculum",
+          "amount": 2
+        }
+      ]
+    }
   }
 }

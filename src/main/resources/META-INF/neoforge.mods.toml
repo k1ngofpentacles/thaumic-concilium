@@ -132,3 +132,8 @@ config = "thaumicconcilium.mixins.json"
 # Cycle 4e: the grove growth boost for Dynamic Trees and vanilla saplings (optional: skipped if the targets are missing).
 [[mixins]]
 config = "thaumicconcilium.growth.mixins.json"
+
+# Phase 10-3 (R10): widens the remake symbology drawing screen cursor clamp by one cell so the long Trup Ehsolvi stroke can be drawn.
+# Applied only when witchery is loaded (WitcheryMixinPlugin); optional, nothing breaks if the target changes.
+[[mixins]]
+config = "thaumicconcilium.witchery.mixins.json"

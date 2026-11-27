@@ -36,16 +36,19 @@ public final class ResearchHint extends Item {
     public static final ResourceLocation PONTIFEX_HAMMER = ThaumicConcilium.id("pontifex_hammer");
     public static final ResourceLocation PONTIFEX_ROBE = ThaumicConcilium.id("pontifex_robe");
     public static final ResourceLocation MATERIAL_PEELER = ThaumicConcilium.id("material_peeler");
+    /** Phase 10-3: the Pontifex's other note, with Witchery loaded (original CRIMSONSPELLS). */
+    public static final ResourceLocation CRIMSON_SPELLS = ThaumicConcilium.id("crimson_spells");
 
     /** The four a Mad Thaumaturge carries; all four known lights up the original's "these lunatics" line. */
     public static final List<ResourceLocation> MAD = List.of(REFLECTION, THICK_TAINT, WINDINGS, DEST_CRYSTAL);
     /** The three a Thaumaturge trades; all three known, it says it has nothing left to surprise you with. */
     public static final List<ResourceLocation> TRADED = List.of(VIS_CONDUCTOR, POSITIVE_BURST, IMPULSE);
 
-    private static final Map<ResourceLocation, String> TEXT = Map.of(
-            REFLECTION, "reflection", THICK_TAINT, "thicktaint", WINDINGS, "windings", DEST_CRYSTAL, "destcrystal",
-            VIS_CONDUCTOR, "visconductor", POSITIVE_BURST, "positiveburst", IMPULSE, "impulse",
-            PONTIFEX_HAMMER, "pontifexhammer", PONTIFEX_ROBE, "pontifexrobe", MATERIAL_PEELER, "materialpeeler");
+    private static final Map<ResourceLocation, String> TEXT = Map.ofEntries(
+            Map.entry(REFLECTION, "reflection"), Map.entry(THICK_TAINT, "thicktaint"), Map.entry(WINDINGS, "windings"),
+            Map.entry(DEST_CRYSTAL, "destcrystal"), Map.entry(VIS_CONDUCTOR, "visconductor"), Map.entry(POSITIVE_BURST, "positiveburst"),
+            Map.entry(IMPULSE, "impulse"), Map.entry(PONTIFEX_HAMMER, "pontifexhammer"), Map.entry(PONTIFEX_ROBE, "pontifexrobe"),
+            Map.entry(MATERIAL_PEELER, "materialpeeler"), Map.entry(CRIMSON_SPELLS, "crimsonspells"));
 
     public ResearchHint(Properties properties) {
         super(properties);

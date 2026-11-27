@@ -1,0 +1,454 @@
+{
+ "textures": {
+  "bark": "minecraft:block/oak_log",
+  "rings": "minecraft:block/oak_log_top",
+  "point": "thaumicconcilium:block/stockade_point",
+  "rope": "thaumicconcilium:block/stockade_rope",
+  "particle": "minecraft:block/oak_log"
+ },
+ "elements": [
+  {
+   "from": [
+    4.5,
+    0,
+    0.5
+   ],
+   "to": [
+    11.5,
+    7.5,
+    7.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bark",
+     "uv": [
+      0,
+      0,
+      7.0,
+      7.5
+     ]
+    },
+    "south": {
+     "texture": "#bark",
+     "uv": [
+      0,
+      0,
+      7.0,
+      7.5
+     ]
+    },
+    "east": {
+     "texture": "#bark",
+     "uv": [
+      0,
+      0,
+      7.0,
+      7.5
+     ]
+    },
+    "west": {
+     "texture": "#bark",
+     "uv": [
+      0,
+      0,
+      7.0,
+      7.5
+     ]
+    },
+    "down": {
+     "texture": "#rings",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.5,
+    7.5,
+    0.5
+   ],
+   "to": [
+    11.5,
+    16.646,
+    0.5
+   ],
+   "rotation": {
+    "origin": [
+     4.5,
+     7.5,
+     0.5
+    ],
+    "axis": "x",
+    "angle": 22.5
+   },
+   "faces": {
+    "north": {
+     "texture": "#point",
+     "uv": [
+      0,
+      6.854,
+      7,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.5,
+    7.5,
+    7.5
+   ],
+   "to": [
+    11.5,
+    16.646,
+    7.5
+   ],
+   "rotation": {
+    "origin": [
+     4.5,
+     7.5,
+     7.5
+    ],
+    "axis": "x",
+    "angle": -22.5
+   },
+   "faces": {
+    "south": {
+     "texture": "#point",
+     "uv": [
+      8,
+      6.854,
+      15,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    11.5,
+    7.5,
+    0.5
+   ],
+   "to": [
+    11.5,
+    16.646,
+    7.5
+   ],
+   "rotation": {
+    "origin": [
+     11.5,
+     7.5,
+     0.5
+    ],
+    "axis": "z",
+    "angle": 22.5
+   },
+   "faces": {
+    "east": {
+     "texture": "#point",
+     "uv": [
+      8,
+      6.854,
+      15,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.5,
+    7.5,
+    0.5
+   ],
+   "to": [
+    4.5,
+    16.646,
+    7.5
+   ],
+   "rotation": {
+    "origin": [
+     4.5,
+     7.5,
+     0.5
+    ],
+    "axis": "z",
+    "angle": -22.5
+   },
+   "faces": {
+    "west": {
+     "texture": "#point",
+     "uv": [
+      0,
+      6.854,
+      7,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.5,
+    0,
+    8.5
+   ],
+   "to": [
+    11.5,
+    8.5,
+    15.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#bark",
+     "uv": [
+      9,
+      0,
+      16.0,
+      8.5
+     ]
+    },
+    "south": {
+     "texture": "#bark",
+     "uv": [
+      9,
+      0,
+      16.0,
+      8.5
+     ]
+    },
+    "east": {
+     "texture": "#bark",
+     "uv": [
+      9,
+      0,
+      16.0,
+      8.5
+     ]
+    },
+    "west": {
+     "texture": "#bark",
+     "uv": [
+      9,
+      0,
+      16.0,
+      8.5
+     ]
+    },
+    "down": {
+     "texture": "#rings",
+     "uv": [
+      0,
+      0,
+      16,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.5,
+    8.5,
+    8.5
+   ],
+   "to": [
+    11.5,
+    17.646,
+    8.5
+   ],
+   "rotation": {
+    "origin": [
+     4.5,
+     8.5,
+     8.5
+    ],
+    "axis": "x",
+    "angle": 22.5
+   },
+   "faces": {
+    "north": {
+     "texture": "#point",
+     "uv": [
+      0,
+      6.854,
+      7,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.5,
+    8.5,
+    15.5
+   ],
+   "to": [
+    11.5,
+    17.646,
+    15.5
+   ],
+   "rotation": {
+    "origin": [
+     4.5,
+     8.5,
+     15.5
+    ],
+    "axis": "x",
+    "angle": -22.5
+   },
+   "faces": {
+    "south": {
+     "texture": "#point",
+     "uv": [
+      8,
+      6.854,
+      15,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    11.5,
+    8.5,
+    8.5
+   ],
+   "to": [
+    11.5,
+    17.646,
+    15.5
+   ],
+   "rotation": {
+    "origin": [
+     11.5,
+     8.5,
+     8.5
+    ],
+    "axis": "z",
+    "angle": 22.5
+   },
+   "faces": {
+    "east": {
+     "texture": "#point",
+     "uv": [
+      8,
+      6.854,
+      15,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.5,
+    8.5,
+    8.5
+   ],
+   "to": [
+    4.5,
+    17.646,
+    15.5
+   ],
+   "rotation": {
+    "origin": [
+     4.5,
+     8.5,
+     8.5
+    ],
+    "axis": "z",
+    "angle": -22.5
+   },
+   "faces": {
+    "west": {
+     "texture": "#point",
+     "uv": [
+      0,
+      6.854,
+      7,
+      16
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.1,
+    4.0,
+    0
+   ],
+   "to": [
+    11.9,
+    6.0,
+    16
+   ],
+   "faces": {
+    "north": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      0,
+      7.8,
+      2
+     ]
+    },
+    "south": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      4,
+      7.8,
+      6
+     ]
+    },
+    "east": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      8,
+      16,
+      10
+     ]
+    },
+    "west": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      12,
+      16,
+      14
+     ]
+    },
+    "up": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      0,
+      7.8,
+      16
+     ]
+    },
+    "down": {
+     "texture": "#rope",
+     "uv": [
+      0,
+      0,
+      7.8,
+      16
+     ]
+    }
+   }
+  }
+ ],
+ "render_type": "minecraft:cutout"
+}

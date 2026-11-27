@@ -1,0 +1,511 @@
+{
+ "multipart": [
+  {
+   "when": {
+    "AND": [
+     {
+      "OR": [
+       {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false"
+       },
+       {
+        "AND": [
+         {
+          "OR": [
+           {
+            "north": "true"
+           },
+           {
+            "south": "true"
+           }
+          ]
+         },
+         {
+          "OR": [
+           {
+            "east": "true"
+           },
+           {
+            "west": "true"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tip": "false"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_log"
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "OR": [
+       {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false"
+       },
+       {
+        "AND": [
+         {
+          "OR": [
+           {
+            "north": "true"
+           },
+           {
+            "south": "true"
+           }
+          ]
+         },
+         {
+          "OR": [
+           {
+            "east": "true"
+           },
+           {
+            "west": "true"
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "tip": "true"
+     }
+    ]
+   },
+   "apply": [
+    {
+     "model": "thaumicconcilium:block/stockade_log_tip_a"
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_log_tip_b"
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_log_tip_c"
+    }
+   ]
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "AND": [
+       {
+        "OR": [
+         {
+          "north": "true"
+         },
+         {
+          "south": "true"
+         }
+        ]
+       },
+       {
+        "east": "false",
+        "west": "false"
+       }
+      ]
+     },
+     {
+      "tip": "false"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_pair"
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "AND": [
+       {
+        "OR": [
+         {
+          "north": "true"
+         },
+         {
+          "south": "true"
+         }
+        ]
+       },
+       {
+        "east": "false",
+        "west": "false"
+       }
+      ]
+     },
+     {
+      "tip": "true"
+     }
+    ]
+   },
+   "apply": [
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_a",
+     "y": 0
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_a",
+     "y": 180
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_b",
+     "y": 0
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_b",
+     "y": 180
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_c",
+     "y": 0
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_c",
+     "y": 180
+    }
+   ]
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "AND": [
+       {
+        "OR": [
+         {
+          "east": "true"
+         },
+         {
+          "west": "true"
+         }
+        ]
+       },
+       {
+        "north": "false",
+        "south": "false"
+       }
+      ]
+     },
+     {
+      "tip": "false"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_pair",
+    "y": 90
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "AND": [
+       {
+        "OR": [
+         {
+          "east": "true"
+         },
+         {
+          "west": "true"
+         }
+        ]
+       },
+       {
+        "north": "false",
+        "south": "false"
+       }
+      ]
+     },
+     {
+      "tip": "true"
+     }
+    ]
+   },
+   "apply": [
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_a",
+     "y": 90
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_a",
+     "y": 270
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_b",
+     "y": 90
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_b",
+     "y": 270
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_c",
+     "y": 90
+    },
+    {
+     "model": "thaumicconcilium:block/stockade_pair_tip_c",
+     "y": 270
+    }
+   ]
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "OR": [
+       {
+        "north": "true"
+       },
+       {
+        "south": "true"
+       }
+      ]
+     },
+     {
+      "OR": [
+       {
+        "east": "true"
+       },
+       {
+        "west": "true"
+       }
+      ]
+     },
+     {
+      "tip": "true"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_band"
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "north": "true"
+     },
+     {
+      "OR": [
+       {
+        "east": "true"
+       },
+       {
+        "west": "true"
+       }
+      ]
+     },
+     {
+      "tip": "false"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_stub",
+    "y": 0
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "north": "true"
+     },
+     {
+      "OR": [
+       {
+        "east": "true"
+       },
+       {
+        "west": "true"
+       }
+      ]
+     },
+     {
+      "tip": "true"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_stub_tip",
+    "y": 0
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "east": "true"
+     },
+     {
+      "OR": [
+       {
+        "north": "true"
+       },
+       {
+        "south": "true"
+       }
+      ]
+     },
+     {
+      "tip": "false"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_stub",
+    "y": 90
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "east": "true"
+     },
+     {
+      "OR": [
+       {
+        "north": "true"
+       },
+       {
+        "south": "true"
+       }
+      ]
+     },
+     {
+      "tip": "true"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_stub_tip",
+    "y": 90
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "south": "true"
+     },
+     {
+      "OR": [
+       {
+        "east": "true"
+       },
+       {
+        "west": "true"
+       }
+      ]
+     },
+     {
+      "tip": "false"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_stub",
+    "y": 180
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "south": "true"
+     },
+     {
+      "OR": [
+       {
+        "east": "true"
+       },
+       {
+        "west": "true"
+       }
+      ]
+     },
+     {
+      "tip": "true"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_stub_tip",
+    "y": 180
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "west": "true"
+     },
+     {
+      "OR": [
+       {
+        "north": "true"
+       },
+       {
+        "south": "true"
+       }
+      ]
+     },
+     {
+      "tip": "false"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_stub",
+    "y": 270
+   }
+  },
+  {
+   "when": {
+    "AND": [
+     {
+      "west": "true"
+     },
+     {
+      "OR": [
+       {
+        "north": "true"
+       },
+       {
+        "south": "true"
+       }
+      ]
+     },
+     {
+      "tip": "true"
+     }
+    ]
+   },
+   "apply": {
+    "model": "thaumicconcilium:block/stockade_stub_tip",
+    "y": 270
+   }
+  }
+ ]
+}

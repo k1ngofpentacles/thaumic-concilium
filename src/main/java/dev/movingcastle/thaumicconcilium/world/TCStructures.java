@@ -17,6 +17,13 @@ public final class TCStructures {
     public static final DeferredHolder<StructurePieceType, StructurePieceType> CRIMSON_AVANPOST_PIECE =
             STRUCTURE_PIECES.register("crimson_avanpost", () -> CrimsonAvanpostPiece::new);
 
+    /** Phase 10-4: the Burning Site's village pool element (registered always; it names no Witchery class). */
+    public static final DeferredRegister<net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType<?>> POOL_ELEMENTS =
+            DeferredRegister.create(Registries.STRUCTURE_POOL_ELEMENT, ThaumicConcilium.MODID);
+    public static final DeferredHolder<net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType<?>,
+            net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType<BurningSiteElement>> BURNING_SITE =
+            POOL_ELEMENTS.register("burning_site", () -> () -> BurningSiteElement.CODEC);
+
     private TCStructures() {
     }
 }

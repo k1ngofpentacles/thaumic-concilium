@@ -410,6 +410,62 @@ public final class TCConfig {
             .defineListAllowEmpty("witchery.sloppyAlchemistBiomeBlacklist", java.util.List.of(), () -> "minecraft:basalt_deltas",
                     o -> o instanceof String);
 
+    // ---------------------------------------------------------------- phase 10-2 (the Burned Witch)
+    public static final ModConfigSpec.IntValue BURNED_WITCH_SPAWN_WEIGHT = B
+            .comment("Spawn weight of the Burned Witch (monster category, alone, every Nether biome; original: burnedWitchSpawnChance, 5).",
+                    "0 disables its natural spawning. Read as the server starts. Only with Just Another Witchery Remake.")
+            .defineInRange("witchery.burnedWitchSpawnChance", 5, 0, 1000);
+
+    public static final ModConfigSpec.ConfigValue<java.util.List<? extends String>> BURNED_WITCH_BIOME_BLACKLIST = B
+            .comment("Biome ids (for example \"minecraft:basalt_deltas\") where the Burned Witch does not spawn naturally",
+                    "(original: burnedWitchBiomeBlacklist). Read as the server starts.")
+            .defineListAllowEmpty("witchery.burnedWitchBiomeBlacklist", java.util.List.of(), () -> "minecraft:basalt_deltas",
+                    o -> o instanceof String);
+
+    // ---------------------------------------------------------------- phase 10-4 (the Burning Site)
+    public static final ModConfigSpec.BooleanValue GENERATE_BURNING_SITES = B
+            .comment("Generate Burning Sites in villages (original: generateBurningSites, true). Read as the server starts.",
+                    "Only with Just Another Witchery Remake.")
+            .define("witchery.generateBurningSites", true);
+
+    public static final ModConfigSpec.IntValue BURNING_SITES_GEN_CHANCE = B
+            .comment("Chance to generate a Burning Site in villages (original: burningSitesGenChance, 10, the piece weight beside the 1.7.10",
+                    "village's house weights of 91 in all; here it becomes the same share of each village house pool). There can be only 1 per",
+                    "village. 0 disables. Read as the server starts. Only with Just Another Witchery Remake.")
+            .defineInRange("witchery.burningSitesGenChance", 10, 0, 1000);
+
+    public static boolean generateBurningSites() {
+        try {
+            return GENERATE_BURNING_SITES.get();
+        } catch (IllegalStateException e) {
+            return true;
+        }
+    }
+
+    public static int burningSitesGenChance() {
+        try {
+            return BURNING_SITES_GEN_CHANCE.get();
+        } catch (IllegalStateException e) {
+            return 10;
+        }
+    }
+
+    public static int burnedWitchSpawnWeight() {
+        try {
+            return BURNED_WITCH_SPAWN_WEIGHT.get();
+        } catch (IllegalStateException e) {
+            return 5;
+        }
+    }
+
+    public static java.util.List<? extends String> burnedWitchBiomeBlacklist() {
+        try {
+            return BURNED_WITCH_BIOME_BLACKLIST.get();
+        } catch (IllegalStateException e) {
+            return java.util.List.of();
+        }
+    }
+
     public static int impPactTime() {
         try {
             return IMP_PACT_TIME.get();

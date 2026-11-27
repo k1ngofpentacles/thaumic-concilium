@@ -1,0 +1,39 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "witchery"
+    }
+  ],
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.burned_witch.title",
+  "parents": [
+    "thaumicconcilium:fallen",
+    "thaumaturge:scanned/entity/thaumicconcilium/burned_witch"
+  ],
+  "column": -3,
+  "row": -4,
+  "icons": [
+    "thaumicconcilium:textures/gui/burned_witch.png"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.burned_witch.stage_0"
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:humanus",
+      "amount": 3
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 3
+    }
+  ],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "autounlock"
+  ]
+}

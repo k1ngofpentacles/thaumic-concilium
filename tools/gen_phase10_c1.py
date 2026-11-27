@@ -23,5 +23,10 @@ LANG = {
 # 10-1b: the alchemist's own research entry (the original's virtual research TCWITCHERYBM had no title; the entity name serves).
 LANG[f'research.{NS}.sloppy_alchemist.title'] = _old['entity.ThaumicConcilium.SloppyAlchemist.name']
 LANG[f'research.{NS}.sloppy_alchemist.stage_0'] = _old['entry.thaumicconcilium.sloppyalchemist1']
+# 10-2: the Burned Witch (original pages burnedwitch1 text, burnedwitch2 the picture, one stage like the other bestiary pages)
+LANG[f'entity.{NS}.burned_witch'] = _old['entity.ThaumicConcilium.BurnedWitch.name']
+LANG[f'item.{NS}.burned_witch_spawn_egg'] = _old['entity.ThaumicConcilium.BurnedWitch.name'] + ' Spawn Egg'
+LANG[f'research.{NS}.burned_witch.title'] = _old['entity.ThaumicConcilium.BurnedWitch.name']
+LANG[f'research.{NS}.burned_witch.stage_0'] = _old['entry.thaumicconcilium.burnedwitch1'] + _old['entry.thaumicconcilium.burnedwitch2']
 for _i in (1, 2, 3):
     LANG[f'{NS}.sloppy_alchemist.thanks{_i}'] = _old[f'tc.sloppy_alchemist.thanks{_i}']

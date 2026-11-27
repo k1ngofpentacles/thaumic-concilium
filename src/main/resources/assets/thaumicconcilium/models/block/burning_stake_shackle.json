@@ -1,0 +1,274 @@
+{
+ "parent": "minecraft:block/block",
+ "textures": {
+  "side": "thaumicconcilium:block/burning_stake_side",
+  "foot": "thaumicconcilium:block/burning_stake_foot",
+  "end": "thaumicconcilium:block/burning_stake_end",
+  "iron": "thaumicconcilium:block/burning_stake_iron",
+  "particle": "thaumicconcilium:block/burning_stake_side"
+ },
+ "elements": [
+  {
+   "from": [
+    5.0,
+    0,
+    5.0
+   ],
+   "to": [
+    11.0,
+    16,
+    11.0
+   ],
+   "faces": {
+    "north": {
+     "texture": "#side",
+     "uv": [
+      5,
+      0,
+      11.0,
+      16
+     ]
+    },
+    "east": {
+     "texture": "#side",
+     "uv": [
+      0,
+      0,
+      6.0,
+      16
+     ]
+    },
+    "south": {
+     "texture": "#side",
+     "uv": [
+      10,
+      0,
+      16.0,
+      16
+     ]
+    },
+    "west": {
+     "texture": "#side",
+     "uv": [
+      3,
+      0,
+      9.0,
+      16
+     ]
+    },
+    "up": {
+     "texture": "#end",
+     "uv": [
+      5.0,
+      5.0,
+      11.0,
+      11.0
+     ]
+    },
+    "down": {
+     "texture": "#end",
+     "uv": [
+      5.0,
+      5.0,
+      11.0,
+      11.0
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    4.5,
+    11,
+    4.5
+   ],
+   "to": [
+    11.5,
+    13,
+    11.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#iron",
+     "uv": [
+      0,
+      0,
+      7,
+      2
+     ]
+    },
+    "south": {
+     "texture": "#iron",
+     "uv": [
+      8,
+      0,
+      15,
+      2
+     ]
+    },
+    "east": {
+     "texture": "#iron",
+     "uv": [
+      4,
+      0,
+      11,
+      2
+     ]
+    },
+    "west": {
+     "texture": "#iron",
+     "uv": [
+      9,
+      0,
+      16,
+      2
+     ]
+    },
+    "up": {
+     "texture": "#iron",
+     "uv": [
+      0,
+      2,
+      7,
+      3
+     ]
+    },
+    "down": {
+     "texture": "#iron",
+     "uv": [
+      0,
+      3,
+      7,
+      4
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    7,
+    11.5,
+    3.25
+   ],
+   "to": [
+    9,
+    12.5,
+    4.5
+   ],
+   "faces": {
+    "north": {
+     "texture": "#iron",
+     "uv": [
+      8,
+      5,
+      10,
+      6
+     ]
+    },
+    "east": {
+     "texture": "#iron",
+     "uv": [
+      8,
+      5,
+      10,
+      6
+     ]
+    },
+    "west": {
+     "texture": "#iron",
+     "uv": [
+      8,
+      5,
+      10,
+      6
+     ]
+    },
+    "up": {
+     "texture": "#iron",
+     "uv": [
+      8,
+      5,
+      10,
+      6
+     ]
+    },
+    "down": {
+     "texture": "#iron",
+     "uv": [
+      8,
+      5,
+      10,
+      6
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    6.5,
+    3,
+    3.25
+   ],
+   "to": [
+    9.5,
+    12,
+    3.25
+   ],
+   "shade": false,
+   "faces": {
+    "north": {
+     "texture": "#iron",
+     "uv": [
+      3,
+      5,
+      0,
+      14
+     ]
+    },
+    "south": {
+     "texture": "#iron",
+     "uv": [
+      0,
+      5,
+      3,
+      14
+     ]
+    }
+   }
+  },
+  {
+   "from": [
+    8,
+    3,
+    1.75
+   ],
+   "to": [
+    8,
+    12,
+    4.75
+   ],
+   "shade": false,
+   "faces": {
+    "west": {
+     "texture": "#iron",
+     "uv": [
+      4,
+      5,
+      7,
+      14
+     ]
+    },
+    "east": {
+     "texture": "#iron",
+     "uv": [
+      7,
+      5,
+      4,
+      14
+     ]
+    }
+   }
+  }
+ ],
+ "render_type": "minecraft:cutout"
+}
