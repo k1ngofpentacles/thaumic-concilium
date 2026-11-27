@@ -131,6 +131,9 @@ KINDS = ['iron', 'thaumium', 'void', 'livingwood', 'dreamwood', 'terrasteel', 'i
 BOTANICAL = {'livingwood', 'dreamwood', 'terrasteel'}
 w('data/curios/tags/item/bracelet.json', {'replace': False, 'values': [
     {'id': B(k), 'required': False} if k in BOTANICAL else B(k) for k in KINDS]})
+# The Aura Core attunement (Gadomancy mod) ignores these wands, as before the move (the old AuraCores excluded CastingBracelet).
+w('data/gadomancy/tags/item/no_core_attunement.json', {'replace': False, 'values': [
+    {'id': B(k), 'required': False} if k in BOTANICAL else B(k) for k in KINDS]})
 # Give players the bracelet slot (Curios defines it; Neo Vitae also enables it, but we must not depend on that).
 w(f'data/{NS}/curios/entities/bracelet.json', {'entities': ['player'], 'slots': ['bracelet']})
 # In the hands a bracelet is drawn on the wrist (BraceletArmLayer, BraceletFirstPerson), so the item model vanishes there.

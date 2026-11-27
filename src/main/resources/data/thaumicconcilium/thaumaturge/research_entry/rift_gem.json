@@ -2,7 +2,7 @@
   "category": "thaumicconcilium:concilium",
   "name": "research.thaumicconcilium.rift_gem.title",
   "parents": [
-    "thaumicconcilium:aura_core",
+    "gadomancy:aura_core",
     "thaumicconcilium:hex_of_predictability"
   ],
   "column": -9,

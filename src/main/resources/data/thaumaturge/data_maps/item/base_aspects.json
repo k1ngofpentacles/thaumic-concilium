@@ -112,20 +112,6 @@
         "amount": 20
       }
     ],
-    "thaumicconcilium:aura_core": [
-      {
-        "aspect": "thaumaturge:auram",
-        "amount": 10
-      },
-      {
-        "aspect": "thaumaturge:praecantatio",
-        "amount": 10
-      },
-      {
-        "aspect": "thaumaturge:vacuos",
-        "amount": 5
-      }
-    ],
     "thaumicconcilium:inert_rift_gem": [
       {
         "aspect": "thaumaturge:vitreus",

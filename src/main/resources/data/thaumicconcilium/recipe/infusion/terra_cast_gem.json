@@ -2,9 +2,9 @@
   "type": "thaumaturge:infusion",
   "catalyst": {
     "type": "neoforge:components",
-    "items": "thaumicconcilium:aura_core",
+    "items": "gadomancy:aura_core",
     "components": {
-      "thaumicconcilium:core_type": "earth"
+      "gadomancy:core_type": "earth"
     }
   },
   "components": [

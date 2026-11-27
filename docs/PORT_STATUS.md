@@ -29,7 +29,7 @@ Legend: ✅ ported · 🟡 partial · ⬜ not started
 
 ### Needs in-game testing
 
-Every manual check is a QA quest in the FTB Quests book: the checks in **Foci ported 1:1** (`qa_foci_restored`, check "Foundation foci"). Nothing is listed here.
+Every manual check is a QA quest in the FTB Quests book: the checks in **QA: Thaumic Concilium** (`qa_concilium`, check "Foundation foci"). Nothing is listed here.
 
 ## Phase 2: remaining foci, the Ring of Blustering Light (0.2.0)
 
@@ -74,7 +74,7 @@ Every manual check is a QA quest in the FTB Quests book: the checks in **Foci po
 
 ### Needs in-game testing
 
-Every manual check is a QA quest in the FTB Quests book: **Foci ported 1:1** (`qa_foci_restored`: ring, Ethereal Manipulator, Scribing, Taint Animation, Warp Extraction). Nothing is listed here.
+Every manual check is a QA quest in the FTB Quests book: **QA: Thaumic Concilium** (`qa_concilium`: ring, Ethereal Manipulator, Scribing, Taint Animation, Warp Extraction). Nothing is listed here.
 
 ## Phase 3: gear, warp baubles, bottles, shard mills (0.3.0)
 
@@ -140,7 +140,7 @@ Every manual check is a QA quest in the FTB Quests book: **Foci ported 1:1** (`q
 
 ### Needs in-game testing
 
-Every manual check is a QA quest in the FTB Quests book: **Powders and the Burdening Amulet** (`qa_phase3_restorations`: art, mill cranking, windings and the strong numbers, belt, bottles, jackboots, amulet, powders) and **Casting Bracelets** (`qa_bracelets`). Nothing is listed here.
+Every manual check is a QA quest in the FTB Quests book: **QA: Thaumic Concilium** (`qa_concilium`: art, mill cranking, windings and the strong numbers, belt, bottles, jackboots, amulet, powders) and **Casting Bracelets** (`qa_concilium`). Nothing is listed here.
 
 See `../../../docs/design/concilium-fidelity-review.md` for every deviation from the original awaiting a decision.
 
@@ -177,7 +177,7 @@ See `../../../docs/design/concilium-fidelity-review.md` for every deviation from
 
 ### Needs in-game testing
 
-The FTB Quests chapter **Thaumaturges and the fallen** (`qa_thaumaturges`) walks through each check. Not covered by the
+The FTB Quests chapter **QA: Thaumic Concilium** (`qa_concilium`) walks through each check. Not covered by the
 pack test: the trade screen itself, the fire bolts and anger in play, the Mad Thaumaturge leaping onto a player, lava
 floating, flowers blooming, natural spawns near structures, wanderers, and the bestiary appearing on scans.
 
@@ -195,7 +195,7 @@ floating, flowers blooming, natural spawns near structures, wanderers, and the b
 | Research | ✅ | Vis Conductor and Destabilized Crystal (hint-gated), Rifts (scan a flux rift), Dematerialization, Vis Condenser, Hex; Cooling Focus and Dump Jackboots back under the crystal |
 
 QA commands: `/thaumicconcilium qa hex <pos> full|chained|lesser`, `qa rift <pos> <size>`, `qa crystal <pos> <aspect> <amount>`.
-QA chapter: **The rift workshop** (`qa_rift_workshop`). Deviations: the fidelity review, "Phase 6a".
+QA chapter: **QA: Thaumic Concilium** (`qa_concilium`). Deviations: the fidelity review, "Phase 6a".
 
 ## Phase 6b: monitors and machines (0.7.0)
 
@@ -211,19 +211,19 @@ QA chapter: **The rift workshop** (`qa_rift_workshop`). Deviations: the fidelity
 | Thaumaturge's Drum, Warped Drum | ✅ | Wisps of random primals / harmless mind spiders while played; from the off hand too (0.7.3); drum stance casting (`bracelet_drum_stance`, `bracelet_drum_taint`, `drum_offhand`) |
 | Research | ✅ | Thaumdrum, Warpdrum, Xylography, Quicksilver Crucible, Astral Monitor, Lithographer |
 
-Deviations: the fidelity review, "Phase 6b". QA chapter: **Monitors and machines (6b)** (`qa_phase_6b`). Pack test:
+Deviations: the fidelity review, "Phase 6b". QA chapter: **QA: Thaumic Concilium** (`qa_concilium`). Pack test:
 `Phase6bTests` (lookup, gate, reactor merge, xylography, Lithographer build); the build, the research audit (0 errors)
 and all 30 GameTests pass.
 
 ### Needs in-game testing
 
-Every manual check is a QA quest in the FTB Quests book: **Monitors and machines (6b)** (`qa_phase_6b`: polished infusions, Xylography, the monitor, Lithographer and HUD, elemental, reactor, Polishment Device, the drums and the drum stance) and **The rift workshop** (`qa_rift_workshop`: primal orb). Nothing is listed here.
+Every manual check is a QA quest in the FTB Quests book: **QA: Thaumic Concilium** (`qa_concilium`: polished infusions, Xylography, the monitor, Lithographer and HUD, elemental, reactor, Polishment Device, the drums and the drum stance) and **QA: Thaumic Concilium** (`qa_concilium`: primal orb). Nothing is listed here.
 
 ## Phase 6c: aura cores, gems, subspace and the Brightest One (0.8.0)
 
 | Area | Status | Notes |
 |---|---|---|
-| Aura cores | ✅ | Gadomancy's cores: blank core by infusion from a primal charm; attuned by tossing it beside a primal crystal cluster and striking the cluster with a charged wand (scan of 9 x 9 x 9 around the core, particles and sound); six cleaning crucible recipes. Earth and entropy cores are usable |
+| Aura cores | moved | Moved to the Gadomancy mod in 0.18.0 (`gadomancy:aura_core`, `gadomancy:core_type`); see `mods/gadomancy/docs/PORT_STATUS.md` |
 | Gem of Rifts, Terra-cast Gem | ✅ | Held use opens an interdimensional rift (no rift within 16 blocks; perditio 10 + aer 10, terra 10 + aer 10 for the terra gem); the terra gem absorbs a block with terra and binds a dimension; crafting adds a cast to the Rift Gem (16 at most). Held rendering in first person (both hands), third person, GUI, ground and frame |
 | Interdimensional rift | ✅ | Grows 5 to 50, teleports a player holding a gem, collapses by shrinking; no taint, no warp |
 | Causal Bouillon, Void Reality | ✅ | Flat void dimension with a Void Reality floor, fixed noon, no beds; crossing keeps x and z in, scales x10 or /10 out, safe landing, Nether pocket exit |
@@ -232,11 +232,11 @@ Every manual check is a QA quest in the FTB Quests book: **Monitors and machines
 | Solid Void | ✅ 0.17.0 | Phase 8-4: gathered with a wand below the world after six Protolimbs |
 | Burning Site | moved | To phase 10 (the Witchery re-imagining) |
 
-Deviations: the fidelity review, "Phase 6c". Added a `wisp_launcher` focus preset (`/thaumicconcilium qa focus wisp_launcher`) for testing. QA chapter: **The Brightest One and subspace (6c)** (`qa_phase_6c`). Pack test: `Phase6cTests`, `Phase6cGemTests`, `Phase6cBossTests`.
+Deviations: the fidelity review, "Phase 6c". Added a `wisp_launcher` focus preset (`/thaumicconcilium qa focus wisp_launcher`) for testing. QA chapter: **QA: Thaumic Concilium** (`qa_concilium`). Pack test: `Phase6cTests`, `Phase6cGemTests`, `Phase6cBossTests`.
 
 ### Needs in-game testing
 
-Every manual check is a QA quest in the FTB Quests book: **The Brightest One and subspace (6c)** (`qa_phase_6c`). Nothing is listed here.
+Every manual check is a QA quest in the FTB Quests book: **QA: Thaumic Concilium** (`qa_concilium`). Nothing is listed here.
 
 ## Phase 5a: Crimson forces (0.9.0)
 
@@ -256,7 +256,7 @@ Deviations: the fidelity review, "Phase 5a". Pack test: `Phase5a*Tests` (batches
 
 ### Needs in-game testing
 
-Every manual check is a QA quest in the FTB Quests book: **Crimson Forces** (`qa_phase_5a`). Nothing is listed here.
+Every manual check is a QA quest in the FTB Quests book: **QA: Thaumic Concilium** (`qa_concilium`). Nothing is listed here.
 
 ## Phase 5b: Peeler, flesh and the Crimson Dagger (0.10.0)
 
@@ -278,7 +278,7 @@ Deviations: the fidelity review, "Phase 5b". The decision record is `docs/design
 
 ### Needs in-game testing
 
-Every manual check is a QA quest in the FTB Quests book: **Flesh, Peeler and the Crimson Dagger (5b)** (`qa_phase_5b`). Nothing is listed here.
+Every manual check is a QA quest in the FTB Quests book: **QA: Thaumic Concilium** (`qa_concilium`). Nothing is listed here.
 
 ## Phase 5c: The Vessel, pure half (0.11.0)
 
@@ -307,7 +307,7 @@ Deviations: the fidelity review, "Phase 5c". Pack test: `Phase5cSinkTests`, `Pha
 
 ### Needs in-game testing
 
-Every manual check is a QA quest in the FTB Quests book: **The Vessel (5c)** (`qa_phase_5c`). Nothing is listed here. Not covered by any test or shot: the real player teleport and the break with real players, the feel of the pull, the 6.5 s sequence and the blast throw, bob and glyph motion, blight withering, the Sable twist and aboard rules, shaders, and multiplayer over LAN.
+Every manual check is a QA quest in the FTB Quests book: **QA: Thaumic Concilium** (`qa_concilium`). Nothing is listed here. Not covered by any test or shot: the real player teleport and the break with real players, the feel of the pull, the 6.5 s sequence and the blast throw, bob and glyph motion, blight withering, the Sable twist and aboard rules, shaders, and multiplayer over LAN.
 
 ## Phase 5d: The Vessel, Botania half (0.12.0)
 
@@ -335,7 +335,7 @@ Deviations: the fidelity review, "Phase 5d". Pack test: `Phase5dCapitalTests`, `
 
 ### Needs in-game testing
 
-The QA chapter `qa_phase_5d` (`tools/qa-quests/specs/phase_5d.json`).
+The QA chapter `qa_concilium` (`tools/qa-quests/specs/concilium.json`).
 
 ## 5d follow-up: the grove's own trees on a hill (0.12.1)
 
@@ -366,7 +366,7 @@ Pack test: 320 of 320 (two full runs at the close). New tests `Phase5dTreeTempla
 
 ### Needs in-game testing
 
-The QA chapter `qa_phase_5d`: checks `grove_trees`, `grove_ripple`, `grove_natural_growth`, `grove_lineage`, `grove_no_decay`,
+The QA chapter `qa_concilium`: checks `grove_trees`, `grove_ripple`, `grove_natural_growth`, `grove_lineage`, `grove_no_decay`,
 `grove_species_look`, and the updated `grove_biome`, `pond_mana_draw`, `teaser`.
 
 ## Shield foci (0.13.0)
@@ -390,7 +390,7 @@ render takeover and the third-person batch end are untested with Iris and other 
 
 ### Needs in-game testing
 
-The QA chapter `qa_shield_foci` (spec `tools/qa-quests/specs/shield_foci.json`).
+The QA chapter `qa_concilium` (spec `tools/qa-quests/specs/concilium.json`).
 
 ## Phase 7: Valet seal and Vengeful Golem (0.14.0)
 
@@ -414,7 +414,7 @@ Thaumaturge's silver bell model; the Valet GUI shows only Thaumaturge's generic 
 
 ### Needs in-game testing
 
-The QA chapter `qa_phase_7` (spec `tools/qa-quests/specs/phase_7.json`).
+The QA chapter `qa_concilium` (spec `tools/qa-quests/specs/concilium.json`).
 
 ## Phase 8-4: Protobody, Protolimbs, Solid Void (0.17.0)
 
@@ -433,7 +433,7 @@ Deviations are in `docs/agents/retro/phase8-4-notes.md` (workspace root): gates 
 
 ### Needs in-game testing
 
-The QA chapter `qa_phase_8_4` (spec `tools/qa-quests/specs/phase_8_4.json`); `/thaumicconcilium qa protolimbs <n>` sets the absorbed count for it.
+The QA chapter `qa_concilium` (spec `tools/qa-quests/specs/concilium.json`); `/thaumicconcilium qa protolimbs <n>` sets the absorbed count for it.
 
 ### Flesh is Corpus (0.17.0)
 
@@ -485,7 +485,7 @@ GeckoLib, both sources show on the host skin.
 
 ### Needs in-game testing
 
-QA chapter `crimson_outfits` (spec `tools/qa-quests/specs/crimson_outfits.json`).
+QA chapter `qa_concilium` (spec `tools/qa-quests/specs/concilium.json`).
 
 ## Remaining phases (planned)
 
@@ -512,3 +512,34 @@ Phase 9 (a Tinkerer KAMI module) is dropped: Thaumaturge Tinker already ports KA
 ## Release prep (0.17.1)
 
 Dependency minimums set to the tested set: NeoForge 21.1.265, Thaumaturge [1.1.0,1.2), Curios 9.5.1, Forbidden Magic 0.2.0 (corpus), Thaumic Horizons 0.11.1. No content change. First public beta release.
+
+## Aura cores move to Gadomancy (0.18.0, G1-1)
+
+The Aura Core item, entity, `core_type` component, wand event, textures, models, infusion, six washes, research entry and item aspects moved to the new `gadomancy` mod under the ids `gadomancy:aura_core`, `gadomancy:core_type` and the item property `gadomancy:blank`. Concilium now **requires** `gadomancy` [0.1.0,) (after both); its jar sits in `libs/` for the compile path only.
+
+- Rift Gem and Terra-cast Gem infusions use `gadomancy:aura_core` (entropy and earth) as the catalyst; the research parents of `rift_gem`, `terra_cast_gem`, `valet_seal` and `assistant_seal` are `gadomancy:aura_core` (cross-tab). Their stage text is unchanged.
+- `data/gadomancy/tags/item/no_core_attunement.json` lists the casting bracelets, so they still do not start an attunement (the old `AuraCores` excluded `CastingBracelet` by class).
+- No migration (pre-launch policy): old worlds lose their `thaumicconcilium:aura_core` items and entities and the old research key.
+- The LGPL exception is gone from the README: Concilium is MIT only (the WTFPL material is still credited).
+- Tests: the core tests moved to `GadomancyCoreTests` in the pack test.
+
+## Thaumaturge 1.1.1 fixes (0.18.1)
+
+Three things the 1.1.1 host update broke (`docs/thaumaturge-api.md` in the workspace, "Changes in 1.1.1"). Minimum host is
+now **1.1.1** (`[1.1.1,1.2)`); compiles against it.
+
+- **Grove repaint:** the Ethereal Bloom now restores biomes through `restoreProtectedBiomeSamples`; `TaintRestoreMixin`
+  hooks it as well as `restoreColumn`, so a cleansed grove column goes back to grove (it became the worldgen biome).
+- **Bracelet beams:** ending a channel held with the cast key (release or cancel) sends the host's beam stop, as a wand
+  does when let go.
+- **Partial vis:** the host's `addVis` now takes whole vis only. The Ring of Blustering Light and the warp bracelet rod use
+  `addRealVis` (100 centivis), and the ring finds wands with any room, so the last partial vis fills again.
+- Tests: `Host111Tests` (batch `conc_host111`, 3 tests; all three failed on 0.18.0 for these reasons). Full pack test
+  2026-11-27: 615 of 615 pass on the second run; the first had three unrelated random or timing failures (grove finale
+  driver, tier 1 taint spread, nightmare plane shift) that passed on rerun. Deployed to the pack 2026-11-27 (0.18.0
+  archived); the installed jars also pass a load check with these three tests and the golem batch.
+
+Needs in-game testing: a Bloom clearing taint inside the grove; the ring and the Eldritch Bracelet filling a nearly full
+wand; a channelled focus on the cast key as **another player** sees it (beam ends on release). Not fixed, from source
+reading: Thaumaturge 1.1.1's client stops a channel beam at once for the caster when no item is in use
+(`BeamInstance.tick`), so the caster's own view of a keyed channel may flicker.

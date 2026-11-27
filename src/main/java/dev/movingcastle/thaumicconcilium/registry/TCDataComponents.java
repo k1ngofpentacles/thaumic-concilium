@@ -42,11 +42,6 @@ public final class TCDataComponents {
             COMPONENTS.registerComponentType("monitor_stats", b -> b.persistent(dev.movingcastle.thaumicconcilium.lithograph.PartyStats.CODEC)
                     .networkSynchronized(dev.movingcastle.thaumicconcilium.lithograph.PartyStats.STREAM_CODEC));
 
-    /** An Aura Core's type (the original's damage value); absent means blank. */
-    public static final DeferredHolder<DataComponentType<?>, DataComponentType<dev.movingcastle.thaumicconcilium.item.AuraCore.Type>> CORE_TYPE =
-            COMPONENTS.registerComponentType("core_type", b -> b.persistent(dev.movingcastle.thaumicconcilium.item.AuraCore.Type.CODEC)
-                    .networkSynchronized(dev.movingcastle.thaumicconcilium.item.AuraCore.Type.STREAM_CODEC));
-
     /** A Gem of Rifts' casts, selection and curvature (original NBT MAX_GEMS, CURR, NAME*, META*, DIM*, REVERSE). */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<dev.movingcastle.thaumicconcilium.item.RiftGem.State>> RIFT_STATE =
             COMPONENTS.registerComponentType("rift_state", b -> b.persistent(dev.movingcastle.thaumicconcilium.item.RiftGem.State.CODEC)

@@ -24,10 +24,10 @@ infusion('seal_assistant', 'assistant_seal',
          it('seal_butcher'), [containment, it(f'{TH}:blood_syringe'), it('seal_provider'), it(f'{TH}:blood_syringe')], 8, 'seal_assistant')
 
 # ---------------------------------------------------------------- research
-# ASSISTANCECORE (-7, 3) cx2, concealed, warp 1; parent TCGADOMANCY (= aura_core), hidden COREALCHEMY and COREBUTCHER (their seals),
+# ASSISTANCECORE (-7, 3) cx2, concealed, warp 1; parent TCGADOMANCY (= gadomancy:aura_core), hidden COREALCHEMY and COREBUTCHER (their seals),
 # plus the Containment focus (the original did not require it; the recipe does).
 entry('assistant_seal', -7, 3, f'{NS}:seal_assistant',
-      [f'{NS}:aura_core', f'~{T}:seal_butcher', f'~{T}:seal_provide', f'~{TH}:focus_containment'],
+      ['gadomancy:aura_core', f'~{T}:seal_butcher', f'~{T}:seal_provide', f'~{TH}:focus_containment'],
       [('humanus', 8), ('vinculum', 8), ('bestia', 8)],
       [f'{NS}:infusion/seal_assistant'], warp=1, meta=['hidden'])
 add_item_aspects('seal_assistant', [('instrumentum', 10), ('bestia', 5), ('vinculum', 10)])

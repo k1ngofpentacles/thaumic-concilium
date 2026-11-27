@@ -1,12 +1,13 @@
 Put the jars this mod compiles against here. They are compile-only and gitignored; never commit them.
 
 Required:
-- `thaumaturge-1.21.1-NeoForge-1.1.0.jar` (All Rights Reserved)
+- `thaumaturge-1.21.1-NeoForge-1.1.1.jar` (All Rights Reserved)
 - `curios-neoforge-9.5.1+1.21.1.jar`
 
 - `thaumichorizons-0.11.1-neoforge-1.21.1-0.11.1.jar` (phase 8, required (0.17.0 needs its Corpse Effigy and Void Putty): our own Thaumic Horizons port, LGPL; used by `ThaumicHorizonsApi`-level
   pieces only: `THDataComponents.CRITTER`, `THItems.SOUL_JAR`/`BLOOD_SAMPLE`, `Jars`). Build it in `mods/thaumic-horizons`
   (`.\gradlew build`, jar in `build\libs\`) and copy it here; never commit it.
+- `gadomancy-0.1.0-neoforge-1.21.1-0.1.0.jar` (0.18.0, required: the Aura Core item and its research live there; our own Gadomancy port, LGPL; nothing in our code imports it, the jar is only on the compile path). Build it in `mods/gadomancy` (`.gradlew build`, jar in `buildibs`) and copy it here; never commit it.
 - Thaumaturge Tinker and Forbidden Magic (Thaumaturge) are referenced by id only (no jar needed).
 
 Optional integrations (compiled against, soft-loaded at runtime):

@@ -7,6 +7,7 @@ import com.leclowndu93150.thaumaturge.api.spell.Spells;
 import com.leclowndu93150.thaumaturge.content.spell.casting.SpellCasting;
 import com.leclowndu93150.thaumaturge.content.spell.item.FocusItems;
 import com.leclowndu93150.thaumaturge.content.wands.WandVisHelper;
+import com.leclowndu93150.thaumaturge.network.effect.ClientboundStreamEffectPayload;
 import com.leclowndu93150.thaumaturge.registry.TTAttachments;
 import dev.movingcastle.thaumicconcilium.ThaumicConcilium;
 import dev.movingcastle.thaumicconcilium.item.CastingBracelet;
@@ -236,11 +237,13 @@ public final class BraceletCasting {
         if (start == null || !(bracelet.getItem() instanceof CastingBracelet item)) {
             if (start != null) {
                 fx(player, BraceletFxPayload.RELEASE, ItemStack.EMPTY);
+                stopBeams(player);
             }
             return;
         }
         ItemStack focus = item.socketedFocus(bracelet);
         fx(player, BraceletFxPayload.RELEASE, focus, plain);
+        stopBeams(player);
         int used = (int) (player.level().getGameTime() - start);
         long before = cooldownEnd(player);
         runAs(player, bracelet, plain, () -> SpellCasting.release(player.serverLevel(), player, bracelet, focus, used));
@@ -258,7 +261,17 @@ public final class BraceletCasting {
     public static void cancel(ServerPlayer player) {
         if (HELD.remove(player.getUUID()) != null) {
             fx(player, BraceletFxPayload.RELEASE, ItemStack.EMPTY);
+            stopBeams(player);
         }
+    }
+
+    /**
+     * Tells nearby clients the keyed channel is over, as Thaumaturge's wand does when let go ({@code ItemWand.releaseUsing},
+     * 1.1.1): otherwise its channel beams stay until they time out. The hand is the one the host tags the pulses with.
+     */
+    private static void stopBeams(ServerPlayer player) {
+        PacketDistributor.sendToPlayersNear(player.serverLevel(), null, player.getX(), player.getY(), player.getZ(), 64.0,
+                ClientboundStreamEffectPayload.beamStop(player.getId(), player.getUsedItemHand()));
     }
 
     /** One cast; returns the cooldown it started, or 0 if nothing was cast. */

@@ -1,60 +1,12 @@
-"""Generates phase-6c data: cycle 1, Gadomancy's Aura Cores (infusion for the blank core, six crucible washes, the research entry,
-item models, art). Run from the module root after gen_phase6b_data.py (it extends the item aspect data map) and before gen_lang.py.
-Cycle 2 (Gem of Rifts, Terra-cast Gem, Causal Bouillon) is the second half of this file; later cycles extend it.
-
-Gadomancy 1.7.10 is LGPL (credit Makeo and the Gadomancy team, never monetise). Its art is copied from the extracted reference
-folder (reference/src/gadomancy-1.7.10-1.0.7.3, never committed except these three textures, credited in CREDITS.md).
-TC4 -> Thaumaturge: aura -> auram, magic -> praecantatio, eldritch -> alienis, void -> vacuos, water -> aqua, heal -> victus,
-balanced shard -> tag c:balanced_shards (Thaumic Horizons' balanced shard, phase 8-3), thaumium ingot -> ingot_thaumium, primal charm -> primal_charm. Instability 6 / 2.5.
+"""Generates phase-6c data, cycle 2: Gem of Rifts, Terra-cast Gem, Causal Bouillon. Run from the module root after gen_phase6b_data.py
+(it extends the item aspect data map) and before gen_lang.py. Cycle 1, the Aura Cores, moved to the Gadomancy mod in 0.18.0
+(mods/gadomancy, tools/gen_g1_cores.py); the gem recipes and research here reference gadomancy:aura_core.
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from genlib import *
 
-GAD_ART = os.environ.get('TC_REFERENCE', '../../reference') + '/src/gadomancy-1.7.10-1.0.7.3/assets/gadomancy/textures/items'
-TYPES = {'air': 'aer', 'fire': 'ignis', 'water': 'aqua', 'earth': 'terra', 'order': 'ordo', 'entropy': 'perditio'}
-
-# ---------------------------------------------------------------- recipes
-# RegisteredRecipes.recipeAuraCore: catalyst primal charm; 4 balanced shards and 8 thaumium ingots; aura 9, magic 19, eldritch 17, void 34.
-infusion('aura_core', 'aura_core',
-         [('auram', 9), ('praecantatio', 19), ('alienis', 17), ('vacuos', 34)],
-         it('primal_charm'), [{'tag': 'c:balanced_shards'}] * 4 + [it('ingot_thaumium')] * 8, 6, 'aura_core')
-
-# recipesWashAuraCore: any attuned core + magic 12, water 12, heal 18 -> blank core (one recipe per type, as the original).
-for t in TYPES:
-    w(f'data/{NS}/recipe/crucible/aura_core_clean_{t}.json', {
-        'type': f'{T}:crucible', 'aspects': aspects([('praecantatio', 12), ('aqua', 12), ('victus', 18)]),
-        'catalyst': {'type': 'neoforge:components', 'items': f'{NS}:aura_core', 'components': {f'{NS}:core_type': t}},
-        'research': gate('aura_core'), 'result': {'count': 1, 'id': f'{NS}:aura_core'}})
-
-# ---------------------------------------------------------------- research
-# AURA_CORE (original: Gadomancy tab (-1,6), complexity 2, aura 22, magic 10, each primal 8); ours at (-5,1) off the Thaumaturges.
-entry('aura_core', -5, 1, f'{NS}:aura_core', [f'{NS}:thaumaturges'],
-      [('auram', 22), ('praecantatio', 10)] + [(p, 8) for p in PRIMALS],
-      [f'{NS}:infusion/aura_core'] + [f'{NS}:crucible/aura_core_clean_{t}' for t in TYPES], meta=['round'])
-
-# ---------------------------------------------------------------- aspects (scanning)
-add_item_aspects('aura_core', [('auram', 10), ('praecantatio', 10), ('vacuos', 5)])
-
-# ---------------------------------------------------------------- models and art
-w(f'assets/{NS}/models/item/aura_core.json', {
-    'parent': 'minecraft:item/generated',
-    'textures': {'layer0': f'{NS}:item/aura_core_core', 'layer1': f'{NS}:item/aura_core_border'},
-    'overrides': [{'predicate': {f'{NS}:blank': 1}, 'model': f'{NS}:item/aura_core_blank'}]})
-w(f'assets/{NS}/models/item/aura_core_blank.json', {
-    'parent': 'minecraft:item/generated',
-    'textures': {'layer0': f'{NS}:item/aura_core_core_blank', 'layer1': f'{NS}:item/aura_core_border'}})
-ART = {'core_border.png': 'aura_core_border.png', 'core_core.png': 'aura_core_core.png',
-       'core_core.png.mcmeta': 'aura_core_core.png.mcmeta', 'core_core_blank.png': 'aura_core_core_blank.png',
-       'core_core_blank.png.mcmeta': 'aura_core_core_blank.png.mcmeta'}
-if os.path.isdir(GAD_ART):
-    for src, dst in ART.items():
-        out = os.path.join(A, 'textures/item', dst); os.makedirs(os.path.dirname(out), exist_ok=True)
-        with open(os.path.join(GAD_ART, src), 'rb') as f, open(out, 'wb') as g:
-            g.write(f.read())
-else:
-    print('Gadomancy art not found, textures not refreshed:', GAD_ART)
-
+GAD = 'gadomancy'  # the Aura Cores moved to the Gadomancy mod in 0.18.0 (G1-1)
 
 
 # ================================================================ cycle 2: Gem of Rifts, Terra-cast Gem, Causal Bouillon
@@ -65,7 +17,7 @@ else:
 # 1 nitor -> yellow nitor; 0 alumentum; 17 void seed; cosmetic opaque 2 warded glass; custom ore 0 / 7 cinnabar / amber ore,
 # 1 / 4 / 6 infused air / earth / entropy stone -> placed crystal of the aspect; nugget 16 / 31 native iron / cinnabar cluster.
 def core(kind):
-    return {'type': 'neoforge:components', 'items': f'{NS}:aura_core', 'components': {f'{NS}:core_type': kind}}
+    return {'type': 'neoforge:components', 'items': f'{GAD}:aura_core', 'components': {f'{GAD}:core_type': kind}}
 
 def many(item, n):
     return [it(item)] * n
@@ -88,10 +40,10 @@ rift_recipe('terra_cast_gem', it(f'{NS}:inert_terra_cast_gem'),
 # Gem of Rifts + Terra-cast Gem with a cast -> the rift gem with the cast added (special crafting recipe, TerraGemRecipe).
 w(f'data/{NS}/recipe/terra_gem_cast.json', {'type': f'{NS}:terra_gem_cast', 'category': 'misc'})
 
-# Research (original: RIFTGEM (-9,2) and TERRACAST (-9,0), both concealed; parents TCGADOMANCY = our aura_core, and the hex).
-entry('rift_gem', -9, 2, f'{NS}:rift_gem', [f'{NS}:aura_core', f'{NS}:hex_of_predictability'],
+# Research (original: RIFTGEM (-9,2) and TERRACAST (-9,0), both concealed; parents TCGADOMANCY = gadomancy:aura_core, and the hex).
+entry('rift_gem', -9, 2, f'{NS}:rift_gem', [f'{GAD}:aura_core', f'{NS}:hex_of_predictability'],
       [('vitreus', 8), ('auram', 8), ('vacuos', 8), ('motus', 8)], [f'{NS}:infusion/rift_gem'], meta=['hidden'])
-entry('terra_cast_gem', -9, 0, f'{NS}:terra_cast_gem', [f'{NS}:aura_core', f'{NS}:hex_of_predictability', f'{NS}:rift_gem'],
+entry('terra_cast_gem', -9, 0, f'{NS}:terra_cast_gem', [f'{GAD}:aura_core', f'{NS}:hex_of_predictability', f'{NS}:rift_gem'],
       [('vitreus', 8), ('auram', 8), ('terra', 8), ('motus', 8)], [f'{NS}:infusion/terra_cast_gem'], meta=['hidden'])
 
 # Items: aspects for scanning (the original gems had none of their own)

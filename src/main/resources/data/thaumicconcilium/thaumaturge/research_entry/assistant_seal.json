@@ -2,7 +2,7 @@
   "category": "thaumicconcilium:concilium",
   "name": "research.thaumicconcilium.assistant_seal.title",
   "parents": [
-    "thaumicconcilium:aura_core",
+    "gadomancy:aura_core",
     "~thaumaturge:seal_butcher",
     "~thaumaturge:seal_provide",
     "~thaumichorizons:focus_containment"

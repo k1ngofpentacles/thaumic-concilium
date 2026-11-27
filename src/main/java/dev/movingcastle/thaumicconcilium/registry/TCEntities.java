@@ -178,13 +178,6 @@ public final class TCEntities {
         return WITHERED_BOTANIST != null;
     }
 
-    // ---------------------------------------------------------------- phase 6c
-    /** An item entity (same size and tracking as the vanilla one) that attunes a blank Aura Core. */
-    public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.AuraCoreEntity>> AURA_CORE =
-            ENTITY_TYPES.register("aura_core", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.AuraCoreEntity>of(
-                    dev.movingcastle.thaumicconcilium.entity.AuraCoreEntity::new, MobCategory.MISC)
-                    .sized(0.25F, 0.25F).eyeHeight(0.2125F).clientTrackingRange(6).updateInterval(20).build("aura_core"));
-
     /** Original: 3 x 3, flying, fire-immune. */
     public static final DeferredHolder<EntityType<?>, EntityType<dev.movingcastle.thaumicconcilium.entity.mob.BrightestOne>> BRIGHTEST_ONE =
             ENTITY_TYPES.register("brightest_one", () -> EntityType.Builder.<dev.movingcastle.thaumicconcilium.entity.mob.BrightestOne>of(

@@ -155,11 +155,6 @@ public final class TCItems {
                 new Item.Properties()));
     }
 
-    // ---------------------------------------------------------------- phase 6c (Gadomancy's aura cores)
-    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.AuraCore> AURA_CORE = ITEMS.register("aura_core",
-            () -> new dev.movingcastle.thaumicconcilium.item.AuraCore(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)
-                    .component(TCDataComponents.CORE_TYPE.get(), dev.movingcastle.thaumicconcilium.item.AuraCore.Type.BLANK)));
-
     // ---------------------------------------------------------------- phase 6c, cycle 2 (rift gems and the Causal Bouillon)
     public static final DeferredItem<Item> INERT_RIFT_GEM = ITEMS.register("inert_rift_gem",
             () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.RARE)));

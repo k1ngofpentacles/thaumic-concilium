@@ -16,9 +16,9 @@ infusion('seal_valet', 'valet_seal',
          it('seal_use'), [it('arcane_ear'), it('curio_knowledge'), it('amulet_mundane'), it('curio_knowledge')], 8, 'seal_valet')
 
 # ---------------------------------------------------------------- research
-# Concilium tab (-7, -1), complexity 2, concealed; parent aura_core (TCGADOMANCY), hidden parents seal_use and arcane_ear (COREUSE, ARCANEEAR).
+# Concilium tab (-7, -1), complexity 2, concealed; parent gadomancy:aura_core (TCGADOMANCY), hidden parents seal_use and arcane_ear (COREUSE, ARCANEEAR).
 entry('valet_seal', -7, -1, f'{NS}:seal_valet',
-      [f'{NS}:aura_core', f'~{T}:seal_use', f'~{T}:arcane_ear'],
+      ['gadomancy:aura_core', f'~{T}:seal_use', f'~{T}:arcane_ear'],
       [('humanus', 8), (f'{FM}:superbia', 8), ('machina', 8)],
       [f'{NS}:infusion/seal_valet'], meta=['hidden'])
 

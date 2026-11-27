@@ -18,14 +18,7 @@ public final class TCCreativeTabs {
                 for (FocusPresets.Preset preset : FocusPresets.ALL) {
                     out.accept(preset.stack());
                 }
-                TCItems.ITEMS.getEntries().forEach(item -> {
-                    if (item != TCItems.AURA_CORE) {
-                        out.accept(item.get());
-                    }
-                });
-                for (dev.movingcastle.thaumicconcilium.item.AuraCore.Type type : dev.movingcastle.thaumicconcilium.item.AuraCore.Type.values()) {
-                    out.accept(dev.movingcastle.thaumicconcilium.item.AuraCore.stack(type));
-                }
+                TCItems.ITEMS.getEntries().forEach(item -> out.accept(item.get()));
             })
             .build());
 

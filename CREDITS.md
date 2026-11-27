@@ -6,7 +6,7 @@ This mod is an unofficial port of **Thaumic Concilium** to NeoForge 1.21.1 and T
 |---|---|---|---|
 | Thaumic Concilium 1.1.1 (1.7.10) | Ilya3000 (Ilya3point999K), BreadX22; zh_CN by Fantasy5hark | WTFPL / CC0 | Design, behaviour, textures, models, sounds, shaders and lore text |
 | Forbidden Magic 0.575 (1.7.10) | SpitefulFox | WTFPL | Recipe ingredients (via the Forbidden Magic (Thaumaturge) dependency) |
-| Gadomancy 1.0.7.3 (1.7.10) | Makeo and the Gadomancy team | LGPL | Aura Core design, behaviour, text and the three item textures (never monetised) |
+| Gadomancy 1.0.7.3 (1.7.10) | Makeo and the Gadomancy team | LGPL | Design inspiration for the Rift Gem and Seal research that builds on the Aura Core; the Aura Core itself (code, text, art) moved to the separate Gadomancy mod in 0.18.0 (never monetised) |
 | Thaumaturge | Leclowndu93150 and contributors | All Rights Reserved | Compiled against only; nothing is bundled |
 | Armor Series - Crimson Cult 1.2.1 | Enderghast | MIT (jar), All Rights Reserved (CurseForge page) | Required at runtime; our crimson mobs wear its armour, referenced by item ID. Nothing is bundled or copied |
 | Thaumaturge Tinker | kajitsy | MIT (as declared) | Required at runtime; recipes and research reference its items and entries by ID. Nothing is bundled |

@@ -144,7 +144,6 @@ public final class TCClient {
                     return 0.2 + 0.6 * (left / max);
                 }, true));
         event.registerEntityRenderer(TCEntities.FLURRY_SHOT.get(), ThrownItemRenderer::new);
-        event.registerEntityRenderer(TCEntities.AURA_CORE.get(), net.minecraft.client.renderer.entity.ItemEntityRenderer::new);
         event.registerEntityRenderer(TCEntities.WARP_CHARGE.get(), WarpChargeRenderer::new);
         event.registerEntityRenderer(TCEntities.THICK_TAINT_BOTTLE.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(TCEntities.CLEAR_WATER_BOTTLE.get(), ThrownItemRenderer::new);
@@ -198,33 +197,11 @@ public final class TCClient {
                 dev.movingcastle.thaumicconcilium.registry.TCBlocks.DESTABILIZED_CRYSTAL.get());
     }
 
-    /** The core layer takes its aspect's colour (original: getColorFromItemStack pass 0); the border stays untinted. */
+    /** Item tints. */
     @SubscribeEvent
     public static void itemColors(net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Item event) {
-        event.register((stack, tint) -> {
-            var type = dev.movingcastle.thaumicconcilium.item.AuraCore.type(stack);
-            if (tint != 0 || type.isBlank()) {
-                return 0xFFFFFFFF;
-            }
-            var level = net.minecraft.client.Minecraft.getInstance().level;
-            if (level != null) {
-                var holder = com.leclowndu93150.thaumaturge.api.aspect.Aspects.resolve(level, type.primal());
-                if (holder != null) {
-                    return 0xFF000000 | holder.value().color();
-                }
-            }
-            return type.fallbackColor();
-        }, TCItems.AURA_CORE.get());
         // The Nether Membrane is the vanilla phantom membrane tinted nether pink (referenced art, no copy).
         event.register((stack, tint) -> tint == 0 ? 0xFFC8405A : 0xFFFFFFFF, TCItems.NETHER_MEMBRANE.get());
-    }
-
-    /** Selects the blank model (animated blank core art) from the item model's overrides. */
-    @SubscribeEvent
-    public static void clientSetup(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
-        event.enqueueWork(() -> net.minecraft.client.renderer.item.ItemProperties.register(TCItems.AURA_CORE.get(),
-                ThaumicConcilium.id("blank"), (stack, level, entity, seed) ->
-                        dev.movingcastle.thaumicconcilium.item.AuraCore.type(stack).isBlank() ? 1.0F : 0.0F));
     }
 
     @SubscribeEvent

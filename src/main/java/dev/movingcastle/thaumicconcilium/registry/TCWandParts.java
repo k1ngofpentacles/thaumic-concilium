@@ -79,7 +79,7 @@ public final class TCWandParts {
         int period = Math.max(1, Math.round(WARP_REFRESH_BASE / permanent));
         if (player.tickCount % period == 0) {
             for (ResourceKey<IAspect> primal : TTAspects.PRIMALS) {
-                WandVisHelper.addVis(stack, primal, 1, true);
+                WandVisHelper.addRealVis(stack, primal, 100, true);   // one vis, or what still fits
             }
         }
     }

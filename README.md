@@ -6,13 +6,13 @@ An unofficial port of Ilya3000's **Thaumic Concilium** (Forge 1.7.10, WTFPL) to 
 
 ## Requirements
 
-Thaumaturge 1.1+, Curios 9.5+ and **Thaumaturge Tinker** 1.1.3+ (the 1.21.1 counterpart of Thaumic Tinkerer, which
+Thaumaturge 1.1.1+ (1.1.x), Curios 9.5+ and **Thaumaturge Tinker** 1.1.3+ (the 1.21.1 counterpart of Thaumic Tinkerer, which
 the original also required), **Forbidden Magic (Thaumaturge)**, Thaumic Horizons and **Armor Series - Crimson Cult** 1.2.1+
 (Enderghast; our crimson mobs wear its armour, with GeckoLib). Thaumic Additions CE is optional.
 
 ## Building
 
-1. Copy `thaumaturge-1.21.1-NeoForge-1.1.0.jar` and `curios-neoforge-9.5.1+1.21.1.jar` into `libs/`
+1. Copy `thaumaturge-1.21.1-NeoForge-1.1.1.jar` and `curios-neoforge-9.5.1+1.21.1.jar` into `libs/`
    (see `libs/README.md`). They are compile-only and must never be committed.
 2. Run `gradle build` (or open the folder in IntelliJ and run the `build` task). The jar lands in `build/libs/`.
 
@@ -49,7 +49,9 @@ gathers the block (the end portal's starfield, drawn with the vanilla end portal
 
 Port code: MIT. Original Concilium and Forbidden Magic material: WTFPL. Credits are in `CREDITS.md`.
 
-**Exception, LGPL-3.0-or-later:** the Aura Core is adapted from Gadomancy (LGPL; its author asks that it never be
-monetised), so these files stay under the LGPL (`licenses/LGPL-3.0.txt`, with the GPL 3.0 it builds on in
-`licenses/GPL-3.0.txt`): `aura/AuraCores.java`, `item/AuraCore.java`, `entity/AuraCoreEntity.java` and the textures
-`assets/thaumicconcilium/textures/item/aura_core_*`. They move to a separate LGPL Gadomancy mod in a later release.
+The Aura Core (item, entity, wand event and art), adapted from Gadomancy under the LGPL, moved in 0.18.0 to the separate LGPL mod
+`gadomancy`, which this mod now requires; nothing LGPL remains here, so this mod is MIT only (with the WTFPL material credited above).
+
+## In-game testing
+
+The manual checks for this mod are the FTB Quests chapter **QA: Thaumic Concilium** (`qa_concilium`, spec `tools/qa-quests/specs/concilium.json` in the workspace); nothing is listed here.
