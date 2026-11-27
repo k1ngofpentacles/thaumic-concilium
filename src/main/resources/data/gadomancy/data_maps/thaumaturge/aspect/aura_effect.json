@@ -1,0 +1,39 @@
+{
+  "values": {
+    "forbiddenmagic:desidia": {
+      "type": "thaumicconcilium:prolong_effects",
+      "interval": 4,
+      "range": 8.0
+    },
+    "forbiddenmagic:gula": {
+      "type": "thaumicconcilium:feed_players",
+      "interval": 20,
+      "range": 8.0
+    },
+    "thaumadditions:infernum": {
+      "type": "thaumicconcilium:smelt_items",
+      "interval": 5,
+      "range": 8.0
+    },
+    "forbiddenmagic:invidia": {
+      "type": "thaumicconcilium:disarm",
+      "interval": 80,
+      "range": 8.0
+    },
+    "forbiddenmagic:ira": {
+      "type": "thaumicconcilium:provoke",
+      "interval": 80,
+      "range": 8.0
+    },
+    "forbiddenmagic:luxuria": {
+      "type": "thaumicconcilium:reset_breeding",
+      "interval": 40,
+      "range": 8.0
+    },
+    "forbiddenmagic:superbia": {
+      "type": "thaumicconcilium:repel",
+      "interval": 8,
+      "range": 32.0
+    }
+  }
+}

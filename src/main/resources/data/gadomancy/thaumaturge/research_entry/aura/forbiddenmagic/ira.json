@@ -1,0 +1,23 @@
+{
+  "category": "gadomancy:gadomancy",
+  "name": "research.gadomancy.aura/forbiddenmagic/ira.title",
+  "parents": [
+    "gadomancy:aura_effects"
+  ],
+  "column": 4,
+  "row": 14,
+  "icons": [
+    "forbiddenmagic:textures/aspects/ira.png"
+  ],
+  "stages": [
+    {
+      "text": "research.gadomancy.aura/forbiddenmagic/ira.stage_0"
+    }
+  ],
+  "note_aspects": [],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

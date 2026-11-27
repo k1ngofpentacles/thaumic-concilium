@@ -1,0 +1,23 @@
+{
+  "category": "gadomancy:gadomancy",
+  "name": "research.gadomancy.aura/forbiddenmagic/invidia.title",
+  "parents": [
+    "gadomancy:aura_effects"
+  ],
+  "column": 3,
+  "row": 14,
+  "icons": [
+    "forbiddenmagic:textures/aspects/invidia.png"
+  ],
+  "stages": [
+    {
+      "text": "research.gadomancy.aura/forbiddenmagic/invidia.stage_0"
+    }
+  ],
+  "note_aspects": [],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

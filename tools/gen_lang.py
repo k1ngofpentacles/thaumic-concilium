@@ -793,6 +793,14 @@ L[f'research.{NS}.buff_golem.addendum_1'] = "Wand Focus Control: " + clean('entr
 L[f'entity.{NS}.golem_bydlo'] = o('entity.ThaumicConcilium.GolemBydlo.name')
 L[f'item.{NS}.golem_bydlo_spawn_egg'] = o('entity.ThaumicConcilium.GolemBydlo.name') + ' Spawn Egg'
 
+# ---------------------------------------------------------------- phase 8-5: the sin pylon effects' research keys (original lines joined into one sentence)
+for _ns, _path, _orig, _title in [('forbiddenmagic', 'desidia', 'desidia', 'Desidia'), ('forbiddenmagic', 'gula', 'gula', 'Gula'),
+        ('thaumadditions', 'infernum', 'infernus', 'Infernum'), ('forbiddenmagic', 'invidia', 'invidia', 'Invidia'),
+        ('forbiddenmagic', 'ira', 'ira', 'Ira'), ('forbiddenmagic', 'luxuria', 'luxuria', 'Luxuria'), ('forbiddenmagic', 'superbia', 'superbia', 'Superbia')]:
+    _lines = [old[f'gadomancy.aura.effect.{_orig}_{n}'] for n in range(3) if f'gadomancy.aura.effect.{_orig}_{n}' in old]
+    L[f'research.gadomancy.aura/{_ns}/{_path}.title'] = _title
+    L[f'research.gadomancy.aura/{_ns}/{_path}.stage_0'] = ' '.join(_lines) + '.'
+
 # ---------------------------------------------------------------- per-cycle lang files (second builder lane)
 # tools/gen_<phase>_c<N>.py may define a module-level LANG dict; its keys are merged here, so two lanes never edit this
 # file's text at the same place. The cycle file is imported (not run as __main__): put its data generation under

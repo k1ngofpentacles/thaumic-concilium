@@ -543,3 +543,22 @@ Needs in-game testing: a Bloom clearing taint inside the grove; the ring and the
 wand; a channelled focus on the cast key as **another player** sees it (beam ends on release). Not fixed, from source
 reading: Thaumaturge 1.1.1's client stops a channel beam at once for the caster when no item is in use
 (`BeamInstance.tick`), so the caster's own view of a keyed channel may flicker.
+
+## Phase 8-5: the seven sin pylon effects (0.19.0)
+
+Gadomancy's Aura Pylon (0.4.0) runs an effect per burning aspect; we register our own effect types in its open registry (`registry/TCAuraEffects`, one record per effect in `aura/`) and bind them in `data/gadomancy/data_maps/thaumaturge/aspect/aura_effect.json` (generator `tools/gen_phase8_sin_auras.py`). Original: `GadomancyIntegration.java:56-198`.
+
+| Aspect | Type | Every / range |
+|---|---|---|
+| infernum | `smelt_items` (dropped items with a furnace recipe, same count) | 5 / 8 |
+| luxuria | `reset_breeding` (inactive when Forbidden Magic's no_lust is set) | 40 / 8 |
+| gula | `feed_players` | 20 / 8 |
+| ira | `provoke` | 80 / 8 |
+| invidia | `disarm` (not players) | 80 / 8 |
+| desidia | `prolong_effects` (+20 ticks; infinite effects skipped) | 4 / 8 |
+| superbia | `repel` | 8 / 32 |
+| (none) | `meteor_shower`: registered, unbound (user decision g1-design 6) | 600 / 32 |
+
+Each sin has a hidden research entry (`gadomancy:aura/<ns>/<aspect>`) that a pylon unlocks. Superbia keeps the original's world-coordinate vector (`RepelEffect.FAITHFUL_VECTOR = true`, user decision S1, 2026-11-27): the push points toward the world origin, as the original's code does. The meteor orb is a vanilla fireball (a server-side subclass flying like TC4's explosive orb), no new entity.
+
+Needs in-game testing: each sin's effect at a real pylon; the superbia push; a meteor shower on a bound test aspect (explosion strength 20, fire follows mobGriefing). Notes: `docs/agents/retro/phase8-5-notes.md` (workspace root).

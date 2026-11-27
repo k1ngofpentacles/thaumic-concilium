@@ -1,0 +1,23 @@
+{
+  "category": "gadomancy:gadomancy",
+  "name": "research.gadomancy.aura/forbiddenmagic/gula.title",
+  "parents": [
+    "gadomancy:aura_effects"
+  ],
+  "column": 7,
+  "row": 13,
+  "icons": [
+    "forbiddenmagic:textures/aspects/gula.png"
+  ],
+  "stages": [
+    {
+      "text": "research.gadomancy.aura/forbiddenmagic/gula.stage_0"
+    }
+  ],
+  "note_aspects": [],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

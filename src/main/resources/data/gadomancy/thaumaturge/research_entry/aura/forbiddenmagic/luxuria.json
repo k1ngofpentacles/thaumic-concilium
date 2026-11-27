@@ -1,0 +1,23 @@
+{
+  "category": "gadomancy:gadomancy",
+  "name": "research.gadomancy.aura/forbiddenmagic/luxuria.title",
+  "parents": [
+    "gadomancy:aura_effects"
+  ],
+  "column": 5,
+  "row": 14,
+  "icons": [
+    "forbiddenmagic:textures/aspects/luxuria.png"
+  ],
+  "stages": [
+    {
+      "text": "research.gadomancy.aura/forbiddenmagic/luxuria.stage_0"
+    }
+  ],
+  "note_aspects": [],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

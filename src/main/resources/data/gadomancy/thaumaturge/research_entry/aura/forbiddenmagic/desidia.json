@@ -1,0 +1,23 @@
+{
+  "category": "gadomancy:gadomancy",
+  "name": "research.gadomancy.aura/forbiddenmagic/desidia.title",
+  "parents": [
+    "gadomancy:aura_effects"
+  ],
+  "column": 6,
+  "row": 13,
+  "icons": [
+    "forbiddenmagic:textures/aspects/desidia.png"
+  ],
+  "stages": [
+    {
+      "text": "research.gadomancy.aura/forbiddenmagic/desidia.stage_0"
+    }
+  ],
+  "note_aspects": [],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}

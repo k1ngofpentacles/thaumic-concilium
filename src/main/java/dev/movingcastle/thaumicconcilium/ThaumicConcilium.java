@@ -36,6 +36,7 @@ public final class ThaumicConcilium {
         dev.movingcastle.thaumicconcilium.world.GroveColumns.ATTACHMENTS.register(modBus);
         TCWandParts.RODS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCEffects.EFFECTS.register(modBus);
+        dev.movingcastle.thaumicconcilium.registry.TCAuraEffects.TYPES.register(modBus);
         TCItems.ITEMS.register(modBus);
         dev.movingcastle.thaumicconcilium.registry.TCSeals.SEALS.register(modBus);
         modBus.addListener(TCItems::defaultComponents);

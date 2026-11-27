@@ -7,7 +7,8 @@ Required:
 - `thaumichorizons-0.11.1-neoforge-1.21.1-0.11.1.jar` (phase 8, required (0.17.0 needs its Corpse Effigy and Void Putty): our own Thaumic Horizons port, LGPL; used by `ThaumicHorizonsApi`-level
   pieces only: `THDataComponents.CRITTER`, `THItems.SOUL_JAR`/`BLOOD_SAMPLE`, `Jars`). Build it in `mods/thaumic-horizons`
   (`.\gradlew build`, jar in `build\libs\`) and copy it here; never commit it.
-- `gadomancy-0.1.0-neoforge-1.21.1-0.1.0.jar` (0.18.0, required: the Aura Core item and its research live there; our own Gadomancy port, LGPL; nothing in our code imports it, the jar is only on the compile path). Build it in `mods/gadomancy` (`.gradlew build`, jar in `buildibs`) and copy it here; never commit it.
+- `gadomancy-0.4.0-neoforge-1.21.1-0.4.0.jar` (0.19.0, required: the Aura Core item and research live there, and since 0.19.0 our `aura/` effects implement its `AuraEffect` and register in its effect type registry; our own Gadomancy port, LGPL). Build it in `mods/gadomancy` (`.\gradlew build`, jar in `build\libs`) and copy it here; never commit it.
+- `forbiddenmagic-2.0.3-thaumaturge.0.2.3-neoforge-1.21.1-2.0.3-thaumaturge.0.2.3.jar` (0.19.0: `FmConfig.lustDisabled()` for the luxuria pylon effect; our own Forbidden Magic adapter). Build it in `mods/forbidden-magic-thaumaturge` and copy it here; never commit it.
 - Thaumaturge Tinker and Forbidden Magic (Thaumaturge) are referenced by id only (no jar needed).
 
 Optional integrations (compiled against, soft-loaded at runtime):

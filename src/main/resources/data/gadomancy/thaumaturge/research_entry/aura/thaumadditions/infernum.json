@@ -1,0 +1,23 @@
+{
+  "category": "gadomancy:gadomancy",
+  "name": "research.gadomancy.aura/thaumadditions/infernum.title",
+  "parents": [
+    "gadomancy:aura_effects"
+  ],
+  "column": 8,
+  "row": 13,
+  "icons": [
+    "forbiddenmagic:textures/aspects/infernus.png"
+  ],
+  "stages": [
+    {
+      "text": "research.gadomancy.aura/thaumadditions/infernum.stage_0"
+    }
+  ],
+  "note_aspects": [],
+  "complexity": 1,
+  "meta": [
+    "hidden",
+    "round"
+  ]
+}
