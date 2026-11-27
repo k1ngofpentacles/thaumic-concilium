@@ -18,6 +18,10 @@
     },
     "thaumicconcilium:infernal_bracelet",
     "thaumicconcilium:tainted_bracelet",
-    "thaumicconcilium:eldritch_bracelet"
+    "thaumicconcilium:eldritch_bracelet",
+    {
+      "id": "thaumicconcilium:blood_bracelet",
+      "required": false
+    }
   ]
 }

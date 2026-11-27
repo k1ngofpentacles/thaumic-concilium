@@ -39,6 +39,9 @@ public final class TCClient {
                 TCItems.INERT_TERRA_CAST_GEM.get(), TCItems.TERRA_CAST_GEM.get());
         event.registerItem(new VerdantCapitalRenderer.Extensions(), TCItems.VERDANT_CAPITAL.get()); // phase 5d cycle 4b: the closed star
         event.registerItem(new VoidItemRenderer.Extensions(), TCItems.PROTOBODY.get(), TCItems.SOLID_VOID.get()); // phase 8-4
+        if (TCItems.DRAINAGE_SYRINGE != null) { // phase 10-5: only with Horizons, Botania and Neo Vitae
+            event.registerItem(new DrainageSyringeRenderer.Extensions(), TCItems.DRAINAGE_SYRINGE.get());
+        }
     }
 
     /** Phase 5d cycle 3: the mana pond fluid, drawn by the standard fluid path (see {@link ManaPondClient}). */

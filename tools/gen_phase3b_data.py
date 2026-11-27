@@ -127,8 +127,8 @@ entry('eldritch_bracelet', 6, 4, B('eldritch'), [f'{NS}:void_bracelet'],
 # The shield_foci and guard_castable spell-part tags are written by gen_shield_foci_data.py.
 
 # ---------------------------------------------------------------- curios, item models
-KINDS = ['iron', 'thaumium', 'void', 'livingwood', 'dreamwood', 'terrasteel', 'infernal', 'tainted', 'eldritch']
-BOTANICAL = {'livingwood', 'dreamwood', 'terrasteel'}
+KINDS = ['iron', 'thaumium', 'void', 'livingwood', 'dreamwood', 'terrasteel', 'infernal', 'tainted', 'eldritch', 'blood']
+BOTANICAL = {'livingwood', 'dreamwood', 'terrasteel', 'blood'}   # blood: Neo Vitae only (phase 10-5); the name is kept, the set is 'items that may be absent'
 w('data/curios/tags/item/bracelet.json', {'replace': False, 'values': [
     {'id': B(k), 'required': False} if k in BOTANICAL else B(k) for k in KINDS]})
 # The Aura Core attunement (Gadomancy mod) ignores these wands, as before the move (the old AuraCores excluded CastingBracelet).
@@ -167,6 +167,7 @@ PALETTE = {
     'infernal': ('7a2418', '5c4a8c', 'ff7020'),
     'tainted': ('5c2c6c', '5c4a8c', 'c050e0'),
     'eldritch': ('1c1c2c', '3a2a5a', '60f0c0'),
+    'blood': ('7a1418', 'd8a838', 'ff3038'),
 }
 # A bracelet seen from above at an angle: an elliptical ring, lit from the top left.
 CX, CY = 7.5, 8.0

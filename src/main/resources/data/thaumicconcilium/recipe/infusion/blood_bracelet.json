@@ -1,0 +1,59 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "forbiddenmagic:blood_staff_rod"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:wand_cap_iron"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "neovitae:bloodstone_brick"
+    },
+    {
+      "item": "thaumaturge:wand_cap_iron"
+    },
+    {
+      "item": "thaumaturge:salis_mundus"
+    },
+    {
+      "item": "neovitae:bloodstone_brick"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 32
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:praecantatio",
+      "amount": 64
+    }
+  ],
+  "instability": 2,
+  "research": {
+    "entry": "thaumicconcilium:blood_bracelet",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:blood_bracelet"
+  }
+}

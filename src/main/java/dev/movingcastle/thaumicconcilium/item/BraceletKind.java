@@ -24,7 +24,10 @@ public enum BraceletKind {
     TERRASTEEL("terrasteel", 50, "forbiddenmagic:terrasteel", "botania:block/terrasteel_block", "botania:block/terrasteel_block", Rarity.EPIC, Recharge.TERRASTEEL, false, true),
     INFERNAL("infernal", 35, "thaumaturge:thaumium", "minecraft:block/netherrack", "thaumaturge:block/metal_thaumium", Rarity.RARE, Recharge.FM_INFERNAL, true, false),
     TAINTED("tainted", 35, "thaumaturge:thaumium", "thaumaturge:block/taint_crust_0", "thaumaturge:block/metal_thaumium", Rarity.RARE, Recharge.FM_TAINTED, false, false),
-    ELDRITCH("eldritch", 90, "thaumaturge:void", "thaumaturge:block/eldritch_stone", "thaumaturge:block/metal_void", Rarity.EPIC, Recharge.WARP, true, false);
+    ELDRITCH("eldritch", 90, "thaumaturge:void", "thaumaturge:block/eldritch_stone", "thaumaturge:block/metal_void", Rarity.EPIC, Recharge.WARP, true, false),
+    // Neo Vitae only (phase 10-5): the original's "alchemist" bracelet, on Forbidden Magic's alchemical cap and blood staff rod,
+    // its band the large bloodstone brick (Neo Vitae has only the plain brick). The alchemical cap has no block sprite: gold rims.
+    BLOOD("blood", 50, "forbiddenmagic:alchemical", "neovitae:block/bloodstone_brick", "minecraft:block/gold_block", Rarity.UNCOMMON, Recharge.BLOOD, false, false);
 
     /** How a bracelet refills on its own. */
     public enum Recharge {
@@ -39,7 +42,9 @@ public enum BraceletKind {
         /** Forbidden Magic's infernal and tainted rods, looked up at run time. */
         FM_INFERNAL, FM_TAINTED,
         /** Tainted Magic's warpwood: one vis of each primal every 10000 / permanent warp ticks, unless warded. */
-        WARP
+        WARP,
+        /** Forbidden Magic's blood staff rod: soul-network life points while worn, health as a last resort (Neo Vitae only). */
+        BLOOD
     }
 
     private final String id;
@@ -111,8 +116,11 @@ public enum BraceletKind {
         return this.recharge == Recharge.MANA || this.recharge == Recharge.TERRASTEEL;
     }
 
-    /** Whether this bracelet exists in this game: the Botania ones only alongside Botania. */
+    /** Whether this bracelet exists in this game: the Botania ones only alongside Botania, the blood one only with Neo Vitae. */
     public boolean available() {
+        if (this.recharge == Recharge.BLOOD) {
+            return net.neoforged.fml.ModList.get().isLoaded("neovitae");
+        }
         return !this.botanical() || net.neoforged.fml.ModList.get().isLoaded("botania");
     }
 }

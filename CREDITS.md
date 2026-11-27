@@ -17,6 +17,8 @@ The Vessel's anchors and the glyphs that rise from them are cut from Thaumic Con
 
 The Nether Membrane is the vanilla phantom membrane texture, referenced and tinted in code (0.16.0, replacing a 0.15.3 redraw), and the Bottle of Clear Water is the host Thaumaturge phial texture, referenced by resource location and not copied, under our own water layer; both replace 1.7.10 textures that were Thaumcraft 4 art. The Crimson Archer and Ranger use the host cultist skin by reference (0.16.0; the Archer's old Thaumcraft 4 skin edit is gone).
 
+The Drainage Syringe's models (`syringe.obj`, `syringe_cap.obj`) and textures (`textures/entity/syringe/`) are Thaumic Concilium's own (Ilya3000, WTFPL), copied unaltered. The Blood Bracelet's band is Neo Vitae's bloodstone brick texture (MIT), referenced by resource location and not copied. The Earmuffs' icon and worn texture are original to this port.
+
 The Elemental Surfer Shorts' icon and armour texture are original to this port (the 1.7.10 release shipped none).
 
 Everything not listed above is © 2026 k1ngofpentacles under the MIT licence (see LICENSE).

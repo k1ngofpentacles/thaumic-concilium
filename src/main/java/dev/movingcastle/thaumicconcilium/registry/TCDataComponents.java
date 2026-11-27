@@ -52,6 +52,11 @@ public final class TCDataComponents {
             COMPONENTS.registerComponentType("terra_cast", b -> b.persistent(dev.movingcastle.thaumicconcilium.item.GemCast.CODEC)
                     .networkSynchronized(dev.movingcastle.thaumicconcilium.item.GemCast.STREAM_CODEC));
 
+    /** The Drainage Syringe's type, amount and cap (original NBT Type, Amount, IsOpen); absent = vis, empty, closed. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<dev.movingcastle.thaumicconcilium.item.DrainageSyringe.State>> SYRINGE =
+            COMPONENTS.registerComponentType("syringe", b -> b.persistent(dev.movingcastle.thaumicconcilium.item.DrainageSyringe.State.CODEC)
+                    .networkSynchronized(dev.movingcastle.thaumicconcilium.item.DrainageSyringe.State.STREAM_CODEC));
+
     private TCDataComponents() {
     }
 }

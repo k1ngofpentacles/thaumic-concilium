@@ -5,6 +5,7 @@ import com.leclowndu93150.thaumaturge.registry.TTAttachments;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.movingcastle.thaumicconcilium.integration.botania.BotaniaMana;
+import dev.movingcastle.thaumicconcilium.integration.neovitae.NeoVitaeBlood;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -21,7 +22,8 @@ import net.neoforged.fml.ModList;
  * {@code party*} arrays in {@code TCEntityEventHandler}). Each field is a frame of the constellation sprite sheet:
  * <ul>
  *   <li>{@code health}: 0 to 10 tenths of full health;</li>
- *   <li>{@code blood}: -1 (hidden). The original read Blood Magic's soul network; Neo Vitae comes in phase 10;</li>
+ *   <li>{@code blood}: -1 (hidden: no Neo Vitae, or no blood orb carried) or 0 to 9, Neo Vitae's soul network over the
+ *   ceiling of the orbs carried in tenths minus one; an empty network is frame 0, as in the original;</li>
  *   <li>{@code mana}: -1 (hidden) or 0 to 9, the tenths of the mana held in Botania mana items minus one, as the
  *   original did (Botania only);</li>
  *   <li>{@code runes}: -1 (hidden) or 0 to 9, the same for Thaumaturge's runic shielding (charge over its maximum).</li>
@@ -53,7 +55,12 @@ public record PartyStats(int health, int blood, int mana, int runes) {
 
     public static PartyStats of(ServerPlayer player) {
         int health = Math.round(player.getHealth() / player.getMaxHealth() * 10.0F);
-        return new PartyStats(Mth.clamp(health, 0, 9), -1, mana(player), runes(player));
+        return new PartyStats(Mth.clamp(health, 0, 9), blood(player), mana(player), runes(player));
+    }
+
+    /** Neo Vitae's soul network over the ceiling of the orbs the player carries; see {@link NeoVitaeBlood#tenths}. */
+    private static int blood(Player player) {
+        return ModList.get().isLoaded("neovitae") ? NeoVitaeBlood.tenths(player) : -1;
     }
 
     private static int mana(Player player) {

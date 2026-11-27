@@ -54,6 +54,7 @@ public final class TCWandParts {
             case FM_INFERNAL -> delegate("infernal");
             case FM_TAINTED -> delegate("tainted");
             case WARP -> TCWandParts::warpRecharge;
+            case BLOOD -> (stack, player) -> dev.movingcastle.thaumicconcilium.integration.neovitae.NeoVitaeBracelets.refill(stack, player);
         };
     }
 

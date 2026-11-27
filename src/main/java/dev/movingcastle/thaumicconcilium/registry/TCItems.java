@@ -256,6 +256,27 @@ public final class TCItems {
     public static final DeferredItem<net.minecraft.world.item.BlockItem> SOLID_VOID = ITEMS.registerSimpleBlockItem(
             "solid_void", TCBlocks.SOLID_VOID, new Item.Properties());
 
+    // ---------------------------------------------------------------- phase 10-5 (Earmuffs, Drainage Syringe)
+    /** R6 A: a head item with no defence; in {@code thaumicconcilium:muffles_bells}. Always registered. */
+    public static final DeferredItem<ArmorItem> EARMUFFS = ITEMS.register("earmuffs",
+            () -> new ArmorItem(TCArmorMaterials.EARMUFFS, ArmorItem.Type.HELMET,
+                    new Item.Properties().stacksTo(1).durability(ArmorItem.Type.HELMET.getDurability(5))));
+
+    /** Original: uncommon, 3 warp, no repair. Q6 B: only with Thaumic Horizons, Botania and Neo Vitae. */
+    public static final DeferredItem<dev.movingcastle.thaumicconcilium.item.DrainageSyringe> DRAINAGE_SYRINGE = drainageSyringe();
+
+    /** Q6 B: the syringe needs all three mods; null otherwise. */
+    public static boolean hasDrainageSyringe() {
+        net.neoforged.fml.ModList mods = net.neoforged.fml.ModList.get();
+        return mods.isLoaded("thaumichorizons") && mods.isLoaded("botania") && mods.isLoaded("neovitae");
+    }
+
+    private static DeferredItem<dev.movingcastle.thaumicconcilium.item.DrainageSyringe> drainageSyringe() {
+        return hasDrainageSyringe() ? ITEMS.register("drainage_syringe",
+                () -> new dev.movingcastle.thaumicconcilium.item.DrainageSyringe(new Item.Properties()
+                        .component(TTDataComponents.STACK_WARP.get(), 3))) : null;
+    }
+
     /** Each bracelet's fixed wand parts: its own rod (capacity, recharge) and the Thaumaturge cap of its kind. */
     public static void defaultComponents(ModifyDefaultComponentsEvent event) {
         BRACELETS.forEach((kind, item) -> {

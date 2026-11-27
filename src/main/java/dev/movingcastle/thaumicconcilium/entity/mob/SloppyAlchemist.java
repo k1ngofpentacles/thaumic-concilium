@@ -108,7 +108,8 @@ public class SloppyAlchemist extends Monster {
         if (chort != null) {
             chort.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), 0.0F);
             chort.finalizeSpawn(level, difficulty, MobSpawnType.MOB_SUMMONED, null);
-            level.addFreshEntity(chort);
+            // Not added here: every spawn path (summon, egg, spawner, natural) adds the vehicle with its passengers, as
+            // vanilla's spider jockey; adding it twice made /summon fail on a duplicate UUID.
             chort.startRiding(this, true);
         }
         return result;

@@ -1,0 +1,54 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "category": "thaumicconcilium:concilium",
+  "name": "research.thaumicconcilium.blood_bracelet.title",
+  "parents": [
+    "thaumicconcilium:casting_bracelets",
+    "~forbiddenmagic:rod_blood_staff",
+    "~forbiddenmagic:cap_alchemical"
+  ],
+  "column": 8,
+  "row": 3,
+  "icons": [
+    "thaumicconcilium:blood_bracelet"
+  ],
+  "stages": [
+    {
+      "text": "research.thaumicconcilium.blood_bracelet.stage_0",
+      "required_knowledge": [
+        {
+          "type": "theory",
+          "category": "thaumicconcilium:concilium",
+          "amount": 1
+        }
+      ],
+      "warp": 1
+    },
+    {
+      "text": "research.thaumicconcilium.blood_bracelet.stage_1",
+      "recipes": [
+        "thaumicconcilium:infusion/blood_bracelet"
+      ]
+    }
+  ],
+  "note_aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 4
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 6
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 4
+    }
+  ],
+  "complexity": 2
+}

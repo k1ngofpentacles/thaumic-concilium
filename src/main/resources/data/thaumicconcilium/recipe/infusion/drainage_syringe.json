@@ -1,0 +1,71 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "thaumichorizons"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botania"
+    },
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "neovitae"
+    }
+  ],
+  "type": "thaumaturge:infusion",
+  "catalyst": {
+    "item": "thaumichorizons:injector"
+  },
+  "components": [
+    {
+      "item": "thaumaturge:essentia_reservoir"
+    },
+    {
+      "item": "thaumaturge:tube_oneway"
+    },
+    {
+      "item": "thaumichorizons:blood_syringe"
+    },
+    {
+      "item": "thaumaturge:primal_charm"
+    },
+    {
+      "item": "minecraft:lever"
+    },
+    {
+      "item": "thaumaturge:ingot_void"
+    }
+  ],
+  "aspects": [
+    {
+      "aspect": "thaumaturge:instrumentum",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:victus",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:desiderium",
+      "amount": 64
+    },
+    {
+      "aspect": "thaumaturge:vacuos",
+      "amount": 128
+    },
+    {
+      "aspect": "thaumaturge:aqua",
+      "amount": 32
+    }
+  ],
+  "instability": 4,
+  "research": {
+    "entry": "thaumicconcilium:drainage_syringe",
+    "stage": 1
+  },
+  "result": {
+    "count": 1,
+    "id": "thaumicconcilium:drainage_syringe"
+  }
+}

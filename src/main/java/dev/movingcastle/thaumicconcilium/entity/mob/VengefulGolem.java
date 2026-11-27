@@ -39,7 +39,7 @@ import net.minecraft.world.level.Level;
  * body walks toward it). Other mobs it only sends wandering.
  */
 public class VengefulGolem extends Monster implements RangedAttackMob {
-    /** Head items that muffle the bell. PROVISIONAL(R6): our own Earmuffs item waits on the user, so the tag is empty for now. */
+    /** Head items that muffle the bell (R6 A: our Earmuffs; a pack can add more). */
     public static final net.minecraft.tags.TagKey<net.minecraft.world.item.Item> MUFFLES_BELLS = net.minecraft.tags.TagKey.create(
             net.minecraft.core.registries.Registries.ITEM, ResourceLocation.fromNamespaceAndPath("thaumicconcilium", "muffles_bells"));
 
@@ -123,7 +123,7 @@ public class VengefulGolem extends Monster implements RangedAttackMob {
         return TCSounds.GNAW.get();
     }
 
-    /** Whether the target wears an item of the {@code thaumicconcilium:muffles_bells} tag on the head (PROVISIONAL(R6): the tag is empty). */
+    /** Whether the target wears an item of the {@code thaumicconcilium:muffles_bells} tag on the head. */
     public static boolean muffed(LivingEntity target) {
         ItemStack head = target.getItemBySlot(EquipmentSlot.HEAD);
         return !head.isEmpty() && head.is(MUFFLES_BELLS);

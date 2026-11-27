@@ -24,6 +24,9 @@ public final class TCArmorMaterials {
     public static final Holder<ArmorMaterial> DUMP_JACKBOOTS = register("dump_jackboots", 1, 3, 2, 1, 25);
     public static final Holder<ArmorMaterial> SURFER_SHORTS = register("elemental_surfer_shorts", 1, 3, 2, 1, 25);
 
+    /** Phase 10-5 (R6 A): Earmuffs, a head item with no defence; they only muffle the Vengeful Golem's bell. */
+    public static final Holder<ArmorMaterial> EARMUFFS = register("earmuffs", 0, 0, 0, 0, 5);
+
     /** The Gilded Paladin's helm: the armour value of Thaumaturge's crimson plate helm (2); only the helmet exists. */
     public static final Holder<ArmorMaterial> GILDED_CRIMSON = register("gilded_crimson", 2, 6, 5, 2, 20);
 
