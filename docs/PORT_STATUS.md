@@ -267,7 +267,7 @@ Every manual check is a QA quest in the FTB Quests book: **QA: Thaumic Concilium
 | Flesh Crucible | built | Sip every tick, smelt leaves a Quicksilver Reactor, burns others every 10 ticks; recipe needs 3 plating + 3 motes, so uncraftable until 5c. Open: nothing in play adds aspect to a fresh crucible (the smelt's +2 goes with the replaced block) |
 | Crimson Initiation, Crimson Raid | built | Our Crimson Dagger (tag `initiation_tools`) converts a Mad Thaumaturge in the full robe; Raid spell part, complexity 22, 400-tick owned portal |
 | Ethereal Shackles visual | built | Projectile and first-person chained hand from the original's art |
-| Crimson Dagger | built | Infusion (Rites centre), 15-tick raise, stun by tier, Bleed (3 counters), self-cut with Neo Vitae, Enchanted sacrifice damage, Crimson Blood drop |
+| Crimson Dagger | built | Infusion (Rites centre), 15-tick raise, stun by tier, Bleed (3 counters), self-cut with Neo Vitae, Neo Vitae sacrifice damage (PROVISIONAL(R7)), Crimson Blood drop |
 | Crimson Plating, Primordial Mote | built | Plating: the Gilded Cult Plate (2 blood + 4 gold nuggets around an iron block, 9 out). Mote is an item with no source until The Vessel (5c) |
 | The Offertory (infusion minigame) | built as D1-c | Binding chain, flesh-offering demands, drain and snap; the ritual never kills the binder |
 | Cult aspects | built | Real `base_aspects` for 8 Thaumaturge ids and our new items; Aspect Interpreter 1.8.0 (separate jar) |
@@ -405,7 +405,7 @@ Bydlo moved to after the Horizons port; the Burlak core is not ported (unfinishe
 - Vengeful Golem (`thaumicconcilium:vengeful_golem`): attributes, goals and the enslave/release ranged attack as the
   original, golem bell in hand, gnaw sounds, loot, our own model port and brain/jar layer, spawn egg, bestiary scan and
   addendum page. Spawns in the Overworld, Nether and End through the `configured_spawns` biome modifier (config weight and
-  biome blacklist); Enchanted's earmuffs protect. Added to the `enslavers` tag.
+  biome blacklist); items of the `thaumicconcilium:muffles_bells` tag on the head protect (PROVISIONAL(R6): the tag is empty until our own Earmuffs item exists). Added to the `enslavers` tag.
 - Pack test: batches `phase7_valet` (5) and `phase7_vengeful` (7); render scenes `phase7.json`.
 
 **Known caveats:** nothing is run in game (a real golem walking to a seal, a real chat message, real spawning, a real
@@ -503,7 +503,7 @@ Forbidden Magic Reforged (MIT) with a new Thaumaturge host adapter, which now ho
 | 6 | ✅ 6a, 6b, 6c done (0.6.0, 0.7.0, 0.8.0): Brightest One, Gem of Rifts, Causal Bouillon dimension |
 | 7 | ✅ (0.14.0) Valet seal and Vengeful Golem. The Assistant core and Golem Bydlo moved to after the Horizons port; Burlak not ported |
 | 8 | Thaumic Horizons is now its own LGPL mod, ported whole; Gadomancy its own LGPL mod, with the aura cores moving there; then the Assistant core, Golem Bydlo and the Protobody with Solid Void (8-4, 0.17.0), Thaumic Bases picks |
-| 10 | Neo Vitae and Enchanted integrations, the Burning Site |
+| 10 | Neo Vitae integrations, the Burning Site (Enchanted: Witchcraft is no longer a target: the pack uses Witchery) |
 
 Phase 9 (a Tinkerer KAMI module) is dropped: Thaumaturge Tinker already ports KAMI.
 
@@ -543,6 +543,14 @@ Needs in-game testing: a Bloom clearing taint inside the grove; the ring and the
 wand; a channelled focus on the cast key as **another player** sees it (beam ends on release). Not fixed, from source
 reading: Thaumaturge 1.1.1's client stops a channel beam at once for the caster when no item is in use
 (`BeamInstance.tick`), so the caster's own view of a keyed channel may flicker.
+
+## Phase 10-0: off Enchanted: Witchcraft (0.19.2)
+
+The pack replaced Enchanted: Witchcraft with Just Another Witchery Remake (`witchery`). Concilium no longer references Enchanted:
+the Crimson Dagger's hits and Bleed use `neovitae:sacrifice` damage when Neo Vitae is loaded (PROVISIONAL(R7)), magic otherwise;
+the Vengeful Golem's bell is muffled by head items in the tag `thaumicconcilium:muffles_bells`, empty for now (PROVISIONAL(R6));
+the Crimson Pontifex's spells note stays off until the spells exist (`CRIMSON_SPELLS_BUILT`, phase 10 R4). The `enchanted`
+optional dependency is gone from `neoforge.mods.toml`. Needs in-game testing: a dagger kill with a blood orb in the offhand.
 
 ## Phase 8-5: the seven sin pylon effects (0.19.0)
 

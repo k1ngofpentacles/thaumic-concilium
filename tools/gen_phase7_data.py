@@ -38,6 +38,9 @@ w(f'data/{NS}/loot_table/entities/vengeful_golem.json', {'type': 'minecraft:enti
         {'function': 'minecraft:set_count', 'add': False, 'count': {'type': 'minecraft:uniform', 'min': 0.0, 'max': 1.0}},
         {'function': 'minecraft:enchanted_count_increase', 'enchantment': 'minecraft:looting', 'count': 1.0}]}]}]})
 
+# Head items that muffle the bell. PROVISIONAL(R6): our own Earmuffs item waits on the user, so the tag stays empty (nothing muffles).
+w(f'data/{NS}/tags/item/muffles_bells.json', {'replace': False, 'values': []})
+
 # Entity tag MAN 4, CRAFT 4, PRIDE 4, MOTION 4 (x2.5 = 10 each; the 5a convention).
 add_entity_aspects('vengeful_golem', [('humanus', 10), ('fabrico', 10), (f'{FM}:superbia', 10), ('motus', 10)])
 spawn_egg_model('vengeful_golem')

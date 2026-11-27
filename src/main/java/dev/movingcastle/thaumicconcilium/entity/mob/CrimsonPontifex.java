@@ -233,6 +233,9 @@ public class CrimsonPontifex extends CrimsonCultist {
         bossEvent.setName(getDisplayName());
     }
 
+    /** Phase 10 R4: the crimson_spells research does not exist yet, so the spells note never drops (the Peeler's drops instead). */
+    private static final boolean CRIMSON_SPELLS_BUILT = false;
+
     /**
      * Original dropFewItems: one research note by nextInt(10): 0-3 the Witchery spells note (or the Peeler's without Witchery), 4-5 the
      * hammer, 6-8 the Peeler, 9 the robe. A note whose research entry is not in the pack yet is not dropped.
@@ -251,7 +254,7 @@ public class CrimsonPontifex extends CrimsonCultist {
     @Override
     protected void dropCustomDeathLoot(net.minecraft.server.level.ServerLevel level, DamageSource source, boolean recentlyHit) {
         super.dropCustomDeathLoot(level, source, recentlyHit);
-        net.minecraft.resources.ResourceLocation note = noteFor(random.nextInt(10), net.neoforged.fml.ModList.get().isLoaded("witchery"));
+        net.minecraft.resources.ResourceLocation note = noteFor(random.nextInt(10), net.neoforged.fml.ModList.get().isLoaded("witchery") && CRIMSON_SPELLS_BUILT);
         if (dev.movingcastle.thaumicconcilium.item.ResearchHint.exists(level.registryAccess(), note)) {
             spawnAtLocation(dev.movingcastle.thaumicconcilium.item.ResearchHint.stack(note), getBbHeight() / 2.0F);
         }

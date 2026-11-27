@@ -20,7 +20,7 @@ DAGGER_INSTABILITY = 6                  # option C keeps native instability at a
 # D1-c2 (user decision 2026-11-22): strictly human-related flesh. Our Crimson Blood, Thaumaturge's zombie brain (also a ring item: a ring
 # brain the matrix has not pulled is never eaten), rotten flesh, and its compact derivative the flesh block (nine rotten flesh).
 # Left out: raw beef, pork, spider eye (animal), tallow (rendered fat), Neo Vitae tainted flesh (demon meat), Alex's Mobs blood sac
-# (a mosquito's), Enchanted demonic blood, Madman's Dreams distorted meat (dream creatures), Thaumaturge Tinkers' mob aspect items.
+# (a mosquito's), demonic blood from witchcraft mods, Madman's Dreams distorted meat (dream creatures), Thaumaturge Tinkers' mob aspect items.
 OFFERINGS = [f'{NS}:crimson_blood', 'thaumaturge:brain', 'minecraft:rotten_flesh', 'thaumaturge:flesh_block']
 w(f'data/{NS}/damage_type/binding.json', {'message_id': f'{NS}.binding', 'scaling': 'never', 'exhaustion': 0.0})
 _p = 'data/minecraft/tags/damage_type/bypasses_armor.json'

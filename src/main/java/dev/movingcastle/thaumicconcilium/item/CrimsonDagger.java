@@ -50,7 +50,7 @@ import dev.movingcastle.thaumicconcilium.network.DaggerStabPayload;
  *   <li><b>Left-click after the raise</b> (Minecraft swallows attacks while an item is in use, so the raise is released
  *       first): the stab applies Bleed for {@link #STAB_WINDOW_TICKS} after the release (see {@link Bleeding}).</li>
  *   <li><b>Sneak + right-click:</b> the self-cut, LP into the nearest Ara Vitae (Neo Vitae only, {@link NeoVitaeCut}).</li>
- *   <li>With Enchanted loaded the stab and bleed use {@code enchanted:sacrifice} damage.</li>
+ *   <li>With Neo Vitae loaded the stab and bleed use {@code neovitae:sacrifice} damage (PROVISIONAL(R7)).</li>
  * </ul>
  */
 public class CrimsonDagger extends Item {
@@ -312,13 +312,13 @@ public class CrimsonDagger extends Item {
     }
 
     /**
-     * With Enchanted loaded the hit is its own: the attack is taken over (return true) and dealt as {@code enchanted:sacrifice}
-     * damage: attack damage scaled by the cooldown as vanilla does, a little knockback, no sweep or critical. Without it the
-     * vanilla attack runs and {@link #hurtEnemy} adds the bleed.
+     * With Neo Vitae loaded the hit is its own (PROVISIONAL(R7)): the attack is taken over (return true) and dealt as
+     * {@code neovitae:sacrifice} damage: attack damage scaled by the cooldown as vanilla does, a little knockback, no sweep or
+     * critical. Without it the vanilla attack runs and {@link #hurtEnemy} adds the bleed.
      */
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity target) {
-        if (!ModList.get().isLoaded("enchanted")) {
+        if (!ModList.get().isLoaded("neovitae")) {
             return false;
         }
         if (player.level() instanceof ServerLevel level && target instanceof LivingEntity living && living.isAttackable()

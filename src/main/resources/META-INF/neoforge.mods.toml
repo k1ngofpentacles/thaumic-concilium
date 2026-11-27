@@ -117,16 +117,9 @@ side = "BOTH"
     ordering="AFTER"
     side="BOTH"
 
-# Crimson Dagger: the self-cut gives LP to a Neo Vitae altar; its hits use Enchanted's sacrifice damage type.
+# Crimson Dagger: the self-cut gives LP to a Neo Vitae altar; its hits use Neo Vitae's sacrifice damage type.
 [[dependencies.thaumicconcilium]]
     modId="neovitae"
-    type="optional"
-    versionRange="*"
-    ordering="AFTER"
-    side="BOTH"
-
-[[dependencies.thaumicconcilium]]
-    modId="enchanted"
     type="optional"
     versionRange="*"
     ordering="AFTER"

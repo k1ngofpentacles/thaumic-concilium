@@ -36,8 +36,9 @@ public final class Bleeding {
     /** PROVISIONAL: damage per counter, once per window. */
     public static final float DAMAGE_PER_COUNTER = 1.0F;
     private static final String BY_KEY = "thaumicconcilium_bleed_by";
+    /** PROVISIONAL(R7): Neo Vitae's sacrifice damage type (it replaced Enchanted's) while the damage-source decision is open. */
     private static final ResourceKey<DamageType> SACRIFICE = ResourceKey.create(Registries.DAMAGE_TYPE,
-            ResourceLocation.fromNamespaceAndPath("enchanted", "sacrifice"));
+            ResourceLocation.fromNamespaceAndPath("neovitae", "sacrifice"));
 
     private static boolean damaging;
 
@@ -90,9 +91,9 @@ public final class Bleeding {
         }
     }
 
-    /** The dagger's damage source: Enchanted's sacrifice type when it is loaded, otherwise magic (ignores armour). */
+    /** The dagger's damage source: Neo Vitae's sacrifice type when it is loaded (PROVISIONAL(R7)), otherwise magic (ignores armour). */
     public static DamageSource source(ServerLevel level, @Nullable Player by) {
-        if (ModList.get().isLoaded("enchanted")) {
+        if (ModList.get().isLoaded("neovitae")) {
             Holder<DamageType> type = level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolder(SACRIFICE).orElse(null);
             if (type != null) {
                 return new DamageSource(type, by, by);

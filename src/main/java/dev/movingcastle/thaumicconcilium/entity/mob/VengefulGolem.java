@@ -35,11 +35,13 @@ import net.minecraft.world.level.Level;
 
 /**
  * The Vengeful Golem (original: {@code mobs.VengefulGolem}). It never closes in to strike: from up to 24 blocks it rings its
- * bell and, four times in five when it can see the player (and they wear no earmuffs), enslaves them ({@link Enslave}: their
+ * bell and, four times in five when it can see the player (and they wear nothing of the {@code muffles_bells} tag on the head), enslaves them ({@link Enslave}: their
  * body walks toward it). Other mobs it only sends wandering.
  */
 public class VengefulGolem extends Monster implements RangedAttackMob {
-    private static final ResourceLocation EARMUFFS = ResourceLocation.fromNamespaceAndPath("enchanted", "earmuffs");
+    /** Head items that muffle the bell. PROVISIONAL(R6): our own Earmuffs item waits on the user, so the tag is empty for now. */
+    public static final net.minecraft.tags.TagKey<net.minecraft.world.item.Item> MUFFLES_BELLS = net.minecraft.tags.TagKey.create(
+            net.minecraft.core.registries.Registries.ITEM, ResourceLocation.fromNamespaceAndPath("thaumicconcilium", "muffles_bells"));
 
     public VengefulGolem(EntityType<? extends VengefulGolem> type, Level level) {
         super(type, level);
@@ -121,10 +123,10 @@ public class VengefulGolem extends Monster implements RangedAttackMob {
         return TCSounds.GNAW.get();
     }
 
-    /** Whether the player wears Enchanted's earmuffs on the head (nothing is muffed without that mod). */
+    /** Whether the target wears an item of the {@code thaumicconcilium:muffles_bells} tag on the head (PROVISIONAL(R6): the tag is empty). */
     public static boolean muffed(LivingEntity target) {
         ItemStack head = target.getItemBySlot(EquipmentSlot.HEAD);
-        return !head.isEmpty() && BuiltInRegistries.ITEM.getKey(head.getItem()).equals(EARMUFFS);
+        return !head.isEmpty() && head.is(MUFFLES_BELLS);
     }
 
     @Override
