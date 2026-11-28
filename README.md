@@ -7,8 +7,10 @@ An unofficial port of Ilya3000's **Thaumic Concilium** (Forge 1.7.10, WTFPL) to 
 ## Requirements
 
 Thaumaturge 1.1.1+ (1.1.x), Curios 9.5+ and **Thaumaturge Tinker** 1.1.3+ (the 1.21.1 counterpart of Thaumic Tinkerer, which
-the original also required), **Forbidden Magic (Thaumaturge)**, Thaumic Horizons and **Armor Series - Crimson Cult** 1.2.1+
-(Enderghast; our crimson mobs wear its armour, with GeckoLib). Thaumic Additions CE is optional.
+the original also required), **Forbidden Magic (Thaumaturge)**, Thaumic Horizons, **Gadomancy (Thaumaturge port)** (the aura cores and the sin pylon
+effects) and **Armor Series - Crimson Cult** 1.2.1+ (Enderghast; our crimson mobs wear its armour, with GeckoLib).
+Optional: Thaumic Additions CE, Botania Revived, Dynamic Trees, Heartstone, Neo Vitae, Just Another Witchery Remake.
+Thaumaturge assets are used with its author's permission (`PERMISSIONS.md`).
 
 ## Building
 
