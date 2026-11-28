@@ -45,7 +45,8 @@
     {
       "text": "research.thaumicconcilium.the_green_translation.stage_1",
       "recipes": [
-        "thaumicconcilium:infusion/verdant_capital"
+        "thaumicconcilium:infusion/verdant_capital",
+        "thaumicconcilium:infusion/verdant_capital_no_thaumadditions"
       ]
     }
   ],

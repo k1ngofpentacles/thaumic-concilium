@@ -41,23 +41,30 @@ add_item_aspects('verdant_capital', [('herba', 20), ('praecantatio', 10), ('ordo
 # ---------------------------------------------------------------- the infusion (user's decision, 2026-11-22)
 # Revised by the user 2026-11-22 (replaces livingwood / terrasteel): a captured node (Thaumaturge's jarred node) at the centre;
 # rune of spring, rune of mana, silverwood and greatwood saplings, a gold ingot, quicksilver, a mana diamond; instability 3
-# (TC4-scale 7.5 / 2.5). Aspects as the user gave them, with potentia for tempestas (no weather aspect exists in the pack; user's pick).
-infusion('verdant_capital', 'the_green_translation',
-         [('victus', 28), ('permutatio', 28), ('lux', 40), ('tenebrae', 40), ('potentia', 28), ('motus', 28), ('herba', 40),
-          ('praecantatio', 33)],
-         it('thaumaturge:jar_node'),
-         [it('botania:rune_spring'), it('botania:rune_mana'), it('thaumaturge:sapling_silverwood'), it('thaumaturge:sapling_greatwood'),
-          it('minecraft:gold_ingot'), it('thaumaturge:quicksilver'), it('botania:mana_diamond')],
-         7.5, 'verdant_capital')
-_p = f'data/{NS}/recipe/infusion/verdant_capital.json'
-_o = r(_p)
-w(_p, {'neoforge:conditions': BOTANIA} | _o)
+# (TC4-scale 7.5 / 2.5). Aspects as the user gave them. Tempestas -> thaumadditions:ventus 28 (user, 2026-11-27, replacing their
+# earlier potentia 28); without Thaumic Additions a second recipe asks potentia 42 (add-on fallback rule: x1.5, rounded up).
+#   verdant_capital.json                  ventus 28,   botania + mod_loaded thaumadditions
+#   verdant_capital_no_thaumadditions.json potentia 42, botania + not mod_loaded thaumadditions
+# Research lists both ids (the one that did not load is skipped, as with the wisp essence variants).
+TA_LOADED = {'type': 'neoforge:mod_loaded', 'modid': 'thaumadditions'}
+_VC_ASPECTS = lambda tempestas: [('victus', 28), ('permutatio', 28), ('lux', 40), ('tenebrae', 40), tempestas, ('motus', 28),
+                                 ('herba', 40), ('praecantatio', 33)]
+_VC_ARGS = (it('thaumaturge:jar_node'),
+            [it('botania:rune_spring'), it('botania:rune_mana'), it('thaumaturge:sapling_silverwood'), it('thaumaturge:sapling_greatwood'),
+             it('minecraft:gold_ingot'), it('thaumaturge:quicksilver'), it('botania:mana_diamond')],
+            7.5, 'verdant_capital')
+for _key, _tempestas, _cond in (('verdant_capital_no_thaumadditions', ('potentia', 42), {'type': 'neoforge:not', 'value': TA_LOADED}),
+                                ('verdant_capital', ('thaumadditions:ventus', 28), TA_LOADED)):
+    infusion(_key, 'the_green_translation', _VC_ASPECTS(_tempestas), *_VC_ARGS)
+    _p = f'data/{NS}/recipe/infusion/{_key}.json'
+    _o = r(_p)
+    w(_p, {'neoforge:conditions': BOTANIA + [_cond]} | _o)
 
 # ---------------------------------------------------------------- research 5: The Green Translation
 # Hidden until The Vessel (entry 3) is known; stage 0 also asks for a jarred node and a rune (crafted, or held), then theory
 # (the user replaced terrasteel with the jarred node, 2026-11-22).
 entry('the_green_translation', -10, 2, f'{NS}:verdant_capital', [f'{NS}:the_vessel'],
-      [('herba', 12), ('praecantatio', 10), ('ordo', 8)], recipes=[f'{NS}:infusion/verdant_capital'], warp=1,
+      [('herba', 12), ('praecantatio', 10), ('ordo', 8)], recipes=[f'{NS}:infusion/verdant_capital', f'{NS}:infusion/verdant_capital_no_thaumadditions'], warp=1,
       meta=['hidden', 'spiky'], complexity=3)
 _p = f'data/{NS}/thaumaturge/research_entry/the_green_translation.json'
 _o = r(_p)

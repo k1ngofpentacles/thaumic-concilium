@@ -564,6 +564,10 @@ Decisions `docs/design/phase10-decisions.md` (workspace; S1, Q6, R1-R12 answered
 - **Close (0.21.0):** review fix: a fresh syringe writes its state on first use, so its cap shows from then on (as the original).
   Full pack test 2026-11-27: without the remake 745/745; with it see the lane file. QA checks added: `burned_witch`, `crimson_spells`.
 - **0.21.1:** the Burned Witch's Looting bonus is exact at every level (user, 2026-11-27): loot function `thaumicconcilium:uniform_enchant_bonus` (`registry/TCLootFunctions`) adds `nextInt(L + 1)` per stack as the original; test `loot_looting_bonus_as_the_original`.
+- **0.21.2 (deviation change, user 2026-11-27):** the Verdant Capital infusion's tempestas is `thaumadditions:ventus` 28 (was `potentia` 28,
+  picked when no weather aspect was thought to exist). Without Thaumic Additions a second recipe, `infusion/verdant_capital_no_thaumadditions`,
+  asks `potentia` 42 (add-on fallback rule, x1.5 rounded up). Research 5 lists both ids. Generator `tools/gen_phase5d_data.py`; test
+  `capital_infusion_recipe_is_loaded` checks that exactly one variant loads and both carry the right aspect.
 
 Needs in-game testing: the QA chapter `qa_concilium` (`requires: witchery` / `neovitae` checks): a real village with a Burning Site, a
 real cast and the long stroke on the remake's draw screen, a brew hit on the witch, the syringe on a player, the syringe's sway.
